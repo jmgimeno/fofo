@@ -139,7 +139,7 @@
   <target name="test" depends="compile"> 
 
      <junit printsummary="yes" haltonerror="yes" haltonfailure="yes"  
-            fork="no"> 
+            fork="yes"> 
 
      <!-- fork="yes" would not force to include junit.jar in apache-ant/lib -->
 
