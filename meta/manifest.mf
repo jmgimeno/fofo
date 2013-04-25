@@ -1,0 +1,2 @@
+Main-Class: org.fofo.main.Main
+Class-Path: lib/toplink-essentials.jar lib/toplink-essentials-agent.jar lib/derbyclient.jar lib/derby.jar  lib/junit-4.10.jar   
