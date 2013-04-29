@@ -1,0 +1,17 @@
+Creació competició
+US: Definició de tipus de competició
+
+FOFO vol definir el tipus de la competició.
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. La competició és de tipus Lliga. OK.
+
+2. La competició és de tipus Copa. OK.
+
+3. La competició es de tipus XXX (!= Lliga/Copa). KO.
+

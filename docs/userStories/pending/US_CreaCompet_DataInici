@@ -1,0 +1,19 @@
+Creació competició
+US: Definició data d'inici
+
+FOFO vol definir una data d'inici de la competició.
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. La data d'inici de la competició és dues setmanes més tard de l'actual. OK.
+
+2. La data d'inici de la competició és de més de dues setmanes més tard de l'actual. OK.
+
+3. La data d'inici de la competició és de més de dues setmanes més tard de l'actual. KO.
+
+   
+    

@@ -1,0 +1,41 @@
+Creació competició
+US: Limit màxim i mínim
+
+FOFO vol definir un límit màxim i mínim d'equips per competició.
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+(Competició de lliga entre 2 i 20 equips)
+
+1. Una competició de lliga té 1 equip. KO
+
+2. Una competició de lliga té 21 equips. KO
+
+3. Una competició de lliga té 12 equips. OK
+
+(Nombre d'equips parell en lliga)
+
+4. Una competició de lliga té 17 equips. KO
+
+5. Una competició de lliga té 10 equips. OK
+
+
+(Competició de copa entre 2 i 64 equips)
+
+6. Una competició de copa té 1 equip. KO
+
+7. Una competició de copa té 65 equips. KO
+
+8. Una competició de copa té 16 equips. OK
+
+(Nombre d'equips potència de 2 en copa)
+
+9. Una competició de copa té 18 equips. KO
+
+10. Una competició de copa té 16 equips. OK
+
+
