@@ -1,0 +1,20 @@
+Creació competició
+US: Definició de categoria
+
+FOFO vol definir una categoria per a la competició.
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. La categoria definida per a la competició és Masculina. OK
+
+2. La categoria definida per a la competició és Femenina. OK
+
+3. La categoria definida per a la competició és Veterans. OK
+
+4. La categoria definida per a la competició és XXX (!= Masculina, Femenina, Veterans). KO.
+
+
