@@ -3,3 +3,4 @@ dist/
 myDB/
 *~
 *.log
+nbproject/private/
