@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 
 /**
- * @author Josep M. Ribo
+ * @author Josep M. Ribo.....
  */
 
 @Entity
@@ -19,7 +19,7 @@ public class Team implements Serializable {
     private Club club;
     private String email;
     private Category category;
-
+   
     public Team() {
 
 	name = "";
