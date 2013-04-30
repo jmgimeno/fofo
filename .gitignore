@@ -1,6 +1,6 @@
-#build/
-#dist/
-#myDB/
-#*~
-#*.log
-#nbproject/private/
+build/
+dist/
+myDB/
+*~
+*.log
+nbproject/private/
