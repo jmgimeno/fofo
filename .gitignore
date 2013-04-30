@@ -4,3 +4,5 @@ myDB/
 *~
 *.log
 nbproject/private/
+createDDL.jdbc
+dropDDL.jdbc
