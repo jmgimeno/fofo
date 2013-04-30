@@ -1,7 +1,8 @@
-Creació competició
-US: Definició de categoria
+Calendari
+US: Generar Calendari per una competició de tipus copa
 
-FOFO vol definir una categoria per a la competició.
+FOFO vol generar el calendari per a una competició de tipus copa
+per a que comenci la competició.
 
 
 
@@ -9,12 +10,26 @@ FOFO vol definir una categoria per a la competició.
 ----------------------------------------------
 TESTS ACCEPTACIÓ
 
-1. La categoria definida per a la competició és Masculina. OK
+1. Han passat un mínim de 7 dies des de la data de creació de la competició.
 
-2. La categoria definida per a la competició és Femenina. OK
+2. El nombre d'equips ha d'estar dins de l'interval definit en la competició.
 
-3. La categoria definida per a la competició és Veterans. OK
+3. El nombre d'equips ha de ser potència de dos.
 
-4. La categoria definida per a la competició és XXX (!= Masculina, Femenina, Veterans). KO.
+4. El nombre de jornades del calendari es nj, 
+on 2^nj es el nombre d'equips inscrits a la competició. 
+Cada jornada correspon a una ronda.
 
+5. Cada jornada tindra la mitat d'equips de la jornada anterior.
+A la primera jornada hi participen tots els equips.
 
+6. A cada jornada s'eliminen la meitat dels equips que hi han participat.
+
+7. Cada equip no eliminat juga una única vegada cada jornada.
+
+8. El calendari està constituit per una llista de jornades.
+Cada jornada consta per una llista de partits. 
+Cada partit s'enfronten dos equips( Un actua com a local i l'altre com a visitant).
+
+9. Els equips que s'enfronten als partits d'una jornada 
+son referències a equips guanyadors de la jornada anterior.

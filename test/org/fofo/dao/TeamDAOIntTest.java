@@ -22,11 +22,11 @@ import org.junit.After;
 public class TeamDAOIntTest {
     EntityManager em = null;
     
-    TeamDAO tdao = null;
+    TeamDAOImpl tdao = null;
     
     public TeamDAOIntTest() {
         
-        tdao = new TeamDAO();
+        tdao = new TeamDAOImpl();
         
     }
 

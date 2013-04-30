@@ -1,7 +1,7 @@
-Creació competició
-US: Definició de categoria
+Proces Inscripcio
+US: Inscripció d'un equip
 
-FOFO vol definir una categoria per a la competició.
+FOFO vol inscriure un equip dins una competició ja creada. 
 
 
 
@@ -9,12 +9,17 @@ FOFO vol definir una categoria per a la competició.
 ----------------------------------------------
 TESTS ACCEPTACIÓ
 
-1. La categoria definida per a la competició és Masculina. OK
+1. La competició a la qual es vol fer la inscripció ha d'existir.
 
-2. La categoria definida per a la competició és Femenina. OK
+2. L'equip està federat i tenim totes les seves dades completes.
 
-3. La categoria definida per a la competició és Veterans. OK
+3. L'equip forma part de la llista d'equips inscrits a la competició.
 
-4. La categoria definida per a la competició és XXX (!= Masculina, Femenina, Veterans). KO.
+4. Si s'ha arribat al màxim nombre d'equips per a la competició 
+no es podrà inscriure.
+
+5. Si s'ha arribat al final del periode d'inscripció
+no es podrà inscriure.
+
 
 

@@ -11,7 +11,7 @@ import org.fofo.entity.Team;
  *
  * @author josepma
  */
-public class TeamDAO {
+public class TeamDAOImpl {
 
    
 
