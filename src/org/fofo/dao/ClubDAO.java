@@ -5,7 +5,7 @@
 package org.fofo.dao;
 
 import java.util.List;
-//import org.fofo.entity.Club;
+import org.fofo.entity.Club;
 
 /**
  *
@@ -13,14 +13,14 @@ import java.util.List;
  */
 public interface ClubDAO {
     
-    //void addClub(Club club){      }
+    void addClub(Club club);
     
-    //void removeClub(String name){}
+    void removeClub(String name);
     
-   // List<Team> getClubs(){}
+    List<Club> getClubs();
     
-    //Team findClubByName(String name){}
+    Club findClubByName(String name);
     
-    //List<Team> findClubByTeam(String name){ }
+    List<Club> findClubByTeam(String name);
     
 }

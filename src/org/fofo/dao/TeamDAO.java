@@ -18,18 +18,15 @@ import org.fofo.entity.Team;
 
 public interface TeamDAO {
     
-   /* void addTeam(Team team){      
-    }
+    void addTeam(Team team);
     
-    void removeTeam(String name){
-    }
+    void removeTeam(String name);
     
-    List<Team> getTeams(){
-    }
+   
+    List<Team> getTeams();
     
-    Team findTeamByName(String name){
-    }
     
-    List<Team> findTeamByClub(String name){
-    }*/
+    Team findTeamByName(String name);
+    
+    List<Team> findTeamByClub(String name);
 }

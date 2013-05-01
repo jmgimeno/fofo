@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author portatil
  */
-class Club {
+public class Club {
     private String name;
     private String email;
     private List<Team> teams = new ArrayList<Team>();
