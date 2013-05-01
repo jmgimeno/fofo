@@ -1,0 +1,10 @@
+Procés Eliminació Equip
+US: Eliminació d'un equip
+
+FOFO vol eliminar un equip de l'aplicació. 
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1- No ha de quedar en l'aplicació cap tipus de dada sobre l'equip
