@@ -17,7 +17,6 @@ public class Team implements Serializable {
 
     private String name;
     private Club club;
-    private String email;
     private Category category;
    
     public Team() {
@@ -26,19 +25,17 @@ public class Team implements Serializable {
 
     }
 
-    public Team (String name, Club club, String email, Category cat){
+    public Team (String name, Club club, Category cat){
         
         this.name= name;
         this.club = club;
-        this.email = email;
         this.category = cat;
         
     }
     
-    public Team (String name, String email, Category cat){
+    public Team (String name, Category cat){
         
         this.name= name;
-        this.email = email;
         this.category = cat;
         
     }
@@ -50,14 +47,6 @@ public class Team implements Serializable {
 
     public void setClub(Club club) {
         this.club = club;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Category getCategory() {
