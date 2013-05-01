@@ -13,7 +13,7 @@ import org.fofo.entity.Competition;
  */
 public interface CompetitionDAO {
     
-    void addCompetition(Competition competition){      
+    /*void addCompetition(Competition competition){      
     }
     
     void removeCompetition(String name){
@@ -26,7 +26,7 @@ public interface CompetitionDAO {
     }
     
     List<Team> findCompetitionByTeam(String name){
-    }
+    }*/
     
     
 }

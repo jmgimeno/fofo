@@ -18,7 +18,7 @@ import org.fofo.entity.Team;
 
 public interface TeamDAO {
     
-    void addTeam(Team team){      
+   /* void addTeam(Team team){      
     }
     
     void removeTeam(String name){
@@ -31,5 +31,5 @@ public interface TeamDAO {
     }
     
     List<Team> findTeamByClub(String name){
-    }
+    }*/
 }
