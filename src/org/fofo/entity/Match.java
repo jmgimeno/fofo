@@ -20,6 +20,7 @@ public class Match {
         this.local = local;
         this.visitant = visitant;
         id = UUID.randomUUID().toString();
+        /*this.id = id; ?*/
     }
     
     public String getId(){
