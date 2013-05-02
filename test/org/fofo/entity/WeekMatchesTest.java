@@ -77,4 +77,14 @@ public class WeekMatchesTest {
             assertEquals(m1.getId(),m2.getId());
         }
     }
+    
+    @Test
+    public void testGetNumberOfWeekMatchs(){
+        wm.addMatch(match);
+        wm.addMatch(match2);
+        wm.addMatch(match3);
+        
+        int result = wm.getNumberOfMatchs();
+        assertEquals(3,result);
+    }
 }
