@@ -9,6 +9,7 @@ import java.util.UUID;
 /**
  *
  * @author mohamed
+ * @author oriol
  */
 public class Match {
     
@@ -16,10 +17,10 @@ public class Match {
     private Team local;
     private Team visitant;
     
-    public Match(Team local, Team visitant){
+    public Match(Team local, Team visitant, String id){
         this.local = local;
         this.visitant = visitant;
-        id = UUID.randomUUID().toString();
+        this.id = id; 
     }
     
     public String getId(){

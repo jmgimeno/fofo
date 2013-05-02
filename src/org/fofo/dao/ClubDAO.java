@@ -13,19 +13,14 @@ import org.fofo.entity.Club;
  */
 public interface ClubDAO {
     
-    void addClub(Club club){      
-    }
+    void addClub(Club club);
     
-    void removeClub(String name){
-    }
+    void removeClub(String name);
     
-    List<Team> getClubs(){
-    }
+    List<Club> getClubs();
     
-    Team findClubByName(String name){
-    }
+    Club findClubByName(String name);
     
-    List<Team> findClubByTeam(String name){
-    }
+    List<Club> findClubByTeam(String name);
     
 }

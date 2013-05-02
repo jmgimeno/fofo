@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import java.util.List;
 import org.fofo.entity.Competition;
 
 
@@ -13,20 +14,15 @@ import org.fofo.entity.Competition;
  */
 public interface CompetitionDAO {
     
-    void addCompetition(Competition competition){      
-    }
+    void addCompetition(Competition competition);
     
-    void removeCompetition(String name){
-    }
+    void removeCompetition(String name);
     
-    List<Team> getCompetitionms(){
-    }
+    List<Competition> getCompetitionms();
     
-    Team findCompetitionByName(String name){
-    }
+    Competition findCompetitionByName(String name);
     
-    List<Team> findCompetitionByTeam(String name){
-    }
+    List<Competition> findCompetitionByTeam(String name);
     
     
 }
