@@ -3,11 +3,8 @@
  * and open the template in the editor.
  */
 package org.fofo.entity;
+import java.util.*;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import org.junit.Test;
 
 /**
@@ -18,7 +15,7 @@ public class CalendarCupTest {
     CalendarCup calendar;
     Competition comp;
     
-    public CalendarCupTest() {
+    public CalendarCupTest() throws InvalidRequisitsException {
         comp = new Competition();
         comp.setCategory(Category.MALE);
         comp.setInici(null);
@@ -35,6 +32,7 @@ public class CalendarCupTest {
         GregorianCalendar cal = new GregorianCalendar(año, mes-1, dia);
         Date fecha = new java.sql.Date(cal.getTimeInMillis());
         comp.setInici(fecha);
+        calendar = new CalendarCup(comp);  
     }
 
 
@@ -58,11 +56,45 @@ public class CalendarCupTest {
     }      
     
     @Test   
-    public void testNumWeekMatchesException() throws InvalidRequisitsException{
-        calendar = new CalendarCup(comp);  
+    public void testNumWeekMatchesException(){
         int nj = calendar.getNumWeekMatches();
-        assertEquals(4,nj);            
-        }
+        assertEquals(4,nj);  
+    }
+    
+    
+    @Test   
+    public void testIfAllTeamsParticipateInFirstWeekMatches(){  
+        Map<Integer,WeekMatches> weekMatches = calendar.getWeekMatches();
+        WeekMatches first = weekMatches.get(1);
+        List<Match> listMatch = first.getListOfWeekMatches();
+        List<Team> expected = comp.getTeams();
+        
+        if(listMatch.size()*2 != expected.size()) fail();
+        
+        for(Match match : listMatch){
+            Team local = match.getLocal();
+            Team visitant = match.getVisitant();
+            if(!expected.contains(local) && !expected.contains(visitant)){
+                fail();
+            }
+        }  
+        
+        if(!expected.isEmpty()) fail();
+    }
+      
+    //@Test   
+    public void testNumMatchesInEachWeekMatches(){ 
+        Map<Integer,WeekMatches> list = calendar.getWeekMatches();
+        int numWM = 4;
+        for(int i=1; i<numWM; i++){
+            int numMFirst = list.get(i).getNumberOfMatchs();
+            int numMSecond = list.get(i+1).getNumberOfMatchs();
+            if(numMFirst/2 != numMSecond){
+                fail();
+            }        
+        }       
+    }    
+    
         
         
     }    

@@ -1,7 +1,6 @@
 package org.fofo.entity;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import org.fofo.entity.Competition;
 import org.fofo.entity.InvalidRequisitsException;
 import org.fofo.entity.Team;
@@ -15,13 +14,15 @@ public class CalendarCup {
     final Date init = new Date();
     private final Competition competition;
     int numWM;
+    Map<Integer,WeekMatches> weekMatches = new HashMap<Integer,WeekMatches>();
     
     public CalendarCup(Competition competition) throws InvalidRequisitsException{
         this.competition = competition;
         if(!minimDaysPassed()) throw new InvalidRequisitsException();
         if(!teamsRequired())throw new InvalidRequisitsException();     
-        if(!isPotencyOfTwo())throw new InvalidRequisitsException(); 
-
+        if(!isPotencyOfTwo())throw new InvalidRequisitsException();
+        generateFirstRound();
+        generateRound(2);
     
     }
     
@@ -58,5 +59,35 @@ public class CalendarCup {
     public int getNumWeekMatches() {
         return numWM;
     }
- 
+
+    public Map<Integer, WeekMatches> getWeekMatches() {
+        return weekMatches;
+    }
+
+    private void generateFirstRound() {
+        WeekMatches weekMatch = new WeekMatches("WeekMatch number 1 ");
+        List<Team> listTeam = competition.getTeams();
+        
+        Iterator itr = listTeam.iterator();
+        while(itr.hasNext()) {
+            Team team1 = (Team) itr.next();
+            Team team2 = (Team) itr.next();
+            weekMatch.addMatch(new Match(team1, team2, "--"));
+//What String id?
+        }
+        this.weekMatches.put(1, weekMatch);
+    }
+
+    private void generateRound(int numRound) {
+         WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound); 
+         List<Team> listTeam = competition.getTeams();
+
+         
+         
+         if(numRound<numWM) generateRound(numRound++);
+    }
+    
+    
+    
+    
 }
