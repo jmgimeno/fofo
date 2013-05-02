@@ -14,6 +14,8 @@ public class ManagementService {
 
     void addCompetition(Competition comp){
         
+        if (comp.getCategory()== null) throw new IncorrectCompetitionData();
+        
         //THIS IS THE OPERATION TO IMPLEMENT.....
         
     }

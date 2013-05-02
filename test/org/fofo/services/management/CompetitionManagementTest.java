@@ -37,7 +37,7 @@ public class CompetitionManagementTest {
     public CompetitionManagementTest() {
     }
 
-    
+    //Proves unitaries per fer TDD sobre ManagementService.addCompetition(...)  
     @Before
     public void setup(){
     
@@ -62,6 +62,7 @@ public class CompetitionManagementTest {
     //@Test
     public void testCorrectCategory() {
     
+        service.addCompetition(comp);
         //......
     }
     
@@ -73,9 +74,14 @@ public class CompetitionManagementTest {
      * 
      */
     
-    //@Test
+    @Test(expected=IncorrectCompetitionData.class)
     public void testIncorrectCategory() {
-        
+       Competition comp2 = new  Competition();
+       
+       comp2.setMaxTeams(12);
+       //...
+       comp2.setCategory(null);
+       
     }
     
     /***
