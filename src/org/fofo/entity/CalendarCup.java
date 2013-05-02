@@ -14,15 +14,15 @@ public class CalendarCup {
     final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisecons/day 
     final Date init = new Date();
     private final Competition competition;
+    int numWM;
     
     public CalendarCup(Competition competition) throws InvalidRequisitsException{
         this.competition = competition;
-        if(minimDaysPassed()) throw new InvalidRequisitsException();
-        if(!teamsRequired())throw new InvalidRequisitsException();
-        if(!isPotencyOfTwo())throw new InvalidRequisitsException();        
-        
-        
-        
+        if(!minimDaysPassed()) throw new InvalidRequisitsException();
+        if(!teamsRequired())throw new InvalidRequisitsException();     
+        if(!isPotencyOfTwo())throw new InvalidRequisitsException(); 
+
+    
     }
     
     private boolean minimDaysPassed(){    
@@ -33,9 +33,9 @@ public class CalendarCup {
     }    
 
     private boolean teamsRequired(){
-        List<Team> list = competition.getTeams();
-        if(list.size()>competition.getMinTeams() && 
-           list.size()<competition.getMaxTeams()){
+        List<Team> list = competition.getTeams();      
+        if(list.size()>=competition.getMinTeams() && 
+           list.size()<=competition.getMaxTeams()){
             return true;
         }
         return false;            
@@ -43,13 +43,20 @@ public class CalendarCup {
     
     private boolean isPotencyOfTwo(){ 
         int num = competition.getTeams().size();
+        int n = 0;
         while (num >= 2) {
             if (num % 2 != 0) {
                 return false;
             }
+            n++;
             num /= 2;
         }
+        this.numWM = n;
         return true;
+    }
+
+    public int getNumWeekMatches() {
+        return numWM;
     }
  
 }
