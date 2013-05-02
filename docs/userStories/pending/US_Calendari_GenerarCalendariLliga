@@ -12,9 +12,9 @@ TESTS ACCEPTACIÓ
 
 1. Han passat un mínim de 7 dies des de la data de creació de la competició.
 
-2. El nombre d'equips ha d'estar dins de l'interval definit en la competició.
+//2. El nombre d'equips ha d'estar dins de l'interval definit en la competició.
 
-3. El nombre d'equips ha de ser parell.
+//3. El nombre d'equips ha de ser parell.
 
 4. El calendari contempla dues voltes. En cada volta
 cada equip jugarà n-1 partits.
