@@ -36,4 +36,8 @@ public class WeekMatches {
     public List<Match> getListOfWeekMatches(){
         return new ArrayList<Match>(weekMatches.values());
     }
+    
+    public int getNumberOfMatchs(){
+        return weekMatches.size();
+    }
 }
