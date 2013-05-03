@@ -30,23 +30,6 @@ public class TeamDAOImpl implements TeamDAO{
        return this.em;
    }
 
-/*
-   public EntityManager getEntityManagerFact() {
-
-     try{
-
-         EntityManagerFactory emf = 
-           Persistence.createEntityManagerFactory("fofo");
-         return emf.createEntityManager();  
-
-     }
-     catch(Exception e){
-	 e.printStackTrace();
-	 return null;
-     }
-
-    }
- */
 
     public void addTeam(Team team) throws PersistException{
     
