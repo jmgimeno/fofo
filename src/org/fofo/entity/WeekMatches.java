@@ -14,7 +14,8 @@ import java.util.Map;
  */
 public class WeekMatches {
     
-     private Map<String, Match> weekMatches = new HashMap<String,Match>();
+    private Map<String, Match> weekMatches = new HashMap<String,Match>();
+    private Map<String, Team> teams = new HashMap<String, Team>();
     private String weekMatchId;
     
     public WeekMatches(String id){
@@ -25,15 +26,33 @@ public class WeekMatches {
         return this.weekMatchId;
     }
     
-    public void addMatch(Match m) throws NonUniqueIdException{
-        if(!weekMatches.containsKey(m.getId())){        
-            this.weekMatches.put(m.getId(), m);
+    public void addMatch(Match m) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
+        if(!weekMatches.containsKey(m.getId())){
+            if(teamPlayOnlyOneMatch(m)){                
+                this.weekMatches.put(m.getId(), m);
+            }
+            else{
+                throw new TeamCanPlayOnlyOneMatchForAWeekException();
+            }
         }
         else{
             throw new NonUniqueIdException();
         }
     }
     
+    public Boolean teamPlayOnlyOneMatch(Match m){
+        if(!teams.containsKey(m.getLocal().getName()) && 
+            !teams.containsKey(m.getVisitant().getName())){
+             teams.put(m.getLocal().getName(), m.getLocal());
+             teams.put(m.getVisitant().getName(), m.getVisitant());
+             return true;
+         }
+        else{
+            return false;
+        }
+        
+        
+    }
     public Match getMatch(String id) throws UnknownMatchException{
         if(weekMatches.containsKey(id)){
             return weekMatches.get(id);            
