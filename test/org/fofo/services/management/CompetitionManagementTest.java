@@ -48,6 +48,9 @@ public class CompetitionManagementTest {
       comp = new Competition();
         
       comp.setCategory(Category.MALE);
+      comp.setType(Type.LEAGUE);
+      comp.setMinTeams(2);
+      comp.setMaxTeams(20);
         //...
 
         
@@ -60,13 +63,29 @@ public class CompetitionManagementTest {
      * 
      */
     
-    //@Test
+    @Test
     public void testCorrectCategory() throws Exception{
     
         service.addCompetition(comp);
         //......
     }
     
+    @Test
+    public void testCorrectType() throws Exception{
+        service.addCompetition(comp);
+        //........
+    }
+    
+    @Test
+    public void testCorrectMinTeams() throws Exception{
+        service.addCompetition(comp);
+        //.........
+    }
+    
+    @Test
+    public void testCorrectMaxTeams() throws Exception{
+        service.addCompetition(comp);
+    }
     
     /*
      * 
@@ -85,6 +104,61 @@ public class CompetitionManagementTest {
        //TO BE COMPLETED....
        
        
+    }
+    
+    @Test(expected=IncorrectTypeData.class)
+    public void testIncorrectType() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(null);
+    }
+    
+    @Test(expected=IncorrectMinNumberOfTeams.class)
+    public void testIncorrectMinTeams() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.LEAGUE);
+        comp2.setMinTeams(1);
+    }
+    
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
+    public void testIncorrectMaxTeams() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.LEAGUE);
+        comp2.setMaxTeams(21);
+    }
+    
+    @Test(expected=IncorrectMinNumberOfTeams.class)
+    public void testMinTeamsNotEven() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.LEAGUE);
+        comp2.setMinTeams(3);
+    }
+    
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
+    public void testMaxTeamsNotEven() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.LEAGUE);
+        comp2.setMaxTeams(17);
+    }
+    
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
+    public void testIncorrectMaxTeamsInCup() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.CUP);
+        comp2.setMaxTeams(65);
+    }
+    
+    @Test(expected=IncorrectMinNumberOfTeams.class)
+    public void testMinTeamsNotPowerOfTwo() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.CUP);
+        comp2.setMinTeams(6);
+    }
+    
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
+    public void testMaxTeamsNotPowerOfTwo() throws Exception{
+        Competition comp2 = new Competition();
+        comp2.setType(Type.CUP);
+        comp2.setMaxTeams(18);
     }
     
     /***
