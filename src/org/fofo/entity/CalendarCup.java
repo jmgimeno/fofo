@@ -16,20 +16,19 @@ public class CalendarCup {
     int numWM;
     Map<Integer,WeekMatches> weekMatches = new HashMap<Integer,WeekMatches>();
     
-    public CalendarCup(Competition competition) throws InvalidRequisitsException{
+    public CalendarCup(Competition competition) throws InvalidRequisitsException, NonUniqueIdException{
         this.competition = competition;
-        if(!minimDaysPassed()) throw new InvalidRequisitsException();
+        if(!minimDaysPassed()) throw new InvalidRequisitsException();       
         if(!teamsRequired())throw new InvalidRequisitsException();     
         if(!isPotencyOfTwo())throw new InvalidRequisitsException();
-        generateFirstRound();
-        generateRound(2);
-    
+      
+        generateRoundN(1,competition.getTeams());    
     }
     
     private boolean minimDaysPassed(){    
         long difference = 
              (init.getTime() - competition.getInici().getTime() )/MILLSECS_PER_DAY;
-        if(difference < 7) return false;
+        if(difference < 7) return false;   
         return true;
     }    
 
@@ -64,27 +63,31 @@ public class CalendarCup {
         return weekMatches;
     }
 
-    private void generateFirstRound() {
-        WeekMatches weekMatch = new WeekMatches("WeekMatch number 1 ");
-        List<Team> listTeam = competition.getTeams();
-        
+    private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException {
+        WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound);
+      
         Iterator itr = listTeam.iterator();
-        while(itr.hasNext()) {
+        int nId = 1;
+        while(itr.hasNext()) {            
             Team team1 = (Team) itr.next();
             Team team2 = (Team) itr.next();
-            weekMatch.addMatch(new Match(team1, team2, "--"));
-//What String id?
-        }
-        this.weekMatches.put(1, weekMatch);
+            weekMatch.addMatch(new Match(team1, team2, "Match number "+nId));
+            nId++;
+        }    
+         
+        this.weekMatches.put(numRound, weekMatch);
+        if(numRound<numWM) generateRoundN(numRound+1,teamsParticipatingInRoundN(numRound));        
     }
 
-    private void generateRound(int numRound) {
-         WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound); 
-         List<Team> listTeam = competition.getTeams();
-
-         
-         
-         if(numRound<numWM) generateRound(numRound++);
+    private List<Team> teamsParticipatingInRoundN(int numRound) {
+        List<Team> listTeam  = new ArrayList<Team>();
+        WeekMatches weekMatch = weekMatches.get(numRound);
+        List<Match> matches = weekMatch.getListOfWeekMatches();
+        for(Match match : matches){
+            Team team = new Team("Winer "+match.getId()+" round "+numRound);
+            listTeam.add(team);            
+        }        
+        return listTeam;
     }
     
     
