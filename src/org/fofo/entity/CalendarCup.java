@@ -16,7 +16,7 @@ public class CalendarCup {
     int numWM;
     Map<Integer,WeekMatches> weekMatches = new HashMap<Integer,WeekMatches>();
     
-    public CalendarCup(Competition competition) throws InvalidRequisitsException, NonUniqueIdException{
+    public CalendarCup(Competition competition) throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
         this.competition = competition;
         if(!minimDaysPassed()) throw new InvalidRequisitsException();       
         if(!teamsRequired())throw new InvalidRequisitsException();     
@@ -63,7 +63,7 @@ public class CalendarCup {
         return weekMatches;
     }
 
-    private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException {
+    private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
         WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound);
       
         Iterator itr = listTeam.iterator();

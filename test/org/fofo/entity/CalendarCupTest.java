@@ -24,7 +24,7 @@ public class CalendarCupTest {
         comp.setType(Type.CUP);
         List<Team> list = new ArrayList<Team>();
         for(int i=0; i<16;i++){
-            list.add(new Team());
+            list.add(new Team("Team number "+i));
         }
         comp.setTeams(list);
         
@@ -37,25 +37,25 @@ public class CalendarCupTest {
 
 
     @Test(expected=InvalidRequisitsException.class)
-    public void testDateException() throws InvalidRequisitsException, NonUniqueIdException {
+    public void testDateException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
         comp.setInici(new Date());
         calendar = new CalendarCup(comp);        
     }
     
     @Test(expected=InvalidRequisitsException.class)    
-    public void testMinTeamsException() throws InvalidRequisitsException, NonUniqueIdException {
+    public void testMinTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
         comp.setMinTeams(20);
         calendar = new CalendarCup(comp);        
     }   
     
     @Test(expected=InvalidRequisitsException.class)    
-    public void testMaxTeamsException() throws InvalidRequisitsException, NonUniqueIdException{
+    public void testMaxTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
         comp.setMaxTeams(10);
         calendar = new CalendarCup(comp);        
     }      
     
     @Test   
-    public void testNumWeekMatchesException() throws InvalidRequisitsException, NonUniqueIdException{
+    public void testNumWeekMatchesException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
         calendar = new CalendarCup(comp); 
         int nj = calendar.getNumWeekMatches();
         assertEquals(4,nj);  
@@ -63,7 +63,7 @@ public class CalendarCupTest {
     
     
     @Test   
-    public void testIfAllTeamsParticipateInFirstWeekMatches() throws InvalidRequisitsException, NonUniqueIdException{  
+    public void testIfAllTeamsParticipateInFirstWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{  
         calendar = new CalendarCup(comp); 
         Map<Integer,WeekMatches> weekMatches = calendar.getWeekMatches();
         WeekMatches first = weekMatches.get(1);
@@ -82,7 +82,7 @@ public class CalendarCupTest {
     }
       
     @Test   
-    public void testNumMatchesInEachWeekMatches() throws InvalidRequisitsException, NonUniqueIdException{ 
+    public void testNumMatchesInEachWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{ 
         calendar = new CalendarCup(comp); 
         Map<Integer,WeekMatches> list = calendar.getWeekMatches();
         int numWM = 4;
