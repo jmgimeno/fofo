@@ -19,12 +19,12 @@ import org.junit.After;
  *
  * @author josepma
  */
-public class TeamDAOIntTest {
+public class TeamDAOImplIntegTest {
     EntityManager em = null;
     
     TeamDAOImpl tdao = null;
     
-    public TeamDAOIntTest() {
+    public TeamDAOImplIntegTest() {
         
         
     }
