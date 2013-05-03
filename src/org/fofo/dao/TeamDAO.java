@@ -7,6 +7,7 @@ package org.fofo.dao;
 import java.util.List;
 import org.fofo.entity.Team;
 
+
 /**
  *
  * @author josepma
@@ -18,7 +19,7 @@ import org.fofo.entity.Team;
 
 public interface TeamDAO {
     
-    void addTeam(Team team);
+    void addTeam(Team team) throws PersistException;
     
     void removeTeam(String name);
     

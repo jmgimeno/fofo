@@ -30,7 +30,8 @@ public class TeamDAOImpl implements TeamDAO{
        return this.em;
    }
 
-    public EntityManager getEntityManagerFact() {
+/*
+   public EntityManager getEntityManagerFact() {
 
      try{
 
@@ -45,9 +46,9 @@ public class TeamDAOImpl implements TeamDAO{
      }
 
     }
+ */
 
-
-    public void addTeam(Team team){
+    public void addTeam(Team team) throws PersistException{
     
 
        try{
@@ -57,10 +58,10 @@ public class TeamDAOImpl implements TeamDAO{
           
        }
        catch (PersistenceException e){
-	    e.printStackTrace();
+	  throw new PersistException();
        }
        finally{
-         if (em.isOpen()) em.close();
+          if (em.isOpen()) em.close();
        }
     }
     
