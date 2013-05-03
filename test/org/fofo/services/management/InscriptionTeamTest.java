@@ -4,7 +4,8 @@ import org.junit.Test;
 
 /**
  *
- * @author David Hernández, Anton Urrea
+ * @author David Hernández
+ * @author Anton Urrea
  */
 public class InscriptionTeamTest {
 
