@@ -20,8 +20,18 @@ public class WeekMatches {
     public WeekMatches(String id){
         this.weekMatchId = id;        
     }
-    public void addMatch(Match m){        
-        this.weekMatches.put(m.getId(), m);
+    
+    public String getWeekMatchId(){
+        return this.weekMatchId;
+    }
+    
+    public void addMatch(Match m) throws NonUniqueIdException{
+        if(!weekMatches.containsKey(m.getId())){        
+            this.weekMatches.put(m.getId(), m);
+        }
+        else{
+            throw new NonUniqueIdException();
+        }
     }
     
     public Match getMatch(String id) throws UnknownMatchException{

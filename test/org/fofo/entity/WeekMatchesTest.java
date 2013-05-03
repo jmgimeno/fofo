@@ -30,34 +30,46 @@ public class WeekMatchesTest {
         wm = new WeekMatches("J1");
     }
 
+    @Test(expected=NonUniqueIdException.class)
+    public void testNonUniqueIdException() throws NonUniqueIdException{
+        wm.addMatch(match);
+        wm.addMatch(match);
+    }
+    
     @Test(expected=UnknownMatchException.class)
     public void testUnknownMatchException() throws UnknownMatchException{
         Match result = wm.getMatch("AAA");
     }
     
     @Test
-    public void testAddAndGetOneMatchId() throws UnknownMatchException {        
+    public void testGetWeekMatchId(){
+        String result = wm.getWeekMatchId();
+        assertEquals(result,"J1");
+    }
+    
+    @Test
+    public void testAddAndGetOneMatchId() throws UnknownMatchException, NonUniqueIdException {        
         wm.addMatch(match);
         Match result = wm.getMatch("M1");
         assertEquals(result.getId(),"M1");
     }
     
     @Test
-    public void testAddAndGetOneMatchLocalTeam() throws UnknownMatchException {        
+    public void testAddAndGetOneMatchLocalTeam() throws UnknownMatchException, NonUniqueIdException {        
         wm.addMatch(match);
         Match result = wm.getMatch("M1");
-        assertEquals(result.getLocal(),team1);
+        assertEquals(result.getLocal().getName(),team1.getName());
     }
     
     @Test
-    public void testAddAndGetOneMatchVisitantTeam() throws UnknownMatchException {        
+    public void testAddAndGetOneMatchVisitantTeam() throws UnknownMatchException, NonUniqueIdException {        
         wm.addMatch(match);
         Match result = wm.getMatch("M1");
-        assertEquals(result.getVisitant(),team2);
+        assertEquals(result.getVisitant().getName(),team2.getName());
     }
     
     @Test
-    public void testGetListOfMatchs(){
+    public void testGetListOfMatchs() throws NonUniqueIdException{
         wm.addMatch(match);
         wm.addMatch(match2);
         wm.addMatch(match3);
@@ -79,7 +91,7 @@ public class WeekMatchesTest {
     }
     
     @Test
-    public void testGetNumberOfWeekMatchs(){
+    public void testGetNumberOfWeekMatchs() throws NonUniqueIdException{
         wm.addMatch(match);
         wm.addMatch(match2);
         wm.addMatch(match3);
