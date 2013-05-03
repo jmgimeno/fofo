@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * EXAMPLE OF INTEGRATION TEST FOR TeamDAOImpl
  */
 package org.fofo.dao;
 

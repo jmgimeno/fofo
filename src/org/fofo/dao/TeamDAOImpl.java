@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import java.util.List;
 import javax.persistence.*;
 import org.fofo.entity.Team;
 
@@ -11,11 +12,25 @@ import org.fofo.entity.Team;
  *
  * @author josepma
  */
-public class TeamDAOImpl {
+public class TeamDAOImpl implements TeamDAO{
 
+   EntityManager em;
    
+   public TeamDAOImpl(){
+       
 
-    private EntityManager getEntityManagerFact() {
+       
+   }
+   
+   public void setEM(EntityManager em){
+       this.em = em;
+   }
+   
+   public EntityManager getEM(){
+       return this.em;
+   }
+
+    public EntityManager getEntityManagerFact() {
 
      try{
 
@@ -34,7 +49,7 @@ public class TeamDAOImpl {
 
     public void addTeam(Team team){
     
-       EntityManager em = getEntityManagerFact();
+
        try{
           em.getTransaction().begin();
           em.persist(team);
@@ -48,5 +63,29 @@ public class TeamDAOImpl {
          if (em.isOpen()) em.close();
        }
     }
+    
+    public void removeTeam(String name){
+    
+    }
+    
+   
+    public List<Team> getTeams(){
+        
+        return  null;
+        
+    }
+    
+    
+    public Team findTeamByName(String name){
+        
+        return null;        
+        
+    }
+    
+    public List<Team> findTeamByClub(String name){
+        
+        return null;
+    }
+    
     
 }

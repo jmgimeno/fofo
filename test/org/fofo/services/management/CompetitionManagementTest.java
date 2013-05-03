@@ -25,6 +25,7 @@ import org.jmock.Sequence;
  *
  * @author josepma
  */
+@RunWith(JMock.class)
 public class CompetitionManagementTest {
 
     ManagementService service;
@@ -60,7 +61,7 @@ public class CompetitionManagementTest {
      */
     
     //@Test
-    public void testCorrectCategory() {
+    public void testCorrectCategory() throws Exception{
     
         service.addCompetition(comp);
         //......
@@ -75,12 +76,14 @@ public class CompetitionManagementTest {
      */
     
     @Test(expected=IncorrectCompetitionData.class)
-    public void testIncorrectCategory() {
+    public void testIncorrectCategory() throws Exception {
        Competition comp2 = new  Competition();
        
        comp2.setMaxTeams(12);
        //...
        comp2.setCategory(null);
+       //TO BE COMPLETED....
+       
        
     }
     
@@ -101,7 +104,7 @@ public class CompetitionManagementTest {
      */
     
     //@Test
-    public void competitionInsertedIntoTheDB() {
+    public void competitionInsertedIntoTheDB() throws Exception {
       
         
         
