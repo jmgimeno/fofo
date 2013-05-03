@@ -1,15 +1,17 @@
 package org.fofo.services.management;
 
 import java.util.Date;
+import org.fofo.dao.CompetitionDAO;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 
 /**
  *
- * @author David Hernández, Anton Urrea
+ * @author David Hernández
+ * @author Anton Urrea
  */
 public class InscriptionTeam {
-
+    CompetitionDAO competitionDAO;
     Competition competition;
     Team team;
 
@@ -19,9 +21,9 @@ public class InscriptionTeam {
      * @param team The team we want to register.
      * @throws InscriptionTeamException 
      */
-    public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
-        if (PeriodOpen(competition) && TeamsSpace(competition)) {
-            competition.teams.add(team);
+    public void addTeam(CompetitionDAO competitionDAO, Competition competetion, Team team) throws InscriptionTeamException {
+        if (CompetitionExist(competitionDAO, competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
+            competition.addTeam(team);
         } else {
             throw new InscriptionTeamException();
         }
@@ -44,6 +46,16 @@ public class InscriptionTeam {
      * @return Boolean indicate if it is full or not.
      */
     private boolean TeamsSpace(Competition competition) {
-        return (competition.getMaxTeams() >= competition.teams.size());
+        return (competition.getMaxTeams() >= competition.getSize());
+    }
+
+    /**
+     * Check if competition exists in DAO
+     * @param competitionDAO 
+     * @param competition: Competition that we check.
+     * @return Boolean indicate if the competition exist.
+     */
+    private boolean CompetitionExist(CompetitionDAO competitionDAO, Competition competition) {
+       return competitionDAO.findCompetitionByName(competition);
     }
 }

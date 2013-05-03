@@ -16,13 +16,17 @@ public class Competition {
     
     private Category category;
     private Date inici;
-    public List<Team> teams = new ArrayList<Team>();
+    private List<Team> teams = new ArrayList<>();
     private int maxTeams;
     private int minTeams;
     private Type type;
     
     public Competition(){
         
+    }
+    
+    public void addTeam(Team team){
+        teams.add(team);
     }
 
     public Category getCategory() {
@@ -71,6 +75,10 @@ public class Competition {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public int getSize() {
+        return teams.size();
     }
     
     
