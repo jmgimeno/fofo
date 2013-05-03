@@ -12,7 +12,9 @@ import org.fofo.entity.Competition;
  */
 public class ManagementService {
 
-    void addCompetition(Competition comp){
+    void addCompetition(Competition comp) throws IncorrectCompetitionData{
+        
+        if (comp.getCategory()== null) throw new IncorrectCompetitionData();
         
         //THIS IS THE OPERATION TO IMPLEMENT.....
         
