@@ -4,6 +4,8 @@
  */
 package org.fofo.services.management;
 
+import java.util.Calendar;
+import java.util.Date;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -51,6 +53,9 @@ public class CompetitionManagementTest {
       comp.setType(Type.LEAGUE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);
+      Calendar cal = Calendar.getInstance();
+      cal.set(2013, Calendar.MAY, 24);
+      comp.setInici(cal.getTime());
         //...
 
         
@@ -102,6 +107,7 @@ public class CompetitionManagementTest {
        //...
        comp2.setCategory(null);
        //TO BE COMPLETED....
+       service.addCompetition(comp2);
        
        
     }
@@ -110,6 +116,7 @@ public class CompetitionManagementTest {
     public void testIncorrectType() throws Exception{
         Competition comp2 = new Competition();
         comp2.setType(null);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
@@ -117,6 +124,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.LEAGUE);
         comp2.setMinTeams(1);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
@@ -124,6 +132,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.LEAGUE);
         comp2.setMaxTeams(21);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
@@ -131,6 +140,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.LEAGUE);
         comp2.setMinTeams(3);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
@@ -138,6 +148,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.LEAGUE);
         comp2.setMaxTeams(17);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
@@ -145,6 +156,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.CUP);
         comp2.setMaxTeams(65);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
@@ -152,6 +164,7 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.CUP);
         comp2.setMinTeams(6);
+        service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
@@ -159,6 +172,16 @@ public class CompetitionManagementTest {
         Competition comp2 = new Competition();
         comp2.setType(Type.CUP);
         comp2.setMaxTeams(18);
+        service.addCompetition(comp2);
+    }
+    
+    @Test(expected=IncorrectDate.class)
+    public void testIncorrectDate() throws Exception{
+        Competition comp2 = new Competition();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2013, Calendar.MAY, 14);
+        comp2.setInici(cal.getTime());
+        service.addCompetition(comp2);
     }
     
     /***
