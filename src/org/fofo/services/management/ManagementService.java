@@ -7,6 +7,7 @@ package org.fofo.services.management;
 import java.util.Calendar;
 import java.util.List;
 import org.fofo.dao.ClubDAO;
+import org.fofo.dao.CompetitionDAO;
 import org.fofo.entity.Category;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
@@ -19,6 +20,7 @@ import org.fofo.entity.Type;
 public class ManagementService {
     
     ClubDAO clubDao;
+    CompetitionDAO cDao;
 
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
@@ -28,7 +30,7 @@ public class ManagementService {
         for(Club c : clubs){
             sendEmail(c);
         }
-        
+        cDao.addCompetition(comp);
         //THIS IS THE OPERATION TO IMPLEMENT.....
         
     }
