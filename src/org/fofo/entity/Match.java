@@ -4,23 +4,28 @@
  */
 package org.fofo.entity;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
  *
- * @author mohamed
- * @author oriol
+ * @author mohamed, Anatoli
+ * 
  */
 public class Match {
     
     private String id;
     private Team local;
     private Team visitant;
+    private Date date;
+    //private Arbitre 
+    //private Stadium
     
-    public Match(Team local, Team visitant, String id){
+    public Match(Team local, Team visitant, Date date){
         this.local = local;
         this.visitant = visitant;
-        this.id = id; 
+        this.date = date;  //Assignat per FCalendar
+        this.id = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
     
     public String getId(){
@@ -33,5 +38,9 @@ public class Match {
     
     public Team getVisitant(){
         return visitant;
+    }
+    
+    public Date getDate(){
+        return this.date;
     }
 }
