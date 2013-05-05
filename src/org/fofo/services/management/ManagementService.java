@@ -1,16 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.fofo.services.management;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.fofo.dao.ClubDAO;
 import org.fofo.dao.CompetitionDAO;
 import org.fofo.entity.Category;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
+import org.fofo.entity.Team;
 import org.fofo.entity.Type;
 
 /**
@@ -21,6 +19,8 @@ public class ManagementService {
     
     ClubDAO clubDao;
     CompetitionDAO cDao;
+    Competition competition;
+    Team team;
 
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
@@ -92,5 +92,56 @@ public class ManagementService {
             if (!validMinTeamsInCup(comp.getMinTeams())) throw new IncorrectMinNumberOfTeams();
             if (!validMaxTeamsInCup(comp.getMaxTeams())) throw new IncorrectMaxNumberOfTeams();
         }
+    }
+    
+        /**
+     * Add a team in a competition.
+     * @param competetion The competition we want to register a team.
+     * @param team The team we want to register.
+     * @throws InscriptionTeamException 
+     */
+    public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
+        if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
+            competition.addTeam(team);
+        } else {
+            throw new InscriptionTeamException();
+        }
+    }
+
+    /**
+     * Check if the period of inscription is valid for a competition.
+     * @param competition: The competition to be checked.
+     * @return Boolean indicate if it is open or not.
+     */
+    private boolean PeriodOpen(Competition competition) {
+        Date actual = Calendar.getInstance().getTime();
+        
+        long currentDate = actual.getTime();
+        long finishDate = competition.getInici().getTime();
+
+        long oneWeek = 7 * 24 * 60 * 60 * 1000; //Milisegons d'una setmana
+
+        finishDate = (finishDate - oneWeek); //Data de inici de la competicio - Una setmana
+
+        return (currentDate <= finishDate);
+    }
+
+    /**
+     * Check if we have reached the maximum number of teams in a competition.
+     * @param competition: The competition to be checked.
+     * @return Boolean indicate if it is full or not.
+     */
+    private boolean TeamsSpace(Competition competition) {
+        return (competition.getMaxTeams() > competition.teams.size());
+    }
+
+    /**
+     * Check if competition exists in DAO
+     * @param competitionDAO 
+     * @param competition: Competition that we check.
+     * @return Boolean indicate if the competition exist.
+     */
+    private boolean CompetitionExist(Competition competition) {
+        return cDao.findCompetition(competition);
     }
 }
