@@ -23,6 +23,8 @@ public interface CompetitionDAO {
     Competition findCompetitionByName(String name);
     
     List<Competition> findCompetitionByTeam(String name);
+
+    public boolean findCompetition(Competition competition);
     
     
 }

@@ -16,7 +16,7 @@ public class Competition {
     
     private Category category;
     private Date inici;
-    private List<Team> teams = new ArrayList<>();
+    public List<Team> teams = new ArrayList<>();
     private int maxTeams;
     private int minTeams;
     private Type type;
