@@ -13,9 +13,9 @@ import org.fofo.entity.Club;
  */
 public interface ClubDAO {
     
-    void addClub(Club club);
+    void addClub(Club club) throws PersistException;
     
-    void removeClub(String name);
+    void removeClub(String name) throws PersistException;
     
     List<Club> getClubs();
     
