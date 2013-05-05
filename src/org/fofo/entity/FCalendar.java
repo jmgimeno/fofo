@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -23,14 +24,17 @@ public class FCalendar {
     private LinkedList<Team> visitants;
     
     public FCalendar(Competition c) throws Exception{
-        if(diffBetwenDates(new Date(),c.getInici()) < 7) //minim 7 dies per crear calendari
-            throw new Exception(); //ESCOLLIR UN NOM ADIENT
         
-        calendar = new ArrayList<WeekMatches>();
         competition = c;
-        numTeams = competition.getTeams().size();
+        numTeams = competition.getNumberOfTeams();
+        
+        checkSevenDaysMinAfterCompetition();        
+        checkNumOfTeamsIsInLimits();
+        
+        calendar = new ArrayList<WeekMatches>();        
         
         if(competition.getType()==Type.LEAGUE){
+            checkNumOfTeamsIsPair();
             manageLeague();
         }else if(competition.getType()==Type.CUP){
             manageCup();
@@ -56,10 +60,11 @@ public class FCalendar {
     }
     
     private void initAssignation(List<Team> teams) {
-        //1a meitat: loclas:
-        //2a meitat: visitants
-        locals = (LinkedList<Team>) teams.subList(0, (numTeams/2)-1);
-        visitants = (LinkedList<Team>) teams.subList(numTeams/2, numTeams-1);
+        //1a meitat: loclas
+        //2a meitat: visitants        
+        
+        locals.addAll(teams.subList(0, (numTeams/2)-1));
+        visitants.addAll(teams.subList(numTeams/2, numTeams-1));
     }
     
     private void rotateAssignation() {
@@ -88,25 +93,60 @@ public class FCalendar {
         Team visitant = visitants.get(index);
         
         Date date = new Date();
-        date = setDate();
+        //date = assignDate();
         
         return new Match(local,visitant,date);
     }     
 
-    private Date setDate() {
+    private Date assignDate() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }   
+    
+    public List<WeekMatches> getAllWeekMatches() {
+        return calendar;
     }
     
-    private static int diffBetwenDates(Date actual, Date prev) {
-        return (int) (actual.getTime() - prev.getTime())
-                      / (24*60*60*1000); //ms per dia   
+    public WeekMatches getWeekMatches(int index){
+        return calendar.get(index);
+    }
+    
+    public int getNumOfWeekMatches(){
+        return calendar.size();
+    }
+
+    public List<Team> getLocals() {
+        return locals;
+    }
+
+    public List<Team> getVisitants() {
+        return visitants;
+    }     
+
+    private void checkSevenDaysMinAfterCompetition() throws Exception {
+        DateTime actual = new DateTime();
+        DateTime compDate = new DateTime(competition.getInici()); 
+        if((actual.getDayOfYear() - compDate.getDayOfYear()) < 7)
+            throw new MinimumDaysException("It must be a diference of 7 days as "
+                    + "minimum betwen Calendar creation and Competition creation"); 
+    }
+
+    private void checkNumOfTeamsIsPair() throws Exception {
+        if(numTeams%2 != 0)
+            throw new NumberOfTeamsException("This LEAGUE competition has not "
+                    + "a PAIR number of teams"); 
+    }
+
+    private void checkNumOfTeamsIsInLimits() throws Exception {
+        if(numTeams < competition.getMinTeams() 
+        && numTeams > competition.getMaxTeams())
+            throw new NumberOfTeamsException("This LEAGUE competition has not "
+                    + "the right number of teams betwen "
+                    +competition.getMinTeams()+" and "+competition.getMaxTeams()); 
     }
     
     /*Jordio i Oriol*/
     private void manageCup(){
         
-    }   
-    
-    
+    } 
 
 }
