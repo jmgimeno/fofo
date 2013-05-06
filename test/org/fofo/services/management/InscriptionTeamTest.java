@@ -9,19 +9,19 @@ import org.junit.Test;
  */
 public class InscriptionTeamTest {
 
-    @Test(expected = InscriptionTeamException.class)
+    //@Test(expected = InscriptionTeamException.class)
     public void competitionNotExist() {
     }
 
-    @Test(expected = InscriptionTeamException.class)
+    //@Test(expected = InscriptionTeamException.class)
     public void periodNotOpen() {
     }
 
-    @Test(expected = InscriptionTeamException.class)
+    //@Test(expected = InscriptionTeamException.class)
     public void notTeamSpace() {
     }
 
-    @Test
+    //@Test
     public void correctAddTeam() {
     }
 }
