@@ -16,6 +16,15 @@ public class Competition {
     private int maxTeams;
     private int minTeams;
     private Type type;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     public Competition(){
         
