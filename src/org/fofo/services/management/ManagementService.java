@@ -1,7 +1,6 @@
 package org.fofo.services.management;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import org.fofo.dao.ClubDAO;
 import org.fofo.dao.CompetitionDAO;
@@ -10,6 +9,7 @@ import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 import org.fofo.entity.Type;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -151,16 +151,10 @@ public class ManagementService {
      * @return Boolean indicate if it is open or not.
      */
     private boolean PeriodOpen(Competition competition) {
-        Date actual = Calendar.getInstance().getTime();
+        DateTime currentDate = new DateTime(DateTime.now());
+        DateTime finishDate = new DateTime(competition.getInici());
 
-        long currentDate = actual.getTime();
-        long finishDate = competition.getInici().getTime();
-
-        long oneWeek = 7 * 24 * 60 * 60 * 1000; //Milisegons d'una setmana
-
-        finishDate = (finishDate - oneWeek); //Data de inici de la competicio - Una setmana
-
-        return (currentDate <= finishDate);
+        return ((currentDate.getDayOfYear() - finishDate.getDayOfYear()) < 7);
     }
 
     /**
