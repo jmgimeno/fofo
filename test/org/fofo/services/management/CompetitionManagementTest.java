@@ -44,6 +44,7 @@ public class CompetitionManagementTest {
     
     CompetitionDAO cdao;
     Competition comp;
+    DateTime time;
     
     public CompetitionManagementTest() {
     }
@@ -65,6 +66,7 @@ public class CompetitionManagementTest {
       comp.setInici(date.toDate());
         //...
 
+      time = new DateTime();
         
     }
     
@@ -151,6 +153,16 @@ public class CompetitionManagementTest {
         date.plusWeeks(1);
         comp2.setInici(date.toDate());
         service.addCompetition(comp2);
+    }
+    
+    @Test
+    public void comprobar_dia_actual() {
+        assertEquals(6,time.getDayOfMonth());
+    }
+    
+    @Test
+    public void comprobar_suma(){   
+       assertEquals(7, time.plusDays(1).getDayOfMonth()); 
     }
     
     /***
