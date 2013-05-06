@@ -17,10 +17,10 @@ import org.fofo.entity.Type;
  */
 public class ManagementService {
 
-    ClubDAO clubDao;
-    CompetitionDAO cDao;
-    Competition competition;
-    Team team;
+    private ClubDAO clubDao;
+    private CompetitionDAO cDao;
+    private Competition competition;
+    private Team team;
 
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
@@ -44,6 +44,7 @@ public class ManagementService {
     public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
         if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
             competition.getTeams().add(team);
+            cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
         }
@@ -178,6 +179,6 @@ public class ManagementService {
      * @return Boolean indicate if the competition exist.
      */
     private boolean CompetitionExist(Competition competition) {
-        return cDao.findCompetition(competition);
+        return cDao.getCompetitionms().contains(competition);
     }
 }
