@@ -28,10 +28,10 @@ public class WeekMatchesTest {
         team4 = new Team("BBBB",Category.FEMALE);
         team5 = new Team("RRRR",Category.MALE);
         team6 = new Team("SSSS",Category.MALE);
-        match = new Match(team1, team2,"M1");
-        match2 = new Match(team3, team4,"M2");
-        match3 = new Match(team5, team6,"M3");
-        repeatedTeamMatch = new Match(team4, team1,"M4");
+        match = new Match(team1, team2);
+        match2 = new Match(team3, team4);
+        match3 = new Match(team5, team6);
+        repeatedTeamMatch = new Match(team4, team1);
         wm = new WeekMatches("J1");
     }
 
@@ -61,21 +61,21 @@ public class WeekMatchesTest {
     @Test
     public void testAddAndGetOneMatchId() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch("M1");
-        assertEquals(result.getId(),"M1");
+        Match result = wm.getMatch(match.getId());
+        assertEquals(result.getId(),match.getId());
     }
     
     @Test
     public void testAddAndGetOneMatchLocalTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch("M1");
+        Match result = wm.getMatch(match.getId());
         assertEquals(result.getLocal().getName(),team1.getName());
     }
     
     @Test
     public void testAddAndGetOneMatchVisitantTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch("M1");
+        Match result = wm.getMatch(match.getId());
         assertEquals(result.getVisitant().getName(),team2.getName());
     }
     
