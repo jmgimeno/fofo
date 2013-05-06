@@ -35,6 +35,31 @@ public class ManagementService {
         
     }
     
+    
+    
+        /**
+     * Add a team in a competition.
+     * @param competetion The competition we want to register a team.
+     * @param team The team we want to register.
+     * @throws InscriptionTeamException 
+     */
+    public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
+        if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
+            competition.addTeam(team);
+        } else {
+            throw new InscriptionTeamException();
+        }
+    }
+
+    
+    /*
+     * 
+     * PRIVATE OPERATIONS
+     * 
+     * 
+     * 
+     */
+    
     private void sendEmail(Club c){
         //to be implemented...
     }
@@ -94,20 +119,6 @@ public class ManagementService {
         }
     }
     
-        /**
-     * Add a team in a competition.
-     * @param competetion The competition we want to register a team.
-     * @param team The team we want to register.
-     * @throws InscriptionTeamException 
-     */
-    public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
-        if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
-            competition.addTeam(team);
-        } else {
-            throw new InscriptionTeamException();
-        }
-    }
-
     /**
      * Check if the period of inscription is valid for a competition.
      * @param competition: The competition to be checked.
