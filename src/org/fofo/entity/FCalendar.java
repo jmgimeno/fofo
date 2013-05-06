@@ -95,7 +95,7 @@ public class FCalendar {
         Date date = new Date();
         //date = assignDate();
         
-        return new Match(local,visitant,date);
+        return new Match(local,visitant);
     }     
 
     private Date assignDate() {
