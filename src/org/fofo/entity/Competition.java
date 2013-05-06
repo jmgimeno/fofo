@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author josepma
  */
-public class Competition {
+public abstract class Competition {
     
     private Category category;
     private Date inici;
@@ -17,6 +17,15 @@ public class Competition {
     private int minTeams;
     private Type type;
     private String name;
+    
+    public Competition(){
+        create(this.type);
+    }
+    
+    public static Competition create(Type type){
+        if(type.equals(Type.LEAGUE)) return new CompetitionLeague();
+        else return new CompetitionCup();
+    }
 
     public String getName() {
         return name;
@@ -24,10 +33,6 @@ public class Competition {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public Competition(){
-        
     }
     
     public void addTeam(Team team){
@@ -62,17 +67,13 @@ public class Competition {
         return maxTeams;
     }
 
-    public void setMaxTeams(int maxTeams) {
-        this.maxTeams = maxTeams;
-    }
+    public abstract void setMaxTeams(int maxTeams);
 
     public int getMinTeams() {
         return minTeams;
     }
 
-    public void setMinTeams(int minTeams) {
-        this.minTeams = minTeams;
-    }
+    public abstract void setMinTeams(int minTeams);
 
     public Type getType() {
         return type;

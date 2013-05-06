@@ -95,8 +95,7 @@ public class FCalendarTest {
     
 
     private void setUpCompOK() {
-        compOK = new Competition();
-        compOK.setType(Type.LEAGUE);
+        compOK = Competition.create(Type.LEAGUE);
         compOK.setCategory(Category.MALE);
         compOK.setMinTeams(2);
         compOK.setMaxTeams(20);

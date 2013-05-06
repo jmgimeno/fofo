@@ -6,6 +6,13 @@ package org.fofo.services.management;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -21,6 +28,7 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import  org.junit.runner.RunWith; 
 import org.jmock.Sequence;
+import org.joda.time.DateTime;
 
 
 /**
@@ -47,49 +55,17 @@ public class CompetitionManagementTest {
       service = new ManagementService();  
       cdao  = context.mock(CompetitionDAO.class);
 
-      comp = new Competition();
+      comp = Competition.create(Type.LEAGUE);
         
       comp.setCategory(Category.MALE);
-      comp.setType(Type.LEAGUE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);
-      Calendar cal = Calendar.getInstance();
-      cal.set(2013, Calendar.MAY, 24);
-      comp.setInici(cal.getTime());
+      DateTime date = new DateTime();
+      date.plusWeeks(3);
+      comp.setInici(date.toDate());
         //...
 
         
-    }
-    
-     /*
-     * 
-     * A competition with MALE category is OK
-     * 
-     * 
-     */
-    
-    @Test
-    public void testCorrectCategory() throws Exception{
-    
-        service.addCompetition(comp);
-        //......
-    }
-    
-    @Test
-    public void testCorrectType() throws Exception{
-        service.addCompetition(comp);
-        //........
-    }
-    
-    @Test
-    public void testCorrectMinTeams() throws Exception{
-        service.addCompetition(comp);
-        //.........
-    }
-    
-    @Test
-    public void testCorrectMaxTeams() throws Exception{
-        service.addCompetition(comp);
     }
     
     /*
@@ -101,7 +77,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectCompetitionData.class)
     public void testIncorrectCategory() throws Exception {
-       Competition comp2 = new  Competition();
+       Competition comp2 = Competition.create(Type.CUP);
        
        comp2.setMaxTeams(12);
        //...
@@ -114,73 +90,66 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectTypeData.class)
     public void testIncorrectType() throws Exception{
-        Competition comp2 = new Competition();
+        Competition comp2 = Competition.create(Type.CUP);
         comp2.setType(null);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testIncorrectMinTeams() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.LEAGUE);
+        Competition comp2 = Competition.create(Type.LEAGUE);
         comp2.setMinTeams(1);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeams() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.LEAGUE);
+        Competition comp2 = Competition.create(Type.LEAGUE);
         comp2.setMaxTeams(21);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotEven() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.LEAGUE);
+        Competition comp2 = Competition.create(Type.LEAGUE);
         comp2.setMinTeams(3);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotEven() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.LEAGUE);
+        Competition comp2 = Competition.create(Type.LEAGUE);
         comp2.setMaxTeams(17);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeamsInCup() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.CUP);
+        Competition comp2 = Competition.create(Type.CUP);
         comp2.setMaxTeams(65);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotPowerOfTwo() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.CUP);
+        Competition comp2 = Competition.create(Type.CUP);
         comp2.setMinTeams(6);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotPowerOfTwo() throws Exception{
-        Competition comp2 = new Competition();
-        comp2.setType(Type.CUP);
+        Competition comp2 = Competition.create(Type.CUP);
         comp2.setMaxTeams(18);
         service.addCompetition(comp2);
     }
     
     @Test(expected=IncorrectDate.class)
     public void testIncorrectDate() throws Exception{
-        Competition comp2 = new Competition();
-        Calendar cal = Calendar.getInstance();
-        cal.set(2013, Calendar.MAY, 14);
-        comp2.setInici(cal.getTime());
+        Competition comp2 = Competition.create(Type.CUP);
+        DateTime date = new DateTime();
+        date.plusWeeks(1);
+        comp2.setInici(date.toDate());
         service.addCompetition(comp2);
     }
     
@@ -213,5 +182,43 @@ public class CompetitionManagementTest {
         service.addCompetition(comp);      
         
     }
+    
+     @Test(expected=MessagingException.class)
+    public void envio_incorrecto() throws MessagingException{
+        
+         String servidorSMTP = "smtp.gmail.com";
+        String puerto = "587";
+        String usuario = "alejandrodelgadorios@gmail.com";
+        String password = "pass";
+
+        String destino = "alejandrodelgadorios@gmail.com";
+        String asunto = "Prueba!";
+        String mensaje = "Este es un mensaje de prueba.";
+
+        Properties props = new Properties();
+
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.host", servidorSMTP);
+        props.put("mail.smtp.port", puerto);
+
+        Session session = Session.getInstance(props, null);
+
+        
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+                    destino));
+            message.setSubject(asunto);
+            message.setSentDate(new Date());
+            message.setText(mensaje);
+
+            Transport tr = session.getTransport("smtp");
+            tr.connect(servidorSMTP, usuario, password);
+            message.saveChanges();
+            tr.sendMessage(message, message.getAllRecipients());
+            tr.close();
+   
+}
     
 }

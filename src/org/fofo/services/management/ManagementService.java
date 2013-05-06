@@ -1,7 +1,15 @@
 package org.fofo.services.management;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.fofo.dao.ClubDAO;
 import org.fofo.dao.CompetitionDAO;
 import org.fofo.entity.Category;
@@ -10,6 +18,8 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 import org.fofo.entity.Type;
 import org.joda.time.DateTime;
+import javax.persistence.PersistenceException;
+import org.fofo.dao.PersistException;
 
 /**
  *
@@ -24,7 +34,7 @@ public class ManagementService {
 
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
-            IncorrectDate {
+            IncorrectDate, PersistException {
         checkForExceptions(comp);
         List<Club> clubs = clubDao.getClubs();
         for (Club c : clubs) {
@@ -58,7 +68,42 @@ public class ManagementService {
      * 
      */
     private void sendEmail(Club c) {
-        //to be implemented...
+         String servidorSMTP = "smtp.gmail.com";
+        String puerto = "587";
+        String usuario = "fofo@gmail.com";
+        String password = "pass";
+
+        String destino = c.getEmail();
+        String asunto = "Prueba!";
+        String mensaje = "Este es un mensaje de prueba.";
+
+        Properties props = new Properties();
+
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.host", servidorSMTP);
+        props.put("mail.smtp.port", puerto);
+
+        Session session = Session.getInstance(props, null);
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+                    destino));
+            message.setSubject(asunto);
+            message.setSentDate(new Date());
+            message.setText(mensaje);
+
+            Transport tr = session.getTransport("smtp");
+            tr.connect(servidorSMTP, usuario, password);
+            message.saveChanges();
+            tr.sendMessage(message, message.getAllRecipients());
+            tr.close();
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isPowerOfTwo(int value) {
@@ -117,32 +162,19 @@ public class ManagementService {
     private void checkForExceptions(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 15);
+        DateTime date = new DateTime();
+        date.plusDays(15);
         if (!isValidCategory(comp.getCategory())) {
             throw new IncorrectCompetitionData();
         }
         if (!isValidType(comp.getType())) {
             throw new IncorrectTypeData();
         }
-        if (comp.getInici().before(cal.getTime())) {
+        if (comp.getInici().before(date.toDate())) {
             throw new IncorrectDate();
         }
-        if (comp.getType().equals(Type.LEAGUE)) {
-            if (!validMinTeamsInLeague(comp.getMinTeams())) {
-                throw new IncorrectMinNumberOfTeams();
-            }
-            if (!validMaxTeamsInLeague(comp.getMaxTeams())) {
-                throw new IncorrectMaxNumberOfTeams();
-            }
-        } else if (comp.getType().equals(Type.CUP)) {
-            if (!validMinTeamsInCup(comp.getMinTeams())) {
-                throw new IncorrectMinNumberOfTeams();
-            }
-            if (!validMaxTeamsInCup(comp.getMaxTeams())) {
-                throw new IncorrectMaxNumberOfTeams();
-            }
-        }
+        if ((Integer)comp.getMinTeams() == null) throw new IncorrectMinNumberOfTeams();
+        if ((Integer)comp.getMaxTeams() == null) throw new IncorrectMaxNumberOfTeams();
     }
 
     /**

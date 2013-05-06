@@ -16,12 +16,11 @@ public class CalendarCupTest {
     Competition comp;
     
     public CalendarCupTest() throws InvalidRequisitsException {
-        comp = new Competition();
+        comp = Competition.create(Type.CUP);
         comp.setCategory(Category.MALE);
         comp.setInici(null);
         comp.setMaxTeams(16);
         comp.setMinTeams(4);
-        comp.setType(Type.CUP);
         List<Team> list = new ArrayList<Team>();
         for(int i=0; i<16;i++){
             list.add(new Team("Team number "+i));

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import org.fofo.dao.CompetitionDAO;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
+import org.fofo.entity.Type;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -46,7 +47,7 @@ public class InscriptionTeamTest {
       Comp = context.mock(Competition.class);
       team = context.mock(Team.class);
            
-      Comp = new Competition();
+      Comp = Competition.create(Type.CUP);
     
              
     }

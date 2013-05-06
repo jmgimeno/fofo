@@ -1,0 +1,10 @@
+Procés Introducció Competició
+US: Introducció d'una competició
+
+FOFO vol introduïr una competició dins de l'aplicació
+
+
+---------------------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. La competició ha de ser introduïda amb totes les seves dades dins de l'aplicació

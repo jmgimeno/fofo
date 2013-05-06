@@ -10,7 +10,7 @@ import org.fofo.entity.Team;
  */
 public interface CompetitionDAO {
 
-    void addCompetition(Competition competition);
+    void addCompetition(Competition competition) throws PersistException;
 
     void removeCompetition(String name);
 
