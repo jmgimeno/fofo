@@ -71,7 +71,7 @@ public class CalendarCup {
         while(itr.hasNext()) {            
             Team team1 = (Team) itr.next();
             Team team2 = (Team) itr.next();
-            weekMatch.addMatch(new Match(team1, team2, new Date())); //li heu de assignar una data, i no un id
+            weekMatch.addMatch(new Match(team1, team2)); //li heu de assignar una data, i no un id
             nId++;
         }    
          

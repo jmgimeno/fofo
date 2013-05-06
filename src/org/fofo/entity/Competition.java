@@ -12,7 +12,7 @@ public abstract class Competition {
     
     private Category category;
     private Date inici;
-    private List<Team> teams = new ArrayList<>();
+    private List<Team> teams = new ArrayList<Team>();
     private int maxTeams;
     private int minTeams;
     private Type type;
