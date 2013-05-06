@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.fofo.entity;
 
 import java.util.ArrayList;
@@ -16,7 +12,7 @@ public class Competition {
     
     private Category category;
     private Date inici;
-    public List<Team> teams = new ArrayList<Team>();
+    private List<Team> teams = new ArrayList<>();
     private int maxTeams;
     private int minTeams;
     private Type type;
