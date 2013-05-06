@@ -18,6 +18,15 @@ public class Team implements Serializable {
     private String name;
     private Club club;
     private Category category;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
    
     public Team() {
 
