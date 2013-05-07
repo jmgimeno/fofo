@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.fofo.entity;
 
@@ -37,9 +33,9 @@ public class FCalendar {
         //return CalendarGen(c).getCalendar(); //Si CalendarGen es classe abstracta 
         //Si es inteficie:
         if(c.getType()==Type.LEAGUE)
-            return CalendarLeagueGen.getCalendar();
+            return new CalendarLeagueGen().getCalendar();
         else if(c.getType()==Type.CUP)
-            return CalendarCupGen.getCalendar();
+            return new CalendarCupGen().getCalendar();
         else
             throw new UnknownCompetitionTypeException();
         
