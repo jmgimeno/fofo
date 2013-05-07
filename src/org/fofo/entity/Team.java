@@ -13,9 +13,14 @@ import javax.persistence.*;
  */
 
 @Entity
+@Table (name ="TEAM")
 public class Team implements Serializable {
-
+    @Id
+    @Column (name="NAME")
     private String name;
+    
+    @ManyToOne
+    @JoinColumn (name="CLUB_NAME", referencedColumnName="NAME")
     private Club club;
     private Category category;
     private String email;
@@ -89,9 +94,10 @@ public class Team implements Serializable {
     @Override
     public boolean equals(Object obj){
         
-        return (obj instanceof Team) && ((Team)obj).name.equals(this.name);
+        return (obj instanceof Team) && ((Team)obj).name.equals(this.name) && 
+                ((Team)obj).club.equals(this.club);
         
-    } 
+    }
 
 }
 
