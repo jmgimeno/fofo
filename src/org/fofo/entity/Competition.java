@@ -23,8 +23,10 @@ public abstract class Competition {
     }*/
     
     public static Competition create(Type type){
-        if(type.equals(Type.LEAGUE)) return new CompetitionLeague();
-        else return new CompetitionCup();
+        if(type.equals(Type.LEAGUE)){
+            return new CompetitionLeague(type);
+        }
+        else return new CompetitionCup(type);
     }
 
     public String getName() {

@@ -13,6 +13,11 @@ public class CompetitionCup extends Competition{
     private Type type;
     private int maxTeams;
     private int minTeams;
+    
+    public CompetitionCup(Type type){
+        super();
+        this.setType(type);
+    }
 
     @Override
     public void setMaxTeams(int maxTeams) {

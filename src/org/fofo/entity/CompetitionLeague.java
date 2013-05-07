@@ -17,6 +17,11 @@ public class CompetitionLeague extends Competition{
     public CompetitionLeague(){
         super();
     }
+    
+    public CompetitionLeague(Type type){
+        super();
+        this.setType(type);
+    }
 
     @Override
     public void setMaxTeams(int maxTeams) {

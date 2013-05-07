@@ -172,11 +172,11 @@ public class ManagementService {
         if (!isValidType(comp.getType())) {
             throw new IncorrectTypeData();
         }
+        if ((Integer)comp.getMinTeams() == null) throw new IncorrectMinNumberOfTeams();
+        if ((Integer)comp.getMaxTeams() == null) throw new IncorrectMaxNumberOfTeams();
         if (comp.getInici().before(date.toDate())) {
             throw new IncorrectDate();
         }
-        if ((Integer)comp.getMinTeams() == null) throw new IncorrectMinNumberOfTeams();
-        if ((Integer)comp.getMaxTeams() == null) throw new IncorrectMaxNumberOfTeams();
     }
 
     /**
