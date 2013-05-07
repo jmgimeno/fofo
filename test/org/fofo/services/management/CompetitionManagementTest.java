@@ -93,6 +93,7 @@ public class CompetitionManagementTest {
     @Test(expected=IncorrectTypeData.class)
     public void testIncorrectType() throws Exception{
         Competition comp2 = Competition.create(Type.CUP);
+        comp2.setCategory(Category.MALE);
         comp2.setType(null);
         service.addCompetition(comp2);
     }
