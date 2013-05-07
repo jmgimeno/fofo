@@ -10,11 +10,11 @@ import org.fofo.entity.Team;
  * @author Jordi i Oriol
  */
 public class CalendarCup {
-    final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisecons/day 
-    final Date init = new Date();
+    private final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisecons/day 
+    private final Date init = new Date();
     private final Competition competition;
-    int numWM;
-    Map<Integer,WeekMatches> weekMatches = new HashMap<Integer,WeekMatches>();
+    private int numWM;
+    private Map<Integer,WeekMatches> weekMatches = new HashMap<Integer,WeekMatches>();
     
     public CalendarCup(Competition competition) throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
         this.competition = competition;
@@ -41,6 +41,7 @@ public class CalendarCup {
         return false;            
     }    
     
+    //canviar a implementació Ivan
     private boolean isPotencyOfTwo(){ 
         int num = competition.getTeams().size();
         int n = 0;
@@ -53,6 +54,7 @@ public class CalendarCup {
         }
         this.numWM = n;
         return true;
+//        return (num != 0) && ((num & (num - 1)) == 0);
     }
 
     public int getNumWeekMatches() {
@@ -71,7 +73,7 @@ public class CalendarCup {
         while(itr.hasNext()) {            
             Team team1 = (Team) itr.next();
             Team team2 = (Team) itr.next();
-            weekMatch.addMatch(new Match(team1, team2)); //li heu de assignar una data, i no un id
+            weekMatch.addMatch(new Match(team1, team2));
             nId++;
         }    
          
@@ -83,8 +85,8 @@ public class CalendarCup {
         List<Team> listTeam  = new ArrayList<Team>();
         WeekMatches weekMatch = weekMatches.get(numRound);
         List<Match> matches = weekMatch.getListOfWeekMatches();
-        for(Match match : matches){
-            Team team = new Team("Winer "+match.getId()+" round "+numRound);
+        for(int i=0; i<=matches.size();i++){
+            Team team = new Team("Winer match "+i+" of round "+numRound);
             listTeam.add(team);            
         }        
         return listTeam;

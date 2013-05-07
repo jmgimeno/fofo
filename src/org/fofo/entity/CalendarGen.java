@@ -1,9 +1,11 @@
 package org.fofo.entity;
 
+import java.util.List;
+
 /**
  * @author jnp2
  */
-abstract interface CalendarGen {
-    public FCalendar getCalendar();
+public interface CalendarGen {
+    public FCalendar CalculateCalendar(Competition comp);
     
 }

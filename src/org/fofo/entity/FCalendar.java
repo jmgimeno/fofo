@@ -1,4 +1,3 @@
-
 package org.fofo.entity;
 
 import java.util.ArrayList;
@@ -15,30 +14,28 @@ public class FCalendar {
     
     private Competition competition;
     private List<WeekMatches> calendar;
-    //private int numTeams;
     
     public FCalendar(){
-        competition = null;
-        calendar = new ArrayList<WeekMatches>();
-        
+        this.competition = null;
+        this.calendar = new ArrayList<WeekMatches>();        
     }
-    
-    public FCalendar(Competition c, List<WeekMatches> wm){
+       
+    public FCalendar(Competition c){
         this.competition = c;
-        this.calendar = wm;
-    }
+        this.calendar = new ArrayList<WeekMatches>();
+    }   
     
-    public FCalendar createCalendar(Competition c) throws Exception{
-        
-        //return CalendarGen(c).getCalendar(); //Si CalendarGen es classe abstracta 
-        //Si es inteficie:
-        if(c.getType()==Type.LEAGUE)
-            return new CalendarLeagueGen().getCalendar();
-        else if(c.getType()==Type.CUP)
-            return new CalendarCupGen().getCalendar();
+    public void createCalendar() throws Exception{
+ /*      
+        if(competition == null) throw new UnknownCompetitionTypeException();
+
+        if(competition.getType()==Type.LEAGUE)
+            calendar = new CalendarLeagueGen(competition).getCalendar();
+        else if(competition.getType()==Type.CUP)
+            calendar = new CalendarCupGen(competition).CalculateCalendar();
         else
-            throw new UnknownCompetitionTypeException();
-        
+            throw new UnknownCompetitionTypeException(); 
+*/      
     }
     
     public void setCompetition(Competition c){
