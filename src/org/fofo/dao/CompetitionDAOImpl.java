@@ -17,6 +17,18 @@ import org.fofo.entity.Team;
 public class CompetitionDAOImpl implements CompetitionDAO{
     
     EntityManager em;
+    
+    public CompetitionDAOImpl(){
+        
+    }
+    
+    public void setEM(EntityManager em){
+        this.em = em;
+    }
+    
+    public EntityManager getEM(){
+        return this.em;
+    }
 
     @Override
     public void addCompetition(Competition competition) throws PersistException{

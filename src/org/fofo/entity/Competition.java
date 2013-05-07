@@ -18,9 +18,9 @@ public abstract class Competition {
     private Type type;
     private String name;
     
-    public Competition(){
+    /*public Competition(){
         create(this.type);
-    }
+    }*/
     
     public static Competition create(Type type){
         if(type.equals(Type.LEAGUE)) return new CompetitionLeague();

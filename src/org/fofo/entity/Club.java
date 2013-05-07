@@ -6,14 +6,25 @@ package org.fofo.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author portatil
  */
+@Entity
+@Table (name="CLUB")
 public class Club {
+    @Id
+    @Column (name="NAME")
     private String name;
     private String email;
+    
+    @OneToMany (mappedBy="club")
     private List<Team> teams = new ArrayList<Team>();
     
     public Club(){
@@ -42,5 +53,10 @@ public class Club {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+    
+    public boolean equals(Object obj){
+        
+        return (obj instanceof Club) && ((Club) obj).name.equals(this.name);
     }
 }

@@ -110,7 +110,8 @@ public class ManagementService {
         return (value != 0) && ((value & (value - 1)) == 0);
     }
 
-    private boolean isValidCategory(Category cat) {
+    private boolean isValidCategory(Category cat) throws IncorrectCompetitionData{
+        if(cat==null) throw new IncorrectCompetitionData();
         if (cat.equals(Category.FEMALE) || cat.equals(Category.MALE)
                 || cat.equals(Category.VETERAN)) {
             return true;
@@ -151,7 +152,8 @@ public class ManagementService {
         }
     }
 
-    private boolean isValidType(Type type) {
+    private boolean isValidType(Type type) throws IncorrectTypeData{
+        if(type==null) throw new IncorrectTypeData();
         if (type.equals(Type.CUP) || type.equals(Type.LEAGUE)) {
             return true;
         } else {
