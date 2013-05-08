@@ -3,7 +3,10 @@
  * and open the template in the editor.
  */
 package org.fofo.entity;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -12,7 +15,7 @@ import org.junit.Test;
  * @author jnp2
  */
 public class CalendarCupTest {
-    CalendarCup calendar;
+    CalendarGen generator;
     Competition comp;
     
     public CalendarCupTest() throws InvalidRequisitsException {
@@ -36,36 +39,42 @@ public class CalendarCupTest {
 
 
     @Test(expected=InvalidRequisitsException.class)
-    public void testDateException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
+    public void testDateException() throws InvalidRequisitsException, NonUniqueIdException, 
+                   TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException {
         comp.setInici(new Date());
-        calendar = new CalendarCup(comp);        
+        generator = new CalendarGen(comp);  
+        generator.CalculateCalendar();
     }
     
     @Test(expected=InvalidRequisitsException.class)    
-    public void testMinTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
+    public void testMinTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException {
         comp.setMinTeams(20);
-        calendar = new CalendarCup(comp);        
+        generator = new CalendarGen(comp);  
+        generator.CalculateCalendar();
     }   
     
     @Test(expected=InvalidRequisitsException.class)    
-    public void testMaxTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
+    public void testMaxTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{
         comp.setMaxTeams(10);
-        calendar = new CalendarCup(comp);        
+        generator = new CalendarGen(comp); 
+        generator.CalculateCalendar();
     }      
     
     @Test   
-    public void testNumWeekMatchesException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
-        calendar = new CalendarCup(comp); 
-        int nj = calendar.getNumWeekMatches();
+    public void testNumWeekMatchesException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{
+        generator = new CalendarGen(comp);        
+        FCalendar calendar = generator.CalculateCalendar();
+        int nj = calendar.getNumOfWeekMatches();
         assertEquals(4,nj);  
     }
     
     
     @Test   
-    public void testIfAllTeamsParticipateInFirstWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{  
-        calendar = new CalendarCup(comp); 
-        Map<Integer,WeekMatches> weekMatches = calendar.getWeekMatches();
-        WeekMatches first = weekMatches.get(1);
+    public void testIfAllTeamsParticipateInFirstWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{  
+        generator = new CalendarGen(comp);        
+        FCalendar calendar = generator.CalculateCalendar();
+        
+        WeekMatches first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();
         List<Team> expected = comp.getTeams();
         
@@ -81,19 +90,21 @@ public class CalendarCupTest {
     }
       
     @Test   
-    public void testNumMatchesInEachWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{ 
-        calendar = new CalendarCup(comp); 
-        Map<Integer,WeekMatches> list = calendar.getWeekMatches();
-        int numWM = 4;
-        for(int i=1; i<numWM; i++){
-            int numMFirst = list.get(i).getNumberOfMatchs();
-            int numMSecond = list.get(i+1).getNumberOfMatchs();
-            if(numMFirst/2 != numMSecond){
-                fail();
-            }        
-        }       
+    public void testNumMatchesInEachWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
+        generator = new CalendarGen(comp); 
+        FCalendar calendar = generator.CalculateCalendar();
+  
+        int nmatches = 8;
+        for(int i=0; i<4; i++){
+            assertTrue(AssertEquals(calendar.getWeekMatch(i),nmatches));
+            nmatches = nmatches/2;
+        }        
     }    
     
-        
-        
-    }    
+    private boolean AssertEquals(WeekMatches match, int nmatches){
+        if(match.getNumberOfMatchs() == nmatches) return true;
+        else return false;
+    }
+    
+    
+}    

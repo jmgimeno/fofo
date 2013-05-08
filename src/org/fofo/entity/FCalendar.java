@@ -1,14 +1,11 @@
 package org.fofo.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import org.joda.time.DateTime;
 
 /**
  *
- * @author Anatoli, Mohamed
+ * @author Anatoli, Mohamedl, Jordi, Oriol
  */
 public class FCalendar {
     
@@ -25,19 +22,6 @@ public class FCalendar {
         this.calendar = new ArrayList<WeekMatches>();
     }   
     
-    public void createCalendar() throws Exception{
- /*      
-        if(competition == null) throw new UnknownCompetitionTypeException();
-
-        if(competition.getType()==Type.LEAGUE)
-            calendar = new CalendarLeagueGen(competition).getCalendar();
-        else if(competition.getType()==Type.CUP)
-            calendar = new CalendarCupGen(competition).CalculateCalendar();
-        else
-            throw new UnknownCompetitionTypeException(); 
-*/      
-    }
-    
     public void setCompetition(Competition c){
         this.competition = c;
     }
@@ -50,12 +34,16 @@ public class FCalendar {
         return calendar;
     }
     
-    public WeekMatches getWeekMatches(int index){
+    public WeekMatches getWeekMatch(int index){
         return calendar.get(index);
     }
     
     public int getNumOfWeekMatches(){
         return calendar.size();
+    }
+    
+    public Competition getCompetition(){
+        return competition;
     }
         
     

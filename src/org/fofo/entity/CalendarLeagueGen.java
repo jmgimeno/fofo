@@ -5,21 +5,29 @@ import java.util.List;
 /**
  * @author jnp2
  */
-class CalendarLeagueGen implements CalendarGen{
+class CalendarLeagueGen extends CalendarGen{
     private Competition competition;
 
-//Implementa el CalendarLeagueGen aqui Anatoli
-//Tens tot el test comentat, no tenen que sortir les alarmes !!!
+    //Implementa el CalendarLeagueGen aqui Anatoli
+    //Modificar els testos primer
 
     public CalendarLeagueGen(Competition competition) {
         this.competition = competition;  
     }
 
-    @Override
-    public FCalendar CalculateCalendar(Competition comp) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public CalendarLeagueGen() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    
+    //Implementar algoritme per generar lligues 
+    @Override
+    public FCalendar CalculateCalendar() throws InvalidRequisitsException, NonUniqueIdException,
+                       TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
+
+        FCalendar calendar = new FCalendar(competition);   
+        return calendar;
+    }
  
     
 }
