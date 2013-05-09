@@ -22,18 +22,13 @@ class CalendarCupGen extends CalendarGen{
     @Override
     public FCalendar CalculateCalendar() throws InvalidRequisitsException, NonUniqueIdException,
                        TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
-        if(!isPotencyOfTwo())throw new InvalidRequisitsException();
+
         generateRoundN(1,competition.getTeams());
         FCalendar calendar = new FCalendar(competition);
         calendar.setWeekMatches(weekMatches);
         
         return calendar;
       
-    }
-    
-    private boolean isPotencyOfTwo(){ 
-        int num = competition.getTeams().size();
-        return (num != 0) && ((num & (num - 1)) == 0);
     }
     
     private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {

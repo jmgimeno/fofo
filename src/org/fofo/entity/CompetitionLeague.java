@@ -29,7 +29,7 @@ public class CompetitionLeague extends Competition{
     }
     
     private boolean validMaxTeams(int teams){
-        if (teams <= 20 && teams % 2 != 0) {
+        if (teams <= 20 && teams % 2 == 0) {    
             return true;
         } else {
             return false;
@@ -42,7 +42,7 @@ public class CompetitionLeague extends Competition{
     }
     
     private boolean validMinTeams(int teams){
-        if (teams >= 2 && teams % 2 != 0) {
+        if (teams >= 2 && teams % 2 == 0) {
             return true;
         } else {
             return false;
