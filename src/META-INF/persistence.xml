@@ -3,6 +3,8 @@
   <persistence-unit name="fofo" transaction-type="RESOURCE_LOCAL">
    <provider>oracle.toplink.essentials.PersistenceProvider</provider> 
     <class>org.fofo.entity.Team</class>
+    <class>org.fofo.entity.Club</class>
+    <class>org.fofo.entity.Competition</class>
     <properties>
       <property name="toplink.jdbc.url" 
                 value="jdbc:derby:myDB;create=true"/>

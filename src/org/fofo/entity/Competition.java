@@ -1,22 +1,39 @@
 package org.fofo.entity;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author josepma
  */
+@Entity
+@Table (name="COMPETITION")
 public abstract class Competition {
+    @Id
+    @Column (name = "NAME")
+    private String name;
     
     private Category category;
     private Date inici;
+    @ManyToMany
+    @JoinTable(name = "Competition_Team", 
+            joinColumns = @JoinColumn(name="CT_NAME_COMP", referencedColumnName="NAME"),
+            inverseJoinColumns = @JoinColumn(name="CT_NAME_TEAM",
+            referencedColumnName = "NAME"))
     private List<Team> teams = new ArrayList<Team>();
     private int maxTeams;
     private int minTeams;
     private Type type;
-    private String name;
     
     /*public Competition(){
         create(this.type);
