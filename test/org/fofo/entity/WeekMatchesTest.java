@@ -9,7 +9,7 @@ import org.junit.Test;
 
 /**
  *
- * @author oriol i Jordi
+ * @author oriol i Jordi, Mohamed
  */
 public class WeekMatchesTest {
     
@@ -61,21 +61,21 @@ public class WeekMatchesTest {
     @Test
     public void testAddAndGetOneMatchId() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch(match.getId());
-        assertEquals(result.getId(),match.getId());
+        Match result = wm.getMatch(match.getIdMatch());
+        assertEquals(result.getIdMatch(),match.getIdMatch());
     }
     
     @Test
     public void testAddAndGetOneMatchLocalTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch(match.getId());
+        Match result = wm.getMatch(match.getIdMatch());
         assertEquals(result.getLocal().getName(),team1.getName());
     }
     
     @Test
     public void testAddAndGetOneMatchVisitantTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
         wm.addMatch(match);
-        Match result = wm.getMatch(match.getId());
+        Match result = wm.getMatch(match.getIdMatch());
         assertEquals(result.getVisitant().getName(),team2.getName());
     }
     
@@ -97,7 +97,7 @@ public class WeekMatchesTest {
         while(i.hasNext() && j.hasNext()){
             Match m1 = (Match) i.next();
             Match m2 = (Match) j.next();           
-            assertEquals(m1.getId(),m2.getId());
+            assertEquals(m1.getIdMatch(),m2.getIdMatch());
         }
     }
     
