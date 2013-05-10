@@ -1,6 +1,5 @@
 package org.fofo.services.management;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +17,6 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 import org.fofo.entity.Type;
 import org.joda.time.DateTime;
-import javax.persistence.PersistenceException;
 import org.fofo.dao.PersistException;
 
 /**
@@ -32,11 +30,46 @@ public class ManagementService {
     private Competition competition;
     private Team team;
 
+    public CompetitionDAO getcDao() {
+        return cDao;
+    }
+
+    public void setcDao(CompetitionDAO cDao) {
+        this.cDao = cDao;
+    }
+
+    public void setClubDao(ClubDAO clubDao) {
+        this.clubDao = clubDao;
+    }
+
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public ClubDAO getClubDao() {
+        return clubDao;
+    }
+
+    public Competition getCompetition() {
+        return competition;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+  
+
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate, PersistException {
+        
         checkForExceptions(comp);
         List<Club> clubs = clubDao.getClubs();
+        
         for (Club c : clubs) {
             sendEmail(c);
         }
@@ -51,13 +84,19 @@ public class ManagementService {
      * @param team The team we want to register.
      * @throws InscriptionTeamException 
      */
-    public void addTeam(Competition competetion, Team team) throws InscriptionTeamException {
+    public void addTeam(Competition competetion, Team team) throws Exception{
+         
+      // checkForExceptions(competition);
+        
         if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
             competition.getTeams().add(team);
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
         }
+        
+         competition.getTeams().add(team);
+         cDao.addTeam(competition, team);
     }
 
     /*
@@ -187,7 +226,7 @@ public class ManagementService {
     private boolean PeriodOpen(Competition competition) {
         DateTime currentDate = new DateTime(DateTime.now());
         DateTime finishDate = new DateTime(competition.getInici());
-
+        
         return ((currentDate.getDayOfYear() - finishDate.getDayOfYear()) < 7);
     }
 
