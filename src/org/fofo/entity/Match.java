@@ -6,17 +6,32 @@ package org.fofo.entity;
 
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author mohamed, Anatoli
  *
  */
+
+@Entity
+@Table (name="Match")
 public class Match {
 
+    @Id
+    @Column (name="idFCalendar")
     private String idMatch;
+    
+    @Column (name="LocalTeam")
     private Team local;
+    
+    @Column (name="VisitantTeam")
     private Team visitant;
+    
+    @Column (name="Date")
     private Date date;
     //private Arbitre 
     //private Stadium

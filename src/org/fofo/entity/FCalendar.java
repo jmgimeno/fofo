@@ -3,17 +3,33 @@ package org.fofo.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Anatoli, Mohamedl, Jordi, Oriol
  */
+
+@Entity
+@Table (name="FCalendar")
 public class FCalendar {
     
-    private Competition competition;
-    private List<WeekMatches> calendar;
+    @Id
+    @Column (name="idFCalendar")
     String idFCalendar;
     
+    @Column (name="Competition")
+    private Competition competition;
+    
+    @OneToMany (mappedBy="FCalendar")
+    private List<WeekMatches> calendar;
+    
+    
+   
     public FCalendar(){
         this.competition = null;
         this.calendar = new ArrayList<WeekMatches>();  
