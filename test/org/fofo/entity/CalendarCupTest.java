@@ -38,30 +38,29 @@ public class CalendarCupTest {
 
 
 
-    @Test(expected=InvalidRequisitsException.class)
-    public void testDateException() throws InvalidRequisitsException, NonUniqueIdException, 
-                   TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException {
+    @Test(expected=MinimumDaysException.class)
+    public void testDateException() throws Exception {
         comp.setInici(new Date());
         generator = new CalendarGen(comp);  
         generator.CalculateCalendar();
     }
     
-    @Test(expected=InvalidRequisitsException.class)    
-    public void testMinTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException {
+    @Test(expected=NumberOfTeamsException.class)    
+    public void testMinTeamsException() throws Exception {
         comp.setMinTeams(20);
         generator = new CalendarGen(comp);  
         generator.CalculateCalendar();
     }   
     
-    @Test(expected=InvalidRequisitsException.class)    
-    public void testMaxTeamsException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{
+    @Test(expected=NumberOfTeamsException.class)    
+    public void testMaxTeamsException()  throws Exception {
         comp.setMaxTeams(10);
         generator = new CalendarGen(comp); 
         generator.CalculateCalendar();
     }      
     
     @Test   
-    public void testNumWeekMatchesException() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{
+    public void testNumWeekMatchesException()  throws Exception {
         generator = new CalendarGen(comp);        
         FCalendar calendar = generator.CalculateCalendar();
         int nj = calendar.getNumOfWeekMatches();
@@ -70,7 +69,7 @@ public class CalendarCupTest {
     
     
     @Test   
-    public void testIfAllTeamsParticipateInFirstWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{  
+    public void testIfAllTeamsParticipateInFirstWeekMatches()  throws Exception {
         generator = new CalendarGen(comp);        
         FCalendar calendar = generator.CalculateCalendar();
         
@@ -90,7 +89,7 @@ public class CalendarCupTest {
     }
       
     @Test   
-    public void testNumMatchesInEachWeekMatches() throws InvalidRequisitsException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
+    public void testNumMatchesInEachWeekMatches()  throws Exception {
         generator = new CalendarGen(comp); 
         FCalendar calendar = generator.CalculateCalendar();
   

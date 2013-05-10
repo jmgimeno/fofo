@@ -7,29 +7,27 @@ import org.joda.time.DateTime;
 /**
  * @author Jordi, Anatoli
  */
-public abstract class CalendarGen {
+public class CalendarGen {
     private Competition competition;   
-    //private CalendarGen generator;
+    private CalendarGen generator;
     
-    public CalendarGen(){        
+    public CalendarGen(){       
+        this.competition= null;  
     }
     
     public CalendarGen(Competition competition) throws Exception{
-        this.competition= competition;
-        checkRequiriments();
-        
+        this.competition= competition;       
     }
     
-    public abstract FCalendar CalculateCalendar() throws Exception;
-//    { 
-//        checkRequiriments();
-//        
-//        if(isLeagueCompetition()) generator = new CalendarLeagueGen();
-//        else if(isCupCompetition()) generator = new CalendarCupGen();
-//
-//        generator.setCompetition(competition); 
-//        return generator.CalculateCalendar();
-//    }
+    public FCalendar CalculateCalendar() throws Exception{ 
+        checkRequiriments();
+        
+        if(isLeagueCompetition()) generator = new CalendarLeagueGen();
+        else if(isCupCompetition()) generator = new CalendarCupGen();
+
+        generator.setCompetition(competition); 
+        return generator.CalculateCalendar();
+    }
 
     public Competition getCompetition(){
         return this.competition;
@@ -37,22 +35,20 @@ public abstract class CalendarGen {
     public void setCompetition(Competition competition) {
         this.competition = competition;
     }
-
-    
-    /* PRIVATE OPS */
     
     private void checkRequiriments() throws Exception {
+        if(competition == null) throw new UnknownCompetitionTypeException();
         if(!isLeagueCompetition() && !isCupCompetition()) 
             throw new UnknownCompetitionTypeException();
         
-        if(isCupCompetition() && !isPotencyOfTwo())
-            throw new NumberOfTeamsException("This CUP competition has not "
-                    + "a POTNECY OF TWO number of teams");
+//        if(isCupCompetition() && !isPotencyOfTwo())
+//            throw new NumberOfTeamsException("This CUP competition has not "
+//                    + "a POTNECY OF TWO number of teams");
         
         
-        if(isLeagueCompetition() && !isPair())
-            throw new NumberOfTeamsException("This LEAGUE competition has not "
-                    + "a PAIR number of teams");
+//        if(isLeagueCompetition() && !isPair())
+//            throw new NumberOfTeamsException("This LEAGUE competition has not "
+//                    + "a PAIR number of teams");
         
         
         if(!minimDaysPassed()) 
@@ -79,14 +75,14 @@ public abstract class CalendarGen {
                 && list.size()<=competition.getMaxTeams();
     }
     
-    private boolean isPotencyOfTwo(){ 
-        int num = competition.getTeams().size();
-        return (num != 0) && ((num & (num - 1)) == 0);
-    }
+//    private boolean isPotencyOfTwo(){ 
+//        int num = competition.getTeams().size();
+//        return (num != 0) && ((num & (num - 1)) == 0);
+//    }
     
-    private boolean isPair() throws Exception {
-        return competition.getTeams().size() % 2 == 0;
-    }
+//    private boolean isPair() throws Exception {
+//        return competition.getTeams().size() % 2 == 0;
+//    }
     
     private boolean isCupCompetition(){
         return competition.getType() == Type.CUP;
