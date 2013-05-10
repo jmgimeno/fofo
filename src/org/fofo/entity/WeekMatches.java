@@ -9,15 +9,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author oriol i Jordi
  */
+
+@Entity
+@Table (name="WeekMatches")
 public class WeekMatches {
     
-    private Map<String, Match> weekMatches = new HashMap<String,Match>();
-    private Map<String, Team> teams = new HashMap<String, Team>();
+    @Id
+    @Column (name="idWeekMatch")
     private String weekMatchId;
+    
+    @ManyToOne
+    private Map<String, Match> weekMatches = new HashMap<String,Match>();
+    
+    @ManyToOne
+    private Map<String, Team> teams = new HashMap<String, Team>();
+    
     
     public WeekMatches(String id){
         this.weekMatchId = UUID.randomUUID().toString();   
