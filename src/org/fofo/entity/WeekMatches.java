@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author oriol i Jordi
@@ -19,7 +20,7 @@ public class WeekMatches {
     private String weekMatchId;
     
     public WeekMatches(String id){
-        this.weekMatchId = id;        
+        this.weekMatchId = UUID.randomUUID().toString();   
     }
     
     public String getWeekMatchId(){
@@ -27,9 +28,9 @@ public class WeekMatches {
     }
     
     public void addMatch(Match m) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
-        if(!weekMatches.containsKey(m.getId())){
+        if(!weekMatches.containsKey(m.getIdMatch())){
             if(teamPlayOnlyOneMatch(m)){                
-                this.weekMatches.put(m.getId(), m);
+                this.weekMatches.put(m.getIdMatch(), m);
             }
             else{
                 throw new TeamCanPlayOnlyOneMatchForAWeekException();

@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class Match {
 
-    private String id;
+    private String idMatch;
     private Team local;
     private Team visitant;
     private Date date;
@@ -27,11 +27,11 @@ public class Match {
     public Match(Team local, Team visitant) {
         this.local = local;
         this.visitant = visitant;
-        this.id = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
+        this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
 
-    public String getId() {
-        return id;
+    public String getIdMatch() {
+        return idMatch;
     }
 
     public Team getLocal() {

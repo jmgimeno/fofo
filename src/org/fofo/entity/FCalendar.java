@@ -2,6 +2,7 @@ package org.fofo.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -11,10 +12,12 @@ public class FCalendar {
     
     private Competition competition;
     private List<WeekMatches> calendar;
+    String idFCalendar;
     
     public FCalendar(){
         this.competition = null;
-        this.calendar = new ArrayList<WeekMatches>();        
+        this.calendar = new ArrayList<WeekMatches>();  
+        this.idFCalendar = UUID.randomUUID().toString();
     }
        
     public FCalendar(Competition c){
