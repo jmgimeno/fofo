@@ -37,8 +37,16 @@ public class CompetitionCup extends Competition{
         if(validMinTeams(minTeams)) this.minTeams = minTeams;
     }
     
+    public int getMinTeams(){
+        return this.minTeams;
+    }
+    
+    public int getMaxTeams(){
+        return this.maxTeams;
+    }
+    
     private boolean validMinTeams(int teams){
-        if (teams >= 2 && teams % 2 != 0 && isPowerOfTwo(teams)) {
+        if (teams >= 2 && teams % 2 == 0 && isPowerOfTwo(teams)) {
             return true;
         } else {
             return false;

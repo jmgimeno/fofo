@@ -4,8 +4,10 @@
  */
 package org.fofo.services.management;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,6 +15,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.fofo.dao.ClubDAO;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -43,8 +46,9 @@ public class CompetitionManagementTest {
     Mockery context = new JUnit4Mockery();
     
     CompetitionDAO cdao;
+    ClubDAO clubDao;
     Competition comp;
-    DateTime time;
+    DateTime time, date;
     
     public CompetitionManagementTest() {
     }
@@ -55,13 +59,13 @@ public class CompetitionManagementTest {
     
       service = new ManagementService();  
       cdao  = context.mock(CompetitionDAO.class);
+      clubDao = context.mock(ClubDAO.class);
 
-      comp = Competition.create(Type.LEAGUE);
-        
+      comp = Competition.create(Type.LEAGUE);  
       comp.setCategory(Category.MALE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);
-      DateTime date = new DateTime();
+      date = new DateTime();
       date.plusWeeks(3);
       comp.setInici(date.toDate());
         //...
@@ -98,52 +102,63 @@ public class CompetitionManagementTest {
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMinNumberOfTeams.class)
+    @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testIncorrectMinTeams() throws Exception{
         Competition comp2 = Competition.create(Type.LEAGUE);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(1);
+        comp2.setInici(date.toDate());
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMaxNumberOfTeams.class)
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeams() throws Exception{
         Competition comp2 = Competition.create(Type.LEAGUE);
+        comp2.setCategory(Category.MALE);
+        comp2.setMinTeams(4);
         comp2.setMaxTeams(21);
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMinNumberOfTeams.class)
+    @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotEven() throws Exception{
         Competition comp2 = Competition.create(Type.LEAGUE);
+        comp2.setCategory(Category.MALE);
         comp2.setMinTeams(3);
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMaxNumberOfTeams.class)
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotEven() throws Exception{
         Competition comp2 = Competition.create(Type.LEAGUE);
+        comp2.setCategory(Category.MALE);
+        comp2.setMinTeams(2);
         comp2.setMaxTeams(17);
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMaxNumberOfTeams.class)
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeamsInCup() throws Exception{
         Competition comp2 = Competition.create(Type.CUP);
+        comp2.setCategory(Category.MALE);
+        comp2.setMinTeams(2);
         comp2.setMaxTeams(65);
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMinNumberOfTeams.class)
+    @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotPowerOfTwo() throws Exception{
         Competition comp2 = Competition.create(Type.CUP);
+        comp2.setCategory(Category.MALE);
         comp2.setMinTeams(6);
         service.addCompetition(comp2);
     }
     
-    //@Test(expected=IncorrectMaxNumberOfTeams.class)
+    @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotPowerOfTwo() throws Exception{
         Competition comp2 = Competition.create(Type.CUP);
+        comp2.setCategory(Category.MALE);
+        comp2.setMinTeams(2);
         comp2.setMaxTeams(18);
         service.addCompetition(comp2);
     }
@@ -152,18 +167,20 @@ public class CompetitionManagementTest {
     public void testIncorrectDate() throws Exception{
         Competition comp2 = Competition.create(Type.CUP);
         comp2.setCategory(Category.MALE);
+        comp2.setMinTeams(2);
+        comp2.setMaxTeams(16);
         DateTime date = new DateTime();
         date.plusWeeks(1);
         comp2.setInici(date.toDate());
         service.addCompetition(comp2);
     }
     
-    @Test
+    //@Test
     public void comprobar_dia_actual() {
         assertEquals(7,time.getDayOfMonth());
     }
     
-    @Test
+    //@Test
     public void comprobar_suma(){   
        assertEquals(8, time.plusDays(1).getDayOfMonth()); 
     }
@@ -184,17 +201,17 @@ public class CompetitionManagementTest {
      * 
      */
     
-    //@Test
+    @Test
     public void competitionInsertedIntoTheDB() throws Exception {
       
-        
-        
+        final List<Club> list = new ArrayList<Club>();
         context.checking(new Expectations() {{
             oneOf (cdao).addCompetition(comp);
-            
-        }});
-
-        service.addCompetition(comp);      
+            oneOf (clubDao).getClubs();will(returnValue(list));
+        }});        
+        service.setcDao(cdao);
+        service.setClubDao(clubDao);
+        service.addCompetition(comp);    
         
     }
     

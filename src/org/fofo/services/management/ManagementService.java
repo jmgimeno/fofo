@@ -1,5 +1,6 @@
 package org.fofo.services.management;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -66,12 +67,13 @@ public class ManagementService {
     void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate, PersistException {
-        
+        List<Club> clubs = new ArrayList<Club>();
         checkForExceptions(comp);
-        List<Club> clubs = clubDao.getClubs();
-        
-        for (Club c : clubs) {
-            sendEmail(c);
+        clubs = clubDao.getClubs();
+        if(clubs!=null){
+            for (Club c : clubs) {
+                sendEmail(c);
+            }
         }
         cDao.addCompetition(comp);
         //THIS IS THE OPERATION TO IMPLEMENT.....
@@ -204,16 +206,16 @@ public class ManagementService {
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate {
         DateTime date = new DateTime();
-        date.plusDays(15);
+        date.plusWeeks(2);
         if (!isValidCategory(comp.getCategory())) {
             throw new IncorrectCompetitionData();
         }
         if (!isValidType(comp.getType())) {
             throw new IncorrectTypeData();
         }
-        if ((Integer)comp.getMinTeams() == null) throw new IncorrectMinNumberOfTeams();
-        if ((Integer)comp.getMaxTeams() == null) throw new IncorrectMaxNumberOfTeams();
-        if (comp.getInici().before(date.toDate())) {
+        if (comp.getMinTeams() == 0) throw new IncorrectMinNumberOfTeams();
+        if (comp.getMaxTeams() == 0) throw new IncorrectMaxNumberOfTeams();
+        if (comp.getInici().after(date.toDate())) {
             throw new IncorrectDate();
         }
     }

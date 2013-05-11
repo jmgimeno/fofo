@@ -16,6 +16,7 @@ public class CompetitionLeague extends Competition{
     
     public CompetitionLeague(){
         super();
+        this.setType(Type.LEAGUE);
     }
     
     public CompetitionLeague(Type type){
@@ -38,7 +39,16 @@ public class CompetitionLeague extends Competition{
 
     @Override
     public void setMinTeams(int minTeams) {
-        if(validMinTeams(minTeams)) this.minTeams = minTeams;
+        if(validMinTeams(minTeams)) 
+            this.minTeams = minTeams;
+    }
+    
+    public int getMaxTeams(){
+        return this.maxTeams;
+    }
+    
+    public int getMinTeams(){
+        return this.minTeams;
     }
     
     private boolean validMinTeams(int teams){
