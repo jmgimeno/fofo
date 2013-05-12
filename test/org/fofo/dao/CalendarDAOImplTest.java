@@ -45,7 +45,12 @@ public class CalendarDAOImplTest {
     public void setUp() throws Exception {
         em = context.mock(EntityManager.class);
         transaction = context.mock(EntityTransaction.class);
-           
+
+        //YOU SHOULD CREATE calDAO
+        
+        //YOU SHOULD CREATE match1...match4.
+        
+        
         wm.addMatch(match1);
         wm.addMatch(match2);
         
@@ -56,7 +61,34 @@ public class CalendarDAOImplTest {
     
     
     @Test
-    public void testAddMatches(){
+    public void testAdditionOfJustOneMatch(){
+
+         //YOU SHOULD CREATE A CALENDAR cal WITH JUST ONE wm AND 1 match.
+
+        
+        context.checking(new Expectations() {{                   
+            
+            oneOf (em).getTransaction(); will(returnValue(transaction));
+            oneOf (transaction).begin();
+            oneOf (em).getTransaction(); will(returnValue(transaction));
+            oneOf (transaction).commit();
+            oneOf (em).persist(cal);
+            oneOf (em).persist(cal.getAllWeekMatches().get(0));
+            oneOf (em).persist(match1);
+            
+
+        }});
+        
+        calDAO.addCalendar(cal);
+    }
+
+    @Test
+    public void testAdditionOfVariousMatchesOneWM(){
+
+    }
+    
+    @Test
+    public void testAddVariousWeekMatches(){
               
         context.checking(new Expectations() {{                   
             

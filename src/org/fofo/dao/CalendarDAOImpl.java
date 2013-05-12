@@ -33,6 +33,8 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     private void addMatch(Match match) {
+        
+       //ATTENTION: IT DOES NOT CHECK THAT BOTH TEAMS BELONG TO DATABASE. 
         em.persist(match);
     }
 
@@ -41,6 +43,6 @@ public class CalendarDAOImpl implements CalendarDAO {
         return wm.getListOfWeekMatches().get(i);       
     }
 
-
+ //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
 
 }
