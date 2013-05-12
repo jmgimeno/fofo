@@ -45,21 +45,7 @@ public class CalendarCupTest {
         comp.setInici(new Date());
         generator = new CalendarGen(comp);  
         generator.CalculateCalendar();
-    }
-    
-    //@Test(expected=NumberOfTeamsException.class)    
-    public void testMinTeamsException() throws Exception {
-        comp.setMinTeams(20);
-        generator = new CalendarGen(comp);  
-        generator.CalculateCalendar();
-    }   
-    
-    //@Test(expected=NumberOfTeamsException.class)    
-    public void testMaxTeamsException()  throws Exception {
-        comp.setMaxTeams(10);
-        generator = new CalendarGen(comp); 
-        generator.CalculateCalendar();
-    }      
+    }    
     
     @Test   
     public void testNumWeekMatchesException()  throws Exception {
@@ -90,7 +76,7 @@ public class CalendarCupTest {
         }  
     }
       
-    //@Test   
+    @Test   
     public void testNumMatchesInEachWeekMatches()  throws Exception {
         generator = new CalendarGen(comp); 
         FCalendar calendar = generator.CalculateCalendar();
