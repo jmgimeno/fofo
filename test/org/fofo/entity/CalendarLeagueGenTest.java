@@ -17,16 +17,11 @@ import static org.junit.Assert.*;
  *
  * @author Anatoli, Mohamed
  */
-/**
- * *********************
- */
-/* Calendar LEAGUE test */
-/**
- * *********************
- */
+
 public class CalendarLeagueGenTest {
 
-    private CalendarGen calendar;
+    private CalendarLeagueGen generator;
+    private FCalendar calendar;
     private Competition compOK;
 
     public CalendarLeagueGenTest() {
@@ -34,7 +29,53 @@ public class CalendarLeagueGenTest {
 
     @Before
     public void setUp() throws Exception {
-        compOK = Competition.create(Type.LEAGUE);
+        setUpCompOK();
+        generator = new CalendarLeagueGen(compOK);
+        calendar = generator.CalculateCalendar();
+    }
+
+    @Test (expected = NumberOfTeamsException.class)
+    public void numOfTeamsNotPair() throws Exception{
+        Competition compKO = compOK;
+        List<Team> notPairTeams = compOK.getTeams();
+        notPairTeams.remove(0); //10-1 = 9 teams
+        compKO.setTeams(notPairTeams);
+        
+        new CalendarLeagueGen(compKO).CalculateCalendar();
+        fail();
+    }
+
+    @Test
+    public void oneRoundHasCorrectNumOfWeekMatches() throws Exception{
+        
+        int expected = compOK.getNumberOfTeams()-1;
+        int result = calendar.getNumOfWeekMatches()/2; 
+        assertEquals(expected,result);
+    }
+    
+    @Test
+    public void oneWeekMatchesHasCorrectNumOfMatches() throws Exception {
+        int expected = compOK.getNumberOfTeams() / 2 ;
+
+        for (WeekMatches wm : calendar.getAllWeekMatches()) {
+            assertEquals(expected, wm.getNumberOfMatchs());
+        }
+        
+    }
+    
+    @Test
+    public void oneTeamPlaysOneTimeForOneWeekMatches(){
+        //Necessitem que Team ens dongui el num. de partits jugats
+    }
+    
+    @Test
+    public void uniqueEncountersForEachRound(){
+        
+    }
+    
+    
+    private void setUpCompOK(){
+        compOK = (CompetitionLeague) Competition.create(Type.LEAGUE);
         compOK.setCategory(Category.MALE);
         compOK.setMinTeams(2);
         compOK.setMaxTeams(20);
@@ -45,61 +86,4 @@ public class CalendarLeagueGenTest {
         }
         compOK.setTeams(teams);
     }
-
-    @Test(expected = MinimumDaysException.class)
-    public void lessThanSevenDaysBetwenCalendarAndCompetition() throws Exception {
-        calendar = new CalendarGen(compOK);
-        compOK.setInici(new DateTime().minusDays(6).toDate());
-        calendar.CalculateCalendar();
-        fail();
-    }
-
-    @Test(expected = NumberOfTeamsException.class)
-    public void numOfTeamsIsNotPair() throws Exception {
-        calendar = new CalendarGen(compOK);
-        Competition compKO = compOK;
-        List<Team> notPairTeams = compOK.getTeams();
-        notPairTeams.remove(0); //10-1 = 9 equips
-        compKO.setTeams(notPairTeams);
-        calendar.CalculateCalendar();
-       fail();
-    }
-
-    /*@Test(expected = NumberOfTeamsException.class)
-    public void notEnoughTeams() throws Exception {
-        calendar = new CalendarGen(compOK);
-        Competition compKO = compOK;
-        List<Team> lessThanMinTeams = new ArrayList<Team>();
-        for (int i = 1; i < compOK.getMinTeams(); i++) {
-            lessThanMinTeams.add(new Team("Team" + 1, Category.MALE));
-        }
-        compKO.setTeams(lessThanMinTeams);
-        calendar.CalculateCalendar();
-        fail();
-    }*/
-
-    @Test(expected = NumberOfTeamsException.class)
-    public void excessOfTeams() throws Exception {
-        calendar = new CalendarGen(compOK);
-        Competition compKO = compOK;
-        List<Team> moreThanMaxTeams = new ArrayList<Team>();
-        for (int i = 1; i <= compOK.getMaxTeams() + 1; i++) {
-            moreThanMaxTeams.add(new Team("Team " + i, Category.MALE));
-        }
-        compKO.setTeams(moreThanMaxTeams);
-        calendar.CalculateCalendar();
-        fail();
-    }
-
-    /*@Test
-    public void WeekMatchesHasCorrectNumOfMatches() throws Exception {
-        calendar = new CalendarGen(compOK);
-        FCalendar cal = calendar.CalculateCalendar();
-        int expected = compOK.getNumberOfTeams() / 2;
-
-        for (WeekMatches wm : cal.getAllWeekMatches()) {
-            assertEquals(expected, wm.getNumberOfMatchs());
-        }
-        calendar.CalculateCalendar();
-    }*/
 }

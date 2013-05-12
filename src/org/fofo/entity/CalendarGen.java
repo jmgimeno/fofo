@@ -20,12 +20,15 @@ public class CalendarGen {
     }
     
     public FCalendar CalculateCalendar() throws Exception{ 
+        
+        if(competition==null)
+            generator.setCompetition(competition);
+        
         checkRequiriments();
         
         if(isLeagueCompetition()) generator = new CalendarLeagueGen();
         else if(isCupCompetition()) generator = new CalendarCupGen();
 
-        generator.setCompetition(competition); 
         return generator.CalculateCalendar();
     }
 

@@ -9,7 +9,10 @@ package org.fofo.entity;
  * @author Ivan
  */
 public class CompetitionLeague extends Competition{
-    
+
+    //els tres atributs ja estàn a Competition, pero aquests son diferents
+    //si faig getMinTeams, em retornarà 0, és a dir, minTeams de Competition
+    //i no minTeams de CompetitionLeague
     private Type type;
     private int maxTeams;
     private int minTeams;
