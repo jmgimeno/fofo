@@ -24,16 +24,16 @@ class CalendarCupGen extends CalendarGen{
                        TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
 
         generateRoundN(1,competition.getTeams());
+        
         FCalendar calendar = new FCalendar(competition);
         calendar.setWeekMatches(weekMatches);
         
-        return calendar;
-      
+        return calendar;      
     }
     
     private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
-        WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound);
-      
+        WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound);  
+        
         Iterator itr = listTeam.iterator();
         int nId = 1;
         while(itr.hasNext()) {            
@@ -43,18 +43,20 @@ class CalendarCupGen extends CalendarGen{
             nId++;
         }    
          
-        this.weekMatches.add(weekMatch);
+        this.weekMatches.add(weekMatch); 
         if(weekMatch.getNumberOfMatchs() > 1) generateRoundN(numRound+1,teamsParticipatingInRoundN(numRound));        
     }
 
     private List<Team> teamsParticipatingInRoundN(int numRound) {
-        List<Team> listTeam  = new ArrayList<Team>();
-        WeekMatches weekMatch = weekMatches.get(numRound);
-        List<Match> matches = weekMatch.getListOfWeekMatches();
-        for(int i=0; i<=matches.size();i++){
+        
+        List<Team> listTeam  = new ArrayList<Team>();         
+        WeekMatches weekMatch = weekMatches.get(numRound-1);       
+        List<Match> matches = weekMatch.getListOfWeekMatches();    
+        for(int i=1; i<=matches.size();i++){
             Team team = new Team("Winer match "+i+" of round "+numRound);
             listTeam.add(team);            
-        }        
+        }   
+      
         return listTeam;
     }
     

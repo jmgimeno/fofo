@@ -26,8 +26,8 @@ public class CalendarGen {
         
         checkRequiriments();
         
-        if(isLeagueCompetition()) generator = new CalendarLeagueGen();
-        else if(isCupCompetition()) generator = new CalendarCupGen();
+        if(isLeagueCompetition()) generator = new CalendarLeagueGen(competition);
+        else if(isCupCompetition()) generator = new CalendarCupGen(competition);
 
         return generator.CalculateCalendar();
     }
