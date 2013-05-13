@@ -24,6 +24,18 @@ public class Team implements Serializable {
     private Club club;
     private Category category;
     private String email;
+    
+    @ManyToMany(mappedBy="teams")
+    
+    private Competition competition;
+
+    public Competition getCompetition() {
+        return competition;
+    }
+
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
+    }
 
     public String getEmail() {
         return email;
@@ -54,6 +66,10 @@ public class Team implements Serializable {
         
     }
     
+    public Team (String name){
+        this.name = name;
+    }
+    
     
     public Club getClub() {
         return club;
@@ -69,11 +85,6 @@ public class Team implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-
-    public Team(String name){
-	this.name = name;
     }
     
     

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,11 +27,17 @@ public abstract class Competition {
     private Category category;
     private Date inici;
     @ManyToMany
-    @JoinTable(name = "Competition_Team", 
+    @JoinTable(name = "COMPETITION_TEAM", 
             joinColumns = @JoinColumn(name="CT_NAME_COMP", referencedColumnName="NAME"),
             inverseJoinColumns = @JoinColumn(name="CT_NAME_TEAM",
             referencedColumnName = "NAME"))
     private List<Team> teams = new ArrayList<Team>();
+    
+    
+    @OneToOne(mappedBy="competition")
+    private FCalendar fcalendar;
+    
+    
     private int maxTeams;
     private int minTeams;
     private Type type;

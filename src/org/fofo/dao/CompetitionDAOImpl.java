@@ -4,9 +4,11 @@
  */
 package org.fofo.dao;
 
+import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 
@@ -14,36 +16,35 @@ import org.fofo.entity.Team;
  *
  * @author Ivan
  */
-public class CompetitionDAOImpl implements CompetitionDAO{
-    
+public class CompetitionDAOImpl implements CompetitionDAO {
+
     EntityManager em;
-    
-    public CompetitionDAOImpl(){
-        
+
+    public CompetitionDAOImpl() {
     }
-    
-    public void setEM(EntityManager em){
+
+    public void setEM(EntityManager em) {
         this.em = em;
     }
-    
-    public EntityManager getEM(){
+
+    public EntityManager getEM() {
         return this.em;
     }
 
     @Override
-    public void addCompetition(Competition competition) throws PersistException{
-       try{
-          em.getTransaction().begin();
-          em.persist(competition);
-          em.getTransaction().commit();
-          
-       }
-       catch (PersistenceException e){
-	  throw new PersistException();
-       }
-       finally{
-          if (em.isOpen()) em.close();
-       }
+    public void addCompetition(Competition competition) throws PersistException {
+        try {
+            em.getTransaction().begin();
+            em.persist(competition);
+            em.getTransaction().commit();
+
+        } catch (PersistenceException e) {
+            throw new PersistException();
+        } finally {
+            if (em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     @Override
@@ -52,15 +53,18 @@ public class CompetitionDAOImpl implements CompetitionDAO{
     }
 
     @Override
-    public void addTeam(Competition competition, Team team) throws PersistException{
-        try{
+    public void addTeam(Competition competition, Team team) throws PersistException {
+        try {
             em.getTransaction().begin();
-            if (competition == null || team == null) throw new PersistException();
+            
+            Club club = (Club) em.find(Club.class, team.getClub().getName());
+           
+            if (competition == null || team == null || club == null) {
+                throw new PersistException();
+            }
             competition.getTeams().add(team);
-            em.persist(team);
-            em.persist(competition);
             em.getTransaction().commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new PersistException();
         }
     }
@@ -79,5 +83,4 @@ public class CompetitionDAOImpl implements CompetitionDAO{
     public List<Competition> findCompetitionByTeam(String name) {
         return null;
     }
-    
 }
