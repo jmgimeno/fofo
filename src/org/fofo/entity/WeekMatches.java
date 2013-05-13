@@ -28,9 +28,9 @@ public class WeekMatches {
     private String weekMatchId;
     
     @ManyToOne
-    private Map<String, Match> weekMatches = new HashMap<String,Match>();
+    FCalendar calendar;
     
-    @ManyToOne
+    private Map<String, Match> weekMatches = new HashMap<String,Match>(); 
     private Map<String, Team> teams = new HashMap<String, Team>();
     
     

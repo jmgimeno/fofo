@@ -15,17 +15,15 @@ public class CalendarDAOImpl implements CalendarDAO {
     EntityManager em;
 
     public void addCalendar(FCalendar cal) {
-        
-        em.getTransaction().begin();
+        em.getTransaction().begin();   
         for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
-            addWeekMatches(cal.getAllWeekMatches().get(i));
+            addWeekMatches(cal.getWeekMatch(i));
         }
         em.persist(cal);
         em.getTransaction().commit();
     }
 
     private void addWeekMatches(WeekMatches wm) {
-        
         for (int i = 0; i < wm.getListOfWeekMatches().size(); i++) {
             addMatch(wm.getListOfWeekMatches().get(i));
         }
@@ -39,10 +37,21 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     Object get(int i,WeekMatches wm) {
-        
         return wm.getListOfWeekMatches().get(i);       
     }
 
  //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
+  
+
+   
 
 }
