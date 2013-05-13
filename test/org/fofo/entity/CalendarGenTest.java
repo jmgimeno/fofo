@@ -53,7 +53,7 @@ public class CalendarGenTest {
         Competition compKO = compOK;
         System.out.println(compKO.getMinTeams());
         List<Team> lessThanMinTeams = new ArrayList<Team>();
-        for (int i = 1; i < 2/*compOK.getMinTeams()*/; i++) {   //getMinTeams no es correcte
+        for (int i = 1; i <compOK.getMinTeams(); i++) {   
             lessThanMinTeams.add(new Team("Team" + i, Category.MALE));
         }
         compKO.setTeams(lessThanMinTeams);
@@ -66,7 +66,7 @@ public class CalendarGenTest {
     public void excessOfTeams() throws Exception {
         Competition compKO = compOK;
         List<Team> moreThanMaxTeams = new ArrayList<Team>();
-        for (int i = 1; i <= 20+1/*compOK.getMaxTeams()+1*/; i++) { //getMaxTeams no es correcte
+        for (int i = 1; i <=compOK.getMaxTeams()+1; i++) { 
             moreThanMaxTeams.add(new Team("Team " + i, Category.MALE));
         }
         compKO.setTeams(moreThanMaxTeams);       
