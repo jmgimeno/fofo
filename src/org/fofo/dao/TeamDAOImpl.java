@@ -70,6 +70,11 @@ public class TeamDAOImpl implements TeamDAO{
         
         return null;
     }
+
+
+    public boolean findTeam(Team team) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     
 }

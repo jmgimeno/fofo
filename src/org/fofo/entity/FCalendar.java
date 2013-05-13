@@ -26,7 +26,6 @@ public class FCalendar {
     private Competition competition;
     
     @OneToMany (mappedBy="FCalendar")
-    //private List<WeekMatches> weekMatches;
     private List<WeekMatches> calendar;
     
     

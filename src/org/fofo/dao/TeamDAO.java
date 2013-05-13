@@ -23,6 +23,7 @@ public interface TeamDAO {
     
     void removeTeam(String name);
     
+    boolean findTeam(Team team);
    
     List<Team> getTeams();
     

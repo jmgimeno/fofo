@@ -1,9 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.fofo.dao;
-
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,80 +14,67 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 /**
  *
  * @author David Hernández
  * @author Anton Urrea
  */
-
 @RunWith(JMock.class)
 public class CalendarDAOImplTest {
-    
+
     Mockery context = new JUnit4Mockery();
-    
     EntityManager em;
     EntityTransaction transaction;
-    
     CalendarDAOImpl calDAO;
-    
-    Match match1, match2, match3, match4, match5;
-    WeekMatches wm, wm2, wm3;
-    FCalendar fcal, cal, cal2;
-    
+    Match match1, match2, match3, match4;
+    WeekMatches wm1, wm2;
+    FCalendar cal;
 
     @Before
     public void setUp() throws Exception {
         em = context.mock(EntityManager.class);
         transaction = context.mock(EntityTransaction.class);
-        
-        calDAO = new CalendarDAOImpl(); 
+
+        calDAO = new CalendarDAOImpl();
         calDAO.setEm(em);
-        
+
         match1 = new Match();
         match2 = new Match();
         match3 = new Match();
         match4 = new Match();
-               
-        
-        wm.addMatch(match1);
-        wm.addMatch(match2);
-        
-        wm2.addMatch(match3);
-        wm2.addMatch(match4);
-        
+
         cal = new FCalendar();
-          
     }
-    
+
     /**
      * One Calendar cal, with just 1 wm and 1 match.
      * @throws Exception 
      */
     @Test
-    public void testAdditionOfJustOneMatch() throws Exception{
+    public void testAdditionOfJustOneMatch() throws Exception {
 
         List<WeekMatches> Lwm = null;
-        
-        cal2 = new FCalendar();
-        wm3.addMatch(match5);        
-        Lwm.add(wm3);
-        cal2.setWeekMatches(Lwm);
-      
-        
-        context.checking(new Expectations() {{                   
-            
-            oneOf (em).getTransaction(); will(returnValue(transaction));
-            oneOf (transaction).begin();
-            oneOf (em).getTransaction(); will(returnValue(transaction));
-            oneOf (transaction).commit();
-            oneOf (em).persist(cal2);
-            oneOf (em).persist(cal2.getAllWeekMatches().get(0));
-            oneOf (em).persist(match5);
-            
-        }});
-        
-        calDAO.addCalendar(cal2);
+
+        wm1.addMatch(match1);
+        Lwm.add(wm1);
+        cal.setWeekMatches(Lwm);
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).commit();
+                oneOf(em).persist(cal);
+                oneOf(em).persist(wm1);
+                oneOf(em).persist(match1);
+            }
+        });
+
+        calDAO.addCalendar(cal);
     }
 
     /**
@@ -100,57 +82,74 @@ public class CalendarDAOImplTest {
      * Various matches in one WM.
      */
     @Test
-    public void testAdditionOfVariousMatchesOneWM() throws Exception{
-  
-        List<WeekMatches> Lwm = null;
-        cal2 = new FCalendar();
-        
-         WeekMatches wm4 = null;       
-         Match match6 = new Match();  
-         Match match7 = new Match();  
-         Match match8 = new Match();  
-         Match match9 = new Match();  
-         
-         wm4.addMatch(match6);
-         wm4.addMatch(match7);
-         wm4.addMatch(match8);
-         wm4.addMatch(match9);
-            
-         Lwm.add(wm4);
+    public void testAdditionOfVariousMatchesOneWM() throws Exception {
 
-         cal2.setWeekMatches(Lwm);
-         
-         
-            context.checking(new Expectations() {{                   
-            
-            oneOf (em).getTransaction(); will(returnValue(transaction));
-            oneOf (transaction).begin();
-            oneOf (em).getTransaction(); will(returnValue(transaction));
-            oneOf (transaction).commit();
-            oneOf (em).persist(cal2);
-            oneOf (em).persist(cal2.getAllWeekMatches().get(0));
-            oneOf (em).persist(match5);
-            
-        }});
-        
-        calDAO.addCalendar(cal2);
+        List<WeekMatches> Lwm = null;
+
+        wm1.addMatch(match1);
+        wm1.addMatch(match2);
+        wm1.addMatch(match3);
+        wm1.addMatch(match4);
+
+        Lwm.add(wm1);
+
+        cal.setWeekMatches(Lwm);
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).commit();
+                oneOf(em).persist(cal);
+                oneOf(em).persist(wm1);
+                oneOf(em).persist(match1);
+                oneOf(em).persist(match2);
+                oneOf(em).persist(match3);
+                oneOf(em).persist(match4);
+            }
+        });
+
+        calDAO.addCalendar(cal);
     }
-    
+
     @Test
-    public void testAddVariousWeekMatches(){
-              
-        context.checking(new Expectations() {{                   
-            
-             for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {      
-           
-                oneOf(em).persist(calDAO.get(i, wm));         
-                oneOf(em).persist(calDAO.get(i, wm2)); 
-                oneOf(em).close();
-                
-                 }
-        }});
-    
-        calDAO.addCalendar(fcal);       
+    public void testAddVariousWeekMatches() throws Exception {
+
+        List<WeekMatches> Lwm = null;
+
+        wm1.addMatch(match1);
+        wm1.addMatch(match2);
+        wm2.addMatch(match3);
+        wm2.addMatch(match4);
+
+        Lwm.add(wm1);
+        Lwm.add(wm2);
+
+        cal.setWeekMatches(Lwm);
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).getTransaction();
+                will(returnValue(transaction));
+                oneOf(transaction).commit();
+                oneOf(em).persist(cal);
+                oneOf(em).persist(wm1);
+                oneOf(em).persist(wm2);
+                oneOf(em).persist(match1);
+                oneOf(em).persist(match2);
+                oneOf(em).persist(match3);
+                oneOf(em).persist(match4);
+            }
+        });
+
+        calDAO.addCalendar(cal);
     }
-      
 }

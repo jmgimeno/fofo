@@ -13,35 +13,37 @@ import org.fofo.entity.WeekMatches;
 public class CalendarDAOImpl implements CalendarDAO {
 
     EntityManager em;
+    TeamDAO td;
 
     public void addCalendar(FCalendar cal) {
-        em.getTransaction().begin();   
+        em.getTransaction().begin();
         for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
-            addWeekMatches(cal.getWeekMatch(i));
+            try {
+                addWeekMatches(cal.getWeekMatch(i));
+            } catch (IncorrectTeamException ex) {
+            }
         }
         em.persist(cal);
         em.getTransaction().commit();
     }
 
-    private void addWeekMatches(WeekMatches wm) {
+    private void addWeekMatches(WeekMatches wm) throws IncorrectTeamException {
         for (int i = 0; i < wm.getListOfWeekMatches().size(); i++) {
             addMatch(wm.getListOfWeekMatches().get(i));
         }
         em.persist(wm);
     }
 
-    private void addMatch(Match match) {
-        
-       //ATTENTION: IT DOES NOT CHECK THAT BOTH TEAMS BELONG TO DATABASE. 
-        em.persist(match);
+    private void addMatch(Match match) throws IncorrectTeamException {
+        if (td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
+            em.persist(match);
+        } else {
+            throw new IncorrectTeamException();
+        }
     }
 
-    Object get(int i,WeekMatches wm) {
-        return wm.getListOfWeekMatches().get(i);       
-    }
-
- //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
-
+    //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
+    
     public EntityManager getEm() {
         return em;
     }
@@ -49,9 +51,4 @@ public class CalendarDAOImpl implements CalendarDAO {
     public void setEm(EntityManager em) {
         this.em = em;
     }
-
-  
-
-   
-
 }
