@@ -19,18 +19,28 @@ public class CalendarGen {
         this.competition= competition;       
     }
     
-    public FCalendar CalculateCalendar() throws Exception{ 
-        
-        if(competition==null)
-            generator.setCompetition(competition);
-        
-        checkRequiriments();
-        
-        if(isLeagueCompetition()) generator = new CalendarLeagueGen(competition);
-        else if(isCupCompetition()) generator = new CalendarCupGen(competition);
-
-        return generator.CalculateCalendar();
+    public FCalendar CalculateCalendar() throws Exception{                
+        checkRequiriments();        
+        if(isLeagueCompetition()) return CalculateCalendarLeague();
+        else return CalculateCalendarCup();
     }
+    
+    public FCalendar CalculateCalendarCup() throws Exception{     
+        checkRequiriments();        
+        if(!isCupCompetition())throw new Exception();
+        
+        generator = new CalendarCupGen(competition);
+        return generator.CalculateCalendar();           
+    }
+    
+    public FCalendar CalculateCalendarLeague() throws Exception{    
+        checkRequiriments();        
+        if(!isLeagueCompetition())throw new Exception();
+        
+        generator = new CalendarLeagueGen(competition);
+        return generator.CalculateCalendar();
+    }    
+    
 
     public Competition getCompetition(){
         return this.competition;
@@ -41,19 +51,10 @@ public class CalendarGen {
     
     private void checkRequiriments() throws Exception {
         if(competition == null) throw new UnknownCompetitionTypeException();
-        if(!isLeagueCompetition() && !isCupCompetition()) 
+        
+       if(!isLeagueCompetition() && !isCupCompetition())
             throw new UnknownCompetitionTypeException();
-        
-//        if(isCupCompetition() && !isPotencyOfTwo())
-//            throw new NumberOfTeamsException("This CUP competition has not "
-//                    + "a POTNECY OF TWO number of teams");
-        
-        
-//        if(isLeagueCompetition() && !isPair())
-//            throw new NumberOfTeamsException("This LEAGUE competition has not "
-//                    + "a PAIR number of teams");
-        
-        
+       
         if(!minimDaysPassed()) 
             throw new MinimumDaysException("It must be a difference of 7 days as "
                     + "minimum betwen Calendar creation and Competition creation");       
@@ -77,15 +78,6 @@ public class CalendarGen {
         return list.size()>=competition.getMinTeams() 
                 && list.size()<=competition.getMaxTeams();
     }
-    
-//    private boolean isPotencyOfTwo(){ 
-//        int num = competition.getTeams().size();
-//        return (num != 0) && ((num & (num - 1)) == 0);
-//    }
-    
-//    private boolean isPair() throws Exception {
-//        return competition.getTeams().size() % 2 == 0;
-//    }
     
     private boolean isCupCompetition(){
         return competition.getType() == Type.CUP;
