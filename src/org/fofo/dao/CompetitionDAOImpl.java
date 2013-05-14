@@ -57,11 +57,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         try {
             em.getTransaction().begin();
             
-            Club club = (Club) em.find(Club.class, team.getClub().getName());
-           
-            if (competition == null || team == null || club == null) {
+            if (team == null || team.getClub() == null || competition == null) {
                 throw new PersistException();
             }
+            
+            Club club = (Club) em.find(Club.class, team.getClub().getName());
+           
             competition.getTeams().add(team);
             em.getTransaction().commit();
         } catch (Exception e) {

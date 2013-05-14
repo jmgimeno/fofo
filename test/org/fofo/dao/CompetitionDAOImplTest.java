@@ -13,6 +13,7 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.CompetitionLeague;
 import org.fofo.entity.Team;
 import org.jmock.Expectations;
+import static org.jmock.Expectations.returnValue;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -94,24 +95,44 @@ public class CompetitionDAOImplTest {
 
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void add_incorrect_team_to_competition() throws PersistException {
-        
-        final Team team2=new Team("aaa");
         
           context.checking(new Expectations() {
             {
-                atLeast(1).of(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(em).find(Club.class, team2.getClub().getName());
-                will(returnValue(club));
+                atLeast(1).of (em).getTransaction();will(returnValue(transaction));
                 oneOf(transaction).begin();
-                oneOf(transaction).commit();
 
             }
         });
 
-        competitionDAO.addTeam(competition, team2);
+        competitionDAO.addTeam(competition, null);
         
+    }
+    
+    @Test(expected=PersistException.class)
+    public void addTeamtoIncorrectCompetition() throws Exception{
+        
+          context.checking(new Expectations() {
+            {
+                atLeast(1).of (em).getTransaction();will(returnValue(transaction));
+                oneOf(transaction).begin();
+
+            }
+        });
+        competitionDAO.addTeam(null, team);
+    }
+    
+    @Test(expected=PersistException.class)
+    public void addTeamWithoutClubToCompetition() throws Exception{
+        Team team2 = new Team("team2");
+          context.checking(new Expectations() {
+            {
+                atLeast(1).of (em).getTransaction();will(returnValue(transaction));
+                oneOf(transaction).begin();
+
+            }
+        });
+        competitionDAO.addTeam(competition, team2);
     }
 }
