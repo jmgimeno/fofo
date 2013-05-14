@@ -6,6 +6,7 @@ package org.fofo.dao;
 
 import java.util.List;
 import javax.persistence.*;
+import org.fofo.entity.Club;
 import org.fofo.entity.Team;
 
 /**
@@ -36,6 +37,11 @@ public class TeamDAOImpl implements TeamDAO{
 
        try{
           em.getTransaction().begin();
+          
+          Club club = (Club) em.find(Club.class, team.getClub().getName());
+          if (club == null) throw new PersistException();
+          
+          club.getTeams().add(team);
           em.persist(team);
           em.getTransaction().commit();
           
