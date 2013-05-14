@@ -8,7 +8,7 @@ package org.fofo.entity;
  *
  * @author jnp2
  */
-class InvalidRequisitsException extends Exception {
+public class InvalidRequisitsException extends Exception {
 
     public InvalidRequisitsException() {
     }

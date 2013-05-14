@@ -15,11 +15,11 @@ import org.junit.Test;
  */
 public class CalendarCupTest {
     CalendarGen generator;
-    CompetitionCup comp;
+    Competition comp;
     
     @Before
     public void setUp() throws InvalidRequisitsException {
-        comp = new CompetitionCup(Type.CUP);
+        comp = Competition.create(Type.CUP);
         comp.setCategory(Category.MALE);
         comp.setInici(null);
         comp.setMaxTeams(16);
