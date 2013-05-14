@@ -31,7 +31,7 @@ public class CalendarLeagueGenTest {
     public void setUp() throws Exception {
         setUpCompOK();
         generator = new CalendarLeagueGen(compOK);
-        calendar = generator.CalculateCalendar();
+        calendar = generator.calculateCalendar();
     }
 
     @Test (expected = NumberOfTeamsException.class)
@@ -41,7 +41,7 @@ public class CalendarLeagueGenTest {
         notPairTeams.remove(0); //10-1 = 9 teams
         compKO.setTeams(notPairTeams);
         
-        new CalendarLeagueGen(compKO).CalculateCalendar();
+        new CalendarLeagueGen(compKO).calculateCalendar();
         fail();
     }
 

@@ -11,19 +11,14 @@ import org.joda.time.DateTime;
  */
 public class CalendarLeagueGen extends CalendarGen{
         
+    private Competition comp;
     private FCalendar calendar;
     private int numTeams;
     private LinkedList<Team> locals = new LinkedList<Team>(); 
     private LinkedList<Team> visitants = new LinkedList<Team>();
    
-    public CalendarLeagueGen() {
-        
-        this.calendar = new FCalendar();
-    }
-
-    public CalendarLeagueGen(Competition competition) throws Exception {
-        
-        super(competition);
+    public CalendarLeagueGen(Competition competition) throws Exception {        
+        this.comp = competition;
         if(!isPair())
             throw new NumberOfTeamsException("This LEAGUE competition has not "
                     + "a PAIR number of teams");
@@ -34,9 +29,9 @@ public class CalendarLeagueGen extends CalendarGen{
     }     
    
     @Override
-    public FCalendar CalculateCalendar() throws Exception{         
+    public FCalendar calculateCalendar() throws Exception{         
         
-        List<Team> teams = getCompetition().getTeams();
+        List<Team> teams = comp.getTeams();
         shuffleList(teams);
         
         //LinkedList -> perque actuen com a piles
@@ -56,7 +51,7 @@ public class CalendarLeagueGen extends CalendarGen{
             rotateAssignation(/*locals,visitants*/);
         }
         
-        calendar.setCompetition(getCompetition());
+        calendar.setCompetition(comp);
         calendar.setWeekMatches(wmList);
         
         
@@ -102,7 +97,7 @@ public class CalendarLeagueGen extends CalendarGen{
     }   
     
     private boolean isPair() throws Exception {
-        return getCompetition().getTeams().size() % 2 == 0;
+        return comp.getTeams().size() % 2 == 0;
     }
  
     

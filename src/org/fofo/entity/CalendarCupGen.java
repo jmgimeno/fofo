@@ -6,7 +6,7 @@ import java.util.*;
  *
  * @author jnp2
  */
-class CalendarCupGen extends CalendarGen{   
+public class CalendarCupGen extends CalendarGen{   
     private Competition competition;  
     private List<WeekMatches> weekMatches ; 
 
@@ -15,14 +15,10 @@ class CalendarCupGen extends CalendarGen{
         this.competition = competition;
     }
 
-    public CalendarCupGen() {
-        weekMatches = new ArrayList<WeekMatches>();
-    }
-
     @Override
-    public FCalendar CalculateCalendar() throws InvalidRequisitsException, NonUniqueIdException,
-                       TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException{ 
-
+    public FCalendar calculateCalendar() throws InvalidRequisitsException,
+                       TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException, Exception{ 
+        checkRequirements(competition);
         generateRoundN(1,competition.getTeams());
         
         FCalendar calendar = new FCalendar(competition);
@@ -31,8 +27,8 @@ class CalendarCupGen extends CalendarGen{
         return calendar;      
     }
     
-    private void generateRoundN(int numRound, List<Team> listTeam) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {
-        WeekMatches weekMatch = new WeekMatches("WeekMatch number "+numRound);  
+    private void generateRoundN(int numRound, List<Team> listTeam) throws TeamCanPlayOnlyOneMatchForAWeekException {
+        WeekMatches weekMatch = new WeekMatches();  
         
         Iterator itr = listTeam.iterator();
         int nId = 1;
