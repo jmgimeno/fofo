@@ -81,7 +81,7 @@ public class CalendarLeagueGen extends CalendarGen{
     }
 
     private WeekMatches buildWeekMatches(/*LinkedList<Team> locals, LinkedList<Team> visitants,*/ boolean roundTwo) throws Exception{
-        WeekMatches wm = new WeekMatches("quin id???");
+        WeekMatches wm = new WeekMatches();
         
         for(int i=0; i<numTeams/2; i++){  // n/2 partits per jornada
             Team local = locals.get(i);

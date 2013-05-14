@@ -5,9 +5,7 @@
 package org.fofo.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,11 +28,10 @@ public class WeekMatches {
     @ManyToOne
     FCalendar calendar;
     
-    private Map<String, Match> weekMatches = new HashMap<String,Match>(); 
-    private Map<String, Team> teams = new HashMap<String, Team>();
+    private List<Match> weekMatches = new ArrayList<Match>();
     
     
-    public WeekMatches(String id){
+    public WeekMatches(){
         this.weekMatchId = UUID.randomUUID().toString();   
     }
     
@@ -42,44 +39,14 @@ public class WeekMatches {
         return this.weekMatchId;
     }
     
-    public void addMatch(Match m) throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
-        if(!weekMatches.containsKey(m.getIdMatch())){
-            if(teamPlayOnlyOneMatch(m)){                
-                this.weekMatches.put(m.getIdMatch(), m);
-            }
-            else{
-                throw new TeamCanPlayOnlyOneMatchForAWeekException();
-            }
+    public void addMatch(Match m){
+        if(!weekMatches.contains(m)){              
+                this.weekMatches.add( m);
         }
-        else{
-            throw new NonUniqueIdException();
-        }
-    }
-    
-    public Boolean teamPlayOnlyOneMatch(Match m){
-        if(!teams.containsKey(m.getLocal().getName()) && 
-            !teams.containsKey(m.getVisitant().getName())){
-             teams.put(m.getLocal().getName(), m.getLocal());
-             teams.put(m.getVisitant().getName(), m.getVisitant());
-             return true;
-         }
-        else{
-            return false;
-        }
-        
-        
-    }
-    public Match getMatch(String id) throws UnknownMatchException{
-        if(weekMatches.containsKey(id)){
-            return weekMatches.get(id);            
-        }
-        else{
-            throw new UnknownMatchException();
-        }        
     }
     
     public List<Match> getListOfWeekMatches(){
-        return new ArrayList<Match>(weekMatches.values());
+        return weekMatches;
     }
     
     public int getNumberOfMatchs(){

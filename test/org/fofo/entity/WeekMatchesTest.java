@@ -32,55 +32,11 @@ public class WeekMatchesTest {
         match2 = new Match(team3, team4);
         match3 = new Match(team5, team6);
         repeatedTeamMatch = new Match(team4, team1);
-        wm = new WeekMatches("J1");
+        wm = new WeekMatches();
     }
-
-    @Test(expected=NonUniqueIdException.class)
-    public void testNonUniqueIdException() throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
-        wm.addMatch(match);
-        wm.addMatch(match);
-    }
-    
-    @Test(expected=UnknownMatchException.class)
-    public void testUnknownMatchException() throws UnknownMatchException{
-        Match result = wm.getMatch("AAA");
-    }
-    
-    @Test(expected=TeamCanPlayOnlyOneMatchForAWeekException.class)
-    public void testRepeatedTeams() throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
-        wm.addMatch(match);
-        wm.addMatch(repeatedTeamMatch);        
-    }
-    
-    //@Test
-    public void testGetWeekMatchId(){
-        String result = wm.getWeekMatchId();
-        assertEquals(result,"J1");
-    }
-    
+           
     @Test
-    public void testAddAndGetOneMatchId() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
-        wm.addMatch(match);
-        Match result = wm.getMatch(match.getIdMatch());
-        assertEquals(result.getIdMatch(),match.getIdMatch());
-    }
-    
-    @Test
-    public void testAddAndGetOneMatchLocalTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
-        wm.addMatch(match);
-        Match result = wm.getMatch(match.getIdMatch());
-        assertEquals(result.getLocal().getName(),team1.getName());
-    }
-    
-    @Test
-    public void testAddAndGetOneMatchVisitantTeam() throws UnknownMatchException, NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException {        
-        wm.addMatch(match);
-        Match result = wm.getMatch(match.getIdMatch());
-        assertEquals(result.getVisitant().getName(),team2.getName());
-    }
-    
-    @Test
-    public void testGetListOfMatchs() throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
+    public void testGetListOfMatchs(){
         wm.addMatch(match);
         wm.addMatch(match2);
         wm.addMatch(match3);
@@ -99,7 +55,7 @@ public class WeekMatchesTest {
     }
     
     @Test
-    public void testGetNumberOfWeekMatchs() throws NonUniqueIdException, TeamCanPlayOnlyOneMatchForAWeekException{
+    public void testGetNumberOfWeekMatchs(){
         wm.addMatch(match);
         wm.addMatch(match2);
         wm.addMatch(match3);
