@@ -19,6 +19,7 @@ import org.fofo.entity.Team;
 import org.fofo.entity.Type;
 import org.joda.time.DateTime;
 import org.fofo.dao.PersistException;
+import org.fofo.dao.TeamDAO;
 
 /**
  *
@@ -30,6 +31,7 @@ public class ManagementService {
     private CompetitionDAO cDao;
     private Competition competition;
     private Team team;
+    private TeamDAO teamDao;
 
     public CompetitionDAO getcDao() {
         return cDao;
@@ -41,6 +43,10 @@ public class ManagementService {
 
     public void setClubDao(ClubDAO clubDao) {
         this.clubDao = clubDao;
+    }
+    
+    public void setTeamDao(TeamDAO teamDao) {
+          this.teamDao = teamDao;
     }
 
     public void setCompetition(Competition competition) {
@@ -64,7 +70,7 @@ public class ManagementService {
     }
   
 
-    void addCompetition(Competition comp) throws IncorrectCompetitionData,
+    public void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate, PersistException {
         List<Club> clubs = new ArrayList<Club>();
@@ -89,8 +95,10 @@ public class ManagementService {
     public void addTeam(Competition competetion, Team team) throws Exception{
          
       // checkForExceptions(competition);
-        
-        if (CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
+         
+        if  (team.getName()!=null &&  team.getEmail()!=null && team.getCompetition()!=null &&
+              team.getCategory()!=null && team.getClub()!=null &&
+                CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
             competition.getTeams().add(team);
             cDao.addTeam(competition, team);
         } else {
