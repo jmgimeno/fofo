@@ -9,6 +9,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,22 +21,22 @@ import org.junit.runner.RunWith;
 @RunWith(JMock.class)
 public class CalendarCalculatorServiceTest { 
     
-    static CalendarCalculatorService  service;
-    static Mockery context = new JUnit4Mockery();   
+    CalendarCalculatorService  service;
+    Mockery context = new JUnit4Mockery(); 
     
-    static CalendarDAO cdao;   
-    static Competition comp;
-    static FCalendar calendar;
+    CalendarDAO cdao;   
+    Competition comp;
+    FCalendar calendar;
     
     
     public CalendarCalculatorServiceTest() {
     }
 
-    @BeforeClass
-    public static void setUp(){
+    @Before
+    public void setUp() throws Exception{
         service = new CalendarCalculatorService();        
-        cdao = context.mock(CalendarDAO.class);    
-        
+        cdao = context.mock(CalendarDAO.class);         
+      
         comp = Competition.create(Type.CUP);
         comp.setCategory(Category.MALE);
         comp.setInici(null);
@@ -49,6 +50,9 @@ public class CalendarCalculatorServiceTest {
         }
         comp.setTeams(list);
         comp.setInici(new DateTime().minusDays(8).toDate()); 
+        
+       CalendarGen calGen = new CalendarLeagueGen(comp);
+       calendar = calGen.calculateCalendar();   
     }
 
     @Test
@@ -57,7 +61,9 @@ public class CalendarCalculatorServiceTest {
             {
                 oneOf(cdao).addCalendar(calendar);
             }
-        });   
+        });        
+        
+        
         service.setCalendarDao(cdao);
         service.calculateAndStoreLeagueCalendar(comp);
     }
@@ -68,7 +74,8 @@ public class CalendarCalculatorServiceTest {
             {
                 oneOf(cdao).addCalendar(calendar);
             }
-        });
+        }); 
+        
         service.setCalendarDao(cdao);
         service.calculateAndStoreCupCalendar(comp);
     }
