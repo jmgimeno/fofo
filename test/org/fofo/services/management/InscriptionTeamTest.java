@@ -36,7 +36,8 @@ public class InscriptionTeamTest {
     private Team team4;
     private Team team5;
     private TeamDAO TeamDAO;
-   private Club club;
+    private Club club;
+    private ClubDAO clubdao;
 
     @Before
     public void setup() {
@@ -45,7 +46,7 @@ public class InscriptionTeamTest {
         Cdao = context.mock(CompetitionDAO.class); //Fem mock de una classe amb interface
         service.setcDao(Cdao);
         TeamDAO = context.mock(TeamDAO.class); //Fem mock de una classe amb interface
-        
+        clubdao = context.mock(ClubDAO.class); 
 
         team = new Team();
         team1 = new Team();
@@ -72,6 +73,8 @@ public class InscriptionTeamTest {
         Club club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
         club.setTeams(teams);
+        
+        
         
     }
 
@@ -184,7 +187,7 @@ public class InscriptionTeamTest {
 
     }
      
-     @Test(expected=InscriptionTeamException.class)
+     //@Test(expected=InscriptionTeamException.class)
      public void testIncorrectClub() throws Exception{
         
         team.setCategory(Category.MALE);
@@ -234,5 +237,55 @@ public class InscriptionTeamTest {
         
    
     }
+    
+    
+      
+     //@Test//(expected=InscriptionTeamException.class)
+     public void testInsertTeamInCompetition() throws Exception{
+        
+        team.setCategory(Category.MALE);
+        team.setClub(club);
+        team.setCompetition(Comp);
+        team.setEmail("Team@hotmail.com");
+        team.setName("Team");  
+        
+      /*  team1.setCategory(Category.MALE);
+        team1.setClub(club);
+        team1.setCompetition(Comp);
+        team1.setEmail("Team@hotmail.com");
+        team1.setName("Team1");  
+
+        context.checking(new Expectations() {
+            {
+                oneOf(clubdao).addClub(club);
+                oneOf(Cdao).addCompetition(Comp);
+               
+                oneOf(Cdao).getCompetitionms();
+                will(returnValue(new ArrayList<Competition>() {
+                    { 
+                        add(Comp);
+                    }
+                }));
+                oneOf(TeamDAO).addTeam(team);
+                oneOf(TeamDAO).addTeam(team1);                
+            }
+        });*/
+        
+        service.addTeam(Comp, team);                
+        assertTrue(Comp.getTeams().contains(team));
+    }
      
+     
+     //@Test//(expected=InscriptionTeamException.class)
+     public void CorrectAddTeam() throws Exception{
+        
+        team.setCategory(Category.MALE);
+        team.setClub(club);
+        team.setCompetition(Comp);
+        team.setEmail("Team@hotmail.com");
+        team.setName("Team");     
+        
+        service.addTeam(Comp, team);
+        //Pete per que falte definir expectacions per el mock Competition DAO, ja que la funció getCompetitionms() no està implementada.
+    }
 }
