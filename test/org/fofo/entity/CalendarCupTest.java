@@ -13,7 +13,8 @@ import org.junit.Test;
  */
 public class CalendarCupTest {
     CalendarCupGen generator;
-    Competition comp;    
+    Competition comp;  
+    Club club;
     
     @Before
     public void setUp() throws InvalidRequisitsException {
@@ -22,8 +23,8 @@ public class CalendarCupTest {
         comp.setInici(null);
         comp.setMaxTeams(16);
         comp.setMinTeams(4);
-        Club club = new Club();
-        club.setName("AA");
+        club = new Club();
+        club.setName("Imaginary club");
         List<Team> list = new ArrayList<Team>();
         for(int i=0; i<16;i++){
             list.add(new Team("Team number "+i,club, Category.MALE));
@@ -61,6 +62,18 @@ public class CalendarCupTest {
     }
     
     @Test   
+    public void testNumMatchesInEachWeekMatches()  throws Exception {
+        generator = new CalendarCupGen(comp); 
+        FCalendar calendar = generator.calculateCalendar();
+  
+        int nmatches = 8;
+        for(int i=0; i<4; i++){
+            assertTrue(assertEqualsMatch(calendar.getWeekMatch(i),nmatches));
+            nmatches = nmatches/2;
+        }        
+    }      
+    
+    @Test   
     public void testIfAllTeamsParticipatingInFirstWeekMatchesAreCorrect()  throws Exception {
         generator = new CalendarCupGen(comp);        
         FCalendar calendar = generator.calculateCalendar();
@@ -85,38 +98,61 @@ public class CalendarCupTest {
         WeekMatches first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();     
         List<Team> listTeams = comp.getTeams();      
+       
+        assertTrue(allTeamsPlayInOneMatch(listTeams, listMatch));
+    }    
+    
+    @Test   
+    public void testTeamsParticipatingInSecondWeekMatch()  throws Exception {
+        generator = new CalendarCupGen(comp);        
+        FCalendar calendar = generator.calculateCalendar();
         
+        WeekMatches second = calendar.getWeekMatch(1);
+        List<Match> listMatch = second.getListOfWeekMatches();     
+        List<Team> listTeams = generateTeams(1,8);  
+        
+        assertTrue(allTeamsPlayInOneMatch(listTeams, listMatch));
+    }     
+    
+    @Test   
+    public void testTeamsParticipatingInEachWeekMatch()  throws Exception {
+        generator = new CalendarCupGen(comp);        
+        FCalendar calendar = generator.calculateCalendar();
+        
+        int numTeams = 8;
+        for(int i=1; i<=3; i++){
+            WeekMatches second = calendar.getWeekMatch(i);
+            List<Match> listMatch = second.getListOfWeekMatches();   
+            List<Team> listTeams = generateTeams(i,numTeams);
+            numTeams /=2;
+            assertTrue(allTeamsPlayInOneMatch(listTeams, listMatch));
+        }
+    }      
+       
+    
+    private boolean assertEqualsMatch(WeekMatches match, int nmatches){
+        if(match.getNumberOfMatchs() == nmatches) return true;
+        else return false;
+    }
+
+    private List<Team> generateTeams(int round, int teams) {
+        List<Team> listTeam  = new ArrayList<Team>(); 
+        for(int i=1; i<=teams;i++){
+            Team team = new Team("Winer match "+i+" of round "+round,club, Category.MALE);
+            listTeam.add(team);            
+        } 
+        return listTeam;
+    }
+
+    private boolean allTeamsPlayInOneMatch(List<Team> listTeams, List<Match> listMatch) {
+        int numTeams = listTeams.size();
         for(Match match : listMatch){
             Team local = match.getLocal();
             Team visitant = match.getVisitant();
             listTeams.remove(local);
             listTeams.remove(visitant); 
         }
-        assertTrue(listTeams.isEmpty());
-    }    
-    
-    
-     
-//Test que tots els nostres equips juguen un cop
-//Test que els equips nomes estiguin jugan 1 cop    
-//En cap jornada cap equip juga més d'un partit
-//Els partits en cada ronda    
-      
-    @Test   
-    public void testNumMatchesInEachWeekMatches()  throws Exception {
-        generator = new CalendarCupGen(comp); 
-        FCalendar calendar = generator.calculateCalendar();
-  
-        int nmatches = 8;
-        for(int i=0; i<4; i++){
-            assertTrue(assertEqualsMatch(calendar.getWeekMatch(i),nmatches));
-            nmatches = nmatches/2;
-        }        
-    }    
-    
-    private boolean assertEqualsMatch(WeekMatches match, int nmatches){
-        if(match.getNumberOfMatchs() == nmatches) return true;
-        else return false;
+        return listTeams.isEmpty() && listMatch.size()*2==numTeams;
     }
     
     
