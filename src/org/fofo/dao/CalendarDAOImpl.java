@@ -15,6 +15,7 @@ public class CalendarDAOImpl implements CalendarDAO {
     EntityManager em;
     TeamDAO td;
 
+    @Override
     public void addCalendar(FCalendar cal) {
         em.getTransaction().begin();
         for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
@@ -27,8 +28,13 @@ public class CalendarDAOImpl implements CalendarDAO {
         em.getTransaction().commit();
     }
 
+    @Override
+    public boolean findCalendar(FCalendar cal) {
+        return true;
+    }
+
     private void addWeekMatches(WeekMatches wm) throws IncorrectTeamException {
-        for (int i = 0; i < wm.getListOfWeekMatches().size(); i++) {
+        for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
             addMatch(wm.getListOfWeekMatches().get(i));
         }
         em.persist(wm);
@@ -43,7 +49,6 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
-    
     public EntityManager getEm() {
         return em;
     }

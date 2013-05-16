@@ -9,4 +9,5 @@ import org.fofo.entity.FCalendar;
  */
 public interface CalendarDAO {
     void addCalendar(FCalendar cal);
+    boolean findCalendar(FCalendar cal);
 }

@@ -42,6 +42,9 @@ public class CalendarDAOImplTest {
         match2 = new Match();
         match3 = new Match();
         match4 = new Match();
+        
+        wm1 = new WeekMatches();
+        wm2 = new WeekMatches();
 
         cal = new FCalendar();
     }
@@ -52,12 +55,11 @@ public class CalendarDAOImplTest {
      */
     @Test
     public void testAdditionOfJustOneMatch() throws Exception {
-
-        List<WeekMatches> Lwm = null;
-
         wm1.addMatch(match1);
-        Lwm.add(wm1);
-        cal.setWeekMatches(Lwm);
+        
+        cal.getAllWeekMatches().add(wm1);
+        
+        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
@@ -84,16 +86,15 @@ public class CalendarDAOImplTest {
     @Test
     public void testAdditionOfVariousMatchesOneWM() throws Exception {
 
-        List<WeekMatches> Lwm = null;
-
         wm1.addMatch(match1);
         wm1.addMatch(match2);
-        wm1.addMatch(match3);
-        wm1.addMatch(match4);
-
-        Lwm.add(wm1);
-
-        cal.setWeekMatches(Lwm);
+        wm2.addMatch(match3);
+        wm2.addMatch(match4);
+        
+        cal.getAllWeekMatches().add(wm1);
+        cal.getAllWeekMatches().add(wm2);
+        
+        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
@@ -116,6 +117,10 @@ public class CalendarDAOImplTest {
         calDAO.addCalendar(cal);
     }
 
+    /**
+     * 
+     * Various WM.
+     */
     @Test
     public void testAddVariousWeekMatches() throws Exception {
 
