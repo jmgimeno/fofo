@@ -67,6 +67,11 @@ public class FCalendar {
         return competition;
     }
         
-    
+    @Override
+    public boolean equals(Object obj){       
+        return (obj instanceof FCalendar) && 
+               ((FCalendar)obj).competition.equals(this.competition);
+        
+    }    
     
 }
