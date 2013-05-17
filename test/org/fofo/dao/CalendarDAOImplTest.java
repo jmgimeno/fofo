@@ -54,7 +54,7 @@ public class CalendarDAOImplTest {
      *
      * @throws Exception
      */
-    //@Test
+    @Test
     public void testAdditionOfJustOneMatch() throws Exception {
         wm1.addMatch(match1);
 
@@ -65,11 +65,11 @@ public class CalendarDAOImplTest {
         context.checking(new Expectations() {
 
             {
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
+                atLeast(1).of(em).getTransaction();
+                   will(returnValue(transaction));
                 oneOf(transaction).begin();
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
+               // oneOf(em).getTransaction();
+               //   will(returnValue(transaction));
                 oneOf(transaction).commit();
                 oneOf(em).persist(match1);
                 oneOf(em).persist(wm1);

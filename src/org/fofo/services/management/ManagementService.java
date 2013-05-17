@@ -100,9 +100,13 @@ public class ManagementService {
               team.getCategory()!=null && /*team.getClub()!=null &&*/
                 CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
             
-            addCompetition(competition);
+            //addCompetition(competition);
             
             competition.getTeams().add(team);
+            
+            System.out.println("***SERVICE: Team="+team+" club="+team.getClub());
+     
+            
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();

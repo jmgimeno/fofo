@@ -99,15 +99,16 @@ public class Team implements Serializable {
     }
 
     public String toString(){
-        return name;
+        return "Team name"+name;
     }
     
     @Override
     public boolean equals(Object obj){
         
         return (obj instanceof Team) && ((Team)obj).name.equals(this.name) && 
-                ((Team)obj).club.equals(this.club);
-        
+                  ( ( ((Team)obj).club == null && this.club == null) ||
+                      ((Team)obj).club.equals(this.club)
+                    );
     }
 
 }

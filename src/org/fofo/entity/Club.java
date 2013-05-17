@@ -63,4 +63,10 @@ public class Club {
         
         return (obj instanceof Club) && ((Club) obj).name.equals(this.name);
     }
+    
+    public String toString(){
+     
+        return "Club name="+name;
+        
+    }
 }
