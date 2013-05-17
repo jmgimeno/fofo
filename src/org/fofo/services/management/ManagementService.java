@@ -94,19 +94,15 @@ public class ManagementService {
      */
     public void addTeam(Competition competetion, Team team) throws Exception{
          
-      // checkForExceptions(competition);
         
         if  (team.getName()!=null &&  team.getEmail()!=null && team.getCompetition()!=null &&
               team.getCategory()!=null && /*team.getClub()!=null &&*/
                 CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
-            
-            //addCompetition(competition);
-            
+                
             competition.getTeams().add(team);
             
-            System.out.println("***SERVICE: Team="+team+" club="+team.getClub());
+            //System.out.println("***SERVICE: Team="+team+" club="+team.getClub());
      
-            
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();

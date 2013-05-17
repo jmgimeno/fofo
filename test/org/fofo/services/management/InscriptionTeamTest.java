@@ -28,7 +28,7 @@ public class InscriptionTeamTest {
     Mockery context = new JUnit4Mockery();
     ManagementService service;
     private CompetitionDAO Cdao;
-    private Competition Comp, Comp2;
+    private Competition comp, comp2;
     private Team team;
     private Team team1;
     private Team team2;
@@ -49,30 +49,43 @@ public class InscriptionTeamTest {
        
         teamDAO = context.mock(TeamDAO.class); //Fem mock de una classe amb interface
         clubdao = context.mock(ClubDAO.class);
+        
 
-        team = new Team();
-        team1 = new Team();
-        team2 = new Team();
-        team3 = new Team();
-        team4 = new Team();
-        team5 = new Team();
+        team = new Team("Team", Category.MALE);
+        team.setClub(club);
+        team.setCompetition(comp);
+        team.setEmail("Team@hotmail.com");
+        
+        
+        team1 = new Team(); team2 = new Team(); team3 = new Team();
+        team4 = new Team(); team5 = new Team();
 
      
 
-        Comp = Competition.create(Type.CUP);
-        Comp.setCategory(Category.FEMALE);
-        Comp.setInici(new Date()); //Conte la data actual
-        Comp.setMaxTeams(4);
-        Comp.setMinTeams(2);
-        Comp.setName("Lleida");
-        Comp.getTeams().add(team);
-        Comp.getTeams().add(team1);
-        Comp.setType(Type.CUP);
-        service.setCompetition(Comp);
+        comp = Competition.create(Type.CUP);
+        comp.setCategory(Category.FEMALE);
+        comp.setInici(new Date()); //Conte la data actual
+        comp.setMaxTeams(4);
+        comp.setMinTeams(2);
+        comp.setName("Lleida");
+        comp.getTeams().add(team);
+        comp.getTeams().add(team1);
+        service.setCompetition(comp);
+        
+        /*comp2 = Competition.create(Type.CUP);
+        comp2.setCategory(Category.FEMALE);
+        comp2.setInici(new Date()); //Conte la data actual
+        comp2.setMaxTeams(4);
+        comp2.setMinTeams(2);
+        comp2.setName("Lleida");
+        comp2.getTeams().add(team);
+        comp2.getTeams().add(team1);
+        comp2.setType(Type.CUP);
+        service.setCompetition(comp2);*/
         
 
 
-         club = new Club("ClubExemple");
+        club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com"); 
         club.getTeams().add(team);
         club.getTeams().add(team1);
@@ -80,73 +93,53 @@ public class InscriptionTeamTest {
 
 
     }
-
+    
+    
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectName() throws Exception {
 
-        team.setCategory(Category.MALE);
-        team.setClub(club);
-        team.setCompetition(Comp);
-        team.setEmail("Team@hotmail.com");
         team.setName(null);
 
-        service.addTeam(Comp, team);
-
+        service.addTeam(comp, team);
     }
 
+    
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectEmail() throws Exception {
-
-        team.setCategory(Category.MALE);
-        team.setClub(club);
-        team.setCompetition(Comp);
+        
         team.setEmail(null);
-        team.setName("Team");
 
-        service.addTeam(Comp, team);
-
+        service.addTeam(comp, team);
     }
+    
 
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectCompetition() throws Exception {
 
-        team.setCategory(Category.MALE);
-        team.setClub(club);
         team.setCompetition(null);
-        team.setEmail("Team@hotmail.com");
-        team.setName("Team");
 
-        service.addTeam(Comp, team);
-
+        service.addTeam(comp, team);
     }
 
     
-
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectCategory() throws Exception {
 
         team.setCategory(null);
-        team.setClub(club);
-        team.setCompetition(Comp);
-        team.setEmail("Team@hotmail.com");
-        team.setName("Team");
 
-        service.addTeam(Comp, team);
-
+        service.addTeam(comp, team);
     }
     
       
     @Test (expected = InscriptionTeamException.class)
-     public void competition_NotExist() throws Exception {
+     public void competition_NotExist_without_empty_list() throws Exception {
 
         team.setCategory(Category.MALE);
         team.setClub(club);
         team.setEmail("Team@hotmail.com");
         team.setName("Team");
-        team.setCompetition(Comp);
-
-       // comp2 = new Competition(comp);
-       // comp2.setName("popop");
+        team.setCompetition(comp);
+        
         
         context.checking(new Expectations() {
 
@@ -155,9 +148,34 @@ public class InscriptionTeamTest {
             }
         });
 
-        service.addTeam(Comp, team);
-//        fail("El test ha fallat");
+        service.addTeam(comp, team);
     }
+    
+    // @Test (expected = InscriptionTeamException.class)
+     public void competition_NotExist_without_list() throws Exception { //Pendent d'arreglar..
+
+        team.setCategory(Category.MALE);
+        team.setClub(club);
+        team.setEmail("Team@hotmail.com");
+        team.setName("Team");
+        team.setCompetition(comp);
+
+        //comp2 = new Competition(Comp);
+        comp2.setName("popop");
+        
+        final List<Competition> competitions = new ArrayList<Competition>();
+        competitions.add(comp2);
+        
+        context.checking(new Expectations() {
+
+            {
+                oneOf(Cdao).getCompetitionms(); will(returnValue(competitions));
+            }
+        });
+
+        service.addTeam(comp, team);
+    }
+    
     
     //@Test (expected = InscriptionTeamException.class)
      public void NotPeriodeOpen() throws Exception {
@@ -180,10 +198,10 @@ public class InscriptionTeamTest {
         team.setClub(club);
         team.setEmail("Team@hotmail.com");
         team.setName("Team");
-        team.setCompetition(Comp);
+        team.setCompetition(comp);
 
         final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(Comp);
+        competitions.add(comp);
         
         final List<Club> clubs = new ArrayList<Club>();
         clubs.add(club);
@@ -192,9 +210,8 @@ public class InscriptionTeamTest {
 
             {
                 oneOf(Cdao).getCompetitionms(); will(returnValue(competitions));
-            
-                //oneOf(clubdao).getClubs(); will(returnValue(clubs));
-                oneOf (Cdao).addTeam(Comp, team);
+                
+                oneOf (Cdao).addTeam(comp, team);
                 
             }
         });
@@ -202,7 +219,7 @@ public class InscriptionTeamTest {
 
         System.out.println("***TEST: Team="+team+" club="+team.getClub());
         
-        service.addTeam(Comp, team);
+        service.addTeam(comp, team);
     }
     
     
@@ -212,10 +229,10 @@ public class InscriptionTeamTest {
         //Cdao.addTeam(Comp, team);
         //clubDAO.addClub(club);
 
-        service.addCompetition(Comp);
+        service.addCompetition(comp);
         team2.setCategory(null);
 
-        service.addTeam(Comp, team2);
+        service.addTeam(comp, team2);
         //assertTrue("L'equip no ha estat inserit",Comp.getTeams().contains(team2));
     }
 
@@ -223,35 +240,34 @@ public class InscriptionTeamTest {
     public void periodNotOpen() throws InscriptionTeamException, Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(2013, Calendar.MAY, 11);
-        Comp.setInici(cal.getTime());
-        service.addTeam(Comp, team);
+        comp.setInici(cal.getTime());
+        service.addTeam(comp, team);
     }
 
     @Test(expected = InscriptionTeamException.class)
     public void notTeamSpace() throws Exception {
 
-        service.addTeam(Comp, team1);
-        service.addTeam(Comp, team2);
-        service.addTeam(Comp, team3);
-        service.addTeam(Comp, team4);
-        service.addTeam(Comp, team5);
+        service.addTeam(comp, team1);
+        service.addTeam(comp, team2);
+        service.addTeam(comp, team3);
+        service.addTeam(comp, team4);
+        service.addTeam(comp, team5);
 
     }
 
     @Test (expected = InscriptionTeamException.class)
     public void correctAddTeamToList() throws Exception {
-        service.addTeam(Comp, team);
+        service.addTeam(comp, team);
 
         context.checking(new Expectations() {
 
             {
-                oneOf(Cdao).addCompetition(Comp);
+                oneOf(Cdao).addCompetition(comp);
                 oneOf(Cdao).getCompetitionms();
-                will(returnValue(new ArrayList<Competition>() {
-
-                    { //Esprem que la crida a la funció getCompetitionms, ens retorni un array amb les competicions.
-                        add(Comp);
-                        Comp.getTeams().contains(team);
+                    will(returnValue(new ArrayList<Competition>() {
+                    { 
+                        add(comp);
+                        comp.getTeams().contains(team);
                     }
                 }));
             }
@@ -259,31 +275,16 @@ public class InscriptionTeamTest {
         // assertTrue(Comp.getTeams().contains(team));
     }
 
-    //@Test
-    public void TeamInsertedIntoTheDB_old() throws Exception {
-
-        context.checking(new Expectations() {
-
-            {
-                oneOf(Cdao).addTeam(Comp, team);
-            }
-        });
-
-        service.addTeam(Comp, team);
-    }
-
-    
-    
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testIncorrectClub() throws Exception {
 
         team.setCategory(Category.MALE);
         team.setClub(null);
-        team.setCompetition(Comp);
+        team.setCompetition(comp);
         team.setEmail("Team@hotmail.com");
         team.setName("Team");
 
-        service.addTeam(Comp, team);
+        service.addTeam(comp, team);
 
     }
 
@@ -293,7 +294,7 @@ public class InscriptionTeamTest {
 
         team.setCategory(Category.MALE);
         team.setClub(club);
-        team.setCompetition(Comp);
+        team.setCompetition(comp);
         team.setEmail("Team@hotmail.com");
         team.setName("team");
 
@@ -302,7 +303,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
-                oneOf(Cdao).addTeam(Comp, team);
+                oneOf(Cdao).addTeam(comp, team);
                 oneOf(teamDAO).getTeams();
                 will(returnValue(teams));
             }
@@ -310,7 +311,7 @@ public class InscriptionTeamTest {
 
         service.setcDao(Cdao);
         service.setTeamDao(teamDAO);
-        service.addTeam(Comp, team);
+        service.addTeam(comp, team);
 
 
     }
@@ -320,7 +321,7 @@ public class InscriptionTeamTest {
 
         team.setCategory(Category.MALE);
         team.setClub(club);
-        team.setCompetition(Comp);
+        team.setCompetition(comp);
         team.setEmail("Team@hotmail.com");
         team.setName("Team");
 
@@ -337,8 +338,8 @@ public class InscriptionTeamTest {
         });
          */
 
-        service.addTeam(Comp, team);
-        assertTrue(Comp.getTeams().contains(team));
+        service.addTeam(comp, team);
+        assertTrue(comp.getTeams().contains(team));
     }
     
   
