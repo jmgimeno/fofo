@@ -45,9 +45,10 @@ public class CalendarDAOImplIntegTest {
 
     /**
      * One Calendar cal, with just 1 wm and 1 match.
-     * @throws Exception 
+     *
+     * @throws Exception
      */
-    @Test
+    //@Test
     public void testAdditionOfJustOneMatch() throws Exception {
         wm1.addMatch(match1);
 
@@ -58,10 +59,10 @@ public class CalendarDAOImplIntegTest {
     }
 
     /**
-     * 
+     *
      * Various matches in one WM.
      */
-    @Test
+    //@Test
     public void testAdditionOfVariousMatchesOneWM() throws Exception {
         wm1.addMatch(match1);
         wm1.addMatch(match2);
@@ -75,10 +76,10 @@ public class CalendarDAOImplIntegTest {
     }
 
     /**
-     * 
+     *
      * Various WM.
      */
-    @Test
+    //@Test
     public void testAddVariousWeekMatches() throws Exception {
         wm1.addMatch(match1);
         wm1.addMatch(match2);

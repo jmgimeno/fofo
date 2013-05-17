@@ -30,7 +30,7 @@ public class ManagementService {
     private ClubDAO clubDao;
     private CompetitionDAO cDao;
     private Competition competition;
-    private Team team;
+    //private Team team;
     private TeamDAO teamDao;
 
     public CompetitionDAO getcDao() {
@@ -53,9 +53,9 @@ public class ManagementService {
         this.competition = competition;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+//    public void setTeam(Team team) {
+//        this.team = team;
+//    }
 
     public ClubDAO getClubDao() {
         return clubDao;
@@ -65,9 +65,9 @@ public class ManagementService {
         return competition;
     }
 
-    public Team getTeam() {
-        return team;
-    }
+//    public Team getTeam() {
+//        return team;
+//    }
   
 
     public void addCompetition(Competition comp) throws IncorrectCompetitionData,
@@ -76,11 +76,11 @@ public class ManagementService {
         List<Club> clubs = new ArrayList<Club>();
         checkForExceptions(comp);
         clubs = clubDao.getClubs();
-        if(clubs!=null){
-            for (Club c : clubs) {
-                sendEmail(c);
-            }
-        }
+//        if(clubs!=null){
+//            for (Club c : clubs) {
+//                sendEmail(c);
+//            }
+//        }
         cDao.addCompetition(comp);
         //THIS IS THE OPERATION TO IMPLEMENT.....
 
@@ -101,15 +101,12 @@ public class ManagementService {
                 CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
             
             addCompetition(competition);
-            cDao.addCompetition(competition);
+            
             competition.getTeams().add(team);
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
         }
-        
-         competition.getTeams().add(team);
-         cDao.addTeam(competition, team);
     }
 
     /*
