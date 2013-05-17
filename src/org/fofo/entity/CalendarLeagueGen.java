@@ -28,6 +28,27 @@ public class CalendarLeagueGen extends CalendarGen{
         this.calendar = new FCalendar();
     }     
    
+    //   ****SEMBLA MÉS RAONABLE QUE calculateCalendar PRENGUI COM A PARAM. LA 
+    //       COMPETICIO. L'OP. CONSTRUCTORA NO HAURIA DE FER LES FEINES QUE FA. 
+    //       SON FEINES PROPIES DE CALCULATECALENDAR
+    // REFEU L'OPERACIO SEGUENT PER TAL QUE QUEDI BE I ELIMINEU calculateCalendar()
+    // (la que no te parametres)
+    
+    public FCalendar calculateCalendar(Competition comp) throws Exception{
+        
+        this.comp = comp;
+        
+        if(!isPair())
+            throw new NumberOfTeamsException("This LEAGUE competition has not "
+                    + "a PAIR number of teams");
+         
+        
+        this.numTeams = comp.getNumberOfTeams();
+        this.calendar = new FCalendar();
+        
+        return this.calculateCalendar();
+    }
+    
     @Override
     public FCalendar calculateCalendar() throws Exception{         
         
