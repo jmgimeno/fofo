@@ -74,4 +74,22 @@ public class Match {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public boolean equals(Object obj){
+        
+        if (!(obj instanceof Match) ) return false;
+        
+        Match m = (Match) obj;
+        
+        return m.local.getName().equals(local.getName()) && 
+               m.visitant.getName().equals (visitant.getName());
+        
+        
+    }
+
+    
+    public String toString(){
+        
+        return local.getName()+"-"+visitant.getName();
+    }
 }
