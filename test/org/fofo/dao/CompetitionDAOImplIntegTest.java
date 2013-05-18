@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -45,6 +46,9 @@ public class CompetitionDAOImplIntegTest {
     }
 
     //@Test
+    
+   // De momento no lo podemos hacer pq el getCompetition no esta 
+    // implentado no?
     public void addCompetition() throws PersistException {
 
         competitionDAO.addCompetition(competition);
@@ -52,16 +56,16 @@ public class CompetitionDAOImplIntegTest {
         assertNotNull(comp);
     }
 
-    //@Test
+    @Test
     public void addTeam_To_Competition() throws PersistException {
 
-        List<Team> list = Arrays.asList(team);
-
-        competitionDAO.addTeam(competition, team);
-        assertEquals(list, competition.getTeams());
-        assertEquals(competition.getTeams(), 
-                competitionDAO.findCompetitionByName("League1").getTeams());
-
+        competition.addTeam(team);
+       List<Team> expected = new ArrayList();
+       expected.add(team);
+       
+       List<Team> obtained = competition.getTeams();
+       
+       assertEquals(expected, obtained);
     }
 
     @Test(expected = PersistException.class)
