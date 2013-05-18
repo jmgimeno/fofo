@@ -1,22 +1,30 @@
-package org.fofo.entity;
+package org.fofo.services.management;
 
+import org.fofo.services.management.CalendarGen;
 import java.util.*;
+import org.fofo.entity.Category;
+import org.fofo.entity.Club;
+import org.fofo.entity.Competition;
+import org.fofo.entity.FCalendar;
+import org.fofo.entity.Match;
+import org.fofo.entity.Team;
+import org.fofo.entity.WeekMatches;
 
 /**
  *
  * @author jnp2
  */
 public class CalendarCupGen extends CalendarGen{   
-    private Competition competition;  
+    private Competition competition;       
     private List<WeekMatches> weekMatches ; 
 
-    public CalendarCupGen(Competition competition) {
+    public CalendarCupGen(/*Competition competition*/) {
         weekMatches = new ArrayList<WeekMatches>();
-        this.competition = competition;
+//        this.competition = competition;
     }
 
     @Override
-    public FCalendar calculateCalendar() throws InvalidRequisitsException,
+    public FCalendar calculateCalendar(Competition competition) throws InvalidRequisitsException,
                        TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException, Exception{ 
         checkRequirements(competition);
         generateRoundN(1,competition.getTeams());

@@ -1,5 +1,8 @@
 package org.fofo.entity;
 
+import org.fofo.services.management.InvalidRequisitsException;
+import org.fofo.services.management.MinimumDaysException;
+import org.fofo.services.management.CalendarCupGen;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -37,14 +40,14 @@ public class CalendarCupTest {
     @Test(expected=MinimumDaysException.class)
     public void testDateException() throws Exception {
         comp.setInici(new DateTime().minusDays(6).toDate());
-        generator = new CalendarCupGen(comp);  
-        generator.calculateCalendar();
+        generator = new CalendarCupGen();  
+        generator.calculateCalendar(comp);
     }    
     
     @Test   
     public void testNumWeekMatchesException()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         int nj = calendar.getNumOfWeekMatches();
         assertEquals(4,nj);  
     }
@@ -52,8 +55,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testNumMatchesInFirstWeek()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         
         WeekMatches first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();
@@ -63,8 +66,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testNumMatchesInEachWeekMatches()  throws Exception {
-        generator = new CalendarCupGen(comp); 
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen(); 
+        FCalendar calendar = generator.calculateCalendar(comp);
   
         int nmatches = 8;
         for(int i=0; i<4; i++){
@@ -75,8 +78,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testIfAllTeamsParticipatingInFirstWeekMatchesAreCorrect()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         
         WeekMatches first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();     
@@ -92,8 +95,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testIfOurTeamsParticipatingInFirstWeekMatch()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         
         WeekMatches first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();     
@@ -104,8 +107,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testTeamsParticipatingInSecondWeekMatch()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         
         WeekMatches second = calendar.getWeekMatch(1);
         List<Match> listMatch = second.getListOfWeekMatches();     
@@ -116,8 +119,8 @@ public class CalendarCupTest {
     
     @Test   
     public void testTeamsParticipatingInEachWeekMatch()  throws Exception {
-        generator = new CalendarCupGen(comp);        
-        FCalendar calendar = generator.calculateCalendar();
+        generator = new CalendarCupGen();        
+        FCalendar calendar = generator.calculateCalendar(comp);
         
         int numTeams = 8;
         for(int i=1; i<=3; i++){

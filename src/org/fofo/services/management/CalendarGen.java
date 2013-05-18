@@ -1,40 +1,35 @@
-package org.fofo.entity;
+package org.fofo.services.management;
 
 import java.util.Date;
 import java.util.List;
 import org.fofo.dao.*;
+import org.fofo.entity.Competition;
+import org.fofo.entity.CompetitionCup;
+import org.fofo.entity.CompetitionLeague;
+import org.fofo.entity.FCalendar;
+import org.fofo.entity.Team;
+import org.fofo.entity.Type;
 import org.joda.time.DateTime;
 
 /**
  * @author Jordi, Anatoli
  */
 public abstract class CalendarGen {    
-        
-    public abstract FCalendar calculateCalendar() throws Exception;               
-//        checkRequiriments();           
-//        if(isLeagueCompetition()) return CalculateCalendarLeague();
-//        else return CalculateCalendarCup();
-//    }
-//    
-//    public FCalendar CalculateCalendarCup() throws Exception{     
-//        checkRequiriments();        
-//        if(!isCupCompetition()) throw new Exception();        
-//        generator = new CalendarCupGen(competition);
-//        return generator.CalculateCalendar();           
-//    
-    
-//    public FCalendar CalculateCalendarLeague() throws Exception{    
-//        checkRequiriments();      
-//        if(!isLeagueCompetition()) throw new Exception();
-//        generator = new CalendarLeagueGen(competition);
-//        return generator.CalculateCalendar();
-//    }    
+       
+//    public abstract FCalendar calculateCalendar() throws Exception;  
+    public abstract FCalendar calculateCalendar(Competition comp) throws Exception; 
 
             
     public void checkRequirements(Competition comp) throws Exception {
             
        if(!isLeagueCompetition(comp) && !isCupCompetition(comp)) 
             throw new UnknownCompetitionTypeException();                                                                 
+       
+       if(comp instanceof CompetitionLeague && !isLeagueCompetition(comp))
+           throw new UnknownCompetitionTypeException();
+       
+       if(comp instanceof CompetitionCup && !isCupCompetition(comp))
+           throw new UnknownCompetitionTypeException();
        
         if(!minimDaysPassed(comp)) 
             throw new MinimumDaysException("It must be a difference of 7 days as "

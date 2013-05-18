@@ -4,6 +4,9 @@
  */
 package org.fofo.entity;
 
+import org.fofo.services.management.NumberOfTeamsException;
+import org.fofo.services.management.MinimumDaysException;
+import org.fofo.services.management.UnknownCompetitionTypeException;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -30,7 +33,7 @@ public class CalendarGenTest {
         
     }
     
-    //@Test (expected = UnknownCompetitionTypeException.class)
+//    @Test (expected = UnknownCompetitionTypeException.class)
     public void unknownCompetitionType() throws Exception{
         Competition compKO = compOK;
         compKO.setType(null);
@@ -39,7 +42,7 @@ public class CalendarGenTest {
         fail();
     }
 
-    //@Test (expected = MinimumDaysException.class)
+//    @Test (expected = MinimumDaysException.class)
     public void minimDaysNotPassed() throws Exception {
         Competition compKO = compOK;
         compKO.setInici(new DateTime().minusDays(6).toDate());
@@ -48,7 +51,7 @@ public class CalendarGenTest {
         fail();
     }
     
-    //@Test(expected = NumberOfTeamsException.class)
+//    @Test(expected = NumberOfTeamsException.class)
     public void notEnoughTeams() throws Exception {
         Competition compKO = compOK;
         System.out.println(compKO.getMinTeams());
@@ -62,7 +65,7 @@ public class CalendarGenTest {
         fail();
     }
 
-    //@Test(expected = NumberOfTeamsException.class)
+//    @Test(expected = NumberOfTeamsException.class)
     public void excessOfTeams() throws Exception {
         Competition compKO = compOK;
         List<Team> moreThanMaxTeams = new ArrayList<Team>();
