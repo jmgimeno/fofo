@@ -25,16 +25,16 @@ public class CalendarCalculatorService {
     
     public void calculateAndStoreLeagueCalendar(Competition comp) throws Exception{
         if(calDao==null) throw new InvalidRequisitsException();
-        CalendarGen calGen = new CalendarLeagueGen(comp);
-        FCalendar cal = calGen.calculateCalendar();
+        CalendarLeagueGen calGen = new CalendarLeagueGen();
+        FCalendar cal = calGen.calculateCalendar(comp);
 
         calDao.addCalendar(cal);
     }
     
     public void calculateAndStoreCupCalendar(Competition comp) throws Exception{
         if(calDao==null) throw new InvalidRequisitsException();
-        CalendarGen calGen = new CalendarCupGen(comp);
-        FCalendar cal = calGen.calculateCalendar();
+        CalendarCupGen calGen = new CalendarCupGen();
+        FCalendar cal = calGen.calculateCalendar(comp);
 
         calDao.addCalendar(cal);
     }    

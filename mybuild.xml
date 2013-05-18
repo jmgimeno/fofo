@@ -175,7 +175,7 @@
   <!-- =================================================================== -->
 
 
- <target name="cleandb">
+  <target name="cleandb">
     <delete dir="${db.dir}"/>
   </target>
 
@@ -190,13 +190,50 @@
     <delete dir="${db.dir}"/> 
 
 
-  <delete>
-    <fileset dir="${basedir}" includes="**/*.jdbc"/>
-    <fileset dir="${basedir}" includes="**/*.log"/>
-  </delete>
-
+	<delete>
+    	<fileset dir="${basedir}" includes="**/*.jdbc"/>
+    	<fileset dir="${basedir}" includes="**/*.log"/>
+	</delete>
 
   </target>
+
+
+
+	<!-- =================================================================== -->
+	<!-- SONAR			                                                     -->
+	<!-- =================================================================== -->
+	
+	<target name="sonar" depends="test">		
+
+		<property name="sonar.projectKey" value="org.codehaus.sonar:fofo" />
+		<property name="sonar.projectName" value="FOFO" />
+		<property name="sonar.projectVersion" value="1.0" />
+		<property name="sonar.sources" value="${src.dir}" />
+		<property name="sonar.tests" value="${src.test.dir}" />
+		<!-- <property name="sonar.binaries" value="${build.classes.dir}" /> -->
+		<property name="sonar.dynamicAnalysis" value="reuseReports" />
+		<property name="sonar.surefire.reportsPath" value="${build.report.dir}" /> 
+		<property name="sonar.core.codeCoveragePlugin" value="jacoco" />
+ 		<!--<property name="sonar.jacoco.reportPath" value="${build.report.dir}/coverage/jacoco.exec" />-->
+
+		<!-- Sonar DB connection -->
+		<property name="sonar.jdbc.url" value="jdbc:h2:tcp://localhost:9092/sonar" />
+		<property name="sonar.jdbc.driverClassName" value="org.h2.Driver" /> 
+		<property name="sonar.jdbc.username" value="sonar" />
+		<property name="sonar.jdbc.password" value="sonar" />
+
+		<!-- Sonar server URL -->
+		<property name="sonar.host.url" value="http://localhost:9000" />
+
+		<!-- Ant Task -->	
+		<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+		    	<classpath path="$ANT_HOME/lib/" />
+		</taskdef>
+ 
+	    <!-- Execute Sonar -->
+	    <sonar:sonar xmlns:sonar="antlib:org.sonar.ant"/>
+	</target>
+
 
 
 </project>

@@ -4,6 +4,8 @@
  */
 package org.fofo.entity;
 
+import org.fofo.services.management.NumberOfTeamsException;
+import org.fofo.services.management.CalendarLeagueGen;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -30,8 +32,8 @@ public class CalendarLeagueGenTest {
     @Before
     public void setUp() throws Exception {
         setUpCompOK();
-        generator = new CalendarLeagueGen(compOK);
-        calendar = generator.calculateCalendar();
+        generator = new CalendarLeagueGen();
+        calendar = generator.calculateCalendar(compOK);
     }
 
     @Test (expected = NumberOfTeamsException.class)
@@ -41,26 +43,36 @@ public class CalendarLeagueGenTest {
         notPairTeams.remove(0); //10-1 = 9 teams
         compKO.setTeams(notPairTeams);
         
-        new CalendarLeagueGen(compKO).calculateCalendar();
-        // fail();      NO CAL!!!
-    }
-
-    @Test
-    public void oneRoundHasCorrectNumOfWeekMatches() throws Exception{
-        
-        int expected = compOK.getNumberOfTeams()-1;
-        int result = calendar.getNumOfWeekMatches()/2; 
-        assertEquals(expected,result);
+        new CalendarLeagueGen().calculateCalendar(compKO);        
     }
     
     @Test
     public void oneWeekMatchesHasCorrectNumOfMatches() throws Exception {
-        int expected = compOK.getNumberOfTeams() / 2 ;
+        int expected = compOK.getNumberOfTeams() / 2;
 
         for (WeekMatches wm : calendar.getAllWeekMatches()) {
             assertEquals(expected, wm.getNumberOfMatchs());
         }
         
+    }
+    
+    @Test
+    public void oneRoundHasCorrectNumOfWeekMatches() throws Exception{
+        
+        int expected = compOK.getNumberOfTeams()-1;
+        int result = calendar.getNumOfWeekMatches()/2; //2 = num of rounds
+        assertEquals(expected,result);
+    }
+    
+    @Test
+    public void eachRoundHasTheSameNumOfWeekMatches() throws Exception{
+        
+        int expected = compOK.getNumberOfTeams()-1;
+        
+        for(int i=1; i<=2; i++){
+            int result = generator.getWeekMatchesByRound(i).size();
+            assertEquals(expected,result);
+        }
     }
     
     

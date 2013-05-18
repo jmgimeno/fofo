@@ -4,8 +4,12 @@
  */
 package org.fofo.entity;
 
+import org.fofo.services.management.NumberOfTeamsException;
+import org.fofo.services.management.UnknownCompetitionTypeException;
+import org.fofo.services.management.CalendarLeagueGen;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -14,7 +18,7 @@ import org.junit.Before;
  *
  * @author josepma
  */
-public class CalendarGen2Test {
+public class CalendarLeagueGenTest2 {
     
     Competition comp;
     CalendarLeagueGen calcal;
@@ -29,22 +33,23 @@ public class CalendarGen2Test {
         
         
 
-        java.util.Calendar gcal = new java.util.GregorianCalendar();
-        
-        gcal.set(10,11,2013);
+//        java.util.Calendar gcal = new java.util.GregorianCalendar();
+//        
+//        gcal.set(10,11,2013);
         
         
         Club club = new Club("Nom club");
         
         comp.setName("League1");
-        comp.setInici(gcal.getTime());
+        comp.setInici(new DateTime().minusDays(8).toDate()); //Current date - 8 days
         comp.setCategory(Category.MALE);
         comp.setType(Type.LEAGUE);
+        comp.setMinTeams(2);
+        comp.setMaxTeams(20);
         
         
         
-        
-        comp.getTeams().add(new Team("team0",club,Category.MALE));
+        comp.getTeams().add(new Team("team0",club,Category.MALE)); //perque no comp.addTeam() ?
         comp.getTeams().add(new Team("team1",club,Category.MALE));
         comp.getTeams().add(new Team("team2",club,Category.MALE));
         comp.getTeams().add(new Team("team3",club,Category.MALE));
@@ -52,7 +57,7 @@ public class CalendarGen2Test {
         comp.getTeams().add(new Team("team5",club,Category.MALE));
         
 
-       calcal = new CalendarLeagueGen(comp);
+       calcal = new CalendarLeagueGen();
 
         
         
@@ -60,7 +65,7 @@ public class CalendarGen2Test {
     
     
     
-    public CalendarGen2Test() {
+    public CalendarLeagueGenTest2() {
 
     
     
@@ -75,7 +80,7 @@ public class CalendarGen2Test {
      * 
      */
     
-    //@Test(expected=IncorrectCompetitionTypeException.class)
+    @Test(expected=UnknownCompetitionTypeException.class)
     public void testLeagueCompetition() throws Exception{
 
         comp.setType(Type.CUP);
@@ -93,7 +98,7 @@ public class CalendarGen2Test {
     * 
     */ 
     
-   // @Test(expected=NumberOfTeamsException.class)
+    @Test(expected=NumberOfTeamsException.class)
     public void testMoreThanOneTeam() throws Exception{
     
         List<Team> teams = new ArrayList<Team>();
@@ -215,7 +220,7 @@ public class CalendarGen2Test {
      * 
      * 
      */
-    //@Test
+    @Test
     public void testSecondRound() throws Exception{
         
         FCalendar cal =  calcal.calculateCalendar(comp);
