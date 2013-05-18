@@ -223,7 +223,7 @@ public class InscriptionTeamTest {
     }
     
     
-    
+    //NO SE BEN BE QUE VOLEU TESTEJAR AMB AQUEST
     //@Test(expected = IncorrectDate.class)
     public void correctAddTeamToCategory() throws Exception {
         //Cdao.addTeam(Comp, team);
@@ -236,7 +236,7 @@ public class InscriptionTeamTest {
         //assertTrue("L'equip no ha estat inserit",Comp.getTeams().contains(team2));
     }
 
-    //@Test(expected = InscriptionTeamException.class)
+    @Test(expected = InscriptionTeamException.class)
     public void periodNotOpen() throws InscriptionTeamException, Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(2013, Calendar.MAY, 11);
@@ -275,7 +275,8 @@ public class InscriptionTeamTest {
         // assertTrue(Comp.getTeams().contains(team));
     }
 
-    //@Test(expected=InscriptionTeamException.class)
+//EN AQUEST TEST US FALTEN LES EXPECTATIONS    
+//    @Test(expected=InscriptionTeamException.class)
     public void testIncorrectClub() throws Exception {
 
         team.setCategory(Category.MALE);
@@ -288,7 +289,7 @@ public class InscriptionTeamTest {
 
     }
 
-    //@Test
+    @Test
     public void TeamInsertedIntoTheDB() throws Exception {
 
 
@@ -299,24 +300,34 @@ public class InscriptionTeamTest {
         team.setName("team");
 
         final List<Team> teams = new ArrayList<Team>();
+        final List<Competition> lcomp = new ArrayList<Competition>();
 
+        lcomp.add(comp); 
+        
+        
         context.checking(new Expectations() {
 
             {
                 oneOf(Cdao).addTeam(comp, team);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
+                //oneOf(teamDAO).getTeams();
+                //       will(returnValue(teams));
+                oneOf(Cdao).getCompetitionms(); will (returnValue(lcomp));       
             }
         });
 
+        
+        
         service.setcDao(Cdao);
         service.setTeamDao(teamDAO);
+        //AQUESTS DOS SETS, NO HAURIEN D'ANAR AL SETUP???
+        
         service.addTeam(comp, team);
 
 
     }
 
-    //@Test//(expected=InscriptionTeamException.class)
+ //***EN AQUEST TEST US FALTEN LES EXPECTATIONS  
+//    @Test//(expected=InscriptionTeamException.class)
     public void testInsertTeamInCompetition() throws Exception {
 
         team.setCategory(Category.MALE);
