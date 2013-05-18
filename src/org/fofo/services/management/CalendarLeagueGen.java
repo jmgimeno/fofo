@@ -1,16 +1,10 @@
 package org.fofo.services.management;
 
-import org.fofo.services.management.CalendarGen;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.fofo.entity.Competition;
-import org.fofo.entity.CompetitionLeague;
-import org.fofo.entity.FCalendar;
-import org.fofo.entity.Match;
-import org.fofo.entity.Team;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.*;
 import org.joda.time.DateTime;
 
 /**

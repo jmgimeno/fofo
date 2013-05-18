@@ -29,210 +29,210 @@
     <property name="db.dir" value="${basedir}/myDB"/>
 
 
-<!-- ===================================================================== -->
-<!-- Classpath                                                             -->
-<!-- ===================================================================== -->
+    <!-- ===================================================================== -->
+    <!-- Classpath                                                             -->
+    <!-- ===================================================================== -->
 
-  <path id="classpath">
+    <path id="classpath">
         <fileset dir="${basedir}/lib">
             <include name="**/*.jar"/>
         </fileset>
-	<pathelement location="${build.classes.dir}"/>
-	<pathelement location="${build.classes.test.dir}"/>
-  </path>
+        <pathelement location="${build.classes.dir}"/>
+        <pathelement location="${build.classes.test.dir}"/>
+    </path>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the build directory                                        -->
-  <!-- =================================================================== -->
-  <target name="prepare" >
-    <mkdir dir="${build.dir}"/>
-    <mkdir dir="${build.classes.dir}"/>
-    <mkdir dir="${build.classes.test.dir}"/>
-    <mkdir dir="${build.lib.dir}"/>
-    <mkdir dir="${build.report.dir}"/>
-    <mkdir dir="${build.report.dir}/html"/>
-    <mkdir dir="${dist.dir}"/>
+    <!-- =================================================================== -->
+    <!-- Prepares the build directory                                        -->
+    <!-- =================================================================== -->
+    <target name="prepare" >
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.classes.test.dir}"/>
+        <mkdir dir="${build.lib.dir}"/>
+        <mkdir dir="${build.report.dir}"/>
+        <mkdir dir="${build.report.dir}/html"/>
+        <mkdir dir="${dist.dir}"/>
 
-   <!-- Copy the library jar files  -->
+        <!-- Copy the library jar files  -->
 
-    <copy todir="${build.lib.dir}">
-       <fileset   dir = "${basedir}/lib">
-       </fileset>
-    </copy>
+        <copy todir="${build.lib.dir}">
+            <fileset   dir = "${basedir}/lib">
+            </fileset>
+        </copy>
 
-    <copy todir="${build.classes.dir}">
-       <fileset   dir = "${src.dir}">
-          <include name="META-INF/**"/>
+        <copy todir="${build.classes.dir}">
+            <fileset   dir = "${src.dir}">
+                <include name="META-INF/**"/>
  
-       </fileset>
-    </copy>
+            </fileset>
+        </copy>
 
 
-  </target>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the source code                                            -->
-  <!-- =================================================================== -->
-  <target name="compile.java" depends="prepare">
-    <javac srcdir="${src.dir}"
+    <!-- =================================================================== -->
+    <!-- Compiles the source code                                            -->
+    <!-- =================================================================== -->
+    <target name="compile.java" depends="prepare">
+        <javac srcdir="${src.dir}"
            destdir="${build.classes.dir}"
            debug="on"
            deprecation="on"
            optimize="off"
            includes="**">
             <classpath refid="classpath"/>
-    </javac>
-  </target>
+        </javac>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the tests                                                  -->
-  <!-- =================================================================== -->
-  <target name="compile.test" depends="compile.java">
-    <javac srcdir="${src.test.dir}"
+    <!-- =================================================================== -->
+    <!-- Compiles the tests                                                  -->
+    <!-- =================================================================== -->
+    <target name="compile.test" depends="compile.java">
+        <javac srcdir="${src.test.dir}"
            destdir="${build.classes.test.dir}"
            debug="on"
            deprecation="on"
            optimize="off"
            includes="**">
             <classpath refid="classpath"/>
-    </javac>
-  </target>
+        </javac>
+    </target>
 
 
-  <!-- =================================================================== -->
-  <!-- Compiles everything                                                 -->
-  <!-- =================================================================== -->
-  <target name="compile" depends="compile.java, compile.test"/>
+    <!-- =================================================================== -->
+    <!-- Compiles everything                                                 -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="compile.java, compile.test"/>
 
 
 
-  <!-- =================================================================== -->
-  <!-- Builds application: jpa-derby-test.jar                              -->
-  <!-- =================================================================== -->
+    <!-- =================================================================== -->
+    <!-- Builds application: jpa-derby-test.jar                              -->
+    <!-- =================================================================== -->
 
-  <target name="jar" depends="compile">
+    <target name="jar" depends="compile">
 
-    <jar jarfile="${basedir}/${app.name}.jar"
+        <jar jarfile="${basedir}/${app.name}.jar"
          manifest="${meta.dir}/manifest.mf">
  
-      <fileset dir="${build.classes.dir}">
-          <include name="**"/>
-      </fileset>
+            <fileset dir="${build.classes.dir}">
+                <include name="**"/>
+            </fileset>
 
-      <fileset dir="${basedir}">
-          <include name="lib/**"/>
+            <fileset dir="${basedir}">
+                <include name="lib/**"/>
 
-      </fileset>
+            </fileset>
 
-    </jar>
+        </jar>
 
-    <move file="${app.name}.jar" todir="${dist.dir}"/> 
+        <move file="${app.name}.jar" todir="${dist.dir}"/> 
 
-  </target>
+    </target>
 
 
 
-  <!-- =================================================================== -->
-  <!-- Performs unit tests                                                 -->
-  <!-- =================================================================== -->
+    <!-- =================================================================== -->
+    <!-- Performs unit tests                                                 -->
+    <!-- =================================================================== -->
 
-  <target name="test" depends="compile"> 
+    <target name="test" depends="compile"> 
 
-     <junit printsummary="yes" haltonerror="yes" haltonfailure="yes"  
+        <junit printsummary="yes" haltonerror="yes" haltonfailure="yes"  
             fork="yes"> 
 
-     <!-- fork="yes" would not force to include junit.jar in apache-ant/lib -->
+            <!-- fork="yes" would not force to include junit.jar in apache-ant/lib -->
 
             <formatter type = "xml" />
 
-             <classpath>
+            <classpath>
                 <path refid="classpath"/>
-             </classpath>
+            </classpath>
 
 
                       
             <batchtest todir="${build.report.dir}" >
-               <fileset dir="${src.test.dir}">
-                  <include name="**/*Test.java"/>
-               </fileset>
+                <fileset dir="${src.test.dir}">
+                    <include name="**/*Test.java"/>
+                </fileset>
                
-           </batchtest>
-   </junit> 
+            </batchtest>
+        </junit> 
 
-  <junitreport todir="${build.report.dir}">
-     <fileset dir="${build.report.dir}">
-       <include name="TEST-*.xml"/>
-     </fileset>
+        <junitreport todir="${build.report.dir}">
+            <fileset dir="${build.report.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
 
-     <report todir="${build.report.dir}/html"/>
-</junitreport>
+            <report todir="${build.report.dir}/html"/>
+        </junitreport>
 
- </target>
-
-
-  <!-- =================================================================== -->
-  <!-- Cleans up DB                                                        -->
-  <!-- =================================================================== -->
+    </target>
 
 
-  <target name="cleandb">
-    <delete dir="${db.dir}"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Cleans up DB                                                        -->
+    <!-- =================================================================== -->
 
 
-  <!-- =================================================================== -->
-  <!-- Cleans up generated stuff                                           -->
-  <!-- =================================================================== -->
-
-  <target name="clean" >
-    <delete dir="${build.dir}"/>
-    <delete dir="${dist.dir}"/>
-    <delete dir="${db.dir}"/> 
+    <target name="cleandb">
+        <delete dir="${db.dir}"/>
+    </target>
 
 
-	<delete>
-    	<fileset dir="${basedir}" includes="**/*.jdbc"/>
-    	<fileset dir="${basedir}" includes="**/*.log"/>
-	</delete>
+    <!-- =================================================================== -->
+    <!-- Cleans up generated stuff                                           -->
+    <!-- =================================================================== -->
 
-  </target>
+    <target name="clean" >
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <delete dir="${db.dir}"/> 
+
+
+        <delete>
+            <fileset dir="${basedir}" includes="**/*.jdbc"/>
+            <fileset dir="${basedir}" includes="**/*.log"/>
+        </delete>
+
+    </target>
 
 
 
-	<!-- =================================================================== -->
-	<!-- SONAR			                                                     -->
-	<!-- =================================================================== -->
+    <!-- =================================================================== -->
+    <!-- SONAR			                                             -->
+    <!-- =================================================================== -->
 	
-	<target name="sonar" depends="test">		
+    <target name="sonar" depends="test">		
 
-		<property name="sonar.projectKey" value="org.codehaus.sonar:fofo" />
-		<property name="sonar.projectName" value="FOFO" />
-		<property name="sonar.projectVersion" value="1.0" />
-		<property name="sonar.sources" value="${src.dir}" />
-		<property name="sonar.tests" value="${src.test.dir}" />
-		<!-- <property name="sonar.binaries" value="${build.classes.dir}" /> -->
-		<property name="sonar.dynamicAnalysis" value="reuseReports" />
-		<property name="sonar.surefire.reportsPath" value="${build.report.dir}" /> 
-		<property name="sonar.core.codeCoveragePlugin" value="jacoco" />
- 		<!--<property name="sonar.jacoco.reportPath" value="${build.report.dir}/coverage/jacoco.exec" />-->
+        <property name="sonar.projectKey" value="org.codehaus.sonar:fofo" />
+        <property name="sonar.projectName" value="FOFO" />
+        <property name="sonar.projectVersion" value="1.0" />
+        <property name="sonar.sources" value="${src.dir}" />
+        <property name="sonar.tests" value="${src.test.dir}" />
+        <!-- <property name="sonar.binaries" value="${build.classes.dir}" /> -->
+        <property name="sonar.dynamicAnalysis" value="reuseReports" />
+        <property name="sonar.surefire.reportsPath" value="${build.report.dir}" /> 
+        <property name="sonar.core.codeCoveragePlugin" value="jacoco" />
+        <!--<property name="sonar.jacoco.reportPath" value="${build.report.dir}/coverage/jacoco.exec" />-->
 
-		<!-- Sonar DB connection -->
-		<property name="sonar.jdbc.url" value="jdbc:h2:tcp://localhost:9092/sonar" />
-		<property name="sonar.jdbc.driverClassName" value="org.h2.Driver" /> 
-		<property name="sonar.jdbc.username" value="sonar" />
-		<property name="sonar.jdbc.password" value="sonar" />
+        <!-- Sonar DB connection -->
+        <property name="sonar.jdbc.url" value="jdbc:h2:tcp://localhost:9092/sonar" />
+        <property name="sonar.jdbc.driverClassName" value="org.h2.Driver" /> 
+        <property name="sonar.jdbc.username" value="sonar" />
+        <property name="sonar.jdbc.password" value="sonar" />
 
-		<!-- Sonar server URL -->
-		<property name="sonar.host.url" value="http://localhost:9000" />
+        <!-- Sonar server URL -->
+        <property name="sonar.host.url" value="http://localhost:9000" />
 
-		<!-- Ant Task -->	
-		<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
-		    	<classpath path="$ANT_HOME/lib/" />
-		</taskdef>
+        <!-- Ant Task -->	
+        <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+            <classpath path="$ANT_HOME/lib/" />
+        </taskdef>
  
-	    <!-- Execute Sonar -->
-	    <sonar:sonar xmlns:sonar="antlib:org.sonar.ant"/>
-	</target>
+        <!-- Execute Sonar -->
+        <sonar:sonar xmlns:sonar="antlib:org.sonar.ant"/>
+    </target>
 
 
 
