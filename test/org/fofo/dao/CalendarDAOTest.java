@@ -27,7 +27,7 @@ import org.fofo.entity.*;
  * @author Anton Urrea
  */
 @RunWith(JMock.class)
-public class CalendarDAOImplTest {
+public class CalendarDAOTest {
 
     Mockery context = new JUnit4Mockery();
     EntityManager em;
@@ -50,18 +50,10 @@ public class CalendarDAOImplTest {
 
         calDAO = new CalendarDAOImpl();
         calDAO.setEm(em);
-
+        
         club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
 
-<<<<<<< HEAD
-=======
-        team1 = new Team();
-        team2 = new Team();
-        team3 = new Team();
-        team4 = new Team();
-
->>>>>>> 10f79b00755a3bf13b72981b8eaf0b02787f1cba
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
@@ -116,114 +108,47 @@ public class CalendarDAOImplTest {
         
     }
 
-   
-    /**
-     * Add Calendar with only one WeekMatch with only one Match.
-     *
-     * @throws Exception
-     */
-    //@Test
-    public void testAdditionOfJustOneMatch() throws Exception {
-        wm1.addMatch(match1);
-
-        cal.getAllWeekMatches().add(wm1);
-
-        calDAO.addCalendar(cal);
-
+    
+    @Test
+    public void testAddCalendar(){
+       
+        final List<WeekMatches> wm = new ArrayList<WeekMatches>();
+        wm.add(wm1);
+        wm.add(wm2);   
+        
+        cal.setWeekMatches(wm);
+        
         context.checking(new Expectations() {
 
             {
-                atLeast(1).of(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(transaction).begin();
-                // oneOf(em).getTransaction();
-                //   will(returnValue(transaction));
-                oneOf(transaction).commit();
-                oneOf(em).persist(match1);
-                oneOf(em).persist(wm1);
-                oneOf(em).persist(cal);
+                oneOf(caldao).addCalendar(cal);  
             }
         });
 
-        calDAO.addCalendar(cal);
+        caldao.addCalendar(cal);
+       
     }
-
-    /**
-     * Add Calendar with only one WeekMatch with various Match.
-     * @throws Exception 
-     */
-    //@Test
-    public void testAdditionOfVariousMatchesOneWM() throws Exception {
-
-        wm1.addMatch(match1);
-        wm1.addMatch(match2);
-        wm2.addMatch(match3);
-        wm2.addMatch(match4);
-
-        cal.getAllWeekMatches().add(wm1);
-        cal.getAllWeekMatches().add(wm2);
-
-        calDAO.addCalendar(cal);
-
+    
+        
+    @Test
+    public void testFindCalendar(){
+       
+        final List<WeekMatches> wm = new ArrayList<WeekMatches>();
+        wm.add(wm1);
+        wm.add(wm2);   
+        
+        cal.setWeekMatches(wm);
+        
         context.checking(new Expectations() {
 
             {
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(transaction).begin();
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(transaction).commit();
-                oneOf(em).persist(match1);
-                oneOf(em).persist(match2);
-                oneOf(em).persist(match3);
-                oneOf(em).persist(match4);
-                oneOf(em).persist(wm1);
-                oneOf(em).persist(cal);
+                oneOf(caldao).findCalendar(cal);
             }
         });
 
-        calDAO.addCalendar(cal);
+        caldao.findCalendar(cal);
+       
     }
+    
 
-    /**
-     * Add Calendar with only various WeekMatch with various Match.
-     * @throws Exception 
-     */
-    //@Test
-    public void testAddVariousWeekMatches() throws Exception {
-
-        List<WeekMatches> Lwm = null;
-
-        wm1.addMatch(match1);
-        wm1.addMatch(match2);
-        wm2.addMatch(match3);
-        wm2.addMatch(match4);
-
-        Lwm.add(wm1);
-        Lwm.add(wm2);
-
-        cal.setWeekMatches(Lwm);
-
-        context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(transaction).begin();
-                oneOf(em).getTransaction();
-                will(returnValue(transaction));
-                oneOf(transaction).commit();
-                oneOf(em).persist(match1);
-                oneOf(em).persist(match2);
-                oneOf(em).persist(wm1);
-                oneOf(em).persist(match3);
-                oneOf(em).persist(match4);
-                oneOf(em).persist(wm2);
-                oneOf(em).persist(cal);
-            }
-        });
-
-        calDAO.addCalendar(cal);
-    }
 }
