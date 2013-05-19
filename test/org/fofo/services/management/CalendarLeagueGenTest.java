@@ -68,7 +68,13 @@ public class CalendarLeagueGenTest {
         }
     }
     
-    
+//    @Test
+//    public void eachRoundHasCorrectNumOfMatchesForEachTeam(){
+//        int expected = compOK.getNumberOfTeams()-1;
+//        
+//        //MOLT COSTÒS. ALGU ALTRE (MATCH, TEAM...) ENS HAURIA D'AJUDAR A 
+//        //OBTINDRE EL NOMBRE DE PARTITS QUE HA JUGAT UN EQUIP  
+//    }
     
     /** 
      * A team plays once in a week match   
@@ -82,7 +88,7 @@ public class CalendarLeagueGenTest {
 //    }
     
     /** 
-     * A team plays onece  against each oponent 
+     * A team plays once  against each oponent 
      */
     @Test
     public void testCorrectRound() throws Exception{

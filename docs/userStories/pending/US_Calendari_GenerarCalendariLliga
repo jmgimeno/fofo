@@ -17,7 +17,7 @@ TESTS ACCEPTACIÓ
 3. El nombre d'equips ha de ser parell. OK
 
 4. El calendari contempla dues voltes. En cada volta
-cada equip jugarà n-1 partits. 
+cada equip jugarà n-1 partits. CASI IMPOSSIBLE DE TESTEJAR
 
 5. Cada volta tindrà n-1 jornades. OK
 
