@@ -345,14 +345,15 @@ public class InscriptionTeamTest {
 
    
     /**
-     * team5 and comp, have different category. So, it's not possible assign this team in that competition.
+     * Team5 and comp, have different category. So, it's not possible assign this team in that competition.
      * @throws PersistException
      * @throws Exception 
      */
     @Test(expected = InscriptionTeamException.class)
     public void diffCategTeamAndCategory() throws PersistException, Exception {
 
-        team5.setCompetition(comp);
+        comp.setCategory(Category.FEMALE);
+        team5.setCategory(Category.MALE);
 
         service.addTeam(comp, team5);
     }

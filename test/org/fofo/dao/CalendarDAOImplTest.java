@@ -42,7 +42,7 @@ public class CalendarDAOImplTest {
 
         calDAO = new CalendarDAOImpl();
         calDAO.setEm(em);
-        
+
         club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
 
@@ -50,7 +50,7 @@ public class CalendarDAOImplTest {
         team2 = new Team();
         team3 = new Team();
         team4 = new Team();
-        
+
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
@@ -88,7 +88,7 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * One Calendar cal, with just 1 wm and 1 match.
+     * Add Calendar with only one WeekMatch with only one Match.
      *
      * @throws Exception
      */
@@ -119,8 +119,8 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     *
-     * Various matches in one WM.
+     * Add Calendar with only one WeekMatch with various Match.
+     * @throws Exception 
      */
     //@Test
     public void testAdditionOfVariousMatchesOneWM() throws Exception {
@@ -157,8 +157,8 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     *
-     * Various WM.
+     * Add Calendar with only various WeekMatch with various Match.
+     * @throws Exception 
      */
     //@Test
     public void testAddVariousWeekMatches() throws Exception {

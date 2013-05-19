@@ -276,14 +276,24 @@ public class ManagementService {
         return teamDao.getTeams().contains(team);
     }
     
-    
+    /**
+     * Check all the addTeam exceptions.
+     * @param competetion The competition we want to register a team.
+     * @param team The team we want to register.
+     * @return 
+     */
     private boolean checkforExceptions(Competition competition, Team team) {
 
-        return team.getName() != null && team.getEmail() != null && team.getCompetition() != null
-                && team.getCategory() != null && /*team.getClub()!=null &&*/ 
-                diffCategCompetitionAndTeam(competition, team) && CompetitionExist(competition)
-                && PeriodOpen(competition) && TeamsSpace(competition)
-                && TeamExist(team);
+        return team.getName() != null
+                && team.getEmail() != null
+                && team.getCompetition() != null
+                && team.getCategory() != null
+                && diffCategCompetitionAndTeam(competition, team)
+                && CompetitionExist(competition)
+                && PeriodOpen(competition)
+                && TeamsSpace(competition)
+                && TeamExist(team)
+                /*&& team.getClub()!=null*/ ;
     }
 
    
