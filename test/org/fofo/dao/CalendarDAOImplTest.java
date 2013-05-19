@@ -54,14 +54,14 @@ public class CalendarDAOImplTest {
         club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
         team1 = new Team();
         team2 = new Team();
         team3 = new Team();
         team4 = new Team();
 
->>>>>>> 10f79b00755a3bf13b72981b8eaf0b02787f1cba
+//>>>>>>> 10f79b00755a3bf13b72981b8eaf0b02787f1cba
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
