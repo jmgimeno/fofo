@@ -22,7 +22,7 @@ import org.junit.Test;
  *
  * @author jnp2
  */
-public class CalendarCupTest {
+public class CalendarCupGenTest {
     CalendarCupGen generator;
     Competition comp;  
     Club club;

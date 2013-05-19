@@ -15,6 +15,10 @@ public class CalendarDAOImpl implements CalendarDAO {
     EntityManager em;
     TeamDAO td;
 
+    /**
+     * Add one Calendar to DAO
+     * @param cal: The Calendar to add.
+     */
     @Override
     public void addCalendar(FCalendar cal) {
         em.getTransaction().begin();
@@ -33,6 +37,13 @@ public class CalendarDAOImpl implements CalendarDAO {
         return true;
     }
 
+    //PRIVATE FUNCTIONS
+    
+    /**
+     * Add one WeekMatch to DAO.
+     * @param wm: The WeekMatch to add.
+     * @throws IncorrectTeamException 
+     */
     private void addWeekMatches(WeekMatches wm) throws IncorrectTeamException {
         for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
             addMatch(wm.getListOfWeekMatches().get(i));
@@ -40,6 +51,11 @@ public class CalendarDAOImpl implements CalendarDAO {
         em.persist(wm);
     }
 
+    /**
+     * Add one Match to DAO.
+     * @param match: The Match to add.
+     * @throws IncorrectTeamException 
+     */
     private void addMatch(Match match) throws IncorrectTeamException {
         if (td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
             em.persist(match);

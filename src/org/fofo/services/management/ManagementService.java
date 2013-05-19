@@ -44,9 +44,9 @@ public class ManagementService {
     public void setClubDao(ClubDAO clubDao) {
         this.clubDao = clubDao;
     }
-    
+
     public void setTeamDao(TeamDAO teamDao) {
-          this.teamDao = teamDao;
+        this.teamDao = teamDao;
     }
 
     public void setCompetition(Competition competition) {
@@ -56,7 +56,6 @@ public class ManagementService {
 //    public void setTeam(Team team) {
 //        this.team = team;
 //    }
-
     public ClubDAO getClubDao() {
         return clubDao;
     }
@@ -68,8 +67,6 @@ public class ManagementService {
 //    public Team getTeam() {
 //        return team;
 //    }
-  
-
     public void addCompetition(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate, PersistException {
@@ -92,17 +89,15 @@ public class ManagementService {
      * @param team The team we want to register.
      * @throws InscriptionTeamException 
      */
-    public void addTeam(Competition competetion, Team team) throws Exception{
-         
-        
-        if  (team.getName()!=null &&  team.getEmail()!=null && team.getCompetition()!=null &&
-              team.getCategory()!=null && /*team.getClub()!=null &&*/
-                CompetitionExist(competition) && PeriodOpen(competition) && TeamsSpace(competition)) {
-                
+    public void addTeam(Competition competetion, Team team) throws Exception {
+
+
+        if (checkforExceptions(competition, team)) {
+
             competition.getTeams().add(team);
-            
+
             //System.out.println("***SERVICE: Team="+team+" club="+team.getClub());
-     
+
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
@@ -117,7 +112,7 @@ public class ManagementService {
      * 
      */
     private void sendEmail(Club c) {
-         String servidorSMTP = "smtp.gmail.com";
+        String servidorSMTP = "smtp.gmail.com";
         String puerto = "587";
         String usuario = "fofo@gmail.com";
         String password = "pass";
@@ -159,8 +154,10 @@ public class ManagementService {
         return (value != 0) && ((value & (value - 1)) == 0);
     }
 
-    private boolean isValidCategory(Category cat) throws IncorrectCompetitionData{
-        if(cat==null) throw new IncorrectCompetitionData();
+    private boolean isValidCategory(Category cat) throws IncorrectCompetitionData {
+        if (cat == null) {
+            throw new IncorrectCompetitionData();
+        }
         if (cat.equals(Category.FEMALE) || cat.equals(Category.MALE)
                 || cat.equals(Category.VETERAN)) {
             return true;
@@ -201,8 +198,10 @@ public class ManagementService {
         }
     }
 
-    private boolean isValidType(Type type) throws IncorrectTypeData{
-        if(type==null) throw new IncorrectTypeData();
+    private boolean isValidType(Type type) throws IncorrectTypeData {
+        if (type == null) {
+            throw new IncorrectTypeData();
+        }
         if (type.equals(Type.CUP) || type.equals(Type.LEAGUE)) {
             return true;
         } else {
@@ -221,8 +220,12 @@ public class ManagementService {
         if (!isValidType(comp.getType())) {
             throw new IncorrectTypeData();
         }
-        if (comp.getMinTeams() == 0) throw new IncorrectMinNumberOfTeams();
-        if (comp.getMaxTeams() == 0) throw new IncorrectMaxNumberOfTeams();
+        if (comp.getMinTeams() == 0) {
+            throw new IncorrectMinNumberOfTeams();
+        }
+        if (comp.getMaxTeams() == 0) {
+            throw new IncorrectMaxNumberOfTeams();
+        }
         if (comp.getInici().after(date.toDate())) {
             throw new IncorrectDate();
         }
@@ -237,7 +240,7 @@ public class ManagementService {
         System.out.println("PERIODE OPEN FUNCTION");
         DateTime currentDate = new DateTime(DateTime.now());
         DateTime finishDate = new DateTime(competition.getInici());
-        
+
         return ((currentDate.getDayOfYear() - finishDate.getDayOfYear()) < 7);
     }
 
@@ -261,4 +264,37 @@ public class ManagementService {
         System.out.println("COMPETITION EXIST");
         return cDao.getCompetitionms().contains(competition);
     }
+
+    private boolean diffCategCompetitionAndTeam(Competition competition, Team team) {
+
+        return competition.getCategory() == team.getCategory();
+    }
+
+    
+    private boolean TeamExist(Team team) {
+        
+        return teamDao.getTeams().contains(team);
+    }
+    
+    /**
+     * Check all the addTeam exceptions.
+     * @param competetion The competition we want to register a team.
+     * @param team The team we want to register.
+     * @return 
+     */
+    private boolean checkforExceptions(Competition competition, Team team) {
+
+        return team.getName() != null
+                && team.getEmail() != null
+                && team.getCompetition() != null
+                && team.getCategory() != null
+                && diffCategCompetitionAndTeam(competition, team)
+                && CompetitionExist(competition)
+                && PeriodOpen(competition)
+                && TeamsSpace(competition)
+                && TeamExist(team)
+                /*&& team.getClub()!=null*/ ;
+    }
+
+   
 }

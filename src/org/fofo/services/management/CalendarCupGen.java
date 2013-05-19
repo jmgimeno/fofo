@@ -1,6 +1,5 @@
 package org.fofo.services.management;
 
-import org.fofo.services.management.CalendarGen;
 import java.util.*;
 import org.fofo.entity.Category;
 import org.fofo.entity.Club;
@@ -14,13 +13,11 @@ import org.fofo.entity.WeekMatches;
  *
  * @author jnp2
  */
-public class CalendarCupGen extends CalendarGen{   
-    private Competition competition;       
+public class CalendarCupGen extends CalendarGen{
     private List<WeekMatches> weekMatches ; 
 
-    public CalendarCupGen(/*Competition competition*/) {
+    public CalendarCupGen() {
         weekMatches = new ArrayList<WeekMatches>();
-//        this.competition = competition;
     }
 
     @Override
