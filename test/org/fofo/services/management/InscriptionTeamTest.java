@@ -67,7 +67,7 @@ public class InscriptionTeamTest {
         team5.setClub(club);
         team5.setEmail("Team5@hotmail.com");
 
-        comp = Competition.create(Type.CUP);
+        comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.FEMALE);
         comp.setInici(new Date()); //Conte la data actual
         comp.setMaxTeams(4);
@@ -75,7 +75,7 @@ public class InscriptionTeamTest {
         comp.setName("Lleida");
         service.setCompetition(comp);
 
-        comp2 = Competition.create(Type.CUP);
+        comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.FEMALE);
         comp2.setInici(new Date());
         comp2.setMaxTeams(4);
@@ -107,7 +107,7 @@ public class InscriptionTeamTest {
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamCompetition() throws Exception {
 
-        team1.setCompetition(null);
+        team1.setCompetitions(null);
 
         service.addTeam(comp, team1);
     }
@@ -132,7 +132,7 @@ public class InscriptionTeamTest {
     @Test(expected = InscriptionTeamException.class)
     public void competitionNotExist_withEmptyList() throws Exception {
 
-        team1.setCompetition(comp);
+        team1.getCompetitions().add(comp);
 
         context.checking(new Expectations() {
 
@@ -148,7 +148,7 @@ public class InscriptionTeamTest {
     @Test(expected = InscriptionTeamException.class)
     public void competitionNotExist_withList() throws Exception {
 
-        team1.setCompetition(comp);
+        team1.getCompetitions().add(comp);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp2);
@@ -176,11 +176,11 @@ public class InscriptionTeamTest {
         
         service.setCompetition(comp2);
 
-        team1.setCompetition(comp2);
-        team2.setCompetition(comp2);
-        team3.setCompetition(comp2);
-        team4.setCompetition(comp2);
-        team5.setCompetition(comp2);
+        team1.getCompetitions().add(comp2);
+        team2.getCompetitions().add(comp2);
+        team3.getCompetitions().add(comp2);
+        team4.getCompetitions().add(comp2);
+        team5.getCompetitions().add(comp2);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp2);
@@ -235,7 +235,7 @@ public class InscriptionTeamTest {
     @Test
     public void testInsertTeamInCompetition() throws Exception {
 
-        team1.setCompetition(comp);
+        team1.getCompetitions().add(comp);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
@@ -261,7 +261,7 @@ public class InscriptionTeamTest {
     @Test
     public void CorrectAddOneTeam() throws Exception {
 
-        team1.setCompetition(comp);
+        team1.getCompetitions().add(comp);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
@@ -287,10 +287,10 @@ public class InscriptionTeamTest {
     @Test
     public void CorrectAddVariousTeam() throws Exception {
 
-        team1.setCompetition(comp);
-        team2.setCompetition(comp);
-        team3.setCompetition(comp);
-        team4.setCompetition(comp);
+        team1.getCompetitions().add(comp);
+        team2.getCompetitions().add(comp);
+        team3.getCompetitions().add(comp);
+        team4.getCompetitions().add(comp);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
@@ -334,7 +334,7 @@ public class InscriptionTeamTest {
     @Test
     public void correctTeamInsertedIntoTheDB() throws Exception {
 
-        team1.setCompetition(comp);
+        team1.getCompetitions().add(comp);
 
         final List<Competition> lcomp = new ArrayList<Competition>();
         lcomp.add(comp);

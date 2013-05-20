@@ -33,6 +33,7 @@ public class Match {
     @Column (name="VisitantTeam")
     private Team visitant;
     
+    @Temporal(TemporalType.DATE)
     @Column (name="Date")
     private Date date;
     //private Arbitre 

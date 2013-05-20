@@ -6,6 +6,8 @@ package org.fofo.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -25,16 +27,15 @@ public class Team implements Serializable {
     private Category category;
     private String email;
     
-    @ManyToMany(mappedBy="teams")
-    
-    private Competition competition;
+    @ManyToMany(mappedBy="teams")    
+    private List<Competition> competitions;
 
-    public Competition getCompetition() {
-        return competition;
+    public List<Competition> getCompetitions() {
+        return competitions;
     }
 
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
     }
 
     public String getEmail() {
@@ -48,7 +49,7 @@ public class Team implements Serializable {
     public Team() {
 
 	name = "";
-
+        competitions = new ArrayList<Competition>();
     }
 
     public Team (String name, Club club, Category cat){
@@ -89,7 +90,7 @@ public class Team implements Serializable {
     
     
 
-    @Id
+    
     public String getName() {
         return name;
     }

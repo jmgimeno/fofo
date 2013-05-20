@@ -12,20 +12,35 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+       
 
 /**
  *
  * @author josepma
  */
+
 @Entity
 @Table (name="COMPETITION")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="COMP_TYPE",
+                     discriminatorType=DiscriminatorType.STRING,
+                     length=6)
 public abstract class Competition {
     @Id
     @Column (name = "NAME")
     private String name;
     
     private Category category;
+    
+     @Temporal(TemporalType.DATE)
     private Date inici;
+     
     @ManyToMany
     @JoinTable(name = "COMPETITION_TEAM", 
             joinColumns = @JoinColumn(name="CT_NAME_COMP", referencedColumnName="NAME"),
@@ -40,19 +55,19 @@ public abstract class Competition {
     
     private int maxTeams;
     private int minTeams;
-    private Type type;
+    private CompetitionType type;
     
     /*public Competition(){
         create(this.type);
     }*/
     
-    public static Competition create(Type type){
-        if(type.equals(Type.LEAGUE)){
+    public static Competition create(CompetitionType type){
+        if(type.equals(CompetitionType.LEAGUE)){
             return new CompetitionLeague(type);
         }
         else return new CompetitionCup(type);
     }
-
+   
     public String getName() {
         return name;
     }
@@ -101,11 +116,11 @@ public abstract class Competition {
 
     public abstract void setMinTeams(int minTeams);
 
-    public Type getType() {
+    public CompetitionType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(CompetitionType type) {
         this.type = type;
     }
 

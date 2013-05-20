@@ -61,7 +61,7 @@ public class CompetitionManagementTest {
       cdao  = context.mock(CompetitionDAO.class);
       clubDao = context.mock(ClubDAO.class);
 
-      comp = Competition.create(Type.LEAGUE);  
+      comp = Competition.create(CompetitionType.LEAGUE);  
       comp.setCategory(Category.MALE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);
@@ -83,7 +83,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectCompetitionData.class)
     public void testIncorrectCategory() throws Exception {
-       Competition comp2 = Competition.create(Type.CUP);
+       Competition comp2 = Competition.create(CompetitionType.CUP);
        
        comp2.setMaxTeams(12);
        //...
@@ -96,7 +96,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectTypeData.class)
     public void testIncorrectType() throws Exception{
-        Competition comp2 = Competition.create(Type.CUP);
+        Competition comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.MALE);
         comp2.setType(null);
         service.addCompetition(comp2);
@@ -104,7 +104,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testIncorrectMinTeams() throws Exception{
-        Competition comp2 = Competition.create(Type.LEAGUE);
+        Competition comp2 = Competition.create(CompetitionType.LEAGUE);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(1);
         comp2.setInici(date.toDate());
@@ -113,7 +113,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeams() throws Exception{
-        Competition comp2 = Competition.create(Type.LEAGUE);
+        Competition comp2 = Competition.create(CompetitionType.LEAGUE);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(4);
         comp2.setMaxTeams(21);
@@ -122,7 +122,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotEven() throws Exception{
-        Competition comp2 = Competition.create(Type.LEAGUE);
+        Competition comp2 = Competition.create(CompetitionType.LEAGUE);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(3);
         service.addCompetition(comp2);
@@ -130,7 +130,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotEven() throws Exception{
-        Competition comp2 = Competition.create(Type.LEAGUE);
+        Competition comp2 = Competition.create(CompetitionType.LEAGUE);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(2);
         comp2.setMaxTeams(17);
@@ -139,7 +139,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testIncorrectMaxTeamsInCup() throws Exception{
-        Competition comp2 = Competition.create(Type.CUP);
+        Competition comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(2);
         comp2.setMaxTeams(65);
@@ -148,7 +148,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMinNumberOfTeams.class)
     public void testMinTeamsNotPowerOfTwo() throws Exception{
-        Competition comp2 = Competition.create(Type.CUP);
+        Competition comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(6);
         service.addCompetition(comp2);
@@ -156,7 +156,7 @@ public class CompetitionManagementTest {
     
     @Test(expected=IncorrectMaxNumberOfTeams.class)
     public void testMaxTeamsNotPowerOfTwo() throws Exception{
-        Competition comp2 = Competition.create(Type.CUP);
+        Competition comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(2);
         comp2.setMaxTeams(18);
@@ -165,7 +165,7 @@ public class CompetitionManagementTest {
     
     //@Test(expected=IncorrectDate.class)
     public void testIncorrectDate() throws Exception{
-        Competition comp2 = Competition.create(Type.CUP);
+        Competition comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.MALE);
         comp2.setMinTeams(2);
         comp2.setMaxTeams(16);

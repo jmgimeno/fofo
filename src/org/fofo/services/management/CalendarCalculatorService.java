@@ -45,7 +45,9 @@ public class CalendarCalculatorService {
     
     public void calculateAndStoreCupCalendar(Competition comp) throws Exception{
         if(calDao==null) throw new InvalidRequisitsException();
-        if(calCupGen==null) throw new InvalidRequisitsException();        
+        CalendarCupGen calCupGen = new CalendarCupGen();
+        
+        //if(calCupGen==null) throw new InvalidRequisitsException();        
         FCalendar cal = calCupGen.calculateCalendar(comp);
 
         calDao.addCalendar(cal);

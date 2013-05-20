@@ -1,20 +1,31 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package org.fofo.entity;
 
+
+
+
 /**
  *
  * @author Ivan
  */
+
+import javax.persistence.Entity;
+import javax.persistence.DiscriminatorValue;
+
+
+@Entity
+@DiscriminatorValue(value="CUP")
 public class CompetitionCup extends Competition{
     
-    private Type type;
+    private CompetitionType type;
     private int maxTeams;
     private int minTeams;
     
-    public CompetitionCup(Type type){
+    public CompetitionCup(CompetitionType type){
         super();
         this.setType(type);
     }

@@ -38,7 +38,7 @@ public class CupCalendarCalculatorServiceTest extends CalendarCupGen{
         
         calGen = context.mock(CalendarCupGen.class);       
       
-        compCup = Competition.create(Type.CUP);
+        compCup = Competition.create(CompetitionType.CUP);
         
         createCompetition(compCup);
     }

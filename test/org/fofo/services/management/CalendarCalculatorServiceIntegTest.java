@@ -66,11 +66,11 @@ public class CalendarCalculatorServiceIntegTest {
         clubdao.addClub(club);
         
         
-        compCup = Competition.create(Type.CUP);
+        compCup = Competition.create(CompetitionType.CUP);
         compCup.setName("Competition Cup");
         createCompetition(compCup, club);  
         
-        compLeague = Competition.create(Type.LEAGUE);
+        compLeague = Competition.create(CompetitionType.LEAGUE);
         compLeague.setName("Competition League"); 
         createCompetition(compLeague,club);
         
