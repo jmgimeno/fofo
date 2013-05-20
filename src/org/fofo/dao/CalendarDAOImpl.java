@@ -15,6 +15,23 @@ public class CalendarDAOImpl implements CalendarDAO {
     EntityManager em;
     TeamDAO td;
 
+    
+    public TeamDAO getTd() {
+        return td;
+    }
+
+    public void setTd(TeamDAO td) {
+        this.td = td;
+    }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+    
     /**
      * Add one Calendar to DAO
      * @param cal: The Calendar to add.
@@ -31,6 +48,8 @@ public class CalendarDAOImpl implements CalendarDAO {
         em.persist(cal);
         em.getTransaction().commit();
     }
+
+  
 
     @Override
     public boolean findCalendar(FCalendar cal) {
@@ -65,11 +84,5 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+   
 }
