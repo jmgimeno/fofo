@@ -69,19 +69,19 @@ public class LeagueCalendarCalculatorServiceTest extends CalendarLeagueGen{
         service.calculateAndStoreLeagueCalendar(compLeague);
     }
 
-    private void createCompetition(Competition compCup) {   
-        compCup.setCategory(Category.MALE);
-        compCup.setInici(null);
-        compCup.setMaxTeams(16);
-        compCup.setMinTeams(4);
+    private void createCompetition(Competition comp) {   
+        comp.setCategory(Category.MALE);
+        comp.setInici(null);
+        comp.setMaxTeams(16);
+        comp.setMinTeams(4);    
+        comp.setInici(new DateTime().minusDays(8).toDate()); 
+        
         Club club = new Club();
         club.setName("AA");
-        List<Team> list = new ArrayList<Team>();
+        
         for(int i=0; i<16;i++){
-            list.add(new Team("Team number "+i,club, Category.MALE));
+            comp.addTeam(new Team("Team number "+i,club, Category.MALE));
         }
-        compCup.setTeams(list);
-        compCup.setInici(new DateTime().minusDays(8).toDate()); 
     }
     
 
