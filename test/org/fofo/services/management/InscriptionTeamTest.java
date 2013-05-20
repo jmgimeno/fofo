@@ -67,8 +67,6 @@ public class InscriptionTeamTest {
         team5.setClub(club);
         team5.setEmail("Team5@hotmail.com");
 
-
-
         comp = Competition.create(Type.CUP);
         comp.setCategory(Category.FEMALE);
         comp.setInici(new Date()); //Conte la data actual
@@ -219,6 +217,20 @@ public class InscriptionTeamTest {
         service.addTeam(comp2, team4);
         service.addTeam(comp2, team5);
     }
+    
+     /**
+     * Team5 and comp, have different category. So, it's not possible assign this team in that competition.
+     * @throws PersistException
+     * @throws Exception 
+     */
+    @Test(expected = InscriptionTeamException.class)
+    public void diffCategTeamAndCategory() throws PersistException, Exception {
+
+        comp.setCategory(Category.FEMALE);
+        team5.setCategory(Category.MALE);
+
+        service.addTeam(comp, team5);
+    }
 
     @Test
     public void testInsertTeamInCompetition() throws Exception {
@@ -289,7 +301,6 @@ public class InscriptionTeamTest {
         teams.add(team3);
         teams.add(team4);
 
-
         context.checking(new Expectations() {
 
             {
@@ -341,20 +352,5 @@ public class InscriptionTeamTest {
         });
 
         service.addTeam(comp, team1);
-    }
-
-   
-    /**
-     * Team5 and comp, have different category. So, it's not possible assign this team in that competition.
-     * @throws PersistException
-     * @throws Exception 
-     */
-    @Test(expected = InscriptionTeamException.class)
-    public void diffCategTeamAndCategory() throws PersistException, Exception {
-
-        comp.setCategory(Category.FEMALE);
-        team5.setCategory(Category.MALE);
-
-        service.addTeam(comp, team5);
     }
 }

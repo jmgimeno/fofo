@@ -5,13 +5,6 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.fofo.entity.Category;
-import org.fofo.entity.Club;
-import org.fofo.entity.Competition;
-import org.fofo.entity.FCalendar;
-import org.fofo.entity.Match;
-import org.fofo.entity.Team;
-import org.fofo.entity.WeekMatches;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -126,27 +119,6 @@ public class CalendarDAOTest {
         });
 
         caldao.addCalendar(cal);
-       
-    }
-    
-        
-    @Test
-    public void testFindCalendar(){
-       
-        final List<WeekMatches> wm = new ArrayList<WeekMatches>();
-        wm.add(wm1);
-        wm.add(wm2);   
-        
-        cal.setWeekMatches(wm);
-        
-        context.checking(new Expectations() {
-
-            {
-                oneOf(caldao).findCalendar(cal);
-            }
-        });
-
-        caldao.findCalendar(cal);
        
     }
     

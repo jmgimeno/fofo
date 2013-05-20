@@ -16,18 +16,22 @@ public class CalendarDAOImpl implements CalendarDAO {
     TeamDAO td;
 
     
+    @Override
     public TeamDAO getTd() {
         return td;
     }
 
+    @Override
     public void setTd(TeamDAO td) {
         this.td = td;
     }
 
+    @Override
     public EntityManager getEm() {
         return em;
     }
 
+    @Override
     public void setEm(EntityManager em) {
         this.em = em;
     }
@@ -47,13 +51,6 @@ public class CalendarDAOImpl implements CalendarDAO {
         }
         em.persist(cal);
         em.getTransaction().commit();
-    }
-
-  
-
-    @Override
-    public boolean findCalendar(FCalendar cal) {
-        return true;
     }
 
     //PRIVATE FUNCTIONS

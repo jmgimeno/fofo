@@ -55,7 +55,6 @@ public class CalendarDAOImplIntegTest {
         cal.getAllWeekMatches().add(wm1);
 
         calDAO.addCalendar(cal);
-        assertTrue(calDAO.findCalendar(cal));
     }
 
     /**
@@ -72,7 +71,6 @@ public class CalendarDAOImplIntegTest {
         cal.getAllWeekMatches().add(wm1);
 
         calDAO.addCalendar(cal);
-        assertTrue(calDAO.findCalendar(cal));
     }
 
     /**
@@ -90,6 +88,5 @@ public class CalendarDAOImplIntegTest {
         cal.getAllWeekMatches().add(wm2);
 
         calDAO.addCalendar(cal);
-        assertTrue(calDAO.findCalendar(cal));
     }
 }

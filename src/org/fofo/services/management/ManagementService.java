@@ -237,7 +237,6 @@ public class ManagementService {
      * @return Boolean indicate if it is open or not.
      */
     private boolean PeriodOpen(Competition competition) {
-        System.out.println("PERIODE OPEN FUNCTION");
         DateTime currentDate = new DateTime(DateTime.now());
         DateTime finishDate = new DateTime(competition.getInici());
 
@@ -250,7 +249,6 @@ public class ManagementService {
      * @return Boolean indicate if it is full or not.
      */
     private boolean TeamsSpace(Competition competition) {
-        System.out.println("TEAM SPACE FUNCTION");
         return (competition.getMaxTeams() > competition.getTeams().size());
     }
 
@@ -261,7 +259,6 @@ public class ManagementService {
      * @return Boolean indicate if the competition exist.
      */
     private boolean CompetitionExist(Competition competition) {
-        System.out.println("COMPETITION EXIST");
         return cDao.getCompetitionms().contains(competition);
     }
 
@@ -288,12 +285,12 @@ public class ManagementService {
                 && team.getEmail() != null
                 && team.getCompetition() != null
                 && team.getCategory() != null
+              /*&& team.getClub()!= null*/
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
                 && TeamsSpace(competition)
-                && TeamExist(team)
-                /*&& team.getClub()!=null*/ ;
+                && TeamExist(team);
     }
 
    

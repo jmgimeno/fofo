@@ -54,14 +54,11 @@ public class CalendarDAOImplTest {
         club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
 
-//<<<<<<< HEAD
-//=======
         team1 = new Team();
         team2 = new Team();
         team3 = new Team();
         team4 = new Team();
 
-//>>>>>>> 10f79b00755a3bf13b72981b8eaf0b02787f1cba
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
@@ -102,8 +99,7 @@ public class CalendarDAOImplTest {
         wm2 = new WeekMatches();
         wm2.addMatch(match3);
         wm2.addMatch(match4);
-
- 
+        
         comp = Competition.create(Type.CUP);
         comp.setCategory(Category.FEMALE);
         comp.setInici(new Date()); 
@@ -127,8 +123,6 @@ public class CalendarDAOImplTest {
         wm1.addMatch(match1);
 
         cal.getAllWeekMatches().add(wm1);
-
-        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
@@ -162,8 +156,6 @@ public class CalendarDAOImplTest {
 
         cal.getAllWeekMatches().add(wm1);
         cal.getAllWeekMatches().add(wm2);
-
-        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
