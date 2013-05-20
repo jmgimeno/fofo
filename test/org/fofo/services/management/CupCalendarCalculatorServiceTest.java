@@ -7,16 +7,11 @@ import org.fofo.entity.*;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.jmock.Mockery;
-import org.jmock.Expectations;
-import org.jmock.lib.legacy.ClassImposteriser;
 
 /**
  *
@@ -24,7 +19,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
  */
 
 @RunWith(JMock.class)
-public class CalendarCalculatorServiceMockTest extends CalendarCupGen{ 
+public class CupCalendarCalculatorServiceTest extends CalendarCupGen{ 
     
     CalendarCalculatorService  service;
     private Mockery context = new Mockery() {{
