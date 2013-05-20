@@ -75,6 +75,8 @@ public class CompetitionDAOImplTest {
     @Test
     public void addTeam_To_Competition() throws PersistException {
 
+        // 1º Llamar a find competetition y team
+        //2º Y se llama a compAux.getTeam.add
         List<Team> list = Arrays.asList(team);
 
         context.checking(new Expectations() {

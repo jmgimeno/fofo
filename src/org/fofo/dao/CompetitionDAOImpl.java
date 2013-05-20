@@ -52,18 +52,24 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+   @Override
     public void addTeam(Competition competition, Team team) throws PersistException {
         try {
             em.getTransaction().begin();
-            
-            if (team == null || team.getClub() == null || competition == null) {
+
+            if (team == null || competition == null) {
                 throw new PersistException();
             }
-            
-            Club club = (Club) em.find(Club.class, team.getClub().getName());
            
-            competition.getTeams().add(team);
+            Competition compAux = (Competition)em.find(Competition.class, competition.getName());
+            Team teamAux = (Team)em.find(Team.class, team.getName());
+
+            
+            if (compAux == null || teamAux == null) {
+                throw new PersistException();
+            }
+
+            compAux.getTeams().add(teamAux);
             em.getTransaction().commit();
         } catch (Exception e) {
             throw new PersistException();
