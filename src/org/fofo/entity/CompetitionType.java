@@ -8,7 +8,7 @@ package org.fofo.entity;
  *
  * @author Ivan
  */
-public enum Type {
+public enum CompetitionType {
     
     LEAGUE, CUP
     

@@ -16,7 +16,7 @@ import org.fofo.entity.Category;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
-import org.fofo.entity.Type;
+import org.fofo.entity.CompetitionType;
 import org.joda.time.DateTime;
 import org.fofo.dao.PersistException;
 import org.fofo.dao.TeamDAO;
@@ -198,11 +198,11 @@ public class ManagementService {
         }
     }
 
-    private boolean isValidType(Type type) throws IncorrectTypeData {
+    private boolean isValidType(CompetitionType type) throws IncorrectTypeData {
         if (type == null) {
             throw new IncorrectTypeData();
         }
-        if (type.equals(Type.CUP) || type.equals(Type.LEAGUE)) {
+        if (type.equals(CompetitionType.CUP) || type.equals(CompetitionType.LEAGUE)) {
             return true;
         } else {
             return false;

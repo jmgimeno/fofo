@@ -122,7 +122,7 @@ public class CalendarLeagueGenTest {
     /* PRIVATE OPS */
     
     private void setUpCompOK(){
-        compOK = (CompetitionLeague) Competition.create(Type.LEAGUE);
+        compOK = (CompetitionLeague) Competition.create(CompetitionType.LEAGUE);
         compOK.setCategory(Category.MALE);
         compOK.setMinTeams(2);
         compOK.setMaxTeams(20);

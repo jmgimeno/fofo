@@ -50,11 +50,11 @@ public abstract class CalendarGen {
     }
     
     private static boolean isCupCompetition(Competition comp){
-        return comp.getType() == Type.CUP;
+        return comp.getType() == CompetitionType.CUP;
     }
     
     private static boolean isLeagueCompetition(Competition comp){
-        return comp.getType() == Type.LEAGUE;
+        return comp.getType() == CompetitionType.LEAGUE;
     }
     
 }

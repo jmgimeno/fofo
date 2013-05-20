@@ -53,5 +53,6 @@ public class ClubDAOImplTest {
         }});
     
         cdao.addClub(club);
+         
     }
 }

@@ -11,7 +11,7 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
 import org.fofo.entity.Team;
-import org.fofo.entity.Type;
+import org.fofo.entity.CompetitionType;
 import org.fofo.entity.WeekMatches;
 import org.joda.time.DateTime;
 import static org.junit.Assert.*;
@@ -29,7 +29,7 @@ public class CalendarCupGenTest {
     
     @Before
     public void setUp() throws InvalidRequisitsException {
-        comp = Competition.create(Type.CUP);
+        comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.MALE);
         comp.setInici(null);
         comp.setMaxTeams(16);

@@ -100,7 +100,7 @@ public class CalendarDAOImplTest {
         wm2.addMatch(match3);
         wm2.addMatch(match4);
         
-        comp = Competition.create(Type.CUP);
+        comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.FEMALE);
         comp.setInici(new Date()); 
         comp.setMaxTeams(4);

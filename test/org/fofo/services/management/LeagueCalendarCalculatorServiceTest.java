@@ -38,7 +38,7 @@ public class LeagueCalendarCalculatorServiceTest extends CalendarLeagueGen{
         
         calGen = context.mock(CalendarLeagueGen.class);       
       
-        compLeague = Competition.create(Type.LEAGUE);
+        compLeague = Competition.create(CompetitionType.LEAGUE);
         
         createCompetition(compLeague);
     }

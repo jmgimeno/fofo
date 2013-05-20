@@ -8,18 +8,27 @@ package org.fofo.entity;
  *
  * @author Ivan
  */
+
+
+import javax.persistence.Entity;
+import javax.persistence.DiscriminatorValue;
+
+
+@Entity
+@DiscriminatorValue(value="LEAGUE")
+
 public class CompetitionLeague extends Competition{
 
-    private Type type;
+    private CompetitionType type;
     private int maxTeams;
     private int minTeams;
     
     public CompetitionLeague(){
         super();
-        this.setType(Type.LEAGUE);
+        this.setType(CompetitionType.LEAGUE);
     }
     
-    public CompetitionLeague(Type type){
+    public CompetitionLeague(CompetitionType type){
         super();
         this.setType(type);
     }

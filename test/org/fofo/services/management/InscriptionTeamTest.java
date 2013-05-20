@@ -67,7 +67,7 @@ public class InscriptionTeamTest {
         team5.setClub(club);
         team5.setEmail("Team5@hotmail.com");
 
-        comp = Competition.create(Type.CUP);
+        comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.FEMALE);
         comp.setInici(new Date()); //Conte la data actual
         comp.setMaxTeams(4);
@@ -75,7 +75,7 @@ public class InscriptionTeamTest {
         comp.setName("Lleida");
         service.setCompetition(comp);
 
-        comp2 = Competition.create(Type.CUP);
+        comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.FEMALE);
         comp2.setInici(new Date());
         comp2.setMaxTeams(4);

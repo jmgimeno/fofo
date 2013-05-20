@@ -43,14 +43,14 @@ public class CalendarGenTest {
     @Test (expected = IncorrectCompetitionTypeException.class)
     public void wrongCompetitionTypeForLeagueComp() throws Exception{
         Competition compKO = compOK;
-        compKO.setType(Type.CUP);
+        compKO.setType(CompetitionType.CUP);
         
         CalendarGen.checkRequirements(compKO);
     }
     
     @Test (expected = IncorrectCompetitionTypeException.class)
     public void wrongCompetitionTypeForCupComp() throws Exception{
-        Competition compKO = new CompetitionCup(Type.LEAGUE);
+        Competition compKO = new CompetitionCup(CompetitionType.LEAGUE);
         
         CalendarGen.checkRequirements(compKO);
     }
@@ -89,7 +89,7 @@ public class CalendarGenTest {
     }
     
     private void setUpCompLeagueOK(){
-        compOK = new CompetitionLeague(Type.LEAGUE);
+        compOK = new CompetitionLeague(CompetitionType.LEAGUE);
         compOK.setCategory(Category.MALE);
         compOK.setMinTeams(2);
         compOK.setMaxTeams(20);
