@@ -283,7 +283,7 @@ public class ManagementService {
 
         return team.getName() != null
                 && team.getEmail() != null
-                && team.getCompetition() != null
+                && team.getCompetitions() != null
                 && team.getCategory() != null
               /*&& team.getClub()!= null*/
                 && diffCategCompetitionAndTeam(competition, team)

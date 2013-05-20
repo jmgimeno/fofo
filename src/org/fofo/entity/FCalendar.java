@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 /**
  *
@@ -23,7 +24,8 @@ public class FCalendar {
     @Column (name="idFCalendar")
     String idFCalendar;
     
-    @Column (name="Competition")
+    @JoinColumn (name="Competition",
+                  referencedColumnName="NAME")
    @OneToOne(mappedBy="fcalendar")
     private Competition competition;
     
