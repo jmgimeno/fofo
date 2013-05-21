@@ -3,7 +3,7 @@ package org.fofo.dao;
 import javax.persistence.EntityManager;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
-import org.fofo.entity.WeekMatch;
+import org.fofo.entity.WeekMatches;
 
 /**
  *
@@ -44,7 +44,8 @@ public class CalendarDAOImpl implements CalendarDAO {
     public void addCalendar(FCalendar cal) {
         em.getTransaction().begin();
         for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
-            try {
+           System.out.println("getNumOfWeekMatches--> "+cal.getNumOfWeekMatches());
+            try { 
                 addWeekMatches(cal.getWeekMatch(i));
             } catch (IncorrectTeamException ex) {
             }
@@ -60,8 +61,11 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @param wm: The WeekMatch to add.
      * @throws IncorrectTeamException 
      */
-    private void addWeekMatches(WeekMatch wm) throws IncorrectTeamException {
+    //This is a public function at the moment, only for the test
+    public void addWeekMatches(WeekMatches wm) throws IncorrectTeamException {
+
         for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
+            //System.out.println("GetNumberOfMatch--> "+wm.getNumberOfMatchs());
             addMatch(wm.getListOfWeekMatches().get(i));
         }
         em.persist(wm);
@@ -72,7 +76,8 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @param match: The Match to add.
      * @throws IncorrectTeamException 
      */
-    private void addMatch(Match match) throws IncorrectTeamException {
+    //This is a public function at the moment, only for the test
+    public void addMatch(Match match) throws IncorrectTeamException {
         if (td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
             em.persist(match);
         } else {
