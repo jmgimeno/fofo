@@ -3,7 +3,7 @@ package org.fofo.dao;
 import javax.persistence.EntityManager;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.WeekMatch;
 
 /**
  *
@@ -62,7 +62,7 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @throws IncorrectTeamException 
      */
     //This is a public function at the moment, only for the test
-    public void addWeekMatches(WeekMatches wm) throws IncorrectTeamException {
+    public void addWeekMatches(WeekMatch wm) throws IncorrectTeamException {
 
         for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
             //System.out.println("GetNumberOfMatch--> "+wm.getNumberOfMatchs());

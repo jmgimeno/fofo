@@ -43,19 +43,19 @@ public class TeamDAOImplInteg2Test {
          tdao = new TeamDAOImpl();
           
          em = getEntityManagerFact(); 
-       /*
+       
          em.getTransaction().begin();
          em.persist(club);
          em.getTransaction().commit();
          
-         tdao.setEM(em);
-        */
+         tdao.setEM(em);    
+        
     }
     
     
     @After
     public void tearDown() throws Exception{
-   /*  
+   
         EntityManager em = tdao.getEM();
  
         if (em.isOpen()) em.close();
@@ -72,7 +72,7 @@ public class TeamDAOImplInteg2Test {
         em.close();
         System.out.println("All records have been deleted.");
          
-     */
+     
     }
     
     /**
@@ -81,18 +81,18 @@ public class TeamDAOImplInteg2Test {
     
     @Test 
     public void testAddTeam() throws Exception{
-      /*
+      
          final Team team = new Team("team2");   
 
          team.setClub(club);
-                  
+                    
          tdao.addTeam(team);
          
          Team teamDB = getTeamFromDB("team2");
          
          assertEquals("Should have found the inserted team",
                       team,teamDB);
-      */
+      
     }
     
     
