@@ -1,0 +1,17 @@
+Arbitre
+US: Assignar un arbitre a un partit
+
+FOFO vol assignar un àrbitre a un partit d'una jornada 
+d'una competició per a que el gestioni
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. No tenim cap partit sense àrbitre
+
+2. Cap àrbitre està assignat en més d'un partit d'una jornada
+
+3. El àrbitre ha de ser un àrbitre contractat (de FOFO)

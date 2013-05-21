@@ -1,0 +1,15 @@
+Club
+US: Notificar al club el calendari global d'una competició
+
+FOFO vol comunicar a un club el calendari global de la competició 
+per a que sigui informat
+
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Si X és un club i té algun equip que participa en la competició
+s'enviarà un email a X amb el calendari global de la competició
+ 
