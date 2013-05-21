@@ -68,20 +68,14 @@ public class CompetitionDAOImplIntegTest {
        assertEquals(expected, obtained);
     }
 
-    @Test(expected = PersistException.class)
-    public void add_incorrect_team_to_competition() throws PersistException {
+    @Test(expected = InvalidTeamException.class)
+    public void add_incorrect_team_to_competition() throws Exception {
         competitionDAO.addTeam(competition, null);
         
     }
     
-    @Test(expected=PersistException.class)
+    @Test(expected=InvalidCompetitionException.class)
     public void addTeamtoIncorrectCompetition() throws Exception{
         competitionDAO.addTeam(null, team);
-    }
-    
-    @Test(expected=PersistException.class)
-    public void addTeamWithoutClubToCompetition() throws Exception{
-        Team team2 = new Team("team2");
-        competitionDAO.addTeam(competition, team2);
     }
 }
