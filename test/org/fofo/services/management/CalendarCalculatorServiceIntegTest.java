@@ -63,6 +63,7 @@ public class CalendarCalculatorServiceIntegTest {
         Club club = new Club();
         club.setName("Imaginary club");
         ClubDAOImpl clubdao = new ClubDAOImpl(); 
+        clubdao.setEM(em);
         clubdao.addClub(club);
         
         
