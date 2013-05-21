@@ -79,13 +79,29 @@ public class CalendarLeagueGenTest {
     /** 
      * A team plays once in a week match   
      */
-//    @Test 
-//    public void testCorrectWeekMatches(){
-//        
-//        //Seria exactament lo mateix que testCorrectRound... no?
-//            
-//        
-//    }
+    @Test 
+    public void testCorrectWeekMatches() throws Exception{
+        
+        int nteams = compOK.getNumberOfTeams();
+        String firstTeam = compOK.getTeams().get(0).getName();
+        
+        List<String> listTeams = getListNamesOfTeams(compOK.getTeams());
+        
+        
+        for (int i=0; i<nteams-1;i++){
+            
+            Team teamAgainst = getTeamAgainst(firstTeam,calendar.getWeekMatch(i).getListOfWeekMatches());
+            if (!listTeams.remove(teamAgainst.getName())) throw new Exception();
+        }        
+        
+        List<String> lteams = new ArrayList<String>();
+        lteams.add(firstTeam);
+        
+        assertEquals("There should reamin only the first team",
+                      lteams,listTeams);
+            
+        
+    }
     
     /** 
      * A team plays once  against each oponent 
