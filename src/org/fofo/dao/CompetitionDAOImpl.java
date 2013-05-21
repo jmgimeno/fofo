@@ -53,13 +53,13 @@ public class CompetitionDAOImpl implements CompetitionDAO {
     }
 
    @Override
-    public void addTeam(Competition competition, Team team) throws PersistException {
-        try {
+    public void addTeam(Competition competition, Team team) throws Exception {
             em.getTransaction().begin();
 
-            if (team == null || competition == null) {
-                throw new PersistException();
+            if (team == null) {
+                throw new InvalidTeamException();
             }
+            if(competition == null) throw new InvalidCompetitionException();
            
             Competition compAux = (Competition)em.find(Competition.class, competition.getName());
             Team teamAux = (Team)em.find(Team.class, team.getName());
@@ -71,9 +71,6 @@ public class CompetitionDAOImpl implements CompetitionDAO {
 
             compAux.getTeams().add(teamAux);
             em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new PersistException();
-        }
     }
 
     @Override

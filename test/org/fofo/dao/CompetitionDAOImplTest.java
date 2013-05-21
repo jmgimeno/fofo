@@ -73,7 +73,7 @@ public class CompetitionDAOImplTest {
     }
 
     @Test
-    public void addTeam_To_Competition() throws PersistException {
+    public void addTeam_To_Competition() throws Exception {
 
         // 1º Llamar a find competetition y team
         //2º Y se llama a compAux.getTeam.add
@@ -83,8 +83,10 @@ public class CompetitionDAOImplTest {
             {
                 atLeast(1).of(em).getTransaction();
                 will(returnValue(transaction));
-                oneOf(em).find(Club.class, team.getClub().getName());
-                will(returnValue(club));
+                oneOf(em).find(Team.class, team.getName());
+                will(returnValue(team));
+                oneOf(em).find(Competition.class, competition.getName());
+                will(returnValue(competition));
                 oneOf(transaction).begin();
                 oneOf(transaction).commit();
 
@@ -97,8 +99,8 @@ public class CompetitionDAOImplTest {
 
     }
 
-    @Test(expected = PersistException.class)
-    public void add_incorrect_team_to_competition() throws PersistException {
+    @Test(expected = InvalidTeamException.class)
+    public void add_incorrect_team_to_competition() throws Exception {
         
           context.checking(new Expectations() {
             {
@@ -112,7 +114,7 @@ public class CompetitionDAOImplTest {
         
     }
     
-    @Test(expected=PersistException.class)
+    @Test(expected=InvalidCompetitionException.class)
     public void addTeamtoIncorrectCompetition() throws Exception{
         
           context.checking(new Expectations() {
@@ -123,18 +125,5 @@ public class CompetitionDAOImplTest {
             }
         });
         competitionDAO.addTeam(null, team);
-    }
-    
-    @Test(expected=PersistException.class)
-    public void addTeamWithoutClubToCompetition() throws Exception{
-        Team team2 = new Team("team2");
-          context.checking(new Expectations() {
-            {
-                atLeast(1).of (em).getTransaction();will(returnValue(transaction));
-                oneOf(transaction).begin();
-
-            }
-        });
-        competitionDAO.addTeam(competition, team2);
     }
 }

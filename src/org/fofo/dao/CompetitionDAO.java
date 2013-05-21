@@ -14,7 +14,7 @@ public interface CompetitionDAO {
 
     void removeCompetition(String name);
 
-    void addTeam(Competition competition, Team team) throws PersistException;
+    void addTeam(Competition competition, Team team) throws Exception;
 
     List<Competition> getCompetitionms();
 
