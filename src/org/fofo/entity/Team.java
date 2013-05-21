@@ -29,6 +29,7 @@ public class Team implements Serializable {
     
     @ManyToMany(mappedBy="teams")    
     private List<Competition> competitions;
+   
 
     public List<Competition> getCompetitions() {
         return competitions;

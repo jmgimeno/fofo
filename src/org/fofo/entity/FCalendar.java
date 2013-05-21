@@ -29,20 +29,20 @@ public class FCalendar {
    @OneToOne
     private Competition competition;
     
-    @OneToMany (mappedBy="FCalendar")
-    private List<WeekMatches> calendar;
+    @OneToMany (mappedBy="calendar")
+    private List<WeekMatches> weekMatches;
     
     
    
     public FCalendar(){
         this.competition = null;
-        this.calendar = new ArrayList<WeekMatches>();  
+        this.weekMatches = new ArrayList<WeekMatches>();  
         this.idFCalendar = UUID.randomUUID().toString();
     }
        
     public FCalendar(Competition c){
         this.competition = c;
-        this.calendar = new ArrayList<WeekMatches>();
+        this.weekMatches = new ArrayList<WeekMatches>();
     }   
     
     public void setCompetition(Competition c){
@@ -50,19 +50,19 @@ public class FCalendar {
     }
     
     public void setWeekMatches(List<WeekMatches> wm){
-        this.calendar = wm;
+        this.weekMatches = wm;
     }
     
     public List<WeekMatches> getAllWeekMatches() {
-        return calendar;
+        return weekMatches;
     }
     
     public WeekMatches getWeekMatch(int index){
-        return calendar.get(index);
+        return weekMatches.get(index);
     }
     
     public int getNumOfWeekMatches(){
-        return calendar.size();
+        return weekMatches.size();
     }
     
     public Competition getCompetition(){

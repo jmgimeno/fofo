@@ -19,23 +19,21 @@ import javax.persistence.*;
 public class Match {
 
     @Id
-    @Column (name="idFCalendar")
+    @Column (name="ID_MATCH")
     private String idMatch;
 
     
-    @ManyToOne
-    @JoinColumn (name="LocalTeamName", referencedColumnName="NAME")
-    @Column (name="LocalTeam")
+    @OneToOne
+    @JoinColumn (name="LOCAL_T_NAME", referencedColumnName="NAME")
     private Team local;
     
-    @ManyToOne
-    @JoinColumn (name="VisitTeamName", referencedColumnName="NAME")
-    @Column (name="VisitantTeam")
+    @OneToOne
+    @JoinColumn (name="VISITANT_T_NAME", referencedColumnName="NAME")
     private Team visitant;
     
     @Temporal(TemporalType.DATE)
-    @Column (name="Date")
-    private Date date;
+    @Column (name="MATCH_DATE")
+    private Date matchDate;
     //private Arbitre 
     //private Stadium
 
@@ -48,6 +46,7 @@ public class Match {
         this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
 
+    
     public String getIdMatch() {
         return idMatch;
     }
@@ -68,12 +67,12 @@ public class Match {
         this.visitant = visitant;
     }
 
-    public Date getDate() {
-        return this.date;
+    public Date getMatchDate() {
+        return this.matchDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMatchDate(Date matchDate) {
+        this.matchDate = matchDate;
     }
     
     public boolean equals(Object obj){

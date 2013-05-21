@@ -25,6 +25,8 @@ public class CompetitionCup extends Competition{
     private int maxTeams;
     private int minTeams;
     
+    public CompetitionCup(){}
+    
     public CompetitionCup(CompetitionType type){
         super();
         this.setType(type);
