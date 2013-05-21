@@ -9,7 +9,7 @@
     <class>org.fofo.entity.CompetitionLeague</class>
     <class>org.fofo.entity.FCalendar</class>
     <class>org.fofo.entity.Match</class>
-    <class>org.fofo.entity.WeekMatches</class>
+    <class>org.fofo.entity.WeekMatch</class>
     <properties>
       <property name="toplink.jdbc.url" value="jdbc:derby:myDB;create=true"/>
       <property name="toplink.ddl-generation" value="create-tables"/>
