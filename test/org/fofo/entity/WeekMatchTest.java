@@ -11,13 +11,13 @@ import org.junit.Test;
  *
  * @author oriol i Jordi, Mohamed
  */
-public class WeekMatchesTest {
+public class WeekMatchTest {
     
     Match match, match2, match3, repeatedTeamMatch;
-    WeekMatches wm;
+    WeekMatch wm;
     Team team1, team2, team3, team4, team5, team6;
     
-    public WeekMatchesTest() {
+    public WeekMatchTest() {
     }
 
     @Before
@@ -31,8 +31,7 @@ public class WeekMatchesTest {
         match = new Match(team1, team2);
         match2 = new Match(team3, team4);
         match3 = new Match(team5, team6);
-        repeatedTeamMatch = new Match(team4, team1);
-        wm = new WeekMatches();
+        wm = new WeekMatch();
     }
            
     @Test

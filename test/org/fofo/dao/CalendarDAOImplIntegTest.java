@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.WeekMatch;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -24,7 +24,7 @@ public class CalendarDAOImplIntegTest {
     EntityTransaction transaction;
     CalendarDAOImpl calDAO;
     Match match1, match2, match3, match4;
-    WeekMatches wm1, wm2;
+    WeekMatch wm1, wm2;
     FCalendar cal;
 
     @Before
@@ -32,8 +32,8 @@ public class CalendarDAOImplIntegTest {
         calDAO = new CalendarDAOImpl();
         calDAO.setEm(em);
 
-        wm1 = new WeekMatches();
-        wm2 = new WeekMatches();
+        wm1 = new WeekMatch();
+        wm2 = new WeekMatch();
 
         match1 = new Match();
         match2 = new Match();

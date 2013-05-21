@@ -28,7 +28,7 @@ public class CalendarDAOTest {
     CalendarDAOImpl calDAO;
     CalendarDAO caldao;
     Match match1, match2, match3, match4;
-    WeekMatches wm1, wm2;
+    WeekMatch wm1, wm2;
     FCalendar cal;
     Club club;
     Team team1, team2, team3, team4;
@@ -80,11 +80,11 @@ public class CalendarDAOTest {
         match4.setLocal(team4);
         match4.setVisitant(team3);
 
-        wm1 = new WeekMatches();
+        wm1 = new WeekMatch();
         wm1.addMatch(match1);
         wm1.addMatch(match2);
         
-        wm2 = new WeekMatches();
+        wm2 = new WeekMatch();
         wm2.addMatch(match3);
         wm2.addMatch(match4);
 
@@ -105,7 +105,7 @@ public class CalendarDAOTest {
     @Test
     public void testAddCalendar(){
        
-        final List<WeekMatches> wm = new ArrayList<WeekMatches>();
+        final List<WeekMatch> wm = new ArrayList<WeekMatch>();
         wm.add(wm1);
         wm.add(wm2);   
         

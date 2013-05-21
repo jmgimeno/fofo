@@ -50,7 +50,7 @@ public class CalendarLeagueGenTest {
     public void eachWeekMatchesHasCorrectNumOfMatches() throws Exception {
         int expected = compOK.getNumberOfTeams() / 2;
 
-        for (WeekMatches wm : calendar.getAllWeekMatches()) {
+        for (WeekMatch wm : calendar.getAllWeekMatches()) {
             assertEquals(expected, wm.getNumberOfMatchs());
         }
         

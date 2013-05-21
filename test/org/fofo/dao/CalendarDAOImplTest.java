@@ -11,7 +11,7 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
 import org.fofo.entity.Team;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.WeekMatch;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -35,7 +35,7 @@ public class CalendarDAOImplTest {
     CalendarDAOImpl calDAO;
     CalendarDAO caldao;
     Match match1, match2, match3, match4;
-    WeekMatches wm1, wm2;
+    WeekMatch wm1, wm2;
     FCalendar cal;
     Club club;
     Team team1, team2, team3, team4;
@@ -92,11 +92,11 @@ public class CalendarDAOImplTest {
         match4.setLocal(team4);
         match4.setVisitant(team3);
 
-        wm1 = new WeekMatches();
+        wm1 = new WeekMatch();
         wm1.addMatch(match1);
         wm1.addMatch(match2);
         
-        wm2 = new WeekMatches();
+        wm2 = new WeekMatch();
         wm2.addMatch(match3);
         wm2.addMatch(match4);
         
@@ -185,7 +185,7 @@ public class CalendarDAOImplTest {
     //@Test
     public void testAddVariousWeekMatches() throws Exception {
 
-        List<WeekMatches> Lwm = null;
+        List<WeekMatch> Lwm = null;
 
         wm1.addMatch(match1);
         wm1.addMatch(match2);

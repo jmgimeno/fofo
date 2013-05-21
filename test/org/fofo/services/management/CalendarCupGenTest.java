@@ -12,7 +12,7 @@ import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
 import org.fofo.entity.Team;
 import org.fofo.entity.CompetitionType;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.WeekMatch;
 import org.joda.time.DateTime;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -66,7 +66,7 @@ public class CalendarCupGenTest {
         generator = new CalendarCupGen();        
         FCalendar calendar = generator.calculateCalendar(comp);
         
-        WeekMatches first = calendar.getWeekMatch(0);
+        WeekMatch first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();
 
         assertTrue(listMatch.size()==8);
@@ -89,7 +89,7 @@ public class CalendarCupGenTest {
         generator = new CalendarCupGen();        
         FCalendar calendar = generator.calculateCalendar(comp);
         
-        WeekMatches first = calendar.getWeekMatch(0);
+        WeekMatch first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();     
         List<Team> listTeams = comp.getTeams();      
         
@@ -106,7 +106,7 @@ public class CalendarCupGenTest {
         generator = new CalendarCupGen();        
         FCalendar calendar = generator.calculateCalendar(comp);
         
-        WeekMatches first = calendar.getWeekMatch(0);
+        WeekMatch first = calendar.getWeekMatch(0);
         List<Match> listMatch = first.getListOfWeekMatches();     
         List<Team> listTeams = comp.getTeams();      
        
@@ -118,7 +118,7 @@ public class CalendarCupGenTest {
         generator = new CalendarCupGen();        
         FCalendar calendar = generator.calculateCalendar(comp);
         
-        WeekMatches second = calendar.getWeekMatch(1);
+        WeekMatch second = calendar.getWeekMatch(1);
         List<Match> listMatch = second.getListOfWeekMatches();     
         List<Team> listTeams = generateTeams(1,8);  
         
@@ -132,7 +132,7 @@ public class CalendarCupGenTest {
         
         int numTeams = 8;
         for(int i=1; i<=3; i++){
-            WeekMatches second = calendar.getWeekMatch(i);
+            WeekMatch second = calendar.getWeekMatch(i);
             List<Match> listMatch = second.getListOfWeekMatches();   
             List<Team> listTeams = generateTeams(i,numTeams);
             numTeams /=2;
@@ -141,7 +141,7 @@ public class CalendarCupGenTest {
     }      
        
     
-    private boolean assertEqualsMatch(WeekMatches match, int nmatches){
+    private boolean assertEqualsMatch(WeekMatch match, int nmatches){
         if(match.getNumberOfMatchs() == nmatches) return true;
         else return false;
     }

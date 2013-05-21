@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
  */
 public class CalendarLeagueGen extends CalendarGen{        
  
-    private List<WeekMatches> wmList = new ArrayList<WeekMatches>();
+    private List<WeekMatch> wmList = new ArrayList<WeekMatch>();
     
     /* Vbles declarades com a atributs >> codi més net i llegible */
     private int numTeams;
@@ -48,14 +48,14 @@ public class CalendarLeagueGen extends CalendarGen{
         return cal;
     }    
     
-    public List<WeekMatches> getWeekMatchesByRound(int numRound){
-        List<WeekMatches> list = null;
+    public List<WeekMatch> getWeekMatchesByRound(int numRound){
+        List<WeekMatch> list = null;
         int n = numTeams-1;
         
         if(roundOne(numRound)){
-            list = new ArrayList<WeekMatches>(this.wmList.subList(0, n));
+            list = new ArrayList<WeekMatch>(this.wmList.subList(0, n));
         }else if(roundTwo(numRound)){
-            list = new ArrayList<WeekMatches>(this.wmList.subList(n, n*2));
+            list = new ArrayList<WeekMatch>(this.wmList.subList(n, n*2));
         }
         
         return list;
@@ -91,8 +91,8 @@ public class CalendarLeagueGen extends CalendarGen{
         }
     }
 
-    private WeekMatches buildWeekMatches(int numRound){
-        WeekMatches wm = new WeekMatches();
+    private WeekMatch buildWeekMatches(int numRound){
+        WeekMatch wm = new WeekMatch();
         
         for(int i=0; i<numTeams/2; i++){  // n/2 partits per jornada
             Team local = locals.get(i);

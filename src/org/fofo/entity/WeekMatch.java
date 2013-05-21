@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name="WeekMatches")
-public class WeekMatches {
+public class WeekMatch {
     
     @Id
     @Column (name="idWeekMatch")
@@ -28,10 +28,10 @@ public class WeekMatches {
     @ManyToOne
     FCalendar calendar;
     
-    private List<Match> weekMatches = new ArrayList<Match>();
+    private List<Match> Matchs = new ArrayList<Match>();
     
     
-    public WeekMatches(){
+    public WeekMatch(){
         this.weekMatchId = UUID.randomUUID().toString();   
     }
     
@@ -40,16 +40,16 @@ public class WeekMatches {
     }
     
     public void addMatch(Match m){
-        if(!weekMatches.contains(m)){              
-                this.weekMatches.add( m);
+        if(!Matchs.contains(m)){              
+                this.Matchs.add( m);
         }
     }
     
     public List<Match> getListOfWeekMatches(){
-        return weekMatches;
+        return Matchs;
     }
     
     public int getNumberOfMatchs(){
-        return weekMatches.size();
+        return Matchs.size();
     }
 }

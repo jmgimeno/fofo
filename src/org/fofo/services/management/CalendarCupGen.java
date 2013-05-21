@@ -7,17 +7,17 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
 import org.fofo.entity.Team;
-import org.fofo.entity.WeekMatches;
+import org.fofo.entity.WeekMatch;
 
 /**
  *
  * @author jnp2
  */
 public class CalendarCupGen extends CalendarGen{
-    private List<WeekMatches> weekMatches ; 
+    private List<WeekMatch> weekMatches ; 
 
     public CalendarCupGen() {
-        weekMatches = new ArrayList<WeekMatches>();
+        weekMatches = new ArrayList<WeekMatch>();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class CalendarCupGen extends CalendarGen{
     }
     
     private void generateRoundN(int numRound, List<Team> listTeam) throws TeamCanPlayOnlyOneMatchForAWeekException {
-        WeekMatches weekMatch = new WeekMatches();  
+        WeekMatch weekMatch = new WeekMatch();  
         
         Iterator itr = listTeam.iterator();
         int nId = 1;
@@ -51,7 +51,7 @@ public class CalendarCupGen extends CalendarGen{
     private List<Team> teamsParticipatingInRoundN(int numRound) {
         
         List<Team> listTeam  = new ArrayList<Team>();         
-        WeekMatches weekMatch = weekMatches.get(numRound-1);       
+        WeekMatch weekMatch = weekMatches.get(numRound-1);       
         List<Match> matches = weekMatch.getListOfWeekMatches();  
         Club club = new Club();
         club.setName("Imaginary club");
