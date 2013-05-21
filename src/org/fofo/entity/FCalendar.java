@@ -26,7 +26,7 @@ public class FCalendar {
     
     @JoinColumn (name="Competition",
                   referencedColumnName="NAME")
-   @OneToOne(mappedBy="fcalendar")
+   @OneToOne
     private Competition competition;
     
     @OneToMany (mappedBy="FCalendar")
