@@ -1,0 +1,26 @@
+FOFO
+US: Alertar falta dades encontre
+
+Com a FOFO vull que s'alerti automàticament, passat 5 dies de la 
+finalització d'una jornada, als àrbitres que no han comunicat les dades obligatòries
+de l'encontre assignat en aquella jornada o en jornades anteriors
+
+Com a FOFO vull que s'alerti automàticament i de forma repetida cada 7 dies a 
+partir del 5 dia de la finalització de cada jornada a tots els àrbitres que no 
+han comunicat les dades obligatories d'encontres finalitzats que tenen assignats
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Si X és un àrbitre que té un encontre assignat de la jornada que fa 5 dies 
+ha finalitzat i no ha comunicat les dades obligatòries de 
+l'encontre, s'enviarà un email a X.
+
+2. Si X és un àrbitre que té un algun encontre assignat en alguna jornada que 
+fa 5 dies ha finalitzat, o jornades anteriors, i no ha comunicat les dades obligatòries de 
+l'encontre, s'enviarà un email a X.
+
+1. Si X és un àrbitre que té un encontre assignat en alguna jornada que fa 5 dies 
+ha finalitzat i no ha comunicat les dades obligatòries de l'encontre, 
+s'enviarà un email a X.
+

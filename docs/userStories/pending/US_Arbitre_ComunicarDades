@@ -1,0 +1,19 @@
+Àrbitre
+US: Comunicar dades encontre
+
+Com a àrbitre vull comunicar les dades d'un encontre ja finalitzat per a que en
+quedi constancia
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+
+1. Les dades obligatories del encontre estan comunicades i no hi ha dades optatives
+
+2. Les dades obligatories i optatives del encontre estan comunicades
+
+3. L'encontre del que es comuniquen les dades ha d'haver acabat
+
+4. L'arbitre només pot comunicar dades d'encontres que té assignats
