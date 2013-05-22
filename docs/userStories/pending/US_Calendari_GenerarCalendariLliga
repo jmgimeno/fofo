@@ -17,21 +17,21 @@ TESTS ACCEPTACIÓ
 3. El nombre d'equips ha de ser parell. OK
 
 4. El calendari contempla dues voltes. En cada volta
-cada equip jugarà n-1 partits. CASI IMPOSSIBLE DE TESTEJAR
+cada equip jugarà n-1 encontres. CASI IMPOSSIBLE DE TESTEJAR
 
 5. Cada volta tindrà n-1 jornades. OK
 
 6. En cada volta cada equip juga una única vegada contra un rival. OK
 
-7. Cada jornada tindrà n/2 partits. OK
+7. Cada jornada tindrà n/2 encontres. OK
 
 8. Cada equip juga una única vegada cada jornada. OK
 
 9. La segona volta ha de ser exactament igual a la primera, 
-les jornades tindran exactament els mateixos partits, 
+les jornades tindran exactament els mateixos encontres, 
 però intercanviant els rols (local,visitant) dels equips 
-que juguen cada partit. OK
+que juguen cada encontre. OK
 
 10. El calendari està constituit per una llista de jornades.
-Cada jornada consta per una llista de partits. 
-Cada partit s'enfronten dos equips( Un actua com a local i l'altre com a visitant). OK
+Cada jornada consta per una llista d'encontres. 
+Cada encontre s'enfronten dos equips( Un actua com a local i l'altre com a visitant). OK

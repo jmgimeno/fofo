@@ -1,7 +1,7 @@
 Arbitre
 US: Notificar a l'àrbitre el calendari particular d'una competició
 
-FOFO vol comunicar a un àrbitre els partits que te assignats 
+FOFO vol comunicar a un àrbitre els encontres que te assignats 
 per a que l'àrbitre pugui gestionar-los
 
 
@@ -10,6 +10,6 @@ per a que l'àrbitre pugui gestionar-los
 ----------------------------------------------
 TESTS ACCEPTACIÓ
 
-1. Si X és un àrbitre i té algun partit del calendari de la  competició assignat 
+1. Si X és un àrbitre i té algun encontre del calendari de la  competició assignat 
 s'enviarà un email a X
  

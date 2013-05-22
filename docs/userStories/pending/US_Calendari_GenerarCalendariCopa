@@ -28,8 +28,8 @@ A la primera jornada hi participen tots els equips.
 7. Cada equip no eliminat juga una única vegada cada jornada.
 
 8. El calendari està constituit per una llista de jornades.
-Cada jornada consta per una llista de partits. 
-Cada partit s'enfronten dos equips( Un actua com a local i l'altre com a visitant).
+Cada jornada consta per una llista d'encontres. 
+Cada encontre s'enfronten dos equips( Un actua com a local i l'altre com a visitant).
 
 9. Els equips que s'enfronten als partits d'una jornada 
 son referències a equips guanyadors de la jornada anterior.
