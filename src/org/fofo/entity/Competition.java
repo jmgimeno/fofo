@@ -128,11 +128,17 @@ public abstract class Competition {
         return teams.size();
     }
     
+    @Override
     public String toString(){
         
         return "Competition name: "+name+ "  Category: "+category+ " Teams: "+teams ;
         
     }
     
+    @Override
+    public boolean equals (Object obj){
+        
+        return (obj instanceof Competition)&&((Competition)obj).name.equals(this.name);
+    }
     
 }
