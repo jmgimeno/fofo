@@ -66,9 +66,22 @@ public class TeamDAOImpl implements TeamDAO{
     }
     
     
-    public Team findTeamByName(String name){
-        
-        return null;        
+    public Team findTeamByName(String name) throws PersistException{
+       Team team = null; 
+       try{
+          em.getTransaction().begin();
+          
+          team = (Team) em.find (Team.class,name);
+          em.getTransaction().commit();
+          
+       }
+       catch (PersistenceException e){
+	  throw new PersistException();
+       }
+       finally{
+          if (em.isOpen()) em.close();
+       }
+       return team;        
         
     }
     
@@ -77,7 +90,7 @@ public class TeamDAOImpl implements TeamDAO{
         return null;
     }
 
-
+//CAL TREURE-LA!!!!!
     public boolean findTeam(Team team) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

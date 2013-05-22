@@ -103,7 +103,7 @@ public class CalendarDAOTest {
 
     
     @Test
-    public void testAddCalendar(){
+    public void testAddCalendar() throws Exception{
        
         final List<WeekMatch> wm = new ArrayList<WeekMatch>();
         wm.add(wm1);

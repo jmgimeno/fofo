@@ -28,7 +28,7 @@ public interface TeamDAO {
     List<Team> getTeams();
     
     
-    Team findTeamByName(String name);
+    Team findTeamByName(String name) throws PersistException;
     
     List<Team> findTeamByClub(String name);
 }

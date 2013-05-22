@@ -9,16 +9,18 @@ import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 /**
  * @author oriol i Jordi
  */
 
 @Entity
-@Table (name="WeekMatches")
+@Table (name="WeekMatch")
 public class WeekMatch {
     
     @Id
@@ -28,11 +30,13 @@ public class WeekMatch {
     @ManyToOne
     FCalendar calendar;
     
+    @OneToMany (fetch=FetchType.EAGER)
     private List<Match> Matchs = new ArrayList<Match>();
     
     
     public WeekMatch(){
         this.weekMatchId = UUID.randomUUID().toString();   
+        
     }
     
     public String getWeekMatchId(){
@@ -51,5 +55,18 @@ public class WeekMatch {
     
     public int getNumberOfMatchs(){
         return Matchs.size();
+    }
+    
+    public String toString() {
+        return "Week match id: "+weekMatchId+" Matches: "+Matchs;
+        
+    }
+    
+    public boolean equals(Object obj){
+        if (! (obj instanceof WeekMatch) ) return false;
+        
+        WeekMatch wm = (WeekMatch) obj;
+        
+        return this.Matchs.size() == wm.Matchs.size() && this.Matchs.containsAll(wm.Matchs);
     }
 }

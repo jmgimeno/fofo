@@ -128,6 +128,11 @@ public abstract class Competition {
         return teams.size();
     }
     
+    public String toString(){
+        
+        return "Competition name: "+name+ "  Category: "+category+ " Teams: "+teams ;
+        
+    }
     
     
 }

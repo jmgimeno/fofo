@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import org.fofo.entity.FCalendar;
 import org.fofo.entity.Match;
 import org.fofo.entity.WeekMatch;
+import org.fofo.entity.Team;
+
 
 /**
  *
@@ -41,7 +43,7 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @param cal: The Calendar to add.
      */
     @Override
-    public void addCalendar(FCalendar cal) {
+    public void addCalendar(FCalendar cal) throws IncorrectTeamException, PersistException{
         em.getTransaction().begin();
         for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
            System.out.println("getNumOfWeekMatches--> "+cal.getNumOfWeekMatches());
@@ -62,7 +64,7 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @throws IncorrectTeamException 
      */
     //This is a public function at the moment, only for the test
-    public void addWeekMatches(WeekMatch wm) throws IncorrectTeamException {
+    public void addWeekMatches(WeekMatch wm) throws PersistException, IncorrectTeamException {
 
         for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
             //System.out.println("GetNumberOfMatch--> "+wm.getNumberOfMatchs());
@@ -77,10 +79,14 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @throws IncorrectTeamException 
      */
     //This is a public function at the moment, only for the test
-    public void addMatch(Match match) throws IncorrectTeamException {
-        if (td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
-            em.persist(match);
-        } else {
+    public void addMatch(Match match) throws IncorrectTeamException, PersistException {
+        //if (td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
+        if (em.find(Team.class, match.getLocal(). getName())!= null && 
+            em.find(Team.class,match.getVisitant().getName()) != null) {
+          
+          em.persist(match);
+        } 
+        else {
             throw new IncorrectTeamException();
         }
     }

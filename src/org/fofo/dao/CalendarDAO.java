@@ -10,7 +10,7 @@ import org.fofo.entity.FCalendar;
  */
 public interface CalendarDAO {
 
-    void addCalendar(FCalendar cal);
+    void addCalendar(FCalendar cal) throws IncorrectTeamException, PersistException;
 
     TeamDAO getTd();
 

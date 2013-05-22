@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table (name="Match")
+@Table (name="Match_")
 public class Match {
 
     @Id
@@ -90,6 +90,8 @@ public class Match {
     
     public String toString(){
         
-        return local.getName()+"-"+visitant.getName();
+        return "<Match:"+ local.getName()+"-"+visitant.getName()+">";
     }
+    
+    
 }

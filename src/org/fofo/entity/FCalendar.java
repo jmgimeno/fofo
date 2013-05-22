@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 
 /**
  *
@@ -29,7 +30,7 @@ public class FCalendar {
    @OneToOne
     private Competition competition;
     
-    @OneToMany (mappedBy="calendar")
+    @OneToMany (mappedBy="calendar", fetch=FetchType.EAGER)
     private List<WeekMatch> weekMatches;
     
     
@@ -43,6 +44,9 @@ public class FCalendar {
     public FCalendar(Competition c){
         this.competition = c;
         this.weekMatches = new ArrayList<WeekMatch>();
+        this.idFCalendar = UUID.randomUUID().toString();
+          //ABANS NO S'AGEGIA L'IDENTIFICADOR!!!!!
+    
     }   
     
     public void setCompetition(Competition c){
@@ -51,6 +55,10 @@ public class FCalendar {
     
     public void setWeekMatches(List<WeekMatch> wm){
         this.weekMatches = wm;
+    }
+    
+    public String getIdFCalendar(){
+        return this.idFCalendar;
     }
     
     public List<WeekMatch> getAllWeekMatches() {
@@ -68,5 +76,23 @@ public class FCalendar {
     public Competition getCompetition(){
         return competition;
     }  
+    
+    public String toString(){
+        
+        return "Calendar id: "+this.idFCalendar+ "Calendar competition: "+this.competition+
+                "Calendar week matches:"+weekMatches;
+        
+    }
+    
+    public boolean equals(Object obj){
+        
+        if (! (obj instanceof FCalendar) ) return false;
+        
+        FCalendar cal = (FCalendar) obj;
+        
+        return this.idFCalendar.equals (cal.idFCalendar) &&
+               this.weekMatches.size() == cal.weekMatches.size() &&
+                this.weekMatches.containsAll(cal.weekMatches); 
+    }
     
 }
