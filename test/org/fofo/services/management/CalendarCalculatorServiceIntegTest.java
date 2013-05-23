@@ -1,6 +1,3 @@
-/*
- * EXAMPLE OF INTEGRATION TEST FOR TeamDAOImpl
- */
 package org.fofo.services.management;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ import org.junit.After;
 
 /**
  *
- * @author josepma
+ * @author jnp2
  */
 public class CalendarCalculatorServiceIntegTest {
     CalendarCalculatorService  service;
@@ -96,7 +93,6 @@ public class CalendarCalculatorServiceIntegTest {
          
 
     }
-
     
     //@Test 
     public void testCalculateAndStoreLeagueCalendar() throws Exception{
@@ -106,24 +102,59 @@ public class CalendarCalculatorServiceIntegTest {
         service.calculateAndStoreCupCalendar(compLeague);
 
         Competition result = getCompetitionFromDB("Competition League");
-        assertEquals("Should have the same competition",compLeague,result);
-        
-        //FCalendar cal; //= get the FCalendar asosiate to result               
+        assertEquals("Should have the same competition",compLeague,result);         
     }
-    
-    
+        
     //@Test 
-    public void testCalculateAndStoreCupCalendar() throws Exception{
-                  
+    public void testCalculateAndStoreCupCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
         Competition result = getCompetitionFromDB("Competition Cup");
-        assertEquals("Should have the same competition",compCup,result);
-        
-        //FCalendar cal; //= get the FCalendar asosiate to result               
+        assertEquals("Should have the same competition",compCup,result);          
     }    
+    
+    //@Test 
+    public void testCalculateStoreAndGetLeagueCalendar() throws Exception{                  
+        service.setCalendarDao(caldao);        
+        service.setCalendarCupGen(calLeagueGen);
+        service.calculateAndStoreCupCalendar(compLeague);
+
+        FCalendar cal = null;
+        cal = caldao.findFCalendarByCompetitionName("Competition League");
+        assertNotNull(cal);              
+    }    
+    //@Test 
+    public void testCalculateStoreAndGetCupCalendar() throws Exception{                  
+        service.setCalendarDao(caldao);        
+        service.setCalendarCupGen(calCupGen);
+        service.calculateAndStoreCupCalendar(compCup);
+
+        FCalendar cal = null;
+        cal = caldao.findFCalendarByCompetitionName("Competition Cup");
+        assertNotNull(cal);       
+    }     
+    
+    //@Test 
+    public void testGetCompetitionOfLeagueCalendar() throws Exception{                  
+        service.setCalendarDao(caldao);        
+        service.setCalendarCupGen(calLeagueGen);
+        service.calculateAndStoreCupCalendar(compLeague);
+
+        FCalendar cal = caldao.findFCalendarByCompetitionName("Competition League");
+        assertEquals("Should have the same competition",compLeague,cal.getCompetition());             
+    }     
+    
+    //@Test 
+    public void testGetCompetitionOfCupCalendar() throws Exception{                  
+        service.setCalendarDao(caldao);        
+        service.setCalendarCupGen(calLeagueGen);
+        service.calculateAndStoreCupCalendar(compCup);
+
+        FCalendar cal = caldao.findFCalendarByCompetitionName("Competition Cup");
+        assertEquals("Should have the same competition",compCup,cal.getCompetition());             
+    } 
     
     
     
@@ -148,19 +179,6 @@ public class CalendarCalculatorServiceIntegTest {
      }
 
     }
-
-
-//   private Team getTeamFromDB(String name) throws Exception{
-//
-//         em = getEntityManagerFact();
-//         em.getTransaction().begin();
-//         Team teamDB = em.find(Team.class, name);
-//         em.getTransaction().commit();
-//         em.close();
-// 
-//         return teamDB; 
-//         
-//   } 
     
     private void createCompetition(Competition comp, Club club) throws Exception{   
         comp.setCategory(Category.MALE);
