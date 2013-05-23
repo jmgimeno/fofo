@@ -42,7 +42,7 @@ public class ClubDAOImplTest {
     
     @Test
     public void testAddClub() throws Exception{
-        final Club club = new Club();
+        final Club club = new Club("club1");
         context.checking(new Expectations() {{
                 atLeast(1).of (em).getTransaction(); will(returnValue(transaction));        
                 oneOf (transaction).begin();

@@ -21,6 +21,6 @@ public interface ClubDAO {
     
     Club findClubByName(String name);
     
-    List<Club> findClubByTeam(String name);
+    Club findClubByTeam(String name); //un equip només està asociat a un club, no?
     
 }
