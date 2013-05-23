@@ -39,6 +39,7 @@ public class CupCalendarCalculatorServiceTest extends CalendarCupGen{
         calGen = context.mock(CalendarCupGen.class);       
       
         compCup = Competition.create(CompetitionType.CUP);
+        compCup.setName("Competition 1");
         
         createCompetition(compCup);
     }
@@ -63,7 +64,7 @@ public class CupCalendarCalculatorServiceTest extends CalendarCupGen{
                 oneOf(cdao).addCalendar(calendar);
             }
         }); 
-        
+
         service.setCalendarDao(cdao);        
         service.setCalendarCupGen(calGen);
         service.calculateAndStoreCupCalendar(compCup);
