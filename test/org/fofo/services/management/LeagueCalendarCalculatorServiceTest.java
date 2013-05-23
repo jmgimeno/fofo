@@ -41,6 +41,7 @@ public class LeagueCalendarCalculatorServiceTest extends CalendarLeagueGen{
         compLeague = Competition.create(CompetitionType.LEAGUE);
         
         createCompetition(compLeague);
+        compLeague.setName("Competition 1");
     }
 
     

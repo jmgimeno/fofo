@@ -103,10 +103,28 @@ public class CalendarCalculatorServiceIntegTest {
                   
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calLeagueGen);
+        service.calculateAndStoreCupCalendar(compLeague);
+
+        Competition result = getCompetitionFromDB("Competition League");
+        assertEquals("Should have the same competition",compLeague,result);
+        
+        //FCalendar cal; //= get the FCalendar asosiate to result               
+    }
+    
+    
+    //@Test 
+    public void testCalculateAndStoreCupCalendar() throws Exception{
+                  
+        service.setCalendarDao(caldao);        
+        service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
+        Competition result = getCompetitionFromDB("Competition Cup");
+        assertEquals("Should have the same competition",compCup,result);
+        
+        //FCalendar cal; //= get the FCalendar asosiate to result               
+    }    
     
-    }
     
     
     /*
@@ -171,6 +189,16 @@ public class CalendarCalculatorServiceIntegTest {
             numMatches/=2;
         }   
     }
+    
+    private Competition getCompetitionFromDB(String idcomp) throws Exception{
+        em = getEntityManagerFact();
+        em.getTransaction().begin();
+        Competition comp = em.find(Competition.class, idcomp);
+        em.getTransaction().commit();
+        em.close();
+        
+        return comp;          
+   } 
 
 
 }

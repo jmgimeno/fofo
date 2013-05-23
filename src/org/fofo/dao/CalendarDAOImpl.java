@@ -1,10 +1,8 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
-import org.fofo.entity.FCalendar;
-import org.fofo.entity.Match;
-import org.fofo.entity.WeekMatch;
-import org.fofo.entity.Team;
+import javax.persistence.PersistenceException;
+import org.fofo.entity.*;
 
 /**
  *
@@ -100,4 +98,26 @@ System.out.println("ADD MATCH FUNCTION");
         }
     }
 //WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
+
+    @Override
+    public FCalendar findFCalendarByCompetitionName(String name)  throws PersistException{
+        FCalendar cal = null; 
+        Competition comp = null;
+        try{
+            em.getTransaction().begin();            
+            comp = (Competition) em.find (Competition.class,name);
+            
+            //cal = Buscar calendari assosiat amb comp
+            //cal = comp.getFCalendar(); ??
+            
+            em.getTransaction().commit();             
+        }
+        catch (PersistenceException e){
+            throw new PersistException();
+        }
+        finally{
+            if (em.isOpen()) em.close();
+        }
+        return cal;
+    }
 }
