@@ -73,7 +73,7 @@ public class CalendarDAOImpl implements CalendarDAO {
     public void addWeekMatches(WeekMatch wm) throws PersistException, IncorrectTeamException {
 
         for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
-            addMatch(wm.getListOfWeekMatches().get(0));
+            addMatch(wm.getListOfWeekMatches().get(i));
         }
         em.persist(wm);
     }

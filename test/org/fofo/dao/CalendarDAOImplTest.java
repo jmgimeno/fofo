@@ -197,7 +197,7 @@ public class CalendarDAOImplTest {
      *
      * @throws Exception 
      */
- //@Test(expected = IncorrectTeamException.class)
+    @Test(expected = IncorrectTeamException.class)
     public void NotLocalTeamInMatch() throws Exception {
 
         cal.getAllWeekMatches().add(wm5);
@@ -211,12 +211,10 @@ public class CalendarDAOImplTest {
                 teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getLocal());
              
                 
-                oneOf(tdao).getTeams(); will(returnValue(teams.get(0)));
+                oneOf(tdao).getTeams(); will(returnValue(teams));
 
-                oneOf(em).find(Team.class, teams.get(0));           
-              
-               
-             //oneOf(tdao).findTeam(teams.get(0));
+                oneOf(em).find(Team.class, teams.get(0).getName()); //will(returnValue(null));             
+               // oneOf(tdao).findTeam(teams.get(0)); Versió anterior...
                
                 oneOf(em).close();
             }
