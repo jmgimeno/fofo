@@ -1,0 +1,17 @@
+FOFO
+US: Comunicar classificació
+
+Com a FOFO vull comunicar automàticament la classificació
+
+
+La comunicació es realitzarà cada cop que la classificació ha sigut calculada
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Comprovar que no es comunica la classificació si no s'han incorporat
+   resultats nous
+
+2. Comprovar que s'ha enviat un email a tots els clubs que tenen algun equip 
+   participant
+
+3. Comprovar que s'ha enviat un email a tots els medis interessats

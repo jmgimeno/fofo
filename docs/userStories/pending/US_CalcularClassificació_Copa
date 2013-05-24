@@ -1,0 +1,18 @@
+FOFO
+US: Calcular la classificació de competició tipus copa
+
+Com a FOFO vull recalcular automàticament la classificació per comunicar-la
+
+
+El càlcul es realitzarà 1 dia després de la finalització de la jornada
+Si es el primer càlcul, no hi ha valors d'encontres no jugats 
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Comprovaré que la classificació s'ha recalculat amb les ùltimes dades 
+   d'encontre incorporades
+
+1.1 Comprovaré que s'ha introduit el resultat
+.
+.
+.

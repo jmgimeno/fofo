@@ -1,0 +1,32 @@
+FOFO
+US: Calcular la classificació de competició tipus lliga
+
+Com a FOFO vull recalcular automàticament la classificació per comunicar-la
+
+
+El càlcul es realitzarà 1 dia després de la finalització de la jornada
+Si es el primer càlcul, tots els valors seran 0
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Comprovaré que la classificació s'ha recalculat amb les ùltimes dades 
+   d'encontre incorporades
+
+1.1 Els equips guanyadors han sumat 3 punts a la classificació
+
+1.2 Els equips que han empatat han sumat 1 punt a la classificació
+
+1.3 Els gols a favor han sigut actualitzats  
+
+1.4 Els gols en contra han sigut actualitzats  
+
+1.5 Els equips guanyadors han sumat 1 partit guanyat 
+
+1.6 Els equips perdedors han sumat 1 partit perdut 
+
+1.7 Els equips que han empatat han sumat 1 partit empatat 
+
+1.8 Els partits jugats han sigut actualitzats
+
+1.9 La posició ha sigut actualitzada per ordre de puntuació descendent
+
