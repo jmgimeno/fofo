@@ -14,9 +14,7 @@ public class CalendarCalculatorService {
     private CalendarGen calCupGen;
     
     public CalendarCalculatorService(){
-        this.calDao =null;     
-        this.calLeagueGen =null;        
-        this.calCupGen =null;
+
     }
     
     public void setCalendarDao(CalendarDAO calDao){

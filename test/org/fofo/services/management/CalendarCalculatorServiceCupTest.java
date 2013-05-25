@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(JMock.class)
-public class CupCalendarCalculatorServiceTest extends CalendarCupGen{ 
+public class CalendarCalculatorServiceCupTest extends CalendarCupGen{ 
     
     CalendarCalculatorService  service;
     private Mockery context = new Mockery() {{
