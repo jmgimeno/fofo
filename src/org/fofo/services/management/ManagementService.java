@@ -67,9 +67,7 @@ public class ManagementService {
 //    public Team getTeam() {
 //        return team;
 //    }
-    public void addCompetition(Competition comp) throws IncorrectCompetitionData,
-            IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
-            IncorrectDate, PersistException {
+    public void addCompetition(Competition comp) throws Exception {
         List<Club> clubs = new ArrayList<Club>();
         checkForExceptions(comp);
         clubs = clubDao.getClubs();
