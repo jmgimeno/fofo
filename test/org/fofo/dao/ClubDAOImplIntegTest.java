@@ -20,9 +20,8 @@ import static org.junit.Assert.*;
 public class ClubDAOImplIntegTest {
     private Club club;
     private Team team;
-    private ClubDAOImpl clubDao;
-    //private EntityManager em;   
-    
+    private ClubDAOImpl clubDao;    
+        
     public ClubDAOImplIntegTest() {
     }
     
@@ -30,8 +29,8 @@ public class ClubDAOImplIntegTest {
     public void setUp() throws Exception {        
         EntityManager em = getEntityManagerFact(); 
         clubDao = new ClubDAOImpl();
-        clubDao.setEM(em);  //Ha d'anar aqui o al final del setUp?
-        
+        clubDao.setEM(em);   
+                
         /*Setting club & team*/
         club = new Club("testClub1");
         club.setEmail("test1@mail.com");
@@ -41,15 +40,6 @@ public class ClubDAOImplIntegTest {
         List<Competition> comps = new ArrayList<Competition>();
 //        comps.add(new CompetitionLeague());
         team.setCompetitions(comps);
-        try{
-            em.getTransaction().begin();
-            em.persist(team);
-            em.getTransaction().commit();  //PETA AQUI
-        }catch(PersistenceException e){
-            throw e;
-        }finally{
-            if(em.isOpen()) em.close();
-        }        
         
         List<Team> teams = new ArrayList<Team>();        
         teams.add(team);
@@ -60,15 +50,15 @@ public class ClubDAOImplIntegTest {
     }
     
    
-//    @Test
+    @Test
     public void testAddClub() throws Exception {
                 
         clubDao.addClub(club);        
     }
 
 
-//    @Test
-    public void testGetClubs() throws PersistException {
+    @Test
+    public void testGetClubs() throws Exception {
         clubDao.addClub(club); 
         
         List<Club> expected = new ArrayList<Club>();
@@ -78,14 +68,14 @@ public class ClubDAOImplIntegTest {
                 expected, clubDao.getClubs());
     }
 
-//    @Test
+    @Test
     public void testFindClubByName() throws PersistException {
         clubDao.addClub(club); 
         assertEquals(club, clubDao.findClubByName("testClub1"));
     }
 
-//    @Test
-    public void testFindClubByTeam() throws PersistException {
+    @Test
+    public void testFindClubByTeam() throws Exception {
         clubDao.addClub(club);         
         assertEquals(club, clubDao.findClubByTeam("testTeam1"));
     }
@@ -99,11 +89,11 @@ public class ClubDAOImplIntegTest {
         em = getEntityManagerFact();
         em.getTransaction().begin();
         
-        Query query=em.createQuery("DELETE FROM Team st");
-        Query query2=em.createQuery("DELETE FROM Club cl");
+        Query query=em.createQuery("DELETE FROM Team");
+        Query query2=em.createQuery("DELETE FROM Club");
         int deleteRecords=query.executeUpdate();
         deleteRecords=query2.executeUpdate();
-          
+        
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");

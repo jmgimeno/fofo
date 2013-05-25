@@ -20,8 +20,8 @@ public class Club {
     private String name;
     private String email;
     
-    @OneToMany (mappedBy="club") 
-    //@ManyToOne (cascade=CascadeType.PERSIST)
+    //@OneToMany (mappedBy="club") 
+    @OneToMany (cascade=CascadeType.PERSIST)
     private List<Team> teams = new ArrayList<Team>();
     
     public Club(){

@@ -7,6 +7,7 @@ package org.fofo.dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import org.fofo.entity.Club;
 import org.fofo.entity.Team;
 
@@ -17,7 +18,7 @@ import org.fofo.entity.Team;
 public class ClubDAOImpl implements ClubDAO {
 
     private EntityManager em;
-
+    
     public ClubDAOImpl() {
     }
 
@@ -28,19 +29,19 @@ public class ClubDAOImpl implements ClubDAO {
     public EntityManager getEM() {
         return this.em;
     }
-
+    
     @Override
-    public void addClub(Club club) throws PersistException {
-
+    public void addClub(Club club) throws PersistenceException {
+        
         try {
             em.getTransaction().begin();
             em.persist(club);
             em.getTransaction().commit();
-
+            
         } catch (PersistenceException e) {
             throw e;
         } finally {
-            if (em.isOpen()) em.close();            
+//            if (em.isOpen()) em.close();            
         }
     }
 
@@ -53,12 +54,24 @@ public class ClubDAOImpl implements ClubDAO {
     }
 
     @Override
-    public List<Club> getClubs() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Club> getClubs() throws Exception{  
+        Query query;
+        try{
+            em.getTransaction().begin();
+            query = em.createQuery("SELECT c FROM Club c");
+            em.getTransaction().commit();
+            
+        }catch(Exception e){
+            throw e;
+        }finally{
+//            if(em.isOpen()) em.close();
+        }
+        
+        return (List<Club>) query.getResultList();
     }
 
     @Override
-    public Club findClubByName(String name) {
+    public Club findClubByName(String name) throws PersistenceException{
         Club club = null;
         try {
             em.getTransaction().begin();
@@ -68,15 +81,15 @@ public class ClubDAOImpl implements ClubDAO {
         } catch (PersistenceException e) {
             throw e;
         } finally {
-            if(em.isOpen()) em.close();            
+//            if(em.isOpen()) em.close();            
         }
         
         return club;
     }
 
     @Override
-    public Club findClubByTeam(String name) {
-        Team  team = null;
+    public Club findClubByTeam(String name) throws PersistenceException{
+        Team team = null;
         try {
             em.getTransaction().begin();
             team = em.find(Team.class, name);
@@ -85,9 +98,9 @@ public class ClubDAOImpl implements ClubDAO {
         } catch (PersistenceException e) {
             throw e;
         } finally {
-            if(em.isOpen()) em.close();            
-        }
-
+//            if(em.isOpen()) em.close();            
+        }        
+        
         return findClubByName(team.getClub().getName());
     }
 }

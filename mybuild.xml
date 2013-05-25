@@ -210,7 +210,7 @@
         <property name="sonar.projectVersion" value="1.0" />
         <property name="sonar.sources" value="${src.dir}" />
         <property name="sonar.tests" value="${src.test.dir}" />
-        <!-- <property name="sonar.binaries" value="${build.classes.dir}" /> -->
+        <property name="sonar.binaries" value="${build.classes.dir}" /> 
         <property name="sonar.dynamicAnalysis" value="reuseReports" />
         <property name="sonar.surefire.reportsPath" value="${build.report.dir}" /> 
         <property name="sonar.core.codeCoveragePlugin" value="jacoco" />

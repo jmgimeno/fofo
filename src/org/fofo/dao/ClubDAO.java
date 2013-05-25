@@ -5,6 +5,7 @@
 package org.fofo.dao;
 
 import java.util.List;
+import javax.persistence.PersistenceException;
 import org.fofo.entity.Club;
 
 /**
@@ -13,14 +14,14 @@ import org.fofo.entity.Club;
  */
 public interface ClubDAO {
     
-    void addClub(Club club) throws PersistException;
+    public void addClub(Club club) throws PersistenceException;
     
     void removeClub(String name) throws PersistException;
     
-    List<Club> getClubs();
+    public List<Club> getClubs() throws Exception;
     
-    Club findClubByName(String name);
+    public Club findClubByName(String name) throws PersistenceException;
     
-    Club findClubByTeam(String name); //un equip només està asociat a un club, no?
+    public Club findClubByTeam(String name) throws PersistenceException; 
     
 }
