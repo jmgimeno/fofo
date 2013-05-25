@@ -24,25 +24,25 @@ public class Match {
 
     
     @OneToOne
-    @JoinColumn (name="LOCAL_T_NAME", referencedColumnName="NAME")
-    private Team local;
+    @JoinColumn (name="HOME_T_NAME", referencedColumnName="NAME")
+    private Team home;
     
     @OneToOne
-    @JoinColumn (name="VISITANT_T_NAME", referencedColumnName="NAME")
-    private Team visitant;
+    @JoinColumn (name="VISITOR_T_NAME", referencedColumnName="NAME")
+    private Team visitor;
     
     @Temporal(TemporalType.DATE)
     @Column (name="MATCH_DATE")
     private Date matchDate;
-    //private Arbitre 
+    //private Referee
     //private Stadium
 
     public Match() {
     }
 
-    public Match(Team local, Team visitant) {
-        this.local = local;
-        this.visitant = visitant;
+    public Match(Team home, Team visitor) {
+        this.home = home;
+        this.visitor = visitor;
         this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
 
@@ -51,20 +51,20 @@ public class Match {
         return idMatch;
     }
 
-    public Team getLocal() {
-        return local;
+    public Team getHome() {
+        return home;
     }
 
-    public void setLocal(Team local) {
-        this.local = local;
+    public void setHome(Team home) {
+        this.home = home;
     }
 
-    public Team getVisitant() {
-        return visitant;
+    public Team getVisitor() {
+        return visitor;
     }
 
-    public void setVisitant(Team visitant) {
-        this.visitant = visitant;
+    public void setVisitor(Team visitor) {
+        this.visitor = visitor;
     }
 
     public Date getMatchDate() {
@@ -81,8 +81,8 @@ public class Match {
         
         Match m = (Match) obj;
         
-        return m.local.getName().equals(local.getName()) && 
-               m.visitant.getName().equals (visitant.getName());
+        return m.home.getName().equals(home.getName()) && 
+               m.visitor.getName().equals (visitor.getName());
         
         
     }
@@ -90,7 +90,7 @@ public class Match {
     
     public String toString(){
         
-        return "<Match:"+ local.getName()+"-"+visitant.getName()+">";
+        return "<Match:"+ home.getName()+"-"+visitor.getName()+">";
     }
     
     

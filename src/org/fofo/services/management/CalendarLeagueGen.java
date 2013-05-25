@@ -16,8 +16,8 @@ public class CalendarLeagueGen extends CalendarGen{
     
     /* Vbles declarades com a atributs >> codi més net i llegible */
     private int numTeams;
-    private LinkedList<Team> locals; //LinkedList >> com un cua; ens interessa per fer les rotacions
-    private LinkedList<Team> visitants;
+    private LinkedList<Team> homes; //LinkedList >> com un cua; ens interessa per fer les rotacions
+    private LinkedList<Team> visitors;
     
   
     @Override
@@ -65,18 +65,18 @@ public class CalendarLeagueGen extends CalendarGen{
     /* PRIVATE OPS */
     
     private void initAssignation(List<Team> teams) {
-        locals = new LinkedList<Team>(teams.subList(0, numTeams / 2 ));
-        visitants = new LinkedList<Team>(teams.subList(numTeams / 2, numTeams ));
+        homes = new LinkedList<Team>(teams.subList(0, numTeams / 2 ));
+        visitors = new LinkedList<Team>(teams.subList(numTeams / 2, numTeams ));
     }
     
     private void rotateAssignation() {
         //Deixem fixat el 1r equip de locals i rotem cap a la dreta
         
-        Team teamToLocals = visitants.removeFirst();
-        Team teamToVisitants = locals.removeLast();
+        Team teamToHomes = visitors.removeFirst();
+        Team teamToVisitors = homes.removeLast();
         
-        locals.add(1, teamToLocals);
-        visitants.add(teamToVisitants);
+        homes.add(1, teamToHomes);
+        visitors.add(teamToVisitors);
     }
     
     private void buildRound(int numRound) {
@@ -95,21 +95,21 @@ public class CalendarLeagueGen extends CalendarGen{
         WeekMatch wm = new WeekMatch();
         
         for(int i=0; i<numTeams/2; i++){  // n/2 partits per jornada
-            Team local = locals.get(i);
-            Team visitant = visitants.get(i);
-            Match m = buildMatch(local,visitant,numRound);
+            Team home = homes.get(i);
+            Team visitor = visitors.get(i);
+            Match m = buildMatch(home,visitor,numRound);
             wm.addMatch(m);
         }
         return wm;
     }
     
-    private Match buildMatch(Team local, Team visitant, int numRound) {        
+    private Match buildMatch(Team home, Team visitor, int numRound) {        
         Match m = null;
         
         if(roundOne(numRound)){
-           m = new Match(local,visitant);
+           m = new Match(home,visitor);
         }else if(roundTwo(numRound)){
-            m = new Match(visitant,local);
+            m = new Match(visitor,home);
         }
 
         return m;

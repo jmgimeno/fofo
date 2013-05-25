@@ -75,20 +75,20 @@ public class CalendarDAOImplTest {
 
 
         match1 = new Match();
-        match1.setLocal(team1);
-        match1.setVisitant(team2);
+        match1.setHome(team1);
+        match1.setVisitor(team2);
 
         match2 = new Match();
-        match2.setLocal(team3);
-        match2.setVisitant(team4);
+        match2.setHome(team3);
+        match2.setVisitor(team4);
 
         match3 = new Match();
-        match3.setLocal(team2);
-        match3.setVisitant(team1);
+        match3.setHome(team2);
+        match3.setVisitor(team1);
 
         match4 = new Match();
-        match4.setLocal(team4);
-        match4.setVisitant(team3);
+        match4.setHome(team4);
+        match4.setVisitor(team3);
 
         match5 = new Match();
 
@@ -244,8 +244,8 @@ public class CalendarDAOImplTest {
                  */
 
                 final List<Team> teams = new ArrayList<Team>();
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getLocal());
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitant());
+                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome());
+                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor());
 
                 // oneOf(tdao).getTeams();//will(returnValue(teams));
 
@@ -302,8 +302,8 @@ public class CalendarDAOImplTest {
                          * Match
                          */
                         final List<Team> teams = new ArrayList<Team>();
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getLocal());
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitant());
+                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome());
+                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor());
 
                         //   oneOf(tdao).getTeams();
                         //will(returnValue(teams));
@@ -359,8 +359,8 @@ public class CalendarDAOImplTest {
                          * Match
                          */
                         final List<Team> teams = new ArrayList<Team>();
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getLocal());
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitant());
+                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome());
+                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor());
 
                         //allowing(tdao).getTeams();
                         // will(returnValue(teams));

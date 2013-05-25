@@ -81,7 +81,7 @@ public class ClubDAOImplIntegTest {
     }
 
    // @Test
-    public void testFindClubByName() throws PersistException {
+    public void testFindClubByName() throws PersistException, AlreadyExistingClubOrTeams {
         clubDao.addClub(club); 
         assertEquals(club, clubDao.findClubByName("testClub1"));
     }

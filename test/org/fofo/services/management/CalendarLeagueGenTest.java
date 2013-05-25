@@ -155,9 +155,9 @@ public class CalendarLeagueGenTest {
         for (int i = 0; i<first.size();i++ ){
             
             assertEquals("home of first should be equal to visiting of second",
-                          first.get(i).getLocal(),second.get(i).getVisitant());
+                          first.get(i).getHome(),second.get(i).getVisitor());
             assertEquals("visiting of first should be equal to home of second",
-                         first.get(i).getVisitant(),second.get(i).getLocal());
+                         first.get(i).getVisitor(),second.get(i).getHome());
             
         }
         
@@ -186,13 +186,13 @@ public class CalendarLeagueGenTest {
 
         for (Match match: matches){
             
-            if (match.getLocal().getName().equals(firstTeam)){
+            if (match.getHome().getName().equals(firstTeam)){
                 
-                return match.getVisitant();
+                return match.getVisitor();
             }
-            if (match.getVisitant().getName().equals(firstTeam)){
+            if (match.getVisitor().getName().equals(firstTeam)){
                 
-                return match.getLocal();
+                return match.getHome();
             }    
         }        
                 

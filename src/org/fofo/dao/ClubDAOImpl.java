@@ -31,7 +31,7 @@ public class ClubDAOImpl implements ClubDAO {
     }
     
     @Override
-    public void addClub(Club club) throws PersistenceException {
+    public void addClub(Club club) throws PersistenceException, AlreadyExistingClubOrTeams {
         
         try {
             em.getTransaction().begin();

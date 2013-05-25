@@ -33,7 +33,7 @@ public class TeamDAOImpl implements TeamDAO{
 
 
    @Override
-    public void addTeam(Team team) throws PersistException{
+    public void addTeam(Team team) throws PersistException, AlreadyExistingClubOrTeams{
     
 
        try{

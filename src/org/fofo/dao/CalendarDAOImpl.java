@@ -86,8 +86,8 @@ public class CalendarDAOImpl implements CalendarDAO {
         //if (td.getTeams() != null && td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
 System.out.println("ADD MATCH FUNCTION");
         //Treure td.getTeams...
-        if (/*td.getTeams() == null &&*/ em.find(Team.class, match.getLocal().getName())!=null
-                                  && em.find(Team.class, match.getVisitant().getName())!=null){                    
+        if (/*td.getTeams() == null &&*/ em.find(Team.class, match.getHome().getName())!=null
+                                  && em.find(Team.class, match.getVisitor().getName())!=null){                    
             System.out.println("IF");
             em.persist(match);
 

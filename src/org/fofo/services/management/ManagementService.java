@@ -111,13 +111,13 @@ public class ManagementService {
      */
     private void sendEmail(Club c) {
         String servidorSMTP = "smtp.gmail.com";
-        String puerto = "587";
-        String usuario = "fofo@gmail.com";
+        String port = "587";
+        String user = "fofo@gmail.com";
         String password = "pass";
 
-        String destino = c.getEmail();
-        String asunto = "Prueba!";
-        String mensaje = "Este es un mensaje de prueba.";
+        String destination = c.getEmail();
+        String issue = "Issue!";
+        String mensaje = "This is a test message.";
 
         Properties props = new Properties();
 
@@ -125,20 +125,20 @@ public class ManagementService {
         props.put("mail.smtp.auth", true);
         props.put("mail.smtp.starttls.enable", true);
         props.put("mail.smtp.host", servidorSMTP);
-        props.put("mail.smtp.port", puerto);
+        props.put("mail.smtp.port", port);
 
         Session session = Session.getInstance(props, null);
 
         try {
             MimeMessage message = new MimeMessage(session);
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                    destino));
-            message.setSubject(asunto);
+                    destination));
+            message.setSubject(issue);
             message.setSentDate(new Date());
             message.setText(mensaje);
 
             Transport tr = session.getTransport("smtp");
-            tr.connect(servidorSMTP, usuario, password);
+            tr.connect(servidorSMTP, user, password);
             message.saveChanges();
             tr.sendMessage(message, message.getAllRecipients());
             tr.close();

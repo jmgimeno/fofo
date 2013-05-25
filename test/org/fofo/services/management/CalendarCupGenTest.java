@@ -94,8 +94,8 @@ public class CalendarCupGenTest {
         List<Team> listTeams = comp.getTeams();      
         
         for(Match match : listMatch){
-            Team local = match.getLocal();
-            Team visitant = match.getVisitant();
+            Team local = match.getHome();
+            Team visitant = match.getVisitor();
             assertTrue(listTeams.contains(local));
             assertTrue(listTeams.contains(visitant));  
         }
@@ -158,8 +158,8 @@ public class CalendarCupGenTest {
     private boolean allTeamsPlayInOneMatch(List<Team> listTeams, List<Match> listMatch) {
         int numTeams = listTeams.size();
         for(Match match : listMatch){
-            Team local = match.getLocal();
-            Team visitant = match.getVisitant();
+            Team local = match.getHome();
+            Team visitant = match.getVisitor();
             listTeams.remove(local);
             listTeams.remove(visitant); 
         }
