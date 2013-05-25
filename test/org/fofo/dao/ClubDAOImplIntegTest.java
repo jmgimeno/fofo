@@ -21,20 +21,22 @@ public class ClubDAOImplIntegTest {
     private Club club;
     private Team team;
     private ClubDAOImpl clubDao;    
+    private EntityManager em = null;
+
         
     public ClubDAOImplIntegTest() {
     }
     
     @Before
     public void setUp() throws Exception {        
-        EntityManager em = getEntityManagerFact(); 
+        em = getEntityManagerFact(); 
         clubDao = new ClubDAOImpl();
         clubDao.setEM(em);   
                 
         /*Setting club & team*/
         club = new Club("testClub1");
         club.setEmail("test1@mail.com");
-        
+   
         team = new Team("testTeam1"); 
         team.setClub(club);    
         List<Competition> comps = new ArrayList<Competition>();
@@ -54,10 +56,20 @@ public class ClubDAOImplIntegTest {
     public void testAddClub() throws Exception {
                 
         clubDao.addClub(club);        
+        
+        Club clubDB = getClubFromDB("testClub1");
+         
+        System.out.println(clubDB);
+        
+         assertEquals("Should have found the inserted club",
+                      club,clubDB);
+        
+        
+        
     }
 
 
-    @Test
+   // @Test
     public void testGetClubs() throws Exception {
         clubDao.addClub(club); 
         
@@ -68,13 +80,13 @@ public class ClubDAOImplIntegTest {
                 expected, clubDao.getClubs());
     }
 
-    @Test
+   // @Test
     public void testFindClubByName() throws PersistException {
         clubDao.addClub(club); 
         assertEquals(club, clubDao.findClubByName("testClub1"));
     }
 
-    @Test
+   // @Test
     public void testFindClubByTeam() throws Exception {
         clubDao.addClub(club);         
         assertEquals(club, clubDao.findClubByTeam("testTeam1"));
@@ -83,7 +95,7 @@ public class ClubDAOImplIntegTest {
     @After
     public void tearDown() throws Exception{
         
-        EntityManager em = clubDao.getEM();
+        em = clubDao.getEM();
         if (em.isOpen()) em.close();
         
         em = getEntityManagerFact();
@@ -109,5 +121,17 @@ public class ClubDAOImplIntegTest {
         return emf.createEntityManager();  
     }
 
+       private Club getClubFromDB(String name) throws Exception{
+
+         em = getEntityManagerFact();
+         em.getTransaction().begin();
+         Club clubDB = (Club) em.find(Club.class, name);
+         em.getTransaction().commit();
+         em.close();
+ 
+         return clubDB; 
+         
+   }
+    
 
 }

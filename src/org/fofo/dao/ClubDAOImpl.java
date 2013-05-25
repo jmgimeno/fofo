@@ -41,7 +41,7 @@ public class ClubDAOImpl implements ClubDAO {
         } catch (PersistenceException e) {
             throw e;
         } finally {
-//            if (em.isOpen()) em.close();            
+            if (em.isOpen()) em.close();            
         }
     }
 

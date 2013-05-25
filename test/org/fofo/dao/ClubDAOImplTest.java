@@ -40,8 +40,11 @@ public class ClubDAOImplTest {
         transaction = context.mock(EntityTransaction.class);
     }
     
+    
+    
     @Test
     public void testAddClub() throws Exception{
+        
         final Club club = new Club("club1");
         context.checking(new Expectations() {{
                 atLeast(1).of (em).getTransaction(); will(returnValue(transaction));        
