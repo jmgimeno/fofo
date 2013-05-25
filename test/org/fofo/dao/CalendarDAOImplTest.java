@@ -172,18 +172,27 @@ public class CalendarDAOImplTest {
      *
      * @throws Exception
      */
-    //@Test(expected = IncorrectTeamException.class)
+    @Test(expected = IncorrectTeamException.class)
     public void NoTeamsInMatch() throws Exception {
 
-        cal.getAllWeekMatches().add(wm1);
-
+        List<WeekMatch> lwm = new ArrayList<WeekMatch>();
+        lwm.add(wm1);
+         
+        cal.setWeekMatches(lwm);
+      
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
 
-                oneOf(tdao).getTeams();
-                will(returnValue(null));
+               /* oneOf(tdao).getTeams();
+                               will(returnValue(null));
+                  INCORRECT: addCalendar(...) does not use tdao  
+                */ 
+                oneOf(em).find(Team.class, wm1.getListOfWeekMatches().get(0).getLocal().getName());
+                           will (returnValue(null));
+                allowing(em).find(Team.class, wm1.getListOfWeekMatches().get(0).getVisitant().getName());
+                           will (returnValue(null));
 
                 oneOf(em).close();
             }
@@ -197,34 +206,15 @@ public class CalendarDAOImplTest {
      *
      * @throws Exception
      */
-    // @Test(expected = IncorrectTeamException.class)
+   // @Test(expected = IncorrectTeamException.class)
     public void NotLocalTeamInMatch() throws Exception {
 
-        cal.getAllWeekMatches().add(wm5);
-
-        context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction().begin();
-
-                final List<Team> teams = new ArrayList<Team>();
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getLocal());
-
-                System.out.println(teams);
-               // oneOf(tdao).getTeams();
-               // will(returnValue(teams));
-
-                 oneOf(em).find(Team.class, teams.get(0)); will(returnValue(null));             
-                // oneOf(tdao).findTeam(teams.get(0)); Versió anterior...
-
-                oneOf(em).close();
-            }
-        });
-
-        calDAO.addCalendar(cal);
-
+        //TO IMPLEMENT
+        
     }
 
+    
+    
     /**
      * The match don't have a visitant team.
      *
@@ -233,32 +223,7 @@ public class CalendarDAOImplTest {
     // @Test(expected = IncorrectTeamException.class)
     public void NotVisitantTeamInMatch() throws Exception {
 
-        cal.getAllWeekMatches().add(wm5);
-
-        context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction().begin();
-
-                final List<Team> teams = new ArrayList<Team>();
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getLocal());
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitant());
-
-
-                //oneOf(tdao).getTeams();
-                // will(returnValue(teams));
-
-                oneOf(em).find(Team.class, teams.get(0).getName());
-                //oneOf(tdao).findTeam(teams.get(0));
-                //will(returnValue(null));
-                //  oneOf(em).find(Team.class, teams.get(1));
-                //oneOf(tdao).findTeam(teams.get(1));
-
-                oneOf(em).close();
-            }
-        });
-
-        calDAO.addCalendar(cal);
+        //TO IMPLEMENT
     }
 
     /**
@@ -336,6 +301,7 @@ public class CalendarDAOImplTest {
                         /*
                          * Match
                          */
+                        //USE OF teams HAS NO SENSE. ********
                         final List<Team> teams = new ArrayList<Team>();
                         teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getLocal());
                         teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitant());
@@ -425,47 +391,5 @@ public class CalendarDAOImplTest {
         calDAO.addCalendar(cal);
 
     }
-//    
-//    
-//    @Test
-//    public void CorrectAddMatch() throws Exception {
-//        context.checking(new Expectations() {
-//
-//            {
-//                oneOf(tdao).getTeams();
-//                will(returnValue(new ArrayList<Team>()));
-//                oneOf(tdao).findTeam(match1.getLocal());
-//                will(returnValue(true));
-//                oneOf(tdao).findTeam(match1.getVisitant());
-//                will(returnValue(true));
-//                oneOf(em).persist(match1);
-//            }
-//        });
-//
-//
-//        calDAO.addMatch(match1);
-//    }
-//
-//    @Test
-//    public void CorrectAddWeekMatches() throws Exception {
-//
-//        context.checking(new Expectations() {
-//
-//            {
-//                for (int i = 0; i < wm1.getNumberOfMatchs(); i++) {
-//                    oneOf(tdao).getTeams();
-//                    will(returnValue(new ArrayList<Team>()));
-//                    oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getLocal());
-//                    will(returnValue(true));
-//                    oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getVisitant());
-//                    will(returnValue(true));
-//                    oneOf(em).persist(wm1.getListOfWeekMatches().get(i));
-//                }
-//                oneOf(em).persist(wm1);
-//            }
-//        });
-//
-//
-//        calDAO.addWeekMatches(wm1);
-//    }
+
 }
