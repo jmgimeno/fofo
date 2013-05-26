@@ -14,7 +14,7 @@ import org.fofo.entity.Club;
  */
 public interface ClubDAO {
     
-    public void addClub(Club club) throws PersistenceException, AlreadyExistingClubOrTeams;
+    public void addClub(Club club) throws Exception;
     
     void removeClub(String name) throws PersistException;
     

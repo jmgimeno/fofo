@@ -61,7 +61,7 @@ public class ClubDAOImplIntegTest {
          
         System.out.println(clubDB);
         
-         assertEquals("Should have found the inserted club",
+        assertEquals("Should have found the inserted club",
                       club,clubDB);
         
         
@@ -69,7 +69,10 @@ public class ClubDAOImplIntegTest {
     }
 
 
-   // @Test
+    /* Closed EM exception per als seguents tests */      
+     
+    
+   // @Test  
     public void testGetClubs() throws Exception {
         clubDao.addClub(club); 
         
@@ -81,7 +84,7 @@ public class ClubDAOImplIntegTest {
     }
 
    // @Test
-    public void testFindClubByName() throws PersistException, AlreadyExistingClubOrTeams {
+    public void testFindClubByName() throws Exception {
         clubDao.addClub(club); 
         assertEquals(club, clubDao.findClubByName("testClub1"));
     }
@@ -121,15 +124,15 @@ public class ClubDAOImplIntegTest {
         return emf.createEntityManager();  
     }
 
-       private Club getClubFromDB(String name) throws Exception{
+    private Club getClubFromDB(String name) throws Exception{        
 
-         em = getEntityManagerFact();
-         em.getTransaction().begin();
-         Club clubDB = (Club) em.find(Club.class, name);
-         em.getTransaction().commit();
-         em.close();
- 
-         return clubDB; 
+        em = getEntityManagerFact();
+        em.getTransaction().begin();
+        Club clubDB = (Club) em.find(Club.class, name);
+        em.getTransaction().commit();
+        em.close();
+
+        return clubDB; 
          
    }
     
