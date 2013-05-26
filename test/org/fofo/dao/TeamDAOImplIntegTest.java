@@ -20,148 +20,111 @@ import org.junit.After;
  * @author josepma
  */
 public class TeamDAOImplIntegTest {
+
     EntityManager em = null;
-    
     TeamDAOImpl tdao = null;
-    
     Club club;
-    
+
     public TeamDAOImplIntegTest() {
-        
-        
     }
 
- 
     @Before
-    public void setup() throws Exception{
-      
+    public void setup() throws Exception {
+
         club = new Club();
-      
+
         club.setName("Lleida");
-         club.setEmail("lleida@lleida.net");
-        
+        club.setEmail("lleida@lleida.net");
+
         tdao = new TeamDAOImpl();
-         
-         em = getEntityManagerFact(); 
-         em.getTransaction().begin();
-         em.persist(club);
-         em.getTransaction().commit();
-         
-         tdao.setEM(em);
-        
-         
-    }
-    
-    @After
-    public void tearDown() throws Exception{
-        /*EntityManager em = getEntityManagerFact();
-          em.getTransaction().begin();
-        
-          Query query=em.createQuery("DELETE FROM Team st");
-          int deleteRecords=query.executeUpdate();
-         em.getTransaction().commit();
-         em.close();
-         System.out.println("All records have been deleted.");
-       */  
-         /*
-                 EntityManager em = tdao.getEM();
- 
-        if (em.isOpen()) em.close();
-        
+
         em = getEntityManagerFact();
         em.getTransaction().begin();
-        
-        Query query=em.createQuery("DELETE FROM Team st");
-        Query query2=em.createQuery("DELETE FROM Club cl");
-        int deleteRecords=query.executeUpdate();
-        deleteRecords=query2.executeUpdate();
-          
+        em.persist(club);
+        em.getTransaction().commit();
+
+        tdao.setEM(em);
+
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        EntityManager em = getEntityManagerFact();
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("DELETE FROM Team st");
+        Query query2 = em.createQuery("DELETE FROM Club cl");
+
+        int deleteRecords = query.executeUpdate();
+        deleteRecords = query2.executeUpdate();
+
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");
 
-         */
 
     }
-    
+
     /**
      * Test of addTeam method, of class TeamDAO.
      */
-    @Test 
-    public void testAddTeam() throws Exception{
-  /*
-         final Team team = new Team("team2");   
+    @Test
+    public void testAddTeam() throws Exception {
 
-                  
-         tdao.addTeam(team);
-         
-         Team teamDB = getTeamFromDB("team2");
-         
-         
-         assertEquals("Should have found the inserted team",
-                      team,teamDB);
-       */
+        final Team team = new Team("team2");
 
-         /*
-         
-                  final Team team = new Team("team2");   
+        team.setClub(club);
 
-         team.setClub(club);
-                  
-         tdao.addTeam(team);
-         
-         Team teamDB = getTeamFromDB("team2");
-         
-         assertEquals("Should have found the inserted team",
-                      team,teamDB);
+        tdao.addTeam(team);
 
-         
-         */
-         
+        Team teamDB = getTeamFromDB("team2");
+
+        
+        assertEquals("Should have found the inserted team",
+                team, teamDB);
+
+        
     }
-    
-    
+
     /*
      * 
      * PRIVATE OPERATIONS
      * 
      */
-    
-    private EntityManager getEntityManagerFact() throws Exception{
+    private EntityManager getEntityManagerFact() throws Exception {
 
-          EntityManagerFactory emf = 
-           Persistence.createEntityManagerFactory("fofo");
-         
-         return emf.createEntityManager();  
+        EntityManagerFactory emf =
+                Persistence.createEntityManagerFactory("fofo");
+
+        return emf.createEntityManager();
         /*
-     try{
+         try{
 
          EntityManagerFactory emf = 
-           Persistence.createEntityManagerFactory("fofo");
+         Persistence.createEntityManagerFactory("fofo");
          return emf.createEntityManager();  
 
-     }
-     catch(Exception e){
+         }
+         catch(Exception e){
          System.out.println("ERROR CREATING ENTITY MANAGER FACTORY");
-	 throw e;
-     }
-     * */
+         throw e;
+         }
+         * */
 
     }
 
+    private Team getTeamFromDB(String name) throws Exception {
 
-   private Team getTeamFromDB(String name) throws Exception{
+        em = getEntityManagerFact();
+        em.getTransaction().begin();
+        Team teamDB = em.find(Team.class, name);
+        em.getTransaction().commit();
+        em.close();
 
-         em = getEntityManagerFact();
-         em.getTransaction().begin();
-         Team teamDB = em.find(Team.class, name);
-         em.getTransaction().commit();
-         em.close();
- 
-         return teamDB; 
-         
-         
-         
-   } 
-    
+        return teamDB;
+
+
+
+    }
 }
