@@ -79,8 +79,13 @@ public class CompetitionDAOImpl implements CompetitionDAO {
     }
 
     @Override
-    public Competition findCompetitionByName(String name) {
-        return null;
+    public Competition findCompetitionByName(String name) throws Exception{
+        em.getTransaction().begin();
+        if (name == null) throw new InvalidCompetitionException();
+        Competition comp = (Competition)em.find(Competition.class, name);
+        if (comp == null) throw new PersistException();
+        em.getTransaction().commit();
+        return comp;
     }
 
     @Override
