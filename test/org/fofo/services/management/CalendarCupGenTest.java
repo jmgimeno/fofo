@@ -36,6 +36,7 @@ public class CalendarCupGenTest {
         comp.setMinTeams(4);
         club = new Club();
         club.setName("Imaginary club");
+        club.setEmail("email@email.com");
         List<Team> list = new ArrayList<Team>();
         for(int i=0; i<16;i++){
             list.add(new Team("Team number "+i,club, Category.MALE));

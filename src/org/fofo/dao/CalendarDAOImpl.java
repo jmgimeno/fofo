@@ -107,9 +107,7 @@ System.out.println("ADD MATCH FUNCTION");
             em.getTransaction().begin();            
             comp = (Competition) em.find (Competition.class,name);
             
-            //cal = Buscar calendari assosiat amb comp
-            //cal = comp.getFCalendar(); ??
-            
+            cal = (FCalendar) em.find (FCalendar.class,comp.getFCalendar().getIdFCalendar());
             em.getTransaction().commit();             
         }
         catch (PersistenceException e){
