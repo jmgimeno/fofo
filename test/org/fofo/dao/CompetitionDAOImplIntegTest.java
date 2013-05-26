@@ -28,7 +28,9 @@ import org.omg.CORBA.DynAnyPackage.Invalid;
 public class CompetitionDAOImplIntegTest {
 
     EntityManager em = null;
+    EntityManager em2 = null;
     CompetitionDAOImpl competitionDAO;
+    TeamDAOImpl teamDAO;
     Team team;
     Competition competition;
     Club club;
@@ -37,11 +39,13 @@ public class CompetitionDAOImplIntegTest {
     public void setUp() throws Exception{
         
         competitionDAO = new CompetitionDAOImpl();
+        teamDAO = new TeamDAOImpl();
 
         team = new Team("name");
         competition = new CompetitionLeague();
         competition.setName("League1");
         club = new Club("name");
+        club.setEmail("email");
         team.setClub(club);
         em = getEntityManagerFact();
         
@@ -49,7 +53,15 @@ public class CompetitionDAOImplIntegTest {
         em.persist(competition);
         em.getTransaction().commit();
         
+        em2 = getEntityManagerFact();
+        
+        em2.getTransaction().begin();
+        em2.persist(team);
+        em2.persist(club);
+        em2.getTransaction().commit();
+        
         competitionDAO.setEM(em);
+        teamDAO.setEM(em2);
 
     }
     
@@ -95,11 +107,10 @@ public class CompetitionDAOImplIntegTest {
         return compDB;
     }
 
-   // @Test
+    @Test
     public void addTeam_To_Competition() throws PersistException, Exception {
 
         List<Team> list = Arrays.asList(team);
-
         competitionDAO.addTeam(competition, team);
         assertEquals(list, competition.getTeams());
         assertEquals(competition.getTeams(), 
@@ -118,6 +129,9 @@ public class CompetitionDAOImplIntegTest {
         competitionDAO.addTeam(null, team);
     }
     
-   
+    @Test (expected=PersistException.class)
+    public void findInvalidCompetitionInBD() throws Exception{
+        Competition comp = competitionDAO.findCompetitionByName("liga");
+    }
     
 }
