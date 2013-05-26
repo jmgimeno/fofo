@@ -81,8 +81,8 @@ public class Match {
         
         Match m = (Match) obj;
         
-        return m.home.getName().equals(home.getName()) && 
-               m.visitor.getName().equals (visitor.getName());
+        return m.home.equals(this.home) && m.visitor.equals(this.visitor); //getName().equals(home.getName()) && 
+               //m.visitor.getName().equals (visitor.getName());
         
         
     }

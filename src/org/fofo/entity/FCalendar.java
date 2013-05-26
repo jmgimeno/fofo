@@ -34,7 +34,7 @@ public class FCalendar {
     private List<WeekMatch> weekMatches;
     
     
-   
+    
     public FCalendar(){
         this.competition = null;
         this.weekMatches = new ArrayList<WeekMatch>();  

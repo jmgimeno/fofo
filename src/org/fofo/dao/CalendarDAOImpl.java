@@ -48,10 +48,12 @@ public class CalendarDAOImpl implements CalendarDAO {
 
             for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
-                addWeekMatches(cal.getWeekMatch(0));
+                addWeekMatches(cal.getWeekMatch(i));
             }
 
             em.persist(cal);
+           
+            associateCalendarToWeekMatches(cal);
             em.getTransaction().commit();
 
         } catch (IncorrectTeamException ex) {
@@ -60,44 +62,6 @@ public class CalendarDAOImpl implements CalendarDAO {
             em.close();
         }
     }
-
-    //PRIVATE FUNCTIONS
-    /**
-     * Add one WeekMatch to DAO.
-     *
-     * @param wm: The WeekMatch to add.
-     * @throws IncorrectTeamException
-     */
-    public void addWeekMatches(WeekMatch wm) throws IncorrectTeamException, PersistException  {
-
-        for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
-            addMatch(wm.getListOfWeekMatches().get(i));
-        }
-        em.persist(wm);
-    }
-
-    /**
-     * Add one Match to DAO.
-     *
-     * @param match: The Match to add.
-     * @throws IncorrectTeamException
-     */
-    public void addMatch(Match match) throws IncorrectTeamException, PersistException {
-        //if (td.getTeams() != null && td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
-System.out.println("ADD MATCH FUNCTION");
-        //Treure td.getTeams...
-        if (/*td.getTeams() == null &&*/ em.find(Team.class, match.getHome().getName())!=null
-                                  && em.find(Team.class, match.getVisitor().getName())!=null){                    
-            System.out.println("IF");
-            em.persist(match);
-
-        } else {
-            System.out.println("Else");
-            throw new IncorrectTeamException();
-            
-        }
-    }
-//WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
 
     @Override
     public FCalendar findFCalendarByCompetitionName(String name)  throws PersistException{
@@ -120,4 +84,70 @@ System.out.println("ADD MATCH FUNCTION");
         }
         return cal;
     }
+    
+    /*
+     * 
+     * PRIVATE OPERATIONS
+     * 
+     * 
+     */
+
+    
+       
+    /**
+     * Add one WeekMatch to DAO.
+     *
+     * @param wm: The WeekMatch to add.
+     * @throws IncorrectTeamException
+     */
+    private void addWeekMatches(WeekMatch wm) throws IncorrectTeamException, PersistException  {
+
+        for (int i = 0; i < wm.getNumberOfMatchs(); i++) {
+            addMatch(wm.getListOfWeekMatches().get(i));
+        }
+        em.persist(wm);
+    }
+
+    /**
+     * Add one Match to DAO.
+     *
+     * @param match: The Match to add.
+     * @throws IncorrectTeamException
+     */
+    private void addMatch(Match match) throws IncorrectTeamException, PersistException {
+        //if (td.getTeams() != null && td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
+       System.out.println("ADD MATCH FUNCTION");
+
+        Team home = (Team) em.find(Team.class, match.getHome().getName());
+        Team visitor = (Team) em.find(Team.class, match.getVisitor().getName());
+
+        //Treure td.getTeams...
+        if (home != null && visitor != null){
+                
+                /*em.find(Team.class, match.getHome().getName())!=null
+                                  && em.find(Team.class, match.getVisitor().getName())!=null){*/                    
+            System.out.println("IF");
+            
+           // match.setHome(home);
+           // match.setVisitor(visitor);
+            
+            em.persist(match);
+
+        } else {
+            System.out.println("Else");
+            throw new IncorrectTeamException();
+            
+        }
+    }
+//WOULD IT BE A GOOD CHOICE TO DECLARE THE CALENDAR RELATIONSHIPS AS CASCADE???
+
+
+    
+    private void associateCalendarToWeekMatches(FCalendar cal){
+                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
+
+                cal.getWeekMatch(i).setCalendar(cal);
+            }
+    }
+    
 }

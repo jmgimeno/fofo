@@ -30,6 +30,7 @@ public class CalendarDAOImplIntegTest {
     Match match1, match2, match3, match4;
     WeekMatch wm1, wm2;
     FCalendar cal;
+    Team team1, team2, team3, team4;
     
 
     @Before
@@ -78,7 +79,28 @@ public class CalendarDAOImplIntegTest {
      
     }
 
+  
     
+    //@Test
+    public void testAddMatch() throws Exception{
+        
+        
+        Match match = new Match(team1,team2);
+
+        em.getTransaction().begin();
+        em.persist(match);
+        
+        Match matchaux = em.find(Match.class, match.getIdMatch());
+        
+        System.out.println(matchaux);
+        
+        em.getTransaction().commit();
+        
+        assertEquals("Should be the same match",match, matchaux);
+        
+        
+        
+    }
     
     /**
      * One Calendar cal, with just 1 wm and 1 match.
@@ -88,16 +110,20 @@ public class CalendarDAOImplIntegTest {
     @Test
     public void testAddCalendar() throws Exception {
         
-        
+       
         calDAO.addCalendar(cal);
-
+       
         
         
         FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());
        
+        System.out.println("CALENDAR RETRIEVED="+calDB);
+        
+        System.out.println("CALENDAR of the week match="+calDB.getAllWeekMatches().get(1).getCalendar());
+        
         
         assertEquals("Should have retrieved the same calendar",cal,calDB);
-        
+       
          
     }
 
@@ -144,10 +170,10 @@ public class CalendarDAOImplIntegTest {
 
         comp.setName("League Spring 2013");
         
-        Team team1 = new Team("team1");
-        Team team2 = new Team("team2");
-        Team team3 = new Team("team3");
-        Team team4 = new Team("team4");
+        team1 = new Team("team1");
+        team2 = new Team("team2");
+        team3 = new Team("team3");
+        team4 = new Team("team4");
         
         
         insertCompDB(comp);  
@@ -168,9 +194,11 @@ public class CalendarDAOImplIntegTest {
         Match match1_3 = new Match(team1,team3);
         Match match2_4 = new Match(team2,team4);
 
+        wm1.setCalendar(cal);
         wm1.getListOfWeekMatches().add(match1_2);
         wm1.getListOfWeekMatches().add(match3_4);
 
+        wm2.setCalendar(cal);
         wm2.getListOfWeekMatches().add(match1_3);
         wm2.getListOfWeekMatches().add(match2_4);
 

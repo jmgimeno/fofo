@@ -50,7 +50,9 @@ public class Team implements Serializable {
     public Team() {
 
 	name = "";
+        category = null;
         competitions = new ArrayList<Competition>();
+        club = null;
     }
 
     public Team (String name, Club club, Category cat){
@@ -58,18 +60,22 @@ public class Team implements Serializable {
         this.name= name;
         this.club = club;
         this.category = cat;
-        
+        competitions = new ArrayList<Competition>();
+     
     }
     
     public Team (String name, Category cat){
         
         this.name= name;
         this.category = cat;
-        
+        this.club = null;
+        competitions = new ArrayList<Competition>();
+ 
     }
     
     public Team (String name){
         this.name = name;
+        this.club = null;
     }
     
     

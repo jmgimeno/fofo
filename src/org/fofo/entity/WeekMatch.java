@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 
 /**
  * @author oriol i Jordi
@@ -28,6 +29,7 @@ public class WeekMatch {
     private String weekMatchId;
     
     @ManyToOne
+    @JoinColumn(name="CALENDAR_ID", referencedColumnName="idFCalendar")          
     FCalendar calendar;
     
     @OneToMany (fetch=FetchType.EAGER)
@@ -56,9 +58,32 @@ public class WeekMatch {
     public int getNumberOfMatchs(){
         return Matchs.size();
     }
+
+    public FCalendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(FCalendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public List<Match> getMatchs() {
+        return Matchs;
+    }
+
+    public void setMatchs(List<Match> Matchs) {
+        this.Matchs = Matchs;
+    }
+    
+    
     
     public String toString() {
-        return "Week match id: "+weekMatchId+" Matches: "+Matchs;
+        
+        String idcal = "";
+        
+        if (calendar != null) idcal = calendar.getIdFCalendar();
+        
+        return "Week match id: "+weekMatchId+"Week match of calendar: "+ idcal+ "Matches: "+Matchs;
         
     }
     
