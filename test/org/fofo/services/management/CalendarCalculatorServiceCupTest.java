@@ -79,6 +79,7 @@ public class CalendarCalculatorServiceCupTest extends CalendarCupGen{
         
         Club club = new Club();
         club.setName("AA");
+        club.setEmail("email@email.com");
         
         for(int i=0; i<16;i++){
             comp.addTeam(new Team("Team number "+i,club, Category.MALE));

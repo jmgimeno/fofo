@@ -78,8 +78,8 @@ public class CalendarCalculatorServiceLeagueTest extends CalendarLeagueGen{
         comp.setInici(new DateTime().minusDays(8).toDate()); 
         
         Club club = new Club();
-        club.setName("AA");
-        
+        club.setName("AA");     
+        club.setEmail("email@email.com");        
         for(int i=0; i<16;i++){
             comp.addTeam(new Team("Team number "+i,club, Category.MALE));
         }

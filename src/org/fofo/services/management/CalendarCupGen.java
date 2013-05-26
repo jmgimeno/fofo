@@ -54,7 +54,8 @@ public class CalendarCupGen extends CalendarGen{
         WeekMatch weekMatch = weekMatches.get(numRound-1);       
         List<Match> matches = weekMatch.getListOfWeekMatches();  
         Club club = new Club();
-        club.setName("Imaginary club");
+        club.setName("Imaginary club");        
+        club.setEmail("email@email.com");
         for(int i=1; i<=matches.size();i++){
             Team team = new Team("Winer match "+i+" of round "+numRound,club, Category.MALE);
             listTeam.add(team);            

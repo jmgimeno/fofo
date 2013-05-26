@@ -128,6 +128,10 @@ public abstract class Competition {
         return teams.size();
     }
     
+    public FCalendar getFCalendar(){
+        return fcalendar;
+    }
+    
     @Override
     public String toString(){
         

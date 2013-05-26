@@ -59,6 +59,7 @@ public class CalendarCalculatorServiceIntegTest {
         
         Club club = new Club();
         club.setName("Imaginary club");
+        club.setEmail("email@email.com");
         ClubDAOImpl clubdao = new ClubDAOImpl(); 
         clubdao.setEM(em);
         clubdao.addClub(club);
@@ -81,28 +82,40 @@ public class CalendarCalculatorServiceIntegTest {
     }
     
     @After
-    public void tearDown() throws Exception{
-        EntityManager em = getEntityManagerFact();
-          em.getTransaction().begin();
-        
-          Query query=em.createQuery("DELETE FROM Team st");
-          int deleteRecords=query.executeUpdate();
-         em.getTransaction().commit();
-         em.close();
-         System.out.println("All records have been deleted.");
-         
+    public void tearDown() throws Exception{     
+        EntityManager em = caldao.getEm();
 
+        if (em.isOpen()) em.close();
+        
+        em = getEntityManagerFact();
+        em.getTransaction().begin();
+        
+        Query query=em.createQuery("DELETE FROM Team st");       
+        Query query2=em.createQuery("DELETE FROM Competition comp");     
+        Query query3=em.createQuery("DELETE FROM FCalendar cal");     
+        Query query4=em.createQuery("DELETE FROM WeekMatch wm");     
+        Query query5=em.createQuery("DELETE FROM Match m");
+        
+        int deleteRecords=query3.executeUpdate();      //Delete FCalendar
+        deleteRecords=query4.executeUpdate();          //Delete WeekMatches
+        deleteRecords=query5.executeUpdate();          //Delete Match_
+        deleteRecords=query2.executeUpdate();          //Delete competitions
+        deleteRecords=query.executeUpdate();           //Delete teams       
+                  
+        em.getTransaction().commit();
+        em.close();
+        System.out.println("All records have been deleted.");       
+     
     }
     
     //@Test 
-    public void testCalculateAndStoreLeagueCalendar() throws Exception{
-                  
+    public void testCalculateAndStoreLeagueCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calLeagueGen);
         service.calculateAndStoreCupCalendar(compLeague);
 
-        Competition result = getCompetitionFromDB("Competition League");
-        assertEquals("Should have the same competition",compLeague,result);         
+        Competition competitionDB = getCompetitionFromDB("Competition League");
+        assertEquals("Should have the same competition",compLeague,competitionDB);         
     }
         
     //@Test 
@@ -111,8 +124,8 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
-        Competition result = getCompetitionFromDB("Competition Cup");
-        assertEquals("Should have the same competition",compCup,result);          
+        Competition competitionDB = getCompetitionFromDB("Competition Cup");
+        assertEquals("Should have the same competition",compCup,competitionDB);          
     }    
     
     //@Test 
@@ -121,9 +134,9 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calLeagueGen);
         service.calculateAndStoreCupCalendar(compLeague);
 
-        FCalendar cal = null;
-        cal = caldao.findFCalendarByCompetitionName("Competition League");
-        assertNotNull(cal);              
+        FCalendar calendarDB = null;
+        calendarDB = caldao.findFCalendarByCompetitionName("Competition League");
+        assertNotNull(calendarDB);              
     }    
     //@Test 
     public void testCalculateStoreAndGetCupCalendar() throws Exception{                  
@@ -131,9 +144,9 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
-        FCalendar cal = null;
-        cal = caldao.findFCalendarByCompetitionName("Competition Cup");
-        assertNotNull(cal);       
+        FCalendar calendarDB = null;
+        calendarDB = caldao.findFCalendarByCompetitionName("Competition Cup");
+        assertNotNull(calendarDB);       
     }     
     
     //@Test 
@@ -142,8 +155,8 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calLeagueGen);
         service.calculateAndStoreCupCalendar(compLeague);
 
-        FCalendar cal = caldao.findFCalendarByCompetitionName("Competition League");
-        assertEquals("Should have the same competition",compLeague,cal.getCompetition());             
+        FCalendar calendarDB = caldao.findFCalendarByCompetitionName("Competition League");
+        assertEquals("Should have the same competition",compLeague,calendarDB.getCompetition());             
     }     
     
     //@Test 
@@ -152,10 +165,9 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calLeagueGen);
         service.calculateAndStoreCupCalendar(compCup);
 
-        FCalendar cal = caldao.findFCalendarByCompetitionName("Competition Cup");
-        assertEquals("Should have the same competition",compCup,cal.getCompetition());             
-    } 
-    
+        FCalendar calendarDB = caldao.findFCalendarByCompetitionName("Competition Cup");
+        assertEquals("Should have the same competition",compCup,calendarDB.getCompetition());             
+    }     
     
     
     /*
@@ -167,11 +179,9 @@ public class CalendarCalculatorServiceIntegTest {
     private EntityManager getEntityManagerFact() throws Exception{
 
      try{
-
          EntityManagerFactory emf = 
-           Persistence.createEntityManagerFactory("fofo");
+                 Persistence.createEntityManagerFactory("fofo");
          return emf.createEntityManager();  
-
      }
      catch(Exception e){
          System.out.println("ERROR CREATING ENTITY MANAGER FACTORY");
