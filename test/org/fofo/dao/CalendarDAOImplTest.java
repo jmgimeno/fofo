@@ -204,11 +204,14 @@ public class CalendarDAOImplTest {
      @Test(expected = IncorrectTeamException.class)
     public void NotLocalTeamInMatch() throws Exception {
         
-        List<WeekMatch> lwm = new ArrayList<WeekMatch>();
+        match1.setHome(null);
+        match1.setVisitor(team1);
+
+        wm1.addMatch(match1);
+
+        cal.getAllWeekMatches().add(wm1);
         
-        lwm.add(wm1);
-                       
-        cal.setWeekMatches(lwm);
+        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
@@ -232,11 +235,14 @@ public class CalendarDAOImplTest {
      */
     @Test(expected = IncorrectTeamException.class)
     public void NotVisitantTeamInMatch() throws Exception {
-          List<WeekMatch> lwm = new ArrayList<WeekMatch>();
+        match1.setHome(team1);
+        match1.setVisitor(null);
+
+        wm1.addMatch(match1);
+
+        cal.getAllWeekMatches().add(wm1);
         
-        lwm.add(wm1);
-                       
-        cal.setWeekMatches(lwm);
+        calDAO.addCalendar(cal);
 
         context.checking(new Expectations() {
 
