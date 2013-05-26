@@ -113,26 +113,15 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @throws IncorrectTeamException
      */
     private void addMatch(Match match) throws IncorrectTeamException, PersistException {
-        //if (td.getTeams() != null && td.findTeam(match.getLocal()) && td.findTeam(match.getVisitant())) {
-       System.out.println("ADD MATCH FUNCTION");
-
         Team home = (Team) em.find(Team.class, match.getHome().getName());
         Team visitor = (Team) em.find(Team.class, match.getVisitor().getName());
 
-        //Treure td.getTeams...
         if (home != null && visitor != null){
                 
-                /*em.find(Team.class, match.getHome().getName())!=null
-                                  && em.find(Team.class, match.getVisitor().getName())!=null){*/                    
-            System.out.println("IF");
-            
-           // match.setHome(home);
-           // match.setVisitor(visitor);
             
             em.persist(match);
 
         } else {
-            System.out.println("Else");
             throw new IncorrectTeamException();
             
         }

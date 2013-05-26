@@ -81,7 +81,7 @@ public class CalendarDAOImplIntegTest {
 
   
     
-    //@Test
+    @Test
     public void testAddMatch() throws Exception{
         
         
@@ -112,16 +112,9 @@ public class CalendarDAOImplIntegTest {
         
        
         calDAO.addCalendar(cal);
-       
-        
         
         FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());
-       
-        System.out.println("CALENDAR RETRIEVED="+calDB);
-        
-        System.out.println("CALENDAR of the week match="+calDB.getAllWeekMatches().get(1).getCalendar());
-        
-        
+
         assertEquals("Should have retrieved the same calendar",cal,calDB);
        
          
