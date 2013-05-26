@@ -115,6 +115,8 @@ public class CalendarDAOImplIntegTest {
         
         FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());
 
+        
+        
         assertEquals("Should have retrieved the same calendar",cal,calDB);
        
          

@@ -45,7 +45,7 @@ public class CalendarDAOImpl implements CalendarDAO {
         em.getTransaction().begin();
 
         try {
-
+            
             for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
                 addWeekMatches(cal.getWeekMatch(i));
@@ -54,6 +54,7 @@ public class CalendarDAOImpl implements CalendarDAO {
             em.persist(cal);
            
             associateCalendarToWeekMatches(cal);
+             
             em.getTransaction().commit();
 
         } catch (IncorrectTeamException ex) {
