@@ -134,8 +134,8 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp2);
+        /*final List<Competition> competitions = new ArrayList<Competition>();
+        competitions.add(comp2);*/
 
         service.addTeam(comp, team1);
     }
@@ -159,15 +159,6 @@ public class InscriptionTeamIntegTest {
         team4.getCompetitions().add(comp2);
         team5.getCompetitions().add(comp2);
 
-        final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp2);
-
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-        teams.add(team2);
-        teams.add(team3);
-        teams.add(team4);
-        teams.add(team5);
 
         service.addTeam(comp2, team1);
         service.addTeam(comp2, team2);
@@ -195,11 +186,11 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        final List<Competition> competitions = new ArrayList<Competition>();
+        /*final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
         final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
+        teams.add(team1);*/
 
         service.addTeam(comp, team1);
 
@@ -211,11 +202,11 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        final List<Competition> competitions = new ArrayList<Competition>();
+        /*final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
         final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
+        teams.add(team1);*/
 
         //System.out.println("***TEST: Team1=" + team1 + " club=" + team1.getClub());
         service.addTeam(comp, team1);
@@ -229,7 +220,7 @@ public class InscriptionTeamIntegTest {
         team3.getCompetitions().add(comp);
         team4.getCompetitions().add(comp);
 
-        final List<Competition> competitions = new ArrayList<Competition>();
+        /*final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
         final List<Team> teams = new ArrayList<Team>();
@@ -237,7 +228,7 @@ public class InscriptionTeamIntegTest {
         teams.add(team2);
         teams.add(team3);
         teams.add(team4);
-
+        */
         service.addTeam(comp, team1);
         service.addTeam(comp, team2);
         service.addTeam(comp, team3);
@@ -254,11 +245,11 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        final List<Competition> lcomp = new ArrayList<Competition>();
+        /* final List<Competition> lcomp = new ArrayList<Competition>();
         lcomp.add(comp);
 
         final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
+        teams.add(team1);*/
 
         service.addTeam(comp, team1);
     }
