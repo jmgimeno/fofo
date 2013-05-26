@@ -187,7 +187,7 @@ public class CalendarDAOImplTest {
                 oneOf(em).getTransaction().begin();
 
                 
-                oneOf(em).find(Team.class, team1.getName() );
+                allowing(em).find(Team.class, team1.getName() );
                   will(returnValue(null));
                 allowing(em).find(Team.class, team2.getName() );
                   will(returnValue(null));
@@ -229,43 +229,34 @@ public class CalendarDAOImplTest {
     @Test
     public void testAdditionOfJustOneMatch() throws Exception {
 
-                //REFACTOR..... SEE ISSUE #22 ******
-
         cal.getAllWeekMatches().add(wm1);
 
         context.checking(new Expectations() {
 
             {
 
-                allowing(em).getTransaction().begin();
+                oneOf(em).getTransaction().begin();
 
                 /*
                  * Match
                  */
 
-                final List<Team> teams = new ArrayList<Team>();
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome());
-                teams.add(cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor());
+                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome().getName());
+                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor().getName());
 
-                // oneOf(tdao).getTeams();//will(returnValue(teams));
-
-                oneOf(em).find(Team.class, teams.get(0).getName());
-                //will(returnValue(true));
-                oneOf(em).find(Team.class, teams.get(1).getName());
-                //  will(returnValue(true));
-                allowing(em).persist(cal.getWeekMatch(0).getListOfWeekMatches().get(0));
+                oneOf(em).persist(cal.getWeekMatch(0).getListOfWeekMatches().get(0));
 
                 /*
                  * WeekMatch
                  */
-                allowing(em).persist(cal.getWeekMatch(0));
+                oneOf(em).persist(cal.getWeekMatch(0));
 
                 /*
                  * Cal
                  */
-                allowing(em).persist(cal);
-                allowing(em).getTransaction().commit();
-                allowing(em).close();
+                oneOf(em).persist(cal);
+                oneOf(em).getTransaction().commit();
+                oneOf(em).close();
 
             }
         });
@@ -292,7 +283,7 @@ public class CalendarDAOImplTest {
 
             {
 
-                allowing(em).getTransaction().begin();
+                oneOf(em).getTransaction().begin();
 
                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
@@ -301,31 +292,25 @@ public class CalendarDAOImplTest {
                         /*
                          * Match
                          */
-                        final List<Team> teams = new ArrayList<Team>();
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome());
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor());
+                      
+                        oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
+                        oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
 
-                        //   oneOf(tdao).getTeams();
-                        //will(returnValue(teams));
-                        oneOf(em).find(Team.class, teams.get(0).getName());
-                        // will(returnValue(true));
-                        oneOf(em).find(Team.class, teams.get(1).getName());
-                        //  will(returnValue(true));
-                        allowing(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
+                        oneOf(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
 
                     }
                     /*
                      * WeekMatch
                      */
-                    allowing(em).persist(cal.getWeekMatch(i));
+                    oneOf(em).persist(cal.getWeekMatch(i));
                 }
 
                 /*
                  * Cal
                  */
-                allowing(em).persist(cal);
-                allowing(em).getTransaction().commit();
-                allowing(em).close();
+                oneOf(em).persist(cal);
+                oneOf(em).getTransaction().commit();
+                oneOf(em).close();
             }
         });
 
@@ -339,6 +324,8 @@ public class CalendarDAOImplTest {
      */
     @Test
     public void testAddVariousWeekMatches() throws Exception {
+        
+         //REFACTOR..... SEE ISSUE #22 ******
 
         cal.getAllWeekMatches().add(wm1);
         cal.getAllWeekMatches().add(wm2);
@@ -349,7 +336,7 @@ public class CalendarDAOImplTest {
 
             {
 
-                allowing(em).getTransaction().begin();
+                oneOf(em).getTransaction().begin();
 
                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
@@ -358,16 +345,10 @@ public class CalendarDAOImplTest {
                         /*
                          * Match
                          */
-                        final List<Team> teams = new ArrayList<Team>();
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome());
-                        teams.add(cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor());
 
-                        //allowing(tdao).getTeams();
-                        // will(returnValue(teams));
-                        allowing(em).find(Team.class, teams.get(0).getName());
-                        //will(returnValue(true));
-                        allowing(em).find(Team.class, teams.get(1).getName());
-                        //will(returnValue(true));
+                        allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
+                        allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
+
                         allowing(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
 
                     }
@@ -380,9 +361,9 @@ public class CalendarDAOImplTest {
                 /*
                  * Cal
                  */
-                allowing(em).persist(cal);
-                allowing(em).getTransaction().commit();
-                allowing(em).close();
+                oneOf(em).persist(cal);
+                oneOf(em).getTransaction().commit();
+                oneOf(em).close();
 
             }
         });
