@@ -173,11 +173,8 @@ public class ManagementService {
     }
 
     private boolean validMinTeamsInCup(int teams) {
-        if (validMinTeamsInLeague(teams) && isPowerOfTwo(teams)) {
-            return true;
-        } else {
-            return false;
-        }
+        return validMinTeamsInLeague(teams) && isPowerOfTwo(teams);
+
     }
 
     private boolean validMaxTeamsInLeague(int teams) {
@@ -266,10 +263,12 @@ public class ManagementService {
     }
 
     
-    private boolean TeamExist(Team team) {
-        
+    private boolean TeamExist(Team team) {        
         return teamDao.getTeams().contains(team);
     }
+    
+
+    
     
     /**
      * Check all the addTeam exceptions.
@@ -292,5 +291,20 @@ public class ManagementService {
                 && TeamExist(team);
     }
 
-   
+    public void addTeam(Team team) throws InscriptionTeamException, Exception {
+        if(!checkForTeamExceptions(team)) throw new InscriptionTeamException();
+        if(!clubExist(team.getClub())) throw new InscriptionTeamException();
+        teamDao.addTeam(team);
+    }
+    
+    private boolean checkForTeamExceptions(Team team){
+        return  team != null 
+                && team.getName() != null
+                && team.getEmail() != null
+                && team.getClub() != null;        
+    }
+
+    private boolean clubExist(Club club) throws Exception {        
+        return clubDao.getClubs().contains(club);
+    }   
 }
