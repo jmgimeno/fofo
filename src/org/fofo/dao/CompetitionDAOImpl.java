@@ -5,9 +5,11 @@
 package org.fofo.dao;
 
 import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
@@ -70,12 +72,18 @@ public class CompetitionDAOImpl implements CompetitionDAO {
             }
 
             compAux.getTeams().add(teamAux);
+            teamAux.getCompetitions().add(compAux);
             em.getTransaction().commit();
     }
 
     @Override
     public List<Competition> getCompetitionms() {
-        return null;
+        List<Competition> list = new ArrayList<Competition>();
+        em.getTransaction().begin();
+        Query pp = em.createQuery("SELECT c FROM Competition c");
+        list = pp.getResultList();
+        em.getTransaction().commit();
+        return list;
     }
 
     @Override
@@ -89,7 +97,16 @@ public class CompetitionDAOImpl implements CompetitionDAO {
     }
 
     @Override
-    public List<Competition> findCompetitionByTeam(String name) {
-        return null;
+    public List<Competition> findCompetitionByTeam(String name) throws Exception{
+        List<Competition> list = new ArrayList<Competition>();
+        em.getTransaction().begin();
+        if (name == null) throw new InvalidTeamException();
+        Team team = (Team)em.find(Team.class, name);
+        for (Competition comp : team.getCompetitions()){
+             comp = (Competition)em.find(Competition.class, comp.getName());
+             list.add(comp);
+        }
+        em.getTransaction().commit();
+        return list;
     }
 }

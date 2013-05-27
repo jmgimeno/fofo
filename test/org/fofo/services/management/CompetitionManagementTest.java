@@ -61,7 +61,8 @@ public class CompetitionManagementTest {
       cdao  = context.mock(CompetitionDAO.class);
       clubDao = context.mock(ClubDAO.class);
 
-      comp = Competition.create(CompetitionType.LEAGUE);  
+      comp = Competition.create(CompetitionType.LEAGUE);
+      comp.setName("LeagueOne");
       comp.setCategory(Category.MALE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);

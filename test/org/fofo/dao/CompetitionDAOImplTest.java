@@ -45,7 +45,9 @@ public class CompetitionDAOImplTest {
         competitionDAO = new CompetitionDAOImpl();
         team = new Team("name");
         competition = new CompetitionLeague();
+        competition.setName("LeagueOne");
         club = new Club("name");
+        club.setEmail("email");
         competitionDAO.setEM(em);
         team.setClub(club);
 
