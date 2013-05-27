@@ -13,7 +13,7 @@ import org.fofo.entity.Team;
 
 /**
  *
- * @author ruffolution, Anatoli
+ * @author ruffolution, Anatoli, Mohamed
  */
 public class ClubDAOImpl implements ClubDAO {
 
@@ -33,24 +33,19 @@ public class ClubDAOImpl implements ClubDAO {
     @Override
     public void addClub(Club club) throws Exception {
         
-         if(clubExist(club))
-            throw new AlreadyExistingClubOrTeamsException("This club "
-                    +club.getName()+" already exist in DB");
-        
-        if(teamsExist(club.getTeams()))
-            throw new AlreadyExistingClubOrTeamsException("One or more teams "
-                    +"of this club "+club.getName()+" already exist in DB");
-  
         
         try {
             em.getTransaction().begin();
+            
+            checkExistingClubOrTeams(club);
+
             em.persist(club);
             em.getTransaction().commit();
             
         } catch (PersistenceException e) {
             throw e;
         } finally {
-            if (em.isOpen()) em.close();            
+            if(em.isOpen()) em.close();            
         }
     }
 
@@ -64,19 +59,20 @@ public class ClubDAOImpl implements ClubDAO {
 
     @Override
     public List<Club> getClubs() throws Exception{  
+        List<Club> clubs = null;
         Query query;
         try{
             em.getTransaction().begin();
             query = em.createQuery("SELECT c FROM Club c");
             em.getTransaction().commit();
-            
+            clubs = (List<Club>) query.getResultList();
         }catch(Exception e){
             throw e;
         }finally{
             if(em.isOpen()) em.close();
         }
         
-        return (List<Club>) query.getResultList();
+        return clubs;
     }
 
     @Override
@@ -98,7 +94,17 @@ public class ClubDAOImpl implements ClubDAO {
 
     @Override
     public Club findClubByTeam(String name) throws PersistenceException{
-        Team team = searchTeam(name);              
+        Team team = null;
+        try{
+            em.getTransaction().begin();
+            team = (Team) em.find(Team.class, name);
+            em.getTransaction().commit();
+        } catch (PersistenceException e){
+            throw e;
+        } finally {
+            if(em.isOpen()) em.close();
+        }
+                      
         
         return findClubByName(team.getClub().getName());
     }
@@ -106,12 +112,12 @@ public class ClubDAOImpl implements ClubDAO {
     /* PRIVATE OPS */
 
     private boolean clubExist(Club club) {
-        return findClubByName(club.getName()) != null;
+        return em.find(Club.class, club.getName())!=null;
     }
 
     private boolean teamsExist(List<Team> teams) {
         for(Team t : teams){
-            Team team = searchTeam(t.getName());
+            Team team = (Team) em.find(Team.class, t.getName());
             if(team != null)
                 return true;
         }
@@ -119,19 +125,15 @@ public class ClubDAOImpl implements ClubDAO {
         return false;
     }
     
-    private Team searchTeam(String name) throws PersistenceException{
-        Team team = null;
-        try {
-            em.getTransaction().begin();
-            team = (Team) em.find(Team.class, name);
-            em.getTransaction().commit();
 
-        } catch (PersistenceException e) {
-            throw e;
-        } finally {
-            if(em.isOpen()) em.close();            
-        } 
+    private void checkExistingClubOrTeams(Club club) throws AlreadyExistingClubOrTeamsException {
+        if(clubExist(club))
+            throw new AlreadyExistingClubOrTeamsException("This club "
+                    +club.getName()+" already exist in DB");
         
-        return team;
+        if(teamsExist(club.getTeams()))
+            throw new AlreadyExistingClubOrTeamsException("One or more teams "
+                    +"of this club "+club.getName()+" already exist in DB");
+            
     }
 }

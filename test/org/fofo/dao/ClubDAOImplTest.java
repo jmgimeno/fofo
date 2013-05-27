@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author RogerTorra
+ * @author RogerTorra, Anatoli, Mohamed
  */
 @RunWith(JMock.class)
 public class ClubDAOImplTest {

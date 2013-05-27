@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author avk1
+ * @author Anatoli, Mohamed
  */
 public class ClubDAOImplIntegTest {
     private Club club;
@@ -72,7 +72,7 @@ public class ClubDAOImplIntegTest {
     /* Closed EM exception per als seguents tests */      
      
     
-   // @Test  
+//    @Test  
     public void testGetClubs() throws Exception {
         clubDao.addClub(club); 
         
@@ -83,13 +83,13 @@ public class ClubDAOImplIntegTest {
                 expected, clubDao.getClubs());
     }
 
-   // @Test
+//    @Test
     public void testFindClubByName() throws Exception {
         clubDao.addClub(club); 
         assertEquals(club, clubDao.findClubByName("testClub1"));
     }
 
-   // @Test
+//    @Test
     public void testFindClubByTeam() throws Exception {
         clubDao.addClub(club);         
         assertEquals(club, clubDao.findClubByTeam("testTeam1"));
