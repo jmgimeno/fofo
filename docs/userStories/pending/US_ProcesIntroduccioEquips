@@ -2,3 +2,8 @@ Procés Introducció Equip
 US: Introducció d'un equip
 
 FOFO vol introduïr un equip dins l'aplicació. 
+
+TEST
+
+Si l'equip no té cap club no es pot introduïr.
+L'equip ha d'estar relacionat amb un club.
