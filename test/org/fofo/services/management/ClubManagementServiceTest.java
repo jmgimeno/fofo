@@ -49,12 +49,12 @@ public class ClubManagementServiceTest {
     }
 
 
-    //@Test(expected=InscriptionClubException.class)
+    @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithNoemail() throws Exception{
         service.addClub(club);
     }
 
-    //@Test
+    @Test
     public void testCorrectInscriptionClubWithNoTeams() throws Exception{
         context.checking(new Expectations() {{
             oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
@@ -65,10 +65,8 @@ public class ClubManagementServiceTest {
         service.addClub(club);
     }  
     
-    //@Test(expected=InscriptionClubException.class)
+    @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubAlreadyInDB() throws Exception{
-        final List<Club> list = new ArrayList<Club>();
-        list.add(club);
         context.checking(new Expectations() {{
             oneOf (clubDao).findClubByName(club.getName());will(returnValue(club));
         }});  
@@ -77,7 +75,7 @@ public class ClubManagementServiceTest {
         service.addClub(club);
     }  
     
-    //@Test(expected=InscriptionClubException.class)
+    @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithTeamAlreadyInDB() throws Exception{
         final List<Team> list = new ArrayList<Team>();
         list.add(team1);
@@ -91,7 +89,7 @@ public class ClubManagementServiceTest {
         service.addClub(club);
     }     
     
-    //@Test(expected=InscriptionClubException.class)
+    @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithTeamsAlreadyInDB() throws Exception{
         final List<Team> list = new ArrayList<Team>();
         list.add(team1);
@@ -110,8 +108,9 @@ public class ClubManagementServiceTest {
     //@Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
         final List<Team> list = new ArrayList<Team>();
-        list.add(team1);
-        club.getTeams().add(team1);
+        
+        club.getTeams().add(team1);   
+
         context.checking(new Expectations() {{
             oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
             oneOf (teamDao).getTeams();will(returnValue(list));
@@ -126,14 +125,17 @@ public class ClubManagementServiceTest {
     //@Test
     public void testCorrectInscriptionClubWithTeams() throws Exception{
         final List<Team> list = new ArrayList<Team>();
-        list.add(team1);
-        list.add(team2);
+        final List<Club> listClubs = new ArrayList<Club>();
+        listClubs.add(club);
+        
         club.getTeams().add(team1);    
         club.getTeams().add(team2);
+        
         context.checking(new Expectations() {{
             oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
             oneOf (teamDao).getTeams();will(returnValue(list));
             oneOf (clubDao).addClub(club);
+            oneOf (clubDao).getClubs();will(returnValue(listClubs));
             oneOf (teamDao).addTeam(team1);         
             oneOf (teamDao).addTeam(team2);
         }});  

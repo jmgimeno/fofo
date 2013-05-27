@@ -308,8 +308,43 @@ public class ManagementService {
         return clubDao.getClubs().contains(club);
     }
 
-    public void addClub(Club club) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void addClub(Club club) throws InscriptionClubException, Exception {
+        if(!checkForClubExceptions(club)) throw new InscriptionClubException();
+        
+        Club clubDB = clubDao.findClubByName(club.getName());
+        if(clubDB != null) throw new InscriptionClubException();
+        
+        
+        if(!club.getTeams().isEmpty() && anyTeamIsInDB(club.getTeams()))
+            throw new InscriptionClubException();
+        
+        clubDao.addClub(club);  
+        addAllTeams(club.getTeams(), club);     
+    }
+
+    private boolean checkForClubExceptions(Club club) {
+        return  club != null 
+                && club.getName() != null
+                && club.getEmail() != null;        
+    }
+
+    private void addAllTeams(List<Team> teams, Club club) throws Exception {
+        for(Team team : teams){
+            team.setClub(club);
+            addTeam(team);
+        }
+    }
+
+    private boolean anyTeamIsInDB(List<Team> teams) throws PersistException{       
+        boolean anyInDB = false;
+        List<Team> teamsDB = teamDao.getTeams();
+                
+        for(Team team : teams){
+            if(teamsDB.contains(team)) anyInDB = true;
+        }
+        
+        
+        return anyInDB;
     }
     
 }
