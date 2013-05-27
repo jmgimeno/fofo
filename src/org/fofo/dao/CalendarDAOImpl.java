@@ -42,9 +42,9 @@ public class CalendarDAOImpl implements CalendarDAO {
     @Override
     public void addCalendar(FCalendar cal) throws IncorrectTeamException, PersistException {
 
-        em.getTransaction().begin();
-
         try {
+            
+            em.getTransaction().begin();      
             
             for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
@@ -134,7 +134,8 @@ public class CalendarDAOImpl implements CalendarDAO {
 
     
     private void associateCalendarToWeekMatches(FCalendar cal){
-                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
+            
+            for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
                 cal.getWeekMatch(i).setCalendar(cal);
             }

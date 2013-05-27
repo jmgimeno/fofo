@@ -35,12 +35,13 @@ public class CalendarDAOImplTest {
     private CalendarDAOImpl calDAO;
     private EntityTransaction transaction;
     FCalendar cal;
-    Competition comp;
+    Competition comp, comp2;
     Club club;
     WeekMatch wm1, wm2, wm3, wm4;
     Match match1, match2, match3, match4;
     Team team1, team2, team3, team4;
-
+    private String compf,compf2;
+    
     @Before
     public void setUp() throws Exception {
 
@@ -112,9 +113,11 @@ public class CalendarDAOImplTest {
         comp.setMaxTeams(4);
         comp.setMinTeams(2);
         comp.setName("Lleida");
-
+        
         cal = new FCalendar();
         cal.setCompetition(comp);
+        
+        comp2 = Competition.create(CompetitionType.CUP);
 
     }
 
@@ -405,6 +408,63 @@ public class CalendarDAOImplTest {
         calDAO.addCalendar(cal);
 
     }
+    
+    
+    
+    //@Test
+    public void CorrectfindFCalendarByCompetitionName() throws Exception {
+
+       compf="comp";
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                System.out.println(compf);
+                oneOf(em).find(Competition.class,compf); will(returnValue(comp));            
+                oneOf(em).find(FCalendar.class, comp.getFCalendar().getIdFCalendar()); will(returnValue(comp.getFCalendar().getIdFCalendar()));
+                oneOf(em).getTransaction().commit();
+                oneOf(em).isOpen(); will(returnValue(true));
+                oneOf(em).close();
+            }
+        });
+
+        calDAO.findFCalendarByCompetitionName(compf);
+
+    }
+    
+    //@Test (expected = PersistException.class)
+    public void IncorrectfindFCalendarByCompetitionName() throws Exception {
+
+       compf2="comp2";
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                System.out.println(compf2);
+                oneOf(em).find(Competition.class,compf2); will(returnValue(comp2));            
+                oneOf(em).find(FCalendar.class, comp2.getFCalendar().getIdFCalendar()); will(returnValue(comp2.getFCalendar().getIdFCalendar()));
+                oneOf(em).getTransaction().commit();
+                oneOf(em).isOpen(); will(returnValue(true));
+                oneOf(em).close();
+            }
+        });
+
+        calDAO.findFCalendarByCompetitionName(compf2);
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 //
 //
 // @Test
