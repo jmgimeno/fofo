@@ -8,3 +8,4 @@ FOFO vol introduïr un club dins l'aplicació.
 TESTS ACCEPTACIÓ
 
 1- El club ha de quedar introduït amb totes les seves dades en l'aplicació.
+2- Si el club està associat a X equips, els X equips també seran introduits.
