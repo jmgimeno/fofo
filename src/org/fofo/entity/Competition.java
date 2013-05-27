@@ -142,7 +142,15 @@ public abstract class Competition {
     @Override
     public boolean equals (Object obj){
         
-        return (obj instanceof Competition)&&((Competition)obj).name.equals(this.name);
+        if(((Competition)obj).getTeams() == null || this.getTeams() == null) return false;
+        
+        return (obj instanceof Competition)&&((Competition)obj).name.equals(this.name)
+                &&((Competition)obj).teams.equals(this.teams);
+    }
+    
+    public boolean equals(List<Team> teams){
+        return (this.teams.size() == teams.size())
+                && (this.teams.containsAll(teams));
     }
     
 }

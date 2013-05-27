@@ -12,7 +12,7 @@ public interface CompetitionDAO {
 
     void addCompetition(Competition competition) throws PersistException;
 
-    void removeCompetition(String name);
+    void removeCompetition(String name) throws Exception;
 
     void addTeam(Competition competition, Team team) throws Exception;
 

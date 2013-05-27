@@ -50,8 +50,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
     }
 
     @Override
-    public void removeCompetition(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeCompetition(String name) throws Exception{
+        em.getTransaction().begin();
+        if (name == null) throw new InvalidCompetitionException();
+        Query q = em.createQuery("DELETE FROM Competition c WHERE c.name='"+name+"'");
+        int delete = q.executeUpdate();
+        em.getTransaction().commit();
     }
 
    @Override

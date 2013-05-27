@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -129,6 +130,13 @@ public class CompetitionDAOImplIntegTest {
     public void getCompetitions() throws Exception{
         List<Competition> comps = Arrays.asList(competition);
         assertEquals(comps, competitionDAO.getCompetitionms());
+    }
+    
+    @Test
+    public void removeCompetition() throws Exception{
+        List<Competition> list = new ArrayList<Competition>();
+        competitionDAO.removeCompetition(competition.getName());
+        assertEquals(list, competitionDAO.getCompetitionms());
     }
 
     @Test(expected = InvalidTeamException.class)

@@ -76,6 +76,7 @@ public class Team implements Serializable {
     public Team (String name){
         this.name = name;
         this.club = null;
+        this.competitions = new ArrayList<Competition>();
     }
     
     
