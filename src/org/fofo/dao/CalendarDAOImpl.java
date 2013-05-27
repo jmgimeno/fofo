@@ -53,7 +53,7 @@ public class CalendarDAOImpl implements CalendarDAO {
 
             em.persist(cal);
            
-            associateCalendarToWeekMatches(cal);
+          associateCalendarToWeekMatches(cal);
              
             em.getTransaction().commit();
 
@@ -114,11 +114,13 @@ public class CalendarDAOImpl implements CalendarDAO {
      * @throws IncorrectTeamException
      */
     private void addMatch(Match match) throws IncorrectTeamException, PersistException {
-        Team home = (Team) em.find(Team.class, match.getHome().getName());
+       /*Team home = (Team) em.find(Team.class, match.getHome().getName());
         Team visitor = (Team) em.find(Team.class, match.getVisitor().getName());
 
-        if (home != null && visitor != null){
-                
+        if (home != null && visitor != null){*/
+         
+        if (em.find(Team.class, match.getHome().getName())!=null
+                      && em.find(Team.class, match.getVisitor().getName())!=null){      
             
             em.persist(match);
 

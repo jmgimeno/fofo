@@ -22,10 +22,10 @@ import org.junit.runner.RunWith;
 import org.fofo.entity.*;
 
 /**
- *
- * @author David Hernández
- * @author Anton Urrea
- */
+*
+* @author David Hernández
+* @author Anton Urrea
+*/
 @RunWith(JMock.class)
 public class CalendarDAOImplTest {
 
@@ -119,10 +119,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with no WM.
-     *
-     * @throws Exception
-     */
+* Add Calendar with no WM.
+*
+* @throws Exception
+*/
     @Test
     public void CorrectAddCalenadrwithNotWM() throws Exception {
 
@@ -140,10 +140,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with wm, but without Matches.
-     *
-     * @throws Exception
-     */
+* Add Calendar with wm, but without Matches.
+*
+* @throws Exception
+*/
     @Test
     public void CorrectAddCalenadrwithNotMatch() throws Exception {
 
@@ -164,10 +164,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with wm, but without Matches.
-     *
-     * @throws Exception
-     */
+* Add Calendar with wm, but without Matches.
+*
+* @throws Exception
+*/
     @Test(expected = IncorrectTeamException.class)
     public void NoTeamsInMatch() throws Exception {
 
@@ -183,7 +183,7 @@ public class CalendarDAOImplTest {
                 oneOf(em).getTransaction().begin();
 
                 
-                allowing(em).find(Team.class, team1.getName() );
+               allowing(em).find(Team.class, team1.getName() );
                   will(returnValue(null));
                 allowing(em).find(Team.class, team2.getName() );
                   will(returnValue(null));
@@ -197,21 +197,18 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * The match don't have a local team.
-     *
-     * @throws Exception
-     */
-     @Test(expected = IncorrectTeamException.class)
+* The match don't have a local team.
+*
+* @throws Exception
+*/
+    @Test(expected = IncorrectTeamException.class)
     public void NotLocalTeamInMatch() throws Exception {
         
-        match1.setHome(null);
-        match1.setVisitor(team1);
-
-        wm1.addMatch(match1);
-
-        cal.getAllWeekMatches().add(wm1);
+        List<WeekMatch> lwm = new ArrayList<WeekMatch>();
         
-        calDAO.addCalendar(cal);
+        lwm.add(wm1);
+                       
+        cal.setWeekMatches(lwm);
 
         context.checking(new Expectations() {
 
@@ -220,7 +217,7 @@ public class CalendarDAOImplTest {
 
                 oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome().getName());
                 will(returnValue(null));
-                  
+                
                 oneOf(em).close();
             }
         });
@@ -229,28 +226,25 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * The match don't have a visitant team.
-     *
-     * @throws Exception
-     */
+* The match don't have a visitant team.
+*
+* @throws Exception
+*/
     @Test(expected = IncorrectTeamException.class)
     public void NotVisitantTeamInMatch() throws Exception {
-        match1.setHome(team1);
-        match1.setVisitor(null);
-
-        wm1.addMatch(match1);
-
-        cal.getAllWeekMatches().add(wm1);
+          List<WeekMatch> lwm = new ArrayList<WeekMatch>();
         
-        calDAO.addCalendar(cal);
+        lwm.add(wm1);
+                       
+        cal.setWeekMatches(lwm);
 
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
 
-                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome().getName());     
-                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor().getName()); 
+                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome().getName());
+                oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor().getName());
                  will(returnValue(null));
                   
                 oneOf(em).close();
@@ -262,10 +256,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with only one WeekMatch with only one Match.
-     *
-     * @throws Exception
-     */
+* Add Calendar with only one WeekMatch with only one Match.
+*
+* @throws Exception
+*/
     @Test
     public void testAdditionOfJustOneMatch() throws Exception {
 
@@ -278,8 +272,8 @@ public class CalendarDAOImplTest {
                 oneOf(em).getTransaction().begin();
 
                 /*
-                 * Match
-                 */
+* Match
+*/
 
                 oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getHome().getName());
                 oneOf(em).find(Team.class, cal.getWeekMatch(0).getListOfWeekMatches().get(0).getVisitor().getName());
@@ -287,13 +281,13 @@ public class CalendarDAOImplTest {
                 oneOf(em).persist(cal.getWeekMatch(0).getListOfWeekMatches().get(0));
 
                 /*
-                 * WeekMatch
-                 */
+* WeekMatch
+*/
                 oneOf(em).persist(cal.getWeekMatch(0));
 
                 /*
-                 * Cal
-                 */
+* Cal
+*/
                 oneOf(em).persist(cal);
                 oneOf(em).getTransaction().commit();
                 oneOf(em).close();
@@ -306,10 +300,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with only one WeekMatch with various Match.
-     *
-     * @throws Exception
-     */
+* Add Calendar with only one WeekMatch with various Match.
+*
+* @throws Exception
+*/
     @Test
     public void testAdditionOfVariousMatchesOneWM() throws Exception {
 
@@ -330,8 +324,8 @@ public class CalendarDAOImplTest {
                     for (int x = 0; x < cal.getWeekMatch(i).getNumberOfMatchs(); x++) {
 
                         /*
-                         * Match
-                         */
+* Match
+*/
                       
                         oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
                         oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
@@ -340,14 +334,14 @@ public class CalendarDAOImplTest {
 
                     }
                     /*
-                     * WeekMatch
-                     */
+* WeekMatch
+*/
                     oneOf(em).persist(cal.getWeekMatch(i));
                 }
 
                 /*
-                 * Cal
-                 */
+* Cal
+*/
                 oneOf(em).persist(cal);
                 oneOf(em).getTransaction().commit();
                 oneOf(em).close();
@@ -358,10 +352,10 @@ public class CalendarDAOImplTest {
     }
 
     /**
-     * Add Calendar with various WeekMatch with various Match.
-     *
-     * @throws Exception
-     */
+* Add Calendar with various WeekMatch with various Match.
+*
+* @throws Exception
+*/
     @Test
     public void testAddVariousWeekMatches() throws Exception {
         
@@ -383,8 +377,8 @@ public class CalendarDAOImplTest {
                     for (int x = 0; x < cal.getWeekMatch(i).getNumberOfMatchs(); x++) {
 
                         /*
-                         * Match
-                         */
+* Match
+*/
 
                         allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
                         allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
@@ -393,14 +387,14 @@ public class CalendarDAOImplTest {
 
                     }
                     /*
-                     * WeekMatch
-                     */
+* WeekMatch
+*/
                     allowing(em).persist(cal.getWeekMatch(i));
                 }
 
                 /*
-                 * Cal
-                 */
+* Cal
+*/
                 oneOf(em).persist(cal);
                 oneOf(em).getTransaction().commit();
                 oneOf(em).close();
@@ -411,47 +405,47 @@ public class CalendarDAOImplTest {
         calDAO.addCalendar(cal);
 
     }
-//    
-//    
-//    @Test
-//    public void CorrectAddMatch() throws Exception {
-//        context.checking(new Expectations() {
-//
-//            {
-//                oneOf(tdao).getTeams();
-//                will(returnValue(new ArrayList<Team>()));
-//                oneOf(tdao).findTeam(match1.getLocal());
-//                will(returnValue(true));
-//                oneOf(tdao).findTeam(match1.getVisitant());
-//                will(returnValue(true));
-//                oneOf(em).persist(match1);
-//            }
-//        });
 //
 //
-//        calDAO.addMatch(match1);
-//    }
+// @Test
+// public void CorrectAddMatch() throws Exception {
+// context.checking(new Expectations() {
 //
-//    @Test
-//    public void CorrectAddWeekMatches() throws Exception {
-//
-//        context.checking(new Expectations() {
-//
-//            {
-//                for (int i = 0; i < wm1.getNumberOfMatchs(); i++) {
-//                    oneOf(tdao).getTeams();
-//                    will(returnValue(new ArrayList<Team>()));
-//                    oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getLocal());
-//                    will(returnValue(true));
-//                    oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getVisitant());
-//                    will(returnValue(true));
-//                    oneOf(em).persist(wm1.getListOfWeekMatches().get(i));
-//                }
-//                oneOf(em).persist(wm1);
-//            }
-//        });
+// {
+// oneOf(tdao).getTeams();
+// will(returnValue(new ArrayList<Team>()));
+// oneOf(tdao).findTeam(match1.getLocal());
+// will(returnValue(true));
+// oneOf(tdao).findTeam(match1.getVisitant());
+// will(returnValue(true));
+// oneOf(em).persist(match1);
+// }
+// });
 //
 //
-//        calDAO.addWeekMatches(wm1);
-//    }
+// calDAO.addMatch(match1);
+// }
+//
+// @Test
+// public void CorrectAddWeekMatches() throws Exception {
+//
+// context.checking(new Expectations() {
+//
+// {
+// for (int i = 0; i < wm1.getNumberOfMatchs(); i++) {
+// oneOf(tdao).getTeams();
+// will(returnValue(new ArrayList<Team>()));
+// oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getLocal());
+// will(returnValue(true));
+// oneOf(tdao).findTeam(wm1.getListOfWeekMatches().get(i).getVisitant());
+// will(returnValue(true));
+// oneOf(em).persist(wm1.getListOfWeekMatches().get(i));
+// }
+// oneOf(em).persist(wm1);
+// }
+// });
+//
+//
+// calDAO.addWeekMatches(wm1);
+// }
 }
