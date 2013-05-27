@@ -40,9 +40,10 @@ public class ClubManagementServiceTest {
         service.setTeamDao(teamDao);
         service.setClubDao(clubDao);
         team1 = new Team("Team 1");
-        team2 = new Team("Team 2");  
         team1.setCategory(Category.MALE);  
-        team1.setEmail("email@email.com");     
+        team1.setEmail("email@email.com"); 
+        
+        team2 = new Team("Team 2");      
         team2.setCategory(Category.MALE);  
         team2.setEmail("email@email.com");         
         club = new Club("Club 1");
@@ -105,16 +106,19 @@ public class ClubManagementServiceTest {
         service.addClub(club);
     }     
     
-    //@Test
+    @Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
-        final List<Team> list = new ArrayList<Team>();
+        final List<Team> list = new ArrayList<Team>();    
+        final List<Club> listClubs = new ArrayList<Club>();
+        listClubs.add(club);
         
         club.getTeams().add(team1);   
 
         context.checking(new Expectations() {{
             oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
-            oneOf (teamDao).getTeams();will(returnValue(list));
+            oneOf (teamDao).getTeams();will(returnValue(list));            
             oneOf (clubDao).addClub(club);
+            oneOf (clubDao).getClubs();will(returnValue(listClubs));
             oneOf (teamDao).addTeam(team1);
         }});  
         
@@ -122,7 +126,7 @@ public class ClubManagementServiceTest {
         service.addClub(club);
     }     
     
-    //@Test
+    @Test
     public void testCorrectInscriptionClubWithTeams() throws Exception{
         final List<Team> list = new ArrayList<Team>();
         final List<Club> listClubs = new ArrayList<Club>();
@@ -136,7 +140,8 @@ public class ClubManagementServiceTest {
             oneOf (teamDao).getTeams();will(returnValue(list));
             oneOf (clubDao).addClub(club);
             oneOf (clubDao).getClubs();will(returnValue(listClubs));
-            oneOf (teamDao).addTeam(team1);         
+            oneOf (teamDao).addTeam(team1); 
+            oneOf (clubDao).getClubs();will(returnValue(listClubs));           
             oneOf (teamDao).addTeam(team2);
         }});  
         
