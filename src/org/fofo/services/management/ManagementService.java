@@ -306,5 +306,10 @@ public class ManagementService {
 
     private boolean clubExist(Club club) throws Exception {        
         return clubDao.getClubs().contains(club);
-    }   
+    }
+
+    public void addClub(Club club) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
 }
