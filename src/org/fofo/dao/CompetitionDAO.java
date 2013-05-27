@@ -20,5 +20,5 @@ public interface CompetitionDAO {
 
     Competition findCompetitionByName(String name) throws Exception;
 
-    List<Competition> findCompetitionByTeam(String name);
+    List<Competition> findCompetitionByTeam(String name) throws Exception;
 }

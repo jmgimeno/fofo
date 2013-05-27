@@ -117,6 +117,19 @@ public class CompetitionDAOImplIntegTest {
                 competitionDAO.findCompetitionByName("League1").getTeams());
 
     }
+    
+    @Test
+    public void findCompetitionsByTeam() throws Exception{
+        List<Competition> list = Arrays.asList(competition);
+        competitionDAO.addTeam(competition, team);
+        assertEquals(list, competitionDAO.findCompetitionByTeam(team.getName()));
+    }
+    
+    @Test
+    public void getCompetitions() throws Exception{
+        List<Competition> comps = Arrays.asList(competition);
+        assertEquals(comps, competitionDAO.getCompetitionms());
+    }
 
     @Test(expected = InvalidTeamException.class)
     public void add_incorrect_team_to_competition() throws PersistException, Exception{
