@@ -89,8 +89,8 @@ public class ManagementService {
      */
     public void addTeam(Competition competetion, Team team) throws Exception {
 
-
-        if (checkforExceptions(competition, team)) {
+        Team teamDB = teamDao.findTeamByName(team.getName());
+        if (checkforExceptions(competition, teamDB)) {
 
             competition.getTeams().add(team);
 
@@ -279,11 +279,12 @@ public class ManagementService {
      */
     private boolean checkforExceptions(Competition competition, Team team) {
 
-        return team.getName() != null
+        
+        return team != null &&
+                team.getName() != null
                 && team.getEmail() != null
-                && team.getCompetitions() != null
                 && team.getCategory() != null
-              /*&& team.getClub()!= null*/
+                /*&& team.getClub()!= null*/
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
