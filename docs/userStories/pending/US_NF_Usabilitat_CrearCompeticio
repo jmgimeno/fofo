@@ -1,0 +1,43 @@
+Creació competició
+US: Usabilitat: crear competició
+
+FOFO vol crear la competició mitjançant un formulari dinàmic
+
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. S'ha de comprovar que es pot introduir un nom per a la competició.
+
+1. Validació camp nom:
+1.1 caracters alfanumerics
+1.2 que no existeix previament
+1.3 mida entre 4 i 12 caracters
+
+2.  S'ha de comprovar que es pot seleccionar el tipus de competició lliga o copa
+
+3.  S'ha de comprovar que es pot seleccionar la categoria de competició, masculí, femení o veterans
+
+4. S'ha de comprovar que es pot introduir la data d'inici de la competició
+
+4.Validació camp data:
+4.1 Les dates seleccionables en el calendari mostrat seran posteriors a 15 dies de la data actual.
+
+5.S'ha de comprovar que es pot seleccionar el nombre d'equips màxims i mínims 
+
+5.1 El nombre d'equips varia segons el tipus de competició
+5.2 No es pot seleccionar el nombre d'equips si no tens seleccionat el camp tipus
+5.3 Si canvies el tipus de competició els valors s'han de tornar a seleccionar
+5.4 El nombre mímins d'equips es menor que el màxim
+
+
+6. S'ha de poder comfirmar el formmulari
+
+6.1 Tots els camps del formulari han de tenir dades acceptades
+
+7. S'ha de poder tornar enrere.
+
+7.1 El formulari es descarta
+
+
