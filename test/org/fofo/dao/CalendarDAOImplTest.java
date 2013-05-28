@@ -303,7 +303,7 @@ public class CalendarDAOImplTest {
     @Test
     public void testAdditionOfVariousMatchesOneWM() throws Exception {
 
-        //REFACTOR..... SEE ISSUE #22 ******
+        //REFACTOR..... SEE ISSUE #22 ****** REALIZED
 
 
         cal.getAllWeekMatches().add(wm2);
@@ -317,22 +317,7 @@ public class CalendarDAOImplTest {
 
                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
-                    for (int x = 0; x < cal.getWeekMatch(i).getNumberOfMatchs(); x++) {
-
-                        /*
-                         * Match
-                         */
-
-                        oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
-                        oneOf(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
-
-                        oneOf(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
-
-                    }
-                    /*
-                     * WeekMatch
-                     */
-                    oneOf(em).persist(cal.getWeekMatch(i));
+                    testWeekMatches(i, cal);
                 }
 
                 /*
@@ -355,12 +340,11 @@ public class CalendarDAOImplTest {
     @Test
     public void testAddVariousWeekMatches() throws Exception {
 
-        //REFACTOR..... SEE ISSUE #22 ******
+        //REFACTOR..... SEE ISSUE #22 ****** REALIZED
 
         cal.getAllWeekMatches().add(wm1);
         cal.getAllWeekMatches().add(wm2);
         cal.getAllWeekMatches().add(wm3);
-
 
         context.checking(new Expectations() {
 
@@ -370,22 +354,7 @@ public class CalendarDAOImplTest {
 
                 for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
 
-                    for (int x = 0; x < cal.getWeekMatch(i).getNumberOfMatchs(); x++) {
-
-                        /*
-                         * Match
-                         */
-
-                        allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
-                        allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
-
-                        allowing(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
-
-                    }
-                    /*
-                     * WeekMatch
-                     */
-                    allowing(em).persist(cal.getWeekMatch(i));
+                    testWeekMatches(i, cal);
                 }
 
                 /*
@@ -402,28 +371,37 @@ public class CalendarDAOImplTest {
 
     }
 
-    //@Test
-    public void CorrectfindFCalendarByCompetitionName() throws Exception {
-
-        comp.setName("Lleida");
-        cal.setCompetition(comp);
+    private void testWeekMatches(final int i, final FCalendar cal) {
 
         context.checking(new Expectations() {
 
             {
-                oneOf(em).getTransaction().begin();
-                oneOf(em).find(Competition.class, "Lleida");
-                will(returnValue(comp));
-                oneOf(em).find(FCalendar.class, comp.getFCalendar().getIdFCalendar());
-                will(returnValue(comp.getFCalendar().getIdFCalendar()));
-                oneOf(em).getTransaction().commit();
-                oneOf(em).isOpen();
-                will(returnValue(true));
-                oneOf(em).close();
+                for (int x = 0; x < cal.getWeekMatch(i).getNumberOfMatchs(); x++) {
+
+                    testMatch(cal, i, x);
+
+                }
+                /*
+                 * WeekMatch
+                 */
+                allowing(em).persist(cal.getWeekMatch(i));
             }
         });
+    }
 
-        calDAO.findFCalendarByCompetitionName("Lleida");
+    private void testMatch(final FCalendar cal, final int i, final int x) {
+        /*
+         * Match
+         */
+        context.checking(new Expectations() {
+
+            {
+                allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getHome().getName());
+                allowing(em).find(Team.class, cal.getWeekMatch(i).getListOfWeekMatches().get(x).getVisitor().getName());
+
+                allowing(em).persist(cal.getWeekMatch(i).getListOfWeekMatches().get(x));
+            }
+        });
     }
 
     //@Test(expected = PersistException.class)
@@ -449,6 +427,30 @@ public class CalendarDAOImplTest {
 
         calDAO.findFCalendarByCompetitionName("Barcelona");
 
+    }
+
+    //@Test
+    public void CorrectfindFCalendarByCompetitionName() throws Exception {
+
+        comp.setName("Lleida");
+        cal.setCompetition(comp);
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Competition.class, "Lleida");
+                will(returnValue(comp));
+                oneOf(em).find(FCalendar.class, comp.getFCalendar().getIdFCalendar());
+                will(returnValue(comp.getFCalendar().getIdFCalendar()));
+                oneOf(em).getTransaction().commit();
+                oneOf(em).isOpen();
+                will(returnValue(true));
+                oneOf(em).close();
+            }
+        });
+
+        calDAO.findFCalendarByCompetitionName("Lleida");
     }
 //
 //
