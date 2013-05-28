@@ -108,7 +108,7 @@ public class CalendarCalculatorServiceIntegTest {
      
     }
     
-    //@Test 
+    @Test 
     public void testCalculateAndStoreLeagueCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calLeagueGen);
@@ -120,7 +120,7 @@ public class CalendarCalculatorServiceIntegTest {
         assertEquals("Should have the same competition",compLeague,competitionDB);         
     }
         
-    //@Test 
+    @Test 
     public void testCalculateAndStoreCupCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calCupGen);

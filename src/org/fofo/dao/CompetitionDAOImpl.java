@@ -42,11 +42,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
 
         } catch (PersistenceException e) {
             throw new PersistException();
-        } finally {
-            if (em.isOpen()) {
-                em.close();
-            }
-        }
+        } 
+//        finally {
+//            if (em.isOpen()) {
+//                em.close();
+//            }
+//        }
     }
 
     @Override
