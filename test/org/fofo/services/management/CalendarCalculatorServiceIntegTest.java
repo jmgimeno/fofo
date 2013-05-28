@@ -133,8 +133,10 @@ public class CalendarCalculatorServiceIntegTest {
     //@Test 
     public void testCalculateStoreAndGetLeagueCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
-        service.setCalendarCupGen(calLeagueGen);
-        service.calculateAndStoreCupCalendar(compLeague);
+        service.setCalendarLeagueGen(calLeagueGen);
+        service.calculateAndStoreLeagueCalendar(compLeague);
+        
+//System.out.println("tenim:: " +compLeague.toString());  
 
         FCalendar calendarDB = null;
         calendarDB = caldao.findFCalendarByCompetitionName("Competition League");
@@ -230,4 +232,13 @@ public class CalendarCalculatorServiceIntegTest {
         em2.close();
         return compDB;
     }
+    
+    private FCalendar getCalendarFromDB(String idcalendar) throws Exception{
+         EntityManager em2 = getEntityManagerFact();
+         em2.getTransaction().begin();
+         FCalendar calendarDB = em2.find(FCalendar.class, idcalendar);
+         em2.getTransaction().commit();
+         em2.close();
+         return calendarDB; 
+   } 
 }
