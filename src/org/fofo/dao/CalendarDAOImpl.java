@@ -59,10 +59,8 @@ public class CalendarDAOImpl implements CalendarDAO {
 
         } catch (IncorrectTeamException ex) {
             throw ex;
-        } finally {
-            em.close();
-        }
     }
+  }
 
     @Override
     public FCalendar findFCalendarByCompetitionName(String name)  throws PersistException{
@@ -77,9 +75,6 @@ public class CalendarDAOImpl implements CalendarDAO {
         }
         catch (PersistenceException e){
             throw new PersistException();
-        }
-        finally{
-            if (em.isOpen()) em.close();
         }
         return cal;
     }
