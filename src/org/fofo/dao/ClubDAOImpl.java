@@ -44,8 +44,6 @@ public class ClubDAOImpl implements ClubDAO {
             
         } catch (PersistenceException e) {
             throw e;
-        } finally {
-            if(em.isOpen()) em.close();            
         }
     }
 
@@ -68,8 +66,6 @@ public class ClubDAOImpl implements ClubDAO {
             clubs = (List<Club>) query.getResultList();
         }catch(Exception e){
             throw e;
-        }finally{
-            if(em.isOpen()) em.close();
         }
         
         return clubs;
@@ -85,8 +81,6 @@ public class ClubDAOImpl implements ClubDAO {
 
         } catch (PersistenceException e) {
             throw e;
-        } finally {
-            if(em.isOpen()) em.close();            
         }
         
         return club;
@@ -101,8 +95,6 @@ public class ClubDAOImpl implements ClubDAO {
             em.getTransaction().commit();
         } catch (PersistenceException e){
             throw e;
-        } finally {
-            if(em.isOpen()) em.close();
         }
                       
         
