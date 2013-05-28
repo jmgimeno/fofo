@@ -77,9 +77,7 @@ public class CalendarCalculatorServiceIntegTest {
         
         calCupGen = new CalendarCupGen();   
         calLeagueGen = new CalendarLeagueGen();
-        
-        addAtDBImaginaryTeamsForCup(club);
-    }
+    }    
     
     @After
     public void tearDown() throws Exception{     
@@ -94,13 +92,15 @@ public class CalendarCalculatorServiceIntegTest {
         Query query2=em.createQuery("DELETE FROM Competition comp");     
         Query query3=em.createQuery("DELETE FROM FCalendar cal");     
         Query query4=em.createQuery("DELETE FROM WeekMatch wm");     
-        Query query5=em.createQuery("DELETE FROM Match m");
+        Query query5=em.createQuery("DELETE FROM Match m");        
+        Query query6=em.createQuery("DELETE FROM Club");
         
-        int deleteRecords=query3.executeUpdate();      //Delete FCalendar
-        deleteRecords=query4.executeUpdate();          //Delete WeekMatches
-        deleteRecords=query5.executeUpdate();          //Delete Match_
-        deleteRecords=query2.executeUpdate();          //Delete competitions
-        deleteRecords=query.executeUpdate();           //Delete teams       
+        int deleteRecords=query.executeUpdate();      //Delete Team
+        deleteRecords=query2.executeUpdate();          //Delete Competition
+        deleteRecords=query3.executeUpdate();          //Delete FCalendar
+        deleteRecords=query4.executeUpdate();          //Delete WeekMatch
+        deleteRecords=query5.executeUpdate();           //Delete Match       
+        deleteRecords=query6.executeUpdate();           //Delete Club          
                   
         em.getTransaction().commit();
         em.close();
@@ -219,12 +219,10 @@ public class CalendarCalculatorServiceIntegTest {
     }
     
     private Competition getCompetitionFromDB(String idcomp) throws Exception{
-        em = getEntityManagerFact();
         em.getTransaction().begin();
         Competition comp = em.find(Competition.class, idcomp);
         em.getTransaction().commit();
-        em.close();
-        
+      
         return comp;          
    } 
 
