@@ -67,11 +67,11 @@ public class CalendarCalculatorServiceIntegTest {
         
         compCup = Competition.create(CompetitionType.CUP);
         compCup.setName("Competition Cup");
-        createCompetition(compCup, club);  
+        createCompetition("Cup",compCup, club);  
         
         compLeague = Competition.create(CompetitionType.LEAGUE);
         compLeague.setName("Competition League"); 
-        createCompetition(compLeague,club);
+        createCompetition("League",compLeague,club);
         
         addAtDBImaginaryTeamsForCup(club);
         
@@ -114,7 +114,9 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calLeagueGen);
         service.calculateAndStoreCupCalendar(compLeague);
 
-        Competition competitionDB = getCompetitionFromDB("Competition League");
+        Competition competitionDB = getCompFromDB("Competition League");
+//System.out.println("DB:: " +competitionDB.toString());
+//System.out.println("tenim:: " +compLeague.toString());        
         assertEquals("Should have the same competition",compLeague,competitionDB);         
     }
         
@@ -124,7 +126,7 @@ public class CalendarCalculatorServiceIntegTest {
         service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
-        Competition competitionDB = getCompetitionFromDB("Competition Cup");
+        Competition competitionDB = getCompFromDB("Competition Cup");
         assertEquals("Should have the same competition",compCup,competitionDB);          
     }    
     
@@ -190,7 +192,7 @@ public class CalendarCalculatorServiceIntegTest {
 
     }
     
-    private void createCompetition(Competition comp, Club club) throws Exception{   
+    private void createCompetition(String name, Competition comp, Club club) throws Exception{   
         comp.setCategory(Category.MALE);
         comp.setInici(null);
         comp.setMaxTeams(16);
@@ -198,12 +200,14 @@ public class CalendarCalculatorServiceIntegTest {
         comp.setInici(new DateTime().minusDays(8).toDate()); 
                
         compdao.addCompetition(comp);
-        
+        List<Team> teams = new ArrayList<Team>();
         for(int i=0; i<16;i++){
-            Team team = new Team("Team number "+i,club, Category.MALE);
+            Team team = new Team("Team of "+name+ " number "+i,club, Category.MALE);       
+            teams.add(team);
             tdao.addTeam(team);
             compdao.addTeam(comp,team);
         }
+        comp.setTeams(teams);
     }
 
         
@@ -218,13 +222,12 @@ public class CalendarCalculatorServiceIntegTest {
         }   
     }
     
-    private Competition getCompetitionFromDB(String idcomp) throws Exception{
-        em.getTransaction().begin();
-        Competition comp = em.find(Competition.class, idcomp);
-        em.getTransaction().commit();
-      
-        return comp;          
-   } 
-
-
+    private Competition getCompFromDB(String name) throws Exception{
+        EntityManager em2 = getEntityManagerFact();
+        em2.getTransaction().begin();
+        Competition compDB = em2.find(Competition.class, name);
+        em2.getTransaction().commit();
+        em2.close();
+        return compDB;
+    }
 }
