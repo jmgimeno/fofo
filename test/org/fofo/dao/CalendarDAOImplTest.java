@@ -404,6 +404,9 @@ public class CalendarDAOImplTest {
         });
     }
 
+    /*
+     * Search FCalendar by CompetitionName, but CompetitionName don't have any FCalendar.
+     */
     //@Test(expected = PersistException.class)
     public void IncorrectfindFCalendarByCompetitionName() throws Exception {
 
@@ -414,7 +417,7 @@ public class CalendarDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Competition.class, "Lleida");
+                oneOf(em).find(Competition.class, "Barcelona");
                 will(returnValue(null));
                 oneOf(em).find(FCalendar.class, comp.getFCalendar().getIdFCalendar());
                 will(returnValue(comp.getFCalendar().getIdFCalendar()));
@@ -429,6 +432,9 @@ public class CalendarDAOImplTest {
 
     }
 
+    /*
+     * Search FCalendar by CompetitionName.
+     */
     //@Test
     public void CorrectfindFCalendarByCompetitionName() throws Exception {
 
