@@ -102,25 +102,36 @@ public class CalendarDAOImplIntegTest {
         
     }
     
+    @Test
+    public void testAddCalendarWithNoWeekMatchs() throws Exception {        
+        FCalendar calendar = new FCalendar(null);
+        calDAO.addCalendar(calendar);
+        
+        FCalendar calDB = getCalendarFromDB(calendar.getIdFCalendar());        
+        
+        assertEquals("Should have retrieved the same calendar",calendar,calDB);         
+    }
+    
     /**
      * One Calendar cal, with just 1 wm and 1 match.
      *
      * @throws Exception
      */
-    @Test
-    public void testAddCalendar() throws Exception {
+    //@Test
+    public void testAddCalendar() throws Exception {       
+        calDAO.addCalendar(cal);        
+        FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());        
         
-       
-        calDAO.addCalendar(cal);
-        
-        FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());
-
-        
-        
-        assertEquals("Should have retrieved the same calendar",cal,calDB);
-       
-         
+        assertEquals("Should have retrieved the same calendar",cal,calDB);                
     }
+    
+    //@Test
+    public void testAddCalendarFindFCalendarByCompetitionName() throws Exception {       
+        calDAO.addCalendar(cal);        
+        FCalendar calDB = calDAO.findFCalendarByCompetitionName(cal.getIdFCalendar());        
+        
+        assertEquals("Should have retrieved the same calendar",cal,calDB);                
+    } 
 
     /**
      *
