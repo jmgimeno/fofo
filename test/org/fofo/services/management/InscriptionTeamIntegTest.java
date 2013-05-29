@@ -7,8 +7,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.fofo.dao.PersistException;
 import org.fofo.entity.*;
+import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -21,25 +27,35 @@ import static org.junit.Assert.*;
 public class InscriptionTeamIntegTest {
 
     ManagementService service;
-    private CompetitionDAOImpl cdao;
+    private CompetitionDAOImpl compDao;
     private Competition comp, comp2;
     private Team team1, team2, team3, team4, team5;
-    private TeamDAOImpl teamDAO;
+    private TeamDAOImpl teamDao;
     private Club club;
-    private ClubDAOImpl clubdao;
+    private ClubDAOImpl clubDao;
+    private EntityManager em = null;
     //final org.jmock.Sequence seq = context.sequence("seq");
 
     @Before
-    public void setup() {
+    public void setup() throws Exception {
 
         service = new ManagementService();
-        cdao = new CompetitionDAOImpl();
-        teamDAO = new TeamDAOImpl();
-        clubdao = new ClubDAOImpl();
+        compDao = new CompetitionDAOImpl();
+        teamDao = new TeamDAOImpl();
+        clubDao = new ClubDAOImpl();
+        
+        em = getEntityManager();
+        
+        compDao.setEM(em);
+        teamDao.setEM(em);
+        clubDao.setEM(em);
 
-        service.setcDao(cdao);
-        service.setTeamDao(teamDAO);
+        service.setcDao(compDao);
+        service.setTeamDao(teamDao);
 
+        club = new Club("ClubExemple");
+        club.setEmail("exemple@hotmail.com");
+        
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
@@ -62,7 +78,8 @@ public class InscriptionTeamIntegTest {
 
         comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.FEMALE);
-        comp.setInici(new Date()); //Conte la data actual
+      //  comp.setInici(new Date()); //Conte la data actual
+        comp.setInici(new DateTime().minusDays(8).toDate()); //Conte la data actual
         comp.setMaxTeams(4);
         comp.setMinTeams(2);
         comp.setName("Lleida");
@@ -75,23 +92,29 @@ public class InscriptionTeamIntegTest {
         comp2.setMinTeams(2);
         comp2.setName("Barcelona");
 
-        club = new Club("ClubExemple");
-        club.setEmail("exemple@hotmail.com");
+        
         club.getTeams().add(team1);
-        service.setClubDao(clubdao);
+        clubDao.addClub(club);
+        service.setClubDao(clubDao);
+        
     }
 
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamName() throws Exception {
-
-        team1.setName(null);
-
+        
+        //Canviar a TeamKO
+        team1.setName("");
+        
+        teamDao.addTeam(team1);
+        
         service.addTeam(comp, team1);
+        
     }
 
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamEmail() throws Exception {
 
+        
         team1.setEmail(null);
 
         service.addTeam(comp, team1);
@@ -117,30 +140,26 @@ public class InscriptionTeamIntegTest {
     public void testIncorrectTeamClub() throws Exception {
 
         team1.setClub(null);
+       
 
         service.addTeam(comp, team1);
     }
 
-//    @Test(expected = InscriptionTeamException.class)
-    public void competitionNotExist_withEmptyList() throws Exception {
 
-        team1.getCompetitions().add(comp);
-
-        service.addTeam(comp, team1);
-    }
-
-//    @Test(expected = InscriptionTeamException.class)
-    public void competitionNotExist_withList() throws Exception {
-
-        team1.getCompetitions().add(comp);
-
-        /*final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp2);*/
-
-        service.addTeam(comp, team1);
-    }
-
+    
     @Test(expected = InscriptionTeamException.class)
+    public void competitionNotExist() throws Exception {
+ 
+        team1 = new Team("Team1", Category.FEMALE);
+        team1.setClub(club);
+        team1.setEmail("Team1@hotmail.com");
+        
+        team1.getCompetitions().add(comp);
+
+        service.addTeam(comp2, team1);
+    }
+
+   @Test(expected = InscriptionTeamException.class)
     public void competitionInscriptionPeriodClosed() throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(2013, Calendar.MAY, 11);
@@ -148,9 +167,13 @@ public class InscriptionTeamIntegTest {
         service.addTeam(comp, team1);
     }
 
-//    @Test (expected = InscriptionTeamException.class)
+    @Test (expected = InscriptionTeamException.class)
     public void notEnoughTeamSpaceInCompetition() throws Exception {
 
+        team1 = new Team("Team1", Category.FEMALE);
+        team1.setClub(club);
+        team1.setEmail("Team1@hotmail.com"); 
+        
         service.setCompetition(comp2);
 
         team1.getCompetitions().add(comp2);
@@ -181,16 +204,18 @@ public class InscriptionTeamIntegTest {
         service.addTeam(comp, team5);
     }
 
-//    @Test
+   // @Test
     public void testInsertTeamInCompetition() throws Exception {
 
+        team1 = new Team("Team1");
+        team1.setClub(club);
+        team1.setEmail("Team1@hotmail.com"); 
+       
+        
+        teamDao.addTeam(team1);
+    
         team1.getCompetitions().add(comp);
 
-        /*final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp);
-
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);*/
 
         service.addTeam(comp, team1);
 
@@ -202,13 +227,6 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        /*final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp);
-
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);*/
-
-        //System.out.println("***TEST: Team1=" + team1 + " club=" + team1.getClub());
         service.addTeam(comp, team1);
     }
 
@@ -220,15 +238,7 @@ public class InscriptionTeamIntegTest {
         team3.getCompetitions().add(comp);
         team4.getCompetitions().add(comp);
 
-        /*final List<Competition> competitions = new ArrayList<Competition>();
-        competitions.add(comp);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-        teams.add(team2);
-        teams.add(team3);
-        teams.add(team4);
-        */
         service.addTeam(comp, team1);
         service.addTeam(comp, team2);
         service.addTeam(comp, team3);
@@ -245,12 +255,40 @@ public class InscriptionTeamIntegTest {
 
         team1.getCompetitions().add(comp);
 
-        /* final List<Competition> lcomp = new ArrayList<Competition>();
-        lcomp.add(comp);
-
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);*/
-
         service.addTeam(comp, team1);
     }
+    
+    @After
+    public void tearDown() throws Exception{
+        
+        em = clubDao.getEM();
+        if (em.isOpen()) em.close();
+        
+        em = teamDao.getEM();
+        if (em.isOpen()) em.close();
+        
+        em = compDao.getEM();
+        if (em.isOpen()) em.close();
+        
+        em = getEntityManager();
+        em.getTransaction().begin();
+        
+        Query query=em.createQuery("DELETE FROM Team");
+        Query query2=em.createQuery("DELETE FROM Club");
+        Query query3=em.createQuery("DELETE FROM Competition");
+        int deleteRecords=query.executeUpdate();
+        deleteRecords=query2.executeUpdate();
+        deleteRecords=query3.executeUpdate();
+        
+        em.getTransaction().commit();
+        em.close();
+        System.out.println("All records have been deleted.");
+         
+    }
+    
+    private EntityManager getEntityManager() throws Exception{
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
+        return emf.createEntityManager();  
+    }
+
 }
