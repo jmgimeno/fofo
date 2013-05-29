@@ -203,7 +203,7 @@
     <!-- SONAR			                                             -->
     <!-- =================================================================== -->
 	
-    <target name="sonar" depends="test">		
+    <target name="sonar">		
 
         <property name="sonar.projectKey" value="org.codehaus.sonar:fofo" />
         <property name="sonar.projectName" value="FOFO" />

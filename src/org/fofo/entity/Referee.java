@@ -8,10 +8,10 @@ import javax.persistence.*;
 
 /**
  *
- * @author mohamed
+ * @author mohamed, Anatoli
  */
 @Entity
-@Table (name="REFEREE")
+@Table (name="Referee")
 public class Referee {
     
     @Id
@@ -47,6 +47,6 @@ public class Referee {
    
     
     public String toString(){
-        return "<Name: "+this.name+ ", Nif:" +this.nif+">";
+        return "<Name: "+this.name+ ", Nif: " +this.nif+">";
     }
 }
