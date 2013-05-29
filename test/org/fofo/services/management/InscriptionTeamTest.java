@@ -104,16 +104,15 @@ public class InscriptionTeamTest {
         service.addTeam(comp, team1);
     }
 
-   // @Test(expected = InscriptionTeamException.class)
+   @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamEmail() throws Exception {
-
+   
         team1.setEmail(null);
         
         context.checking(new Expectations() {
 
             {
-             oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1.getName()));
-             //oneOf(teamDAO).getTeams().;  will(returnValue(null));
+             oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
             }
         });
 
@@ -121,31 +120,48 @@ public class InscriptionTeamTest {
     }
 
 
-   // @Test(expected = InscriptionTeamException.class)
+    @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamCategory() throws Exception {
 
+        
         team1.setCategory(null);
+        
+         context.checking(new Expectations() {
+
+            {
+             oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
+            }
+        });
 
         service.addTeam(comp, team1);
     }
 
 
-    //@Test(expected = InscriptionTeamException.class)
+  @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamClub() throws Exception {
 
         team1.setClub(null);
+        
+         context.checking(new Expectations() {
+
+            {
+             oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
+            }
+        });
 
         service.addTeam(comp, team1);
     }
 
-    //@Test(expected = InscriptionTeamException.class)
-    public void competitionNotExist_withEmptyList() throws Exception {
+    @Test(expected = InscriptionTeamException.class)
+    public void competitionNotExistWithEmptyList() throws Exception {
 
         team1.getCompetitions().add(comp);
-
+        team1.setClub(club);
+        
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(new ArrayList<Competition>())); //Conte un valor null
             }
@@ -154,10 +170,11 @@ public class InscriptionTeamTest {
         service.addTeam(comp, team1);
     }
 
-    //@Test(expected = InscriptionTeamException.class)
-    public void competitionNotExist_withList() throws Exception {
+    @Test(expected = InscriptionTeamException.class)
+    public void competitionNotExistWithList() throws Exception {
 
         team1.getCompetitions().add(comp);
+        team1.setClub(club);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp2);
@@ -165,6 +182,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
             }
@@ -173,19 +191,33 @@ public class InscriptionTeamTest {
         service.addTeam(comp, team1);
     }
 
-//    @Test(expected = InscriptionTeamException.class)
+    @Test(expected = InscriptionTeamException.class)
     public void competitionInscriptionPeriodClosed() throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(2013, Calendar.MAY, 11);
         comp.setInici(cal.getTime());
+        
+         context.checking(new Expectations() {
+
+            {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
+
+            }
+        });
+        
         service.addTeam(comp, team1);
     }
 
-   // @Test (expected = InscriptionTeamException.class)
+    @Test (expected = InscriptionTeamException.class)
     public void notEnoughTeamSpaceInCompetition() throws Exception {
 
         service.setCompetition(comp2);
-
+        team1.setClub(club);
+        team2.setClub(club);
+        team3.setClub(club);
+        team4.setClub(club);
+        team5.setClub(club);
+        
         team1.getCompetitions().add(comp2);
         team2.getCompetitions().add(comp2);
         team3.getCompetitions().add(comp2);
@@ -205,6 +237,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -213,6 +246,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team1);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team2.getName());  will(returnValue(team2));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -221,6 +256,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team2);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team3.getName());  will(returnValue(team3));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -229,6 +266,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team3);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team4.getName());  will(returnValue(team4));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -237,6 +276,9 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team4);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team5.getName());  will(returnValue(team5));
+
 
             }
         });
@@ -253,19 +295,31 @@ public class InscriptionTeamTest {
      * @throws PersistException
      * @throws Exception
      */
-   // @Test(expected = InscriptionTeamException.class)
+    @Test(expected = InscriptionTeamException.class)
     public void diffCategTeamAndCategory() throws PersistException, Exception {
 
         comp.setCategory(Category.FEMALE);
         team5.setCategory(Category.MALE);
+        team5.setClub(club);
+        
+        context.checking(new Expectations() {
+
+            {
+                oneOf(teamDAO).findTeamByName(team5.getName());  will(returnValue(team5));
+
+            }
+        });
+        
+        
 
         service.addTeam(comp, team5);
     }
 
-    //@Test
+    @Test
     public void testInsertTeamInCompetition() throws Exception {
 
         team1.getCompetitions().add(comp);
+        team1.setClub(club);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
@@ -276,6 +330,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -293,10 +348,11 @@ public class InscriptionTeamTest {
         assertTrue(comp.getTeams().contains(team1));
     }
 
-    //@Test
+    @Test
     public void CorrectAddOneTeam() throws Exception {
 
         team1.getCompetitions().add(comp);
+        team1.setClub(club);
 
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
@@ -308,6 +364,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -324,7 +381,7 @@ public class InscriptionTeamTest {
         service.addTeam(comp, team1);
     }
 
-    //@Test
+    @Test
     public void CorrectAddVariousTeam() throws Exception {
 
         team1.getCompetitions().add(comp);
@@ -332,6 +389,11 @@ public class InscriptionTeamTest {
         team3.getCompetitions().add(comp);
         team4.getCompetitions().add(comp);
 
+        team1.setClub(club);
+        team2.setClub(club);
+        team3.setClub(club);
+        team4.setClub(club);
+        
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
@@ -344,7 +406,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
-
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -353,6 +415,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team1);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team2.getName());  will(returnValue(team2));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -361,6 +425,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team2);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team3.getName());  will(returnValue(team3));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -369,6 +435,8 @@ public class InscriptionTeamTest {
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team3);
                 inSequence(seq);
+                
+                oneOf(teamDAO).findTeamByName(team4.getName());  will(returnValue(team4));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
@@ -391,10 +459,11 @@ public class InscriptionTeamTest {
         assertTrue(comp.getTeams().contains(team4));
     }
 
-   // @Test
+    @Test
     public void correctTeamInsertedIntoTheDB() throws Exception {
 
         team1.getCompetitions().add(comp);
+        team1.setClub(club);
 
         final List<Competition> lcomp = new ArrayList<Competition>();
         lcomp.add(comp);
@@ -405,6 +474,7 @@ public class InscriptionTeamTest {
         context.checking(new Expectations() {
 
             {
+                oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(lcomp));
                 inSequence(seq);

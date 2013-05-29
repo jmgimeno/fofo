@@ -277,13 +277,12 @@ public class ManagementService {
      * @return 
      */
     private boolean checkforExceptions(Competition competition, Team team) {
-
-        
+ 
         return team != null &&
                 team.getName() != null
                 && team.getEmail() != null
                 && team.getCategory() != null
-                /*&& team.getClub()!= null*/
+                && team.getClub()!= null
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
