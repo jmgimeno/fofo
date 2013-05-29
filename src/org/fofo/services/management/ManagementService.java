@@ -30,7 +30,6 @@ public class ManagementService {
     private ClubDAO clubDao;
     private CompetitionDAO cDao;
     private Competition competition;
-    //private Team team;
     private TeamDAO teamDao;
 
     public CompetitionDAO getcDao() {
@@ -53,9 +52,6 @@ public class ManagementService {
         this.competition = competition;
     }
 
-//    public void setTeam(Team team) {
-//        this.team = team;
-//    }
     public ClubDAO getClubDao() {
         return clubDao;
     }
@@ -64,9 +60,6 @@ public class ManagementService {
         return competition;
     }
 
-//    public Team getTeam() {
-//        return team;
-//    }
     public void addCompetition(Competition comp) throws Exception {
         List<Club> clubs = new ArrayList<Club>();
         checkForExceptions(comp);
