@@ -52,34 +52,36 @@ public class AssignRefereesToCompetitionTest {
     }
 
 
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoDAO() throws Exception {
         service.assignRefereesToCompetition(comp);
     }
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoRefereeDAO() throws Exception {
         service.setCalendarDao(calendarDao);
         service.assignRefereesToCompetition(comp);
     }    
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoCalendarDAO() throws Exception {
         service.setRefereeDao(refereeDao);
         service.assignRefereesToCompetition(comp);
     }
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoMatchDAO() throws Exception {
         service.setMatchDao(matchDao);
         service.assignRefereesToCompetition(comp);
     }    
     
+
     
-    
-    
-    //@Test(expected= AssignRefereesException.class)
-    public void testAssignRefereesToCompetitionWithNoFCalendar() throws Exception{
+    @Test(expected= PersistException.class)
+    public void testAssignRefereesToCompetitionWithNoFCalendar() throws Exception{    
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         context.checking(new Expectations() {
             {
                 oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
@@ -89,8 +91,11 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }
 
-    //@Test(expected= AssignRefereesException.class)
-    public void testAssignRefereesToCompetitionWithFCalendarWithNoWeekMatch() throws Exception{
+    @Test(expected= PersistException.class)
+    public void testAssignRefereesToCompetitionWithFCalendarWithNoWeekMatch() throws Exception{  
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         final FCalendar calendar = new FCalendar(); 
         
         context.checking(new Expectations() {
@@ -102,8 +107,11 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }    
     
-    //@Test(expected= AssignRefereesException.class)
+    @Test(expected= PersistException.class)
     public void testAssignRefereesInWeekMatchWithNoMatch() throws Exception{
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         final FCalendar calendar = new FCalendar();    
         calendar.getAllWeekMatches().add(wm4);
         
@@ -116,8 +124,11 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }
     
-    //@Test(expected= InsuficientRefereesException.class)
+    @Test(expected= InsuficientRefereesException.class)
     public void testInsuficientRefereesFor1WeekMatch() throws Exception{
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         final FCalendar calendar = new FCalendar();    
         calendar.getAllWeekMatches().add(wm1);
         
@@ -134,8 +145,11 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }  
     
-    //@Test
+    @Test
     public void testAssignRefereesInOneWeekMatchWithOneMatch() throws Exception{
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         final FCalendar calendar = new FCalendar();    
         calendar.getAllWeekMatches().add(wm1);
         
@@ -154,16 +168,18 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }     
     
-    //@Test
+    @Test
     public void testAssignRefereesInOneWeekMatchWithTwoMatch() throws Exception{
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
         final FCalendar calendar = new FCalendar();    
         calendar.getAllWeekMatches().add(wm2);
         
         final List<Referee> listReferee = new ArrayList<Referee>(); 
         Referee referee1 = new Referee("47935051S", "Jordi");
         listReferee.add(referee1);   
-        Referee referee2 = new Referee("ABCDEE", "Oriol");
-        listReferee.add(referee1);      
+        Referee referee2 = new Referee("ABCDEE", "Oriol");   
         listReferee.add(referee2);
         
         context.checking(new Expectations() {
@@ -179,9 +195,12 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }    
     
-    //@Test(expected= InsuficientRefereesException.class)
+    @Test(expected= InsuficientRefereesException.class)
     public void testInsuficientRefereesFor2WeekMatch() throws Exception{
-        final FCalendar calendar = new FCalendar();    
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
+                final FCalendar calendar = new FCalendar();    
         calendar.getAllWeekMatches().add(wm1);
         calendar.getAllWeekMatches().add(wm2);
         
@@ -200,9 +219,12 @@ public class AssignRefereesToCompetitionTest {
         service.assignRefereesToCompetition(comp);
     }      
     
-    //@Test
-    public void testAssignRefereesInTwoWeekMatchWith() throws Exception{
-        final FCalendar calendar = new FCalendar();   
+    @Test
+    public void testAssignRefereesFor2WeekMatch() throws Exception{
+        service.setMatchDao(matchDao);
+        service.setRefereeDao(refereeDao);    
+        service.setCalendarDao(calendarDao);
+                final FCalendar calendar = new FCalendar();   
         calendar.getAllWeekMatches().add(wm1);
         calendar.getAllWeekMatches().add(wm2);
         
