@@ -1,8 +1,13 @@
 package org.fofo.services.management;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.fofo.dao.*;
 import org.fofo.dao.MatchDAO;
 import org.fofo.entity.*;
+import org.fofo.services.management.AssignReferees;
+import org.fofo.services.management.AssignReferees;
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -23,8 +28,10 @@ import org.junit.runner.RunWith;
 public class AssignRefereesToCompetitionTest {
     AssignReferees  service;   
     Mockery context = new JUnit4Mockery();
+    CalendarDAO calendarDao;
+    RefereeDAO refereeDao;  
     MatchDAO matchDao;
-    RefereeDAO refereeDao;
+    
     Competition comp;   
     WeekMatch wm1, wm2, wm3, wm4;  
     Match match1, match2, match3, match4;
@@ -36,21 +43,188 @@ public class AssignRefereesToCompetitionTest {
     @Before
     public void setUp() throws Exception {     
         service = new AssignReferees();        
-        matchDao = context.mock(MatchDAO.class);    
+        calendarDao = context.mock(CalendarDAO.class);    
         refereeDao = context.mock(RefereeDAO.class);     
+        matchDao = context.mock(MatchDAO.class); 
         
         comp = Competition.create(CompetitionType.LEAGUE);        
         createCompetition();
     }
 
 
-    @Test
-    public void testSomeMethod() {
+    //@Test(expected=InvalidRequisitsException.class)
+    public void testAssignRefereesToCompetitionWithNoDAO() throws Exception {
+        service.assignRefereesToCompetition(comp);
+    }
+    
+    //@Test(expected=InvalidRequisitsException.class)
+    public void testAssignRefereesToCompetitionWithNoRefereeDAO() throws Exception {
+        service.setCalendarDao(calendarDao);
+        service.assignRefereesToCompetition(comp);
+    }    
+    
+    //@Test(expected=InvalidRequisitsException.class)
+    public void testAssignRefereesToCompetitionWithNoCalendarDAO() throws Exception {
+        service.setRefereeDao(refereeDao);
+        service.assignRefereesToCompetition(comp);
+    }
+    
+    //@Test(expected=InvalidRequisitsException.class)
+    public void testAssignRefereesToCompetitionWithNoMatchDAO() throws Exception {
+        service.setMatchDao(matchDao);
+        service.assignRefereesToCompetition(comp);
+    }    
+    
+    
+    
+    
+    //@Test(expected= AssignRefereesException.class)
+    public void testAssignRefereesToCompetitionWithNoFCalendar() throws Exception{
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(null));
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
     }
 
+    //@Test(expected= AssignRefereesException.class)
+    public void testAssignRefereesToCompetitionWithFCalendarWithNoWeekMatch() throws Exception{
+        final FCalendar calendar = new FCalendar(); 
+        
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }    
     
+    //@Test(expected= AssignRefereesException.class)
+    public void testAssignRefereesInWeekMatchWithNoMatch() throws Exception{
+        final FCalendar calendar = new FCalendar();    
+        calendar.getAllWeekMatches().add(wm4);
+        
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }
     
+    //@Test(expected= InsuficientRefereesException.class)
+    public void testInsuficientRefereesFor1WeekMatch() throws Exception{
+        final FCalendar calendar = new FCalendar();    
+        calendar.getAllWeekMatches().add(wm1);
+        
+        final List<Referee> listReferee = new ArrayList<Referee>(); 
+
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+                oneOf(refereeDao).getAllReferees();
+                                    will(returnValue(listReferee));               
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }  
     
+    //@Test
+    public void testAssignRefereesInOneWeekMatchWithOneMatch() throws Exception{
+        final FCalendar calendar = new FCalendar();    
+        calendar.getAllWeekMatches().add(wm1);
+        
+        final List<Referee> listReferee = new ArrayList<Referee>(); 
+        Referee referee = new Referee("47935051S", "Jordi");
+        listReferee.add(referee);
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+                oneOf(refereeDao).getAllReferees();
+                                    will(returnValue(listReferee));
+                oneOf(matchDao).addRefereeToMatch(match1.getIdMatch(), "47935051S");                    
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }     
+    
+    //@Test
+    public void testAssignRefereesInOneWeekMatchWithTwoMatch() throws Exception{
+        final FCalendar calendar = new FCalendar();    
+        calendar.getAllWeekMatches().add(wm2);
+        
+        final List<Referee> listReferee = new ArrayList<Referee>(); 
+        Referee referee1 = new Referee("47935051S", "Jordi");
+        listReferee.add(referee1);   
+        Referee referee2 = new Referee("ABCDEE", "Oriol");
+        listReferee.add(referee1);      
+        listReferee.add(referee2);
+        
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+                oneOf(refereeDao).getAllReferees();
+                                    will(returnValue(listReferee));
+                oneOf(matchDao).addRefereeToMatch(match2.getIdMatch(), "47935051S");              
+                oneOf(matchDao).addRefereeToMatch(match3.getIdMatch(), "ABCDEE");                    
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }    
+    
+    //@Test(expected= InsuficientRefereesException.class)
+    public void testInsuficientRefereesFor2WeekMatch() throws Exception{
+        final FCalendar calendar = new FCalendar();    
+        calendar.getAllWeekMatches().add(wm1);
+        calendar.getAllWeekMatches().add(wm2);
+        
+        final List<Referee> listReferee = new ArrayList<Referee>(); 
+        Referee referee1 = new Referee("47935051S", "Jordi");
+        listReferee.add(referee1);   
+        
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+                oneOf(refereeDao).getAllReferees();
+                                    will(returnValue(listReferee));               
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }      
+    
+    //@Test
+    public void testAssignRefereesInTwoWeekMatchWith() throws Exception{
+        final FCalendar calendar = new FCalendar();   
+        calendar.getAllWeekMatches().add(wm1);
+        calendar.getAllWeekMatches().add(wm2);
+        
+        final List<Referee> listReferee = new ArrayList<Referee>(); 
+        Referee referee1 = new Referee("47935051S", "Jordi");
+        listReferee.add(referee1);   
+        Referee referee2 = new Referee("ABCDEE", "Oriol");     
+        listReferee.add(referee2);     
+        
+        context.checking(new Expectations() {
+            {
+                oneOf(calendarDao).findFCalendarByCompetitionName(comp.getName());
+                                    will(returnValue(calendar));
+                oneOf(refereeDao).getAllReferees();
+                                    will(returnValue(listReferee));
+                oneOf(matchDao).addRefereeToMatch(match1.getIdMatch(), "47935051S");                                     
+                oneOf(matchDao).addRefereeToMatch(match2.getIdMatch(), "47935051S");              
+                oneOf(matchDao).addRefereeToMatch(match3.getIdMatch(), "ABCDEE");                    
+            }
+        }); 
+        service.assignRefereesToCompetition(comp);
+    }
     
     
     
