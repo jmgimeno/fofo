@@ -423,7 +423,7 @@ public class CalendarDAOImplTest {
     /*
      * Search FCalendar by CompetitionName.
      */
-    //@Test
+    @Test
     public void CorrectfindFCalendarByCompetitionName() throws Exception {
 
         comp.setName("Lleida");
@@ -436,7 +436,7 @@ public class CalendarDAOImplTest {
                 oneOf(em).find(Competition.class, "Lleida");
                 will(returnValue(comp));
                 oneOf(em).find(FCalendar.class, comp.getFCalendar().getIdFCalendar());
-                will(returnValue(comp.getFCalendar().getIdFCalendar()));
+                will(returnValue(comp.getFCalendar()));
                 oneOf(em).getTransaction().commit();
             }
         });
