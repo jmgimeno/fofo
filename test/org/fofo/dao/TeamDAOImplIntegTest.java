@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.EntityExistsException;
 import javax.persistence.Query;
 import org.fofo.entity.*;
 import org.jmock.Expectations;
@@ -27,7 +28,7 @@ public class TeamDAOImplIntegTest {
 
     public TeamDAOImplIntegTest() {
     }
-
+    
     @Before
     public void setup() throws Exception {
 
@@ -68,6 +69,7 @@ public class TeamDAOImplIntegTest {
 
     /**
      * Test of addTeam method, of class TeamDAO.
+     * Case: correct insertion
      */
     @Test
     public void testAddTeam() throws Exception {
@@ -87,6 +89,63 @@ public class TeamDAOImplIntegTest {
         
     }
 
+
+     /**
+     * Test of addTeam method, of class TeamDAO.
+     * Case: Club of team not inserted into the db
+     */
+    @Test(expected=IncorrectTeamException.class)
+    public void testAddTeamIncorrectClub() throws Exception {
+
+        final Team team = new Team("team2");
+
+        Club club2 = new Club();
+
+        club2.setName("Barna");
+        club2.setEmail("barna@fb.net");
+
+        
+        
+        team.setClub(club2);
+
+        tdao.addTeam(team);
+
+
+        
+    }
+
+    
+    /**
+     * Test of addTeam method, of class TeamDAO.
+     * Case: already existing team into the db
+     * 
+     *  ****ATTENTION: THIS TEST DOES NOT WORK. TWO PERSIST OF THE SAME ENTITY
+     *      DO NOT THROW AN EXCEPTION. TOPLINK PROBLEMS??????? 
+     * 
+     */
+  // @Test(expected=PersistException.class)
+    public void testAddExistingTeam() throws Exception {
+
+      Team team = new Team("team2");
+
+        
+ 
+
+        team.setClub(club);
+
+        em.getTransaction().begin();
+
+        em.persist(team);
+        
+        em.getTransaction().commit();
+        
+        tdao.addTeam(team);
+        
+    }
+
+
+
+  
     /*
      * 
      * PRIVATE OPERATIONS

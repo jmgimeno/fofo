@@ -19,7 +19,8 @@ import org.fofo.entity.Team;
 
 public interface TeamDAO {
     
-    void addTeam(Team team) throws PersistException, AlreadyExistingClubOrTeamsException;
+    void addTeam(Team team) throws PersistException, 
+                                    IncorrectTeamException;
     
     void removeTeam(String name);
     

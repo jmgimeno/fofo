@@ -109,6 +109,9 @@ public class CalendarDAOImplTest {
 
         cal = new FCalendar();
         cal.setCompetition(comp);
+        comp.setFcalendar(cal);  // ****AFEGIT!!!! Donava error 
+                                 //    CorrectfindFCalendarByCompetitionName() 
+ 
 
         comp2 = Competition.create(CompetitionType.CUP);
 

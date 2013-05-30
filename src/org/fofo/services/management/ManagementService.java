@@ -276,6 +276,7 @@ public class ManagementService {
                 && team.getEmail() != null
                 && team.getCategory() != null
                 && team.getClub()!= null
+                && team.getClub().getName() != null
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)

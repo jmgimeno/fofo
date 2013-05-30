@@ -75,6 +75,12 @@ public abstract class Competition {
         this.category = category;
     }
 
+
+    public void setFcalendar(FCalendar fcalendar) {
+        this.fcalendar = fcalendar;
+    }
+
+    
     public Date getInici() {
         return inici;
     }
@@ -118,6 +124,8 @@ public abstract class Competition {
     public FCalendar getFCalendar(){
         return fcalendar;
     }
+
+
     
     @Override
     public String toString(){

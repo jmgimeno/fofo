@@ -33,26 +33,32 @@ public class TeamDAOImpl implements TeamDAO{
 
 
    @Override
-    public void addTeam(Team team) throws PersistException, AlreadyExistingClubOrTeamsException{
+    public void addTeam(Team team) throws PersistException, 
+                                          IncorrectTeamException{
     
 
        try{
           em.getTransaction().begin();
+
+          if (team.getClub() == null || team.getClub().getName() == null) 
+                                            throw new IncorrectTeamException();
           
           Club club = (Club) em.find(Club.class, team.getClub().getName());
-          if (club == null) throw new PersistException();
+          if (club == null) throw new IncorrectTeamException();
+          
+          em.persist(team);          
           
           club.getTeams().add(team);
-          em.persist(team);
+         
           em.getTransaction().commit();
           
        }
-       catch (PersistenceException e){
+       catch (EntityExistsException e){
 	  throw new PersistException();
        }
-//       finally{
-//          if (em.isOpen()) em.close();
-//       }
+       finally{
+          if (em.getTransaction().isActive()) em.getTransaction().rollback();
+       }
     }
     
     public void removeTeam(String name){

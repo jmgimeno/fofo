@@ -59,15 +59,10 @@ public class CompetitionDAOImplTest {
         context.checking(new Expectations() {
             {
                 atLeast(1).of(em).getTransaction();
-                will(returnValue(transaction));
+                   will(returnValue(transaction));
                 oneOf(transaction).begin();
                 oneOf(transaction).commit();
                 oneOf(em).persist(competition);
-                oneOf(em).isOpen();
-                will(returnValue(true));
-                oneOf(em).close();
-
-
             }
         });
 
