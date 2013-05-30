@@ -123,7 +123,7 @@ public class TeamDAOImplIntegTest {
      *      DO NOT THROW AN EXCEPTION. TOPLINK PROBLEMS??????? 
      * 
      */
-  // @Test(expected=PersistException.class)
+   @Test(expected=PersistException.class)
     public void testAddExistingTeam() throws Exception {
 
       Team team = new Team("team2");
@@ -138,6 +138,8 @@ public class TeamDAOImplIntegTest {
         em.persist(team);
         
         em.getTransaction().commit();
+  
+        em.clear();
         
         tdao.addTeam(team);
         
@@ -145,6 +147,9 @@ public class TeamDAOImplIntegTest {
 
 
 
+
+    
+    
   
     /*
      * 
