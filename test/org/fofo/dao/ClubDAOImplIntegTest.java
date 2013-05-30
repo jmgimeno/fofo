@@ -29,7 +29,7 @@ public class ClubDAOImplIntegTest {
     
     @Before
     public void setUp() throws Exception {        
-        em = getEntityManagerFact(); 
+        em = getEntityManager(); 
         clubDao = new ClubDAOImpl();
         clubDao.setEM(em);   
                 
@@ -67,6 +67,22 @@ public class ClubDAOImplIntegTest {
         
         
     }  
+    
+    @Test (expected=AlreadyExistingClubOrTeamsException.class)
+    public void alreadyExistClubInDB() throws Exception{
+        clubDao.addClub(club);
+        clubDao.addClub(club);
+        
+    }
+    
+    @Test (expected=AlreadyExistingClubOrTeamsException.class)
+    public void alreadyExistTeamsOfClubInDB() throws Exception{
+        Club c = new Club("testClub2");
+        c.setTeams(club.getTeams());
+        
+        clubDao.addClub(club);
+        clubDao.addClub(club);
+    }
      
     
     @Test  
@@ -98,7 +114,7 @@ public class ClubDAOImplIntegTest {
         em = clubDao.getEM();
         if (em.isOpen()) em.close();
         
-        em = getEntityManagerFact();
+        em = getEntityManager();
         em.getTransaction().begin();
         
         Query query=em.createQuery("DELETE FROM Team");
@@ -116,14 +132,14 @@ public class ClubDAOImplIntegTest {
     
     /* PRIVATE OPS */
     
-    private EntityManager getEntityManagerFact() throws Exception{
+    private EntityManager getEntityManager() throws Exception{
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
         return emf.createEntityManager();  
     }
 
     private Club getClubFromDB(String name) throws Exception{        
 
-        em = getEntityManagerFact();
+        em = getEntityManager();
         em.getTransaction().begin();
         Club clubDB = (Club) em.find(Club.class, name);
         em.getTransaction().commit();

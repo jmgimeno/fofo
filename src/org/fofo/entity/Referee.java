@@ -11,7 +11,7 @@ import javax.persistence.*;
  * @author mohamed, Anatoli
  */
 @Entity
-@Table (name="Referee")
+@Table (name="REFEREE")
 public class Referee {
     
     @Id
@@ -46,7 +46,16 @@ public class Referee {
     }
    
     
+    @Override
     public String toString(){
-        return "<Name: "+this.name+ ", Nif: " +this.nif+">";
+        return "Name: "+this.name+ ", Nif: " +this.nif+"";
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        return (obj instanceof Referee) 
+                && ((Referee) obj).nif.equals(this.nif) 
+                && ((Referee) obj).name.equals(this.name);
+        
     }
 }

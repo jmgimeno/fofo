@@ -42,17 +42,14 @@ public class ClubDAOImpl implements ClubDAO {
             em.persist(club);
             em.getTransaction().commit();
             
-        } catch (PersistenceException e) {
+        } catch (Exception e) {
             throw e;
         }
     }
 
     @Override
     public void removeClub(String name) {
-//        Club club = findClubByName(name);
-//        em.remove(club);
         throw new UnsupportedOperationException("Not supported yet.");
-
     }
 
     @Override
@@ -62,8 +59,8 @@ public class ClubDAOImpl implements ClubDAO {
         try{
             em.getTransaction().begin();
             query = em.createQuery("SELECT c FROM Club c");
-            em.getTransaction().commit();
             clubs = (List<Club>) query.getResultList();
+            em.getTransaction().commit();            
         }catch(Exception e){
             throw e;
         }

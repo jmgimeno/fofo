@@ -19,8 +19,7 @@ public class Club {
     @Column (name="NAME")
     private String name;
     private String email;
-    
-    //@OneToMany (mappedBy="club") 
+     
     @OneToMany (mappedBy="club", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private List<Team> teams = new ArrayList<Team>();
     

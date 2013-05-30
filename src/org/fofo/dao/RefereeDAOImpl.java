@@ -33,13 +33,12 @@ public class RefereeDAOImpl implements RefereeDAO {
     public void addReferee(Referee ref) throws Exception {
 
         try {
-
             em.getTransaction().begin();
             checkRefereeExist(ref);
             em.persist(ref);
             em.getTransaction().commit();
 
-        } catch (PersistenceException e) {
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -53,7 +52,7 @@ public class RefereeDAOImpl implements RefereeDAO {
             referee = (Referee) em.find(Referee.class, nif);
             em.getTransaction().commit();
 
-        } catch (PersistenceException e) {
+        } catch (Exception e) {
             throw e;
         }
 
