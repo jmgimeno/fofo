@@ -186,8 +186,8 @@ public class ClubDAOImplTest {
                 allowing (em).getTransaction(); will(returnValue(transaction));        
                 allowing (transaction).begin();
                 allowing (transaction).commit();
-                allowing (em).isOpen(); will (returnValue(true));
-                allowing (em).close();
+//                allowing (em).isOpen(); will (returnValue(true));
+//                allowing (em).close();
         }});
     }
 }
