@@ -23,18 +23,17 @@ import org.junit.After;
 public class CalendarCalculatorServiceIntegTest {
     CalendarCalculatorService  service;
     
-    EntityManager em = null;
-    
-    TeamDAOImpl tdao = null;
-    
-    CalendarDAOImpl caldao = null;
-    
+    EntityManager em = null;    
+    TeamDAOImpl tdao = null;    
+    CalendarDAOImpl caldao = null;    
     CompetitionDAOImpl compdao = null;
 
+    ClubDAOImpl clubdao = null;
     Competition compCup;    
     Competition compLeague;   
     CalendarGen calCupGen;    
     CalendarGen calLeagueGen;
+    Club imaginaryClub;
     
     public CalendarCalculatorServiceIntegTest() {
         
@@ -43,7 +42,7 @@ public class CalendarCalculatorServiceIntegTest {
 
  
     @Before
-    public void setup() throws Exception{
+public void setUp() throws Exception {
         service = new CalendarCalculatorService();  
         em = getEntityManagerFact(); 
         
@@ -51,32 +50,27 @@ public class CalendarCalculatorServiceIntegTest {
         tdao.setEM(em);
         
         caldao = new CalendarDAOImpl();    
-        caldao.setTd(tdao);
         caldao.setEm(em);
         
         compdao = new CompetitionDAOImpl(); 
         compdao.setEM(em);
-        
-        Club club = new Club();
-        club.setName("Imaginary club");
-        club.setEmail("email@email.com");
-        ClubDAOImpl clubdao = new ClubDAOImpl(); 
+
+        clubdao = new ClubDAOImpl(); 
         clubdao.setEM(em);
-        clubdao.addClub(club);
-        
         
         compCup = Competition.create(CompetitionType.CUP);
         compCup.setName("Competition Cup");
-        createCompetition("Cup",compCup, club);  
         
         compLeague = Competition.create(CompetitionType.LEAGUE);
         compLeague.setName("Competition League"); 
-        createCompetition("League",compLeague,club);
-        
-        addAtDBImaginaryTeamsForCup(club);
         
         calCupGen = new CalendarCupGen();   
         calLeagueGen = new CalendarLeagueGen();
+        
+        createImaginaryClub();
+        addAtDBImaginaryTeamsForCup();
+        createCompetition("League",compLeague);   
+        createCompetition("Cup",compCup);       
     }    
     
     @After
@@ -194,7 +188,7 @@ public class CalendarCalculatorServiceIntegTest {
 
     }
     
-    private void createCompetition(String name, Competition comp, Club club) throws Exception{   
+    private void createCompetition(String name, Competition comp) throws Exception{   
         comp.setCategory(Category.MALE);
         comp.setInici(null);
         comp.setMaxTeams(16);
@@ -204,7 +198,7 @@ public class CalendarCalculatorServiceIntegTest {
         compdao.addCompetition(comp);
         List<Team> teams = new ArrayList<Team>();
         for(int i=0; i<16;i++){
-            Team team = new Team("Team of "+name+ " number "+i,club, Category.MALE);       
+            Team team = new Team("Team of "+name+ " number "+i,imaginaryClub, Category.MALE);       
             teams.add(team);
             tdao.addTeam(team);
             compdao.addTeam(comp,team);
@@ -213,11 +207,11 @@ public class CalendarCalculatorServiceIntegTest {
     }
 
         
-    private void addAtDBImaginaryTeamsForCup(Club club) throws Exception {        
+    private void addAtDBImaginaryTeamsForCup() throws Exception {        
         for(int round=1; round<=5;round++){
             int numMatches = 16;
             for(int i=1; i<=numMatches;i++){
-                Team team = new Team("Winer match "+i+" of round "+round,club, Category.MALE);
+                Team team = new Team("Winer match "+i+" of round "+round,imaginaryClub, Category.MALE);
                 tdao.addTeam(team); 
             }
             numMatches/=2;
@@ -241,4 +235,11 @@ public class CalendarCalculatorServiceIntegTest {
          em2.close();
          return calendarDB; 
    } 
+    
+    private void createImaginaryClub() throws Exception {    
+        imaginaryClub = new Club();
+        imaginaryClub.setName("Imaginary club");
+        imaginaryClub.setEmail("email@email.com");        
+        clubdao.addClub(imaginaryClub);
+    }
 }
