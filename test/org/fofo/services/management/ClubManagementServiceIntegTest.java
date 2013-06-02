@@ -100,22 +100,26 @@ public class ClubManagementServiceIntegTest {
          
     }  
     
-//    @Test(expected=InscriptionClubException.class)
+   @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubAlreadyInDB() throws Exception{
         club.setEmail("email@email.com");                    
         service.addClub(club);
+        service.addClub(club);
     }  
     
-//    @Test(expected=InscriptionClubException.class)
+   /*
+    * 
+    * THE FOLLOWING TESTS DO NOT WORK SINCE THE OP. teamDAO.getTeams() has not 
+    * been implemented yet.
+    * 
+    */
+   
+  //  @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithTeamAlreadyInDB() throws Exception{
         final List<Team> list = new ArrayList<Team>();
         list.add(team1);
         club.getTeams().add(team1);
-    //    context.checking(new Expectations() {{
-    //        oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
-    //        oneOf (teamDao).getTeams();will(returnValue(list));
-    //    }});  
-        
+    
         club.setEmail("email@email.com");                    
         service.addClub(club);
     }     
@@ -136,7 +140,7 @@ public class ClubManagementServiceIntegTest {
         service.addClub(club);
     }     
     
-    //@Test
+   // @Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
         final List<Team> list = new ArrayList<Team>();    
         final List<Club> listClubs = new ArrayList<Club>();

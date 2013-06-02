@@ -136,8 +136,9 @@ public abstract class Competition {
     
     @Override
     public boolean equals (Object obj){
-        
-        if(((Competition)obj).getTeams() == null || this.getTeams() == null) return false;
+      
+           //comp.teams is never null since it is initialized to an
+           //empty list.
         
         return (obj instanceof Competition)&&((Competition)obj).name.equals(this.name)
                 && equals(((Competition)obj).teams);

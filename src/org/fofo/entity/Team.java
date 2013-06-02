@@ -108,7 +108,10 @@ public class Team implements Serializable {
     }
 
     public String toString(){
-        return "Team name"+name;
+        String result = "TEAM: Team name: "+name+" Category: "+category+" Email: "+email+
+                " Club:";
+        if (club == null) return result+ "null";
+        else return result+club.getName();
     }
     
     @Override

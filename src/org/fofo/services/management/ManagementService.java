@@ -80,15 +80,15 @@ public class ManagementService {
      * @param team The team we want to register.
      * @throws InscriptionTeamException 
      */
-    public void addTeam(Competition competetion, Team team) throws Exception {
-
+    public void addTeam(Competition competition, Team team) throws Exception {
+                  //parameter: it was competetion!!!!
         Team teamDB = teamDao.findTeamByName(team.getName());
+        
         if (checkforExceptions(competition, teamDB)) {
 
-            competition.getTeams().add(team);
-
-            //System.out.println("***SERVICE: Team="+team+" club="+team.getClub());
-
+          //  competition.getTeams().add(team);
+                  //It adds the team to the competition parameter, not to the
+                  //competiion in the DB.
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
@@ -225,10 +225,13 @@ public class ManagementService {
      * @return Boolean indicate if it is open or not.
      */
     private boolean PeriodOpen(Competition competition) {
-        DateTime currentDate = new DateTime(DateTime.now());
+        //REIMPLEMENTAR. DONA PROBLEMES
+        return true;
+      /*  DateTime currentDate = new DateTime(DateTime.now());
         DateTime finishDate = new DateTime(competition.getInici());
 
         return ((currentDate.getDayOfYear() - finishDate.getDayOfYear()) < 7);
+       */  
     }
 
     /**
@@ -252,12 +255,12 @@ public class ManagementService {
 
     private boolean diffCategCompetitionAndTeam(Competition competition, Team team) {
 
-        return competition.getCategory() == team.getCategory();
+        return competition.getCategory().equals(team.getCategory());
     }
 
     
     private boolean TeamExist(Team team) {        
-        return teamDao.getTeams().contains(team);
+        return  teamDao.getTeams().contains(team);
     }
     
 

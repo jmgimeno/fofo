@@ -31,7 +31,7 @@ public class CalendarDAOImplIntegTest {
     WeekMatch wm1, wm2;
     FCalendar cal;
     Team team1, team2, team3, team4;
-    
+    Competition comp;
 
     @Before
     public void setUp() throws Exception {
@@ -81,27 +81,7 @@ public class CalendarDAOImplIntegTest {
 
   
     
-    @Test
-    public void testAddMatch() throws Exception{
-        
-        
-        Match match = new Match(team1,team2);
 
-        em.getTransaction().begin();
-        em.persist(match);
-        
-        Match matchaux = em.find(Match.class, match.getIdMatch());
-        
-        System.out.println(matchaux);
-        
-        em.getTransaction().commit();
-        
-        assertEquals("Should be the same match",match, matchaux);
-        
-        
-        
-    }
-    
     @Test
     public void testAddCalendarWithNoWeekMatchs() throws Exception {        
         FCalendar calendar = new FCalendar(null);
@@ -117,54 +97,38 @@ public class CalendarDAOImplIntegTest {
      *
      * @throws Exception
      */
-    //@Test
+    @Test
     public void testAddCalendar() throws Exception {       
         calDAO.addCalendar(cal);        
         FCalendar calDB = getCalendarFromDB(cal.getIdFCalendar());        
         
+
+         System.out.println("*****COMPETITION of cal="+cal.getCompetition());
+         System.out.println("*****COMPETITION  caldb="+calDB.getCompetition());
+
+        
+         System.out.println("*****cal-->comp--->cal="+cal.getCompetition().getFCalendar());
+         System.out.println("****caldb-->comp-->cal="+calDB.getCompetition().getFCalendar());
+
+         
         assertEquals("Should have retrieved the same calendar",cal,calDB);                
     }
     
-    //@Test
+    @Test
     public void testAddCalendarFindFCalendarByCompetitionName() throws Exception {       
         calDAO.addCalendar(cal);        
-        FCalendar calDB = calDAO.findFCalendarByCompetitionName(cal.getIdFCalendar());        
+        
+        
+        FCalendar calDB = calDAO.findFCalendarByCompetitionName(cal.getCompetition().getName());        
+
+        // System.out.println("*****COMPETITION NAME of cal="+cal.getCompetition().getName());
+        // System.out.println("*****COMPETITION NAME of caldb="+calDB.getCompetition().getName());
+
         
         assertEquals("Should have retrieved the same calendar",cal,calDB);                
     } 
 
-    /**
-     *
-     * Various matches in one WM.
-     */
-    //@Test
-    public void testAdditionOfVariousMatchesOneWM() throws Exception {
-        wm1.addMatch(match1);
-        wm1.addMatch(match2);
-        wm1.addMatch(match3);
-        wm1.addMatch(match4);
 
-        cal.getAllWeekMatches().add(wm1);
-
-        calDAO.addCalendar(cal);
-    }
-
-    /**
-     *
-     * Various WM.
-     */
-    //@Test
-    public void testAddVariousWeekMatches() throws Exception {
-        wm1.addMatch(match1);
-        wm1.addMatch(match2);
-        wm2.addMatch(match3);
-        wm2.addMatch(match4);
-
-        cal.getAllWeekMatches().add(wm1);
-        cal.getAllWeekMatches().add(wm2);
-
-        calDAO.addCalendar(cal);
-    }
     
     //PRIVATE OPS.
     
@@ -172,7 +136,7 @@ public class CalendarDAOImplIntegTest {
         
         em = getEntityManagerFact();
         
-        Competition comp = Competition.create(CompetitionType.LEAGUE);
+        comp = Competition.create(CompetitionType.LEAGUE);
 
         comp.setName("League Spring 2013");
         
@@ -212,6 +176,11 @@ public class CalendarDAOImplIntegTest {
         
         cal.getAllWeekMatches().add(wm1);
         cal.getAllWeekMatches().add(wm2);
+        cal.setCompetition(comp);     
+        comp.setFcalendar(cal);
+        
+        System.out.println("******Calendar set up: comp of cal="+cal.getCompetition());
+        System.out.println("******Calendar set up: cal of comp="+comp.getFCalendar().getIdFCalendar());
         
         
         return cal;

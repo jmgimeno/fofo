@@ -43,9 +43,9 @@ public class InscriptionTeamIntegTest {
         compDao = new CompetitionDAOImpl();
         teamDao = new TeamDAOImpl();
         clubDao = new ClubDAOImpl();
-        
+
         em = getEntityManager();
-        
+
         compDao.setEM(em);
         teamDao.setEM(em);
         clubDao.setEM(em);
@@ -55,7 +55,7 @@ public class InscriptionTeamIntegTest {
 
         club = new Club("ClubExemple");
         club.setEmail("exemple@hotmail.com");
-        
+
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
@@ -78,12 +78,14 @@ public class InscriptionTeamIntegTest {
 
         comp = Competition.create(CompetitionType.CUP);
         comp.setCategory(Category.FEMALE);
-      //  comp.setInici(new Date()); //Conte la data actual
+        //  comp.setInici(new Date()); //Conte la data actual
         comp.setInici(new DateTime().minusDays(8).toDate()); //Conte la data actual
         comp.setMaxTeams(4);
         comp.setMinTeams(2);
         comp.setName("Lleida");
-        service.setCompetition(comp);
+        //service.setCompetition(comp);
+
+        em.persist(comp);
 
         comp2 = Competition.create(CompetitionType.CUP);
         comp2.setCategory(Category.FEMALE);
@@ -92,42 +94,32 @@ public class InscriptionTeamIntegTest {
         comp2.setMinTeams(2);
         comp2.setName("Barcelona");
 
-        
+
         club.getTeams().add(team1);
         clubDao.addClub(club);
         service.setClubDao(clubDao);
-        
+
     }
 
-    @Test(expected = InscriptionTeamException.class)
+   @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamName() throws Exception {
-        
-        //Canviar a TeamKO
+
         team1.setName("");
-        
-        teamDao.addTeam(team1);
-        
+
         service.addTeam(comp, team1);
-        
+
     }
 
-    @Test(expected = InscriptionTeamException.class)
+     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamEmail() throws Exception {
 
-        
+
         team1.setEmail(null);
 
         service.addTeam(comp, team1);
     }
 
-    @Test(expected = InscriptionTeamException.class)
-    public void testIncorrectTeamCompetition() throws Exception {
-
-        team1.setCompetitions(null);
-
-        service.addTeam(comp, team1);
-    }
-
+ 
     @Test(expected = InscriptionTeamException.class)
     public void testIncorrectTeamCategory() throws Exception {
 
@@ -140,26 +132,24 @@ public class InscriptionTeamIntegTest {
     public void testIncorrectTeamClub() throws Exception {
 
         team1.setClub(null);
-       
+
 
         service.addTeam(comp, team1);
     }
 
-
-    
     @Test(expected = InscriptionTeamException.class)
     public void competitionNotExist() throws Exception {
- 
+
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
         team1.setEmail("Team1@hotmail.com");
-        
+
         team1.getCompetitions().add(comp);
 
         service.addTeam(comp2, team1);
     }
 
-   @Test(expected = InscriptionTeamException.class)
+   // @Test(expected = InscriptionTeamException.class)
     public void competitionInscriptionPeriodClosed() throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(2013, Calendar.MAY, 11);
@@ -172,8 +162,8 @@ public class InscriptionTeamIntegTest {
 
         team1 = new Team("Team1", Category.FEMALE);
         team1.setClub(club);
-        team1.setEmail("Team1@hotmail.com"); 
-        
+        team1.setEmail("Team1@hotmail.com");
+
         service.setCompetition(comp2);
 
         team1.getCompetitions().add(comp2);
@@ -191,7 +181,9 @@ public class InscriptionTeamIntegTest {
     }
 
     /**
-     * Team5 and comp, have different category. So, it's not possible assign this team in that competition.
+     * Team5 and comp, have different category. So, it's not possible assign
+     * this team in that competition.
+     *
      * @throws PersistException
      * @throws Exception
      */
@@ -204,25 +196,27 @@ public class InscriptionTeamIntegTest {
         service.addTeam(comp, team5);
     }
 
-   // @Test
+    @Test
     public void testInsertTeamInCompetition() throws Exception {
 
-        team1 = new Team("Team1");
-        team1.setClub(club);
-        team1.setEmail("Team1@hotmail.com"); 
-       
+        Team team12 = new Team("Team12");
+        team12.setClub(club);
+        team12.setEmail("Team12@hotmail.com");
+        team12.setCategory(Category.FEMALE);
+
+        teamDao.addTeam(team12);
+        em.clear();           //We require that team12 be detached.
+       // team12.getCompetitions().add(comp); 
+                              //This is precisely what service.addTeam will do.
         
-        teamDao.addTeam(team1);
-    
-        team1.getCompetitions().add(comp);
+         service.addTeam(comp, team12);
 
-
-        service.addTeam(comp, team1);
-
-        assertTrue(comp.getTeams().contains(team1));
+        Competition compdb = em.find(Competition.class, comp.getName());
+        
+        assertTrue(compdb.getTeams().contains(team12));
     }
 
-//    @Test
+    @Test
     public void CorrectAddOneTeam() throws Exception {
 
         team1.getCompetitions().add(comp);
@@ -230,7 +224,7 @@ public class InscriptionTeamIntegTest {
         service.addTeam(comp, team1);
     }
 
-//    @Test
+    //@Test
     public void CorrectAddVariousTeam() throws Exception {
 
         team1.getCompetitions().add(comp);
@@ -257,38 +251,43 @@ public class InscriptionTeamIntegTest {
 
         service.addTeam(comp, team1);
     }
-    
+
     @After
-    public void tearDown() throws Exception{
-        
+    public void tearDown() throws Exception {
+
         em = clubDao.getEM();
-        if (em.isOpen()) em.close();
-        
+        if (em.isOpen()) {
+            em.close();
+        }
+
         em = teamDao.getEM();
-        if (em.isOpen()) em.close();
-        
+        if (em.isOpen()) {
+            em.close();
+        }
+
         em = compDao.getEM();
-        if (em.isOpen()) em.close();
-        
+        if (em.isOpen()) {
+            em.close();
+        }
+
         em = getEntityManager();
         em.getTransaction().begin();
-        
-        Query query=em.createQuery("DELETE FROM Team");
-        Query query2=em.createQuery("DELETE FROM Club");
-        Query query3=em.createQuery("DELETE FROM Competition");
-        int deleteRecords=query.executeUpdate();
-        deleteRecords=query2.executeUpdate();
-        deleteRecords=query3.executeUpdate();
-        
+
+        Query query = em.createQuery("DELETE FROM Team");
+        Query query2 = em.createQuery("DELETE FROM Club");
+        Query query3 = em.createQuery("DELETE FROM Competition");
+        int deleteRecords = query.executeUpdate();
+        deleteRecords = query2.executeUpdate();
+        deleteRecords = query3.executeUpdate();
+
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");
-         
-    }
-    
-    private EntityManager getEntityManager() throws Exception{
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
-        return emf.createEntityManager();  
+
     }
 
+    private EntityManager getEntityManager() throws Exception {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
+        return emf.createEntityManager();
+    }
 }

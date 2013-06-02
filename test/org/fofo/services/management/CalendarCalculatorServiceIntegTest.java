@@ -124,7 +124,7 @@ public void setUp() throws Exception {
         assertEquals("Should have the same competition",compCup,competitionDB);          
     }    
     
-    //@Test 
+    @Test 
     public void testCalculateStoreAndGetLeagueCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarLeagueGen(calLeagueGen);
@@ -136,7 +136,7 @@ public void setUp() throws Exception {
         calendarDB = caldao.findFCalendarByCompetitionName("Competition League");
         assertNotNull(calendarDB);              
     }    
-    //@Test 
+    @Test 
     public void testCalculateStoreAndGetCupCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calCupGen);
@@ -147,7 +147,7 @@ public void setUp() throws Exception {
         assertNotNull(calendarDB);       
     }     
     
-    //@Test 
+    @Test 
     public void testGetCompetitionOfLeagueCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
         service.setCalendarCupGen(calLeagueGen);
@@ -157,10 +157,10 @@ public void setUp() throws Exception {
         assertEquals("Should have the same competition",compLeague,calendarDB.getCompetition());             
     }     
     
-    //@Test 
+    @Test 
     public void testGetCompetitionOfCupCalendar() throws Exception{                  
         service.setCalendarDao(caldao);        
-        service.setCalendarCupGen(calLeagueGen);
+        service.setCalendarCupGen(calCupGen);
         service.calculateAndStoreCupCalendar(compCup);
 
         FCalendar calendarDB = caldao.findFCalendarByCompetitionName("Competition Cup");

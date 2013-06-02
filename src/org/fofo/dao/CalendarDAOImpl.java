@@ -47,13 +47,13 @@ public class CalendarDAOImpl implements CalendarDAO {
             em.getTransaction().begin();      
             
             for (int i = 0; i < cal.getNumOfWeekMatches(); i++) {
-
                 addWeekMatches(cal.getWeekMatch(i));
             }
 
             em.persist(cal);
-           
-          associateCalendarToWeekMatches(cal);
+            associateCalendarToCompetition(cal);
+
+            associateCalendarToWeekMatches(cal);
              
             em.getTransaction().commit();
 
@@ -70,7 +70,9 @@ public class CalendarDAOImpl implements CalendarDAO {
             em.getTransaction().begin();            
             comp = (Competition) em.find (Competition.class,name);
             
-            cal = (FCalendar) em.find (FCalendar.class,comp.getFCalendar().getIdFCalendar());
+            System.out.println("****Competition a findFCalendar="+comp.getName());
+            
+            cal = comp.getFCalendar();
             em.getTransaction().commit();             
         }
         catch (PersistenceException e){
@@ -112,11 +114,11 @@ public class CalendarDAOImpl implements CalendarDAO {
        /*Team home = (Team) em.find(Team.class, match.getHome().getName());
         Team visitor = (Team) em.find(Team.class, match.getVisitor().getName());
 
-        if (home != null && visitor != null){*/
+        if (home != null && visitor != null){   */
          
         if (em.find(Team.class, match.getHome().getName())!=null
                       && em.find(Team.class, match.getVisitor().getName())!=null){      
-            
+          
             em.persist(match);
 
         } else {
@@ -135,5 +137,32 @@ public class CalendarDAOImpl implements CalendarDAO {
                 cal.getWeekMatch(i).setCalendar(cal);
             }
     }
+
+    private void associateCalendarToCompetition(FCalendar cal){
+        
+        Competition comp =  cal.getCompetition();
+        
+        if (comp != null){
+           
+           Competition compdb = (Competition) em.find(Competition.class, cal.getCompetition().getName());
+            compdb.setFcalendar(cal);
+            
+           // comp.setFcalendar(cal);
+            
+            
+            //FCalendar caldb = em.find(FCalendar.class, cal.getIdFCalendar());
+           
+            //caldb.getCompetition().setFcalendar(caldb);
+            
+            //System.out.println("----->Comp of caldb="+caldb.getCompetition().getFCalendar());
+            //System.out.println("----->Comp of cal="+cal.getCompetition().getFCalendar());
+            
+            
+            
+            
+        }
+        
+    }
+    
     
 }

@@ -28,7 +28,7 @@ public class CalendarCupGen extends CalendarGen{
         
         FCalendar calendar = new FCalendar(competition);
         calendar.setWeekMatches(weekMatches);
-        
+        calendar.setCompetition(competition);  //AFEGIT!!!!
         return calendar;      
     }
     

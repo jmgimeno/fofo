@@ -4,9 +4,11 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import org.fofo.entity.Club;
+import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 
 /**
@@ -68,7 +70,12 @@ public class TeamDAOImpl implements TeamDAO{
    
     public List<Team> getTeams(){
         
-        return  null;
+        List<Team> teams = new ArrayList<Team>();
+        em.getTransaction().begin();
+        Query pp = em.createQuery("SELECT t FROM Team t");
+        teams = pp.getResultList();
+        em.getTransaction().commit();
+        return teams;      
         
     }
     
@@ -84,6 +91,7 @@ public class TeamDAOImpl implements TeamDAO{
           
        }
        catch (PersistenceException e){
+           e.printStackTrace();
 	  throw new PersistException();
        }
 //       finally{
