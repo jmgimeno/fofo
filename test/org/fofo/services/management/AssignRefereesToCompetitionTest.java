@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author jnp2
+ * @author Jordi Niubo i Oriol Capell
  */
 
 @RunWith(JMock.class)
@@ -104,6 +104,7 @@ public class AssignRefereesToCompetitionTest {
                                     will(returnValue(calendar));
             }
         }); 
+        comp.setFcalendar(calendar);
         service.assignRefereesToCompetition(comp);
     }    
     

@@ -92,6 +92,10 @@ public class Match {
         
         return "<Match:"+ home.getName()+"-"+visitor.getName()+">";
     }
+
+    public Referee getReferee() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
     
 }
