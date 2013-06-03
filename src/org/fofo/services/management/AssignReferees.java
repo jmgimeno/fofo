@@ -73,13 +73,13 @@ public class AssignReferees {
         if(maxNumMatchs > listReferee.size()) throw new InsuficientRefereesException();
     }
 
-    private void assignReferees(List<WeekMatch> listWeekMatch) {
+    private void assignReferees(List<WeekMatch> listWeekMatch) throws PersistException {
         for(WeekMatch wm : listWeekMatch){
             assignRefereesToEachMach(wm);
         }
     }
 
-    private void assignRefereesToEachMach(WeekMatch wm) {
+    private void assignRefereesToEachMach(WeekMatch wm) throws PersistException {
         List<Match> listMatch= wm.getMatchs();
         
         for(int i=0; i<listMatch.size(); i++){          
