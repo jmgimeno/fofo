@@ -453,11 +453,6 @@ public class InscriptionTeamTest {
         service.addTeam(comp, team2);
         service.addTeam(comp, team3);
         service.addTeam(comp, team4);
-
-       // assertTrue(comp.getTeams().contains(team1));
-       // assertTrue(comp.getTeams().contains(team2));
-       // assertTrue(comp.getTeams().contains(team3));
-       // assertTrue(comp.getTeams().contains(team4));
     }
 
     @Test

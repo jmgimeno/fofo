@@ -274,17 +274,12 @@ public class ManagementService {
      */
     private boolean checkforExceptions(Competition competition, Team team) {
  
-        return team != null &&
-                team.getName() != null
-                && team.getEmail() != null
-                && team.getCategory() != null
-                && team.getClub()!= null
-                && team.getClub().getName() != null
+        return  checkForTeamExceptions(team)
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
                 && TeamsSpace(competition)
-                && TeamExist(team);
+                && TeamExist(team); //Check for the Team in BD.
     }
 
     public void addTeam(Team team) throws InscriptionTeamException, Exception {
@@ -297,7 +292,8 @@ public class ManagementService {
         return  team != null 
                 && team.getName() != null
                 && team.getEmail() != null
-                && team.getClub() != null;        
+                && team.getClub() != null
+                && team.getCategory() != null;
     }
 
     private boolean clubExist(Club club) throws Exception {        
