@@ -7,6 +7,7 @@ package org.fofo.entity;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
+import org.fofo.utils.InfoMatch;
 
 /**
  *
@@ -31,9 +32,19 @@ public class Match {
     private Date matchDate;
     @ManyToOne
     private String nif;
+    
+    @OneToOne
+    @Column (name="INFO_MATCH")
+    private InfoMatch info;
+    //Alejandro+Ivan: Hem afegit el atribut referee ja que 
+    //Match i Referee han d'estar relacionats, pero aquesta tasca no 
+    //l'hem de fer nosaltres. Us falta fer el ORM.
+    private Referee referee;
 
     //private Stadium
     public Match() {
+        this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
+
     }
 
     public Match(Team home, Team visitor) {
@@ -95,5 +106,21 @@ public class Match {
     public String toString() {
 
         return "<Match:" + home.getName() + "-" + visitor.getName() + ">";
+    }
+
+    public Referee getReferee() {
+        return this.referee;
+    }
+
+    public void setInfo(InfoMatch im) {
+        this.info = im;
+    }
+    
+    public InfoMatch getInfo(){
+        return this.info;
+    }
+
+    public void setReferee(Referee ref) {
+        this.referee = ref;
     }
 }

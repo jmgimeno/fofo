@@ -23,6 +23,7 @@ public class Referee {
     private String name;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Match> Matchs = new ArrayList<Match>();
+    private String email;
 
     public Referee() {
     }
@@ -67,5 +68,13 @@ public class Referee {
                 && ((Referee) obj).nif.equals(this.nif)
                 && ((Referee) obj).name.equals(this.name);
 
+    }
+
+    public List<Match> getMatches() {
+        return this.Matchs;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 }

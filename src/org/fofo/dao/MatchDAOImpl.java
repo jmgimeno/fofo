@@ -92,4 +92,9 @@ public class MatchDAOImpl implements MatchDAO {
         return matchdb != null && refereedb != null;
     }
 }*/
+
+    @Override
+    public Match findMatchById(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

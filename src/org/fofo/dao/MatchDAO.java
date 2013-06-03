@@ -14,4 +14,6 @@ public interface MatchDAO {
     EntityManager getEm();
 
     void setEm(EntityManager em);
+
+    Match findMatchById(String id);
 }
