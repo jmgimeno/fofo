@@ -11,7 +11,7 @@ public interface MatchDAO {
 
     void addMatch(Match match);
 
-    void addRefereeToMatch(String idMatch, String idReferee);
+    public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException;
 
     EntityManager getEm();
 

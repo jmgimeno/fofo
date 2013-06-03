@@ -96,6 +96,10 @@ public class Match {
     public Referee getReferee() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    public void setReferee(Referee refereedb) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
     
 }
