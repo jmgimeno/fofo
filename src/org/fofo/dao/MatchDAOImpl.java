@@ -1,12 +1,8 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
-import org.fofo.entity.Competition;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
-import javax.persistence.PersistenceException;
-import org.fofo.entity.FCalendar;
-import org.fofo.services.management.InscriptionTeamException;
 
 /**
  *
@@ -16,8 +12,10 @@ import org.fofo.services.management.InscriptionTeamException;
 public class MatchDAOImpl implements MatchDAO {
 
     private EntityManager em;
-    private Match matchdb;
-    private Referee refereedb;
+    private CalendarDAO calendardb;
+    private Match match;
+    private RefereeDAO refereedb;
+    private Referee referee;
 
     public MatchDAOImpl() {
     }
@@ -33,9 +31,36 @@ public class MatchDAOImpl implements MatchDAO {
     }
 
     @Override
-    public void addMatch(Match match) {
+    public void addRefereeToMatch(String idMatch, String RefereeNIF) throws PersistException {
+        try {
+            if (checkForExceptions(idMatch, RefereeNIF)) {
+                match = calendardb.findMatchById(idMatch);
+                referee = refereedb.findRefereeByNif(RefereeNIF);
+                match.setNif(RefereeNIF);
+                referee.getMatchs().add(match);
+                addMatch(match);
+                refereedb.addReferee(referee);
+
+            } else {
+                throw new PersistException();
+            }
+        } catch (Exception ex) {
+            throw new PersistException();
+        }
     }
 
+    private boolean checkForExceptions(String idMatch, String RefereeNIF) throws Exception {
+        return (calendardb.findMatchById(idMatch) != null
+                && refereedb.findRefereeByNif(RefereeNIF) != null);
+    }
+
+    private void addMatch(Match match) {
+        em.getTransaction().begin();
+        em.persist(match);
+        em.getTransaction().commit();
+    }
+
+    /*
     @Override
     public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException {
 
@@ -50,7 +75,7 @@ public class MatchDAOImpl implements MatchDAO {
                 matchdb.setReferee(refereedb);
 
                 em.getTransaction().commit();
-                
+
             } else {
                 throw new PersistException();
             }
@@ -66,4 +91,5 @@ public class MatchDAOImpl implements MatchDAO {
 
         return matchdb != null && refereedb != null;
     }
+}*/
 }

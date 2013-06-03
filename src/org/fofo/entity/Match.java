@@ -13,30 +13,26 @@ import javax.persistence.*;
  * @author mohamed, Anatoli
  *
  */
-
 @Entity
-@Table (name="Match_")
+@Table(name = "Match_")
 public class Match {
 
     @Id
-    @Column (name="ID_MATCH")
+    @Column(name = "ID_MATCH")
     private String idMatch;
-
-    
     @OneToOne
-    @JoinColumn (name="HOME_T_NAME", referencedColumnName="NAME")
+    @JoinColumn(name = "HOME_T_NAME", referencedColumnName = "NAME")
     private Team home;
-    
     @OneToOne
-    @JoinColumn (name="VISITOR_T_NAME", referencedColumnName="NAME")
+    @JoinColumn(name = "VISITOR_T_NAME", referencedColumnName = "NAME")
     private Team visitor;
-    
     @Temporal(TemporalType.DATE)
-    @Column (name="MATCH_DATE")
+    @Column(name = "MATCH_DATE")
     private Date matchDate;
-    //private Referee
-    //private Stadium
+    @ManyToOne
+    private String nif;
 
+    //private Stadium
     public Match() {
     }
 
@@ -46,7 +42,6 @@ public class Match {
         this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
 
-    
     public String getIdMatch() {
         return idMatch;
     }
@@ -74,32 +69,31 @@ public class Match {
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
     }
-    
-    public boolean equals(Object obj){
-        
-        if (!(obj instanceof Match) ) return false;
-        
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof Match)) {
+            return false;
+        }
+
         Match m = (Match) obj;
-        
+
         return m.home.equals(this.home) && m.visitor.equals(this.visitor); //getName().equals(home.getName()) && 
-               //m.visitor.getName().equals (visitor.getName());
-        
-        
+        //m.visitor.getName().equals (visitor.getName());
+
+
     }
 
-    
-    public String toString(){
-        
-        return "<Match:"+ home.getName()+"-"+visitor.getName()+">";
-    }
+    public String toString() {
 
-    public Referee getReferee() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return "<Match:" + home.getName() + "-" + visitor.getName() + ">";
     }
-
-    public void setReferee(Referee refereedb) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
-    
 }

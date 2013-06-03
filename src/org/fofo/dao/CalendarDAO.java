@@ -2,6 +2,7 @@ package org.fofo.dao;
 
 import javax.persistence.EntityManager;
 import org.fofo.entity.FCalendar;
+import org.fofo.entity.Match;
 
 /**
  *
@@ -19,6 +20,8 @@ public interface CalendarDAO {
     EntityManager getEm();
 
     void setEm(EntityManager em);
-    
+
     FCalendar findFCalendarByCompetitionName(String name) throws PersistException;
+
+    Match findMatchById(String id) throws PersistException;
 }

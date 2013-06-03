@@ -9,8 +9,6 @@ import org.fofo.entity.*;
  */
 public interface MatchDAO {
 
-    void addMatch(Match match);
-
     public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException;
 
     EntityManager getEm();
