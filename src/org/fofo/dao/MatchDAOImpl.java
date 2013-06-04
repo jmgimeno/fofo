@@ -1,6 +1,7 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
 
@@ -76,14 +77,14 @@ public class MatchDAOImpl implements MatchDAO {
       
         try {
          
-            match = calendardb.findMatchById(idMatch);
+            match =  findMatchById(idMatch);
             referee = refereedb.findRefereeByNif(RefereeNIF);
           
             if (match == null || referee == null) throw new PersistException();
             
                 match.setReferee(referee);
+                referee.getMatches().add(match);
                 
-                //referee.getMatchs().add(match);
                 //addMatch(match);
                 //refereedb.addReferee(referee);
         } catch (Exception ex) {
@@ -97,12 +98,20 @@ public class MatchDAOImpl implements MatchDAO {
         em.getTransaction().commit();
     }
 
+
     @Override
-    public Match findMatchById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Match findMatchById(String id) throws PersistException {
+        Match match = null;
+        try {
+
+            em.getTransaction().begin();
+            match = (Match) em.find(Match.class, id);
+            em.getTransaction().commit();
+
+        } catch (PersistenceException e) {
+            throw new PersistException();
+        }
+        return match;
     }
 
-    void setRefereedb(Referee referee1) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }
