@@ -227,22 +227,12 @@ public class InscriptionTeamTest {
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp2);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-        teams.add(team2);
-        teams.add(team3);
-        teams.add(team4);
-        teams.add(team5);
-
         context.checking(new Expectations() {
 
             {
                 oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team1);
                 inSequence(seq);
@@ -251,9 +241,6 @@ public class InscriptionTeamTest {
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
-                inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team2);
                 inSequence(seq);
                 
@@ -261,18 +248,12 @@ public class InscriptionTeamTest {
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
-                inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team3);
                 inSequence(seq);
                 
                 oneOf(teamDAO).findTeamByName(team4.getName());  will(returnValue(team4));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp2, team4);
                 inSequence(seq);
@@ -324,18 +305,12 @@ public class InscriptionTeamTest {
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-
         context.checking(new Expectations() {
 
             {
                 oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team1);
                 inSequence(seq);
@@ -358,9 +333,6 @@ public class InscriptionTeamTest {
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-
 
         context.checking(new Expectations() {
 
@@ -368,9 +340,6 @@ public class InscriptionTeamTest {
                 oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team1);
                 inSequence(seq);
@@ -398,21 +367,12 @@ public class InscriptionTeamTest {
         final List<Competition> competitions = new ArrayList<Competition>();
         competitions.add(comp);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-        teams.add(team2);
-        teams.add(team3);
-        teams.add(team4);
-
         context.checking(new Expectations() {
 
             {
                 oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team1);
                 inSequence(seq);
@@ -421,9 +381,6 @@ public class InscriptionTeamTest {
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
-                inSequence(seq);
                 oneOf(cdao).addTeam(comp, team2);
                 inSequence(seq);
                 
@@ -431,18 +388,12 @@ public class InscriptionTeamTest {
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
                 inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
-                inSequence(seq);
                 oneOf(cdao).addTeam(comp, team3);
                 inSequence(seq);
                 
                 oneOf(teamDAO).findTeamByName(team4.getName());  will(returnValue(team4));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(competitions));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team4);
                 inSequence(seq);
@@ -464,18 +415,12 @@ public class InscriptionTeamTest {
         final List<Competition> lcomp = new ArrayList<Competition>();
         lcomp.add(comp);
 
-        final List<Team> teams = new ArrayList<Team>();
-        teams.add(team1);
-
         context.checking(new Expectations() {
 
             {
                 oneOf(teamDAO).findTeamByName(team1.getName());  will(returnValue(team1));
                 oneOf(cdao).getCompetitionms();
                 will(returnValue(lcomp));
-                inSequence(seq);
-                oneOf(teamDAO).getTeams();
-                will(returnValue(teams));
                 inSequence(seq);
                 oneOf(cdao).addTeam(comp, team1);
                 inSequence(seq);

@@ -22,6 +22,4 @@ public interface CalendarDAO {
     void setEm(EntityManager em);
 
     FCalendar findFCalendarByCompetitionName(String name) throws PersistException;
-
-    Match findMatchById(String id) throws PersistException;
 }

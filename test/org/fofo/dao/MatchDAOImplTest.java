@@ -30,21 +30,62 @@ public class MatchDAOImplTest {
     public void setUp() throws Exception {
 
         em = context.mock(EntityManager.class);
-        // matchdb = context.mock(Match.class); No és interface
-
-        matchdao.setEm(em);
-        matchdao.setMatchdb(match1);
-        matchdao.setRefereedb(referee1);
-
+              
         referee1.setName("Pepito");
         referee1.setNif("123456A");
-
+        
         match1.setReferee(referee1);
+       
+        matchdao = new MatchDAOImpl();
+        matchdao.setEm(em);
+        matchdao.setMatchdb(match1);
+        
+       
+
+
 
     }
 
+    
     //@Test(expected = PersistException.class)
-    public void NotMatchDB() throws Exception {
+    public void MatchNotHasId() throws Exception {
+        
+      final String idMatch = "1234";
+      
+          context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, idMatch); will(returnValue(null));
+                oneOf(em).getTransaction().commit();
+            }
+           
+          });
+          
+        matchdao.findMatchById(idMatch);
+    }
+    
+    //@Test
+    public void findMatchById() throws Exception {
+        
+      final String idMatch = "1234";
+      
+          context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, idMatch); will(returnValue(match1));
+                oneOf(em).getTransaction().commit();
+            }
+           
+          });
+          
+        matchdao.findMatchById(idMatch);
+    }
+    
+    
+   // @Test(expected = PersistException.class)
+    public void NotMatch() throws Exception {
 
         final String idMatch = "1234";
 
@@ -52,8 +93,8 @@ public class MatchDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch);
-                will(returnValue(null)); //will(returnValue(match1));
+                oneOf(em).find(Match.class, idMatch); will(returnValue(null)); //will(returnValue(match1));
+                oneOf(em).getTransaction().commit();
                 oneOf(em).find(Referee.class, referee1.getNif());
                 will(returnValue(referee1));
 
@@ -66,7 +107,7 @@ public class MatchDAOImplTest {
     }
 
     //@Test(expected = PersistException.class)
-    public void NotRefereeDB() throws Exception {
+    public void NotReferee() throws Exception {
 
         final String idMatch = "1234";
 

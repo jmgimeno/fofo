@@ -1,6 +1,7 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
 
@@ -73,12 +74,16 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void addRefereeToMatch(String idMatch, String RefereeNIF) throws PersistException {
+      
         try {
-            match = calendardb.findMatchById(idMatch);
+         
+            match =  findMatchById(idMatch);
             referee = refereedb.findRefereeByNif(RefereeNIF);
+          
             if (match == null || referee == null) throw new PersistException();
-                match.setNif(RefereeNIF);
-                //referee.getMatch().add(match);
+            
+                match.setReferee(referee);
+                referee.getMatches().add(match);
                 
                 //addMatch(match);
                 //refereedb.addReferee(referee);
@@ -87,48 +92,26 @@ public class MatchDAOImpl implements MatchDAO {
         }
     }
 
-
-//        @Override
-//    public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException {
-//
-//        try {
-//            em.getTransaction().begin();
-//
-//            matchdb = (Match) em.find(Match.class, idMatch); //Busco Match a la bd, a partir del idMatch
-//            refereedb = (Referee) em.find(Referee.class, idReferee); //Busco referee a la bd a traves de la idReferee
-//
-//            if (checkForExceptions(matchdb, refereedb)) { //Comprovo si realment s'ha trobat el partit i l'arbitre a la BD
-//
-//                matchdb.setReferee(refereedb); //Si s'ha trobat li assigno un aribre.
-//
-//                em.getTransaction().commit(); //Actualitzo els canvis
-//                
-//            } else {
-//                throw new PersistException();
-//            }
-//
-//
-//        } catch (PersistenceException e) {
-//            throw new PersistException();
-//        }
-//    }
-//
-//    private boolean checkForExceptions(Match matchdb, Referee refereedb) {
-//
-//        return matchdb.getIdMatch() != null && refereedb.getNif() != null;
-//    }
     private void addMatch(Match match) {
         em.getTransaction().begin();
         em.persist(match);
         em.getTransaction().commit();
     }
 
+
     @Override
-    public Match findMatchById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Match findMatchById(String id) throws PersistException {
+        Match match = null;
+        try {
+
+            em.getTransaction().begin();
+            match = (Match) em.find(Match.class, id);
+            em.getTransaction().commit();
+
+        } catch (PersistenceException e) {
+            throw new PersistException();
+        }
+        return match;
     }
 
-    void setRefereedb(Referee referee1) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

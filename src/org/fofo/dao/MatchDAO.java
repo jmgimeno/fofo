@@ -15,5 +15,5 @@ public interface MatchDAO {
 
     void setEm(EntityManager em);
 
-    Match findMatchById(String id);
+    public Match findMatchById(String id) throws PersistException;
 }

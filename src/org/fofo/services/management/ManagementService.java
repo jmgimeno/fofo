@@ -259,13 +259,6 @@ public class ManagementService {
     }
 
     
-    private boolean TeamExist(Team team) {        
-        return  teamDao.getTeams().contains(team);
-    }
-    
-
-    
-    
     /**
      * Check all the addTeam exceptions.
      * @param competetion The competition we want to register a team.
@@ -279,7 +272,6 @@ public class ManagementService {
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
                 && TeamsSpace(competition);
-                //&& TeamExist(team); //Check for the Team in BD.
     }
 
     public void addTeam(Team team) throws InscriptionTeamException, Exception {
