@@ -278,8 +278,8 @@ public class ManagementService {
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
-                && TeamsSpace(competition)
-                && TeamExist(team); //Check for the Team in BD.
+                && TeamsSpace(competition);
+                //&& TeamExist(team); //Check for the Team in BD.
     }
 
     public void addTeam(Team team) throws InscriptionTeamException, Exception {

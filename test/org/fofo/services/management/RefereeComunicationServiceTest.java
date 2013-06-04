@@ -68,6 +68,15 @@ public class RefereeComunicationServiceTest {
         r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
     }
     
+  //  @Test (expected=InvalidRefereeException.class)
+    public void incorrectReferee() throws Exception{
+        //TO DO...
+        /*context.checking(new Expectations() {{
+            oneOf (refDAO).findRefereeByNif(ref.getNif());will(returnValue(ref));
+            oneOf (matchDAO).findMatchById(match.getIdMatch());will(returnValue(null));
+        }}); 
+        r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
+    */}
     @Test(expected = InvalidMatchException.class)
     public void matchNotAssignedToReferee() throws Exception{
         context.checking(new Expectations() {{
@@ -76,6 +85,24 @@ public class RefereeComunicationServiceTest {
         }}); 
         r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
     }
+    
+   // @Test (expected=MatchOutOfPeriodException.class)
+    public void notFinishedMatch() throws Exception{
+        //TODO...
+        InfoMatch imAux = new InfoMatch(/*Data anterior a la 
+         data d'inici de la competicio*/);
+        r.communicateResultMatch(ref.getNif(), 
+                match.getIdMatch(), imAux);
+    }
+    
+   // @Test (expected=MatchOutOfPeriodException.class)
+    public void notFinishedMatch2() throws Exception{
+        //TODO...
+        InfoMatch imAux = new InfoMatch(/*Data anterior a la 
+         data de la jornada actual*/);
+        r.communicateResultMatch(ref.getNif(), 
+                match.getIdMatch(), imAux);
+    }    
     
     @Test
     public void communicateResultMatch() throws Exception{

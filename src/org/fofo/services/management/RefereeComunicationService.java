@@ -57,12 +57,14 @@ public class RefereeComunicationService {
         this.refDAO = refDAO;
     }
 
-    public void communicateResultMatch(String nif, String idMatch, InfoMatch im) throws Exception {
+    public void communicateResultMatch(String nif, String idMatch, 
+            InfoMatch im) 
+            throws Exception {
 
         Referee ref = refDAO.findRefereeByNif(nif);
         Match match = matchDAO.findMatchById(idMatch);
         Match match2 = null;
-        if (match == null) {
+        if (ref == null || match == null) {
             throw new InvalidMatchException();
         }
         for (Match m : ref.getMatches()){

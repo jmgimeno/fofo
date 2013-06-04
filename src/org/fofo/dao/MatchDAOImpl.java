@@ -74,28 +74,20 @@ public class MatchDAOImpl implements MatchDAO {
     @Override
     public void addRefereeToMatch(String idMatch, String RefereeNIF) throws PersistException {
         try {
-            if (checkForExceptions(idMatch, RefereeNIF)) {
-                match = calendardb.findMatchById(idMatch);
-                referee = refereedb.findRefereeByNif(RefereeNIF);
+            match = calendardb.findMatchById(idMatch);
+            referee = refereedb.findRefereeByNif(RefereeNIF);
+            if (match == null || referee == null) throw new PersistException();
                 match.setNif(RefereeNIF);
                 referee.getMatchs().add(match);
-                addMatch(match);
-                refereedb.addReferee(referee);
-
-            } else {
-                throw new PersistException();
-            }
+                
+                //addMatch(match);
+                //refereedb.addReferee(referee);
         } catch (Exception ex) {
             throw new PersistException();
         }
     }
 
-    private boolean checkForExceptions(String idMatch, String RefereeNIF) throws Exception {
-        return (calendardb.findMatchById(idMatch) != null
-                && refereedb.findRefereeByNif(RefereeNIF) != null);
-    }
 
-    
 //        @Override
 //    public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException {
 //
@@ -125,13 +117,11 @@ public class MatchDAOImpl implements MatchDAO {
 //
 //        return matchdb.getIdMatch() != null && refereedb.getNif() != null;
 //    }
-    
     private void addMatch(Match match) {
         em.getTransaction().begin();
         em.persist(match);
         em.getTransaction().commit();
     }
-
 
     @Override
     public Match findMatchById(String id) {

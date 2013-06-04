@@ -30,7 +30,7 @@ public class InfoMatch {
     private int goalsHome;
     private int goalsVisiting;
     private String observations;
-
+//Afegir identificador de la competicio
     public InfoMatch() {
     }
     
