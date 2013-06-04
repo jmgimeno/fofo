@@ -9,17 +9,20 @@ import org.fofo.dao.TeamDAO;
 import org.fofo.entity.*;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author jnp2
  */
+@RunWith(JMock.class)
 public class ClubManagementServiceTest {
     
     ManagementService service;
