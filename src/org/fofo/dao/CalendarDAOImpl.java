@@ -80,20 +80,6 @@ public class CalendarDAOImpl implements CalendarDAO {
         return cal;
     }
 
-    @Override
-    public Match findMatchById(String id) throws PersistException {
-        Match match = null;
-        try {
-
-            em.getTransaction().begin();
-            match = (Match) em.find(Match.class, id);
-            em.getTransaction().commit();
-
-        } catch (PersistenceException e) {
-            throw new PersistException();
-        }
-        return match;
-    }
 /*
  * 
  * PRIVATE OPERATIONS

@@ -73,13 +73,17 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void addRefereeToMatch(String idMatch, String RefereeNIF) throws PersistException {
+      
         try {
+         
             match = calendardb.findMatchById(idMatch);
             referee = refereedb.findRefereeByNif(RefereeNIF);
+          
             if (match == null || referee == null) throw new PersistException();
-                match.setNif(RefereeNIF);
-                referee.getMatchs().add(match);
+            
+                match.setReferee(referee);
                 
+                //referee.getMatchs().add(match);
                 //addMatch(match);
                 //refereedb.addReferee(referee);
         } catch (Exception ex) {
@@ -87,36 +91,6 @@ public class MatchDAOImpl implements MatchDAO {
         }
     }
 
-
-//        @Override
-//    public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException {
-//
-//        try {
-//            em.getTransaction().begin();
-//
-//            matchdb = (Match) em.find(Match.class, idMatch); //Busco Match a la bd, a partir del idMatch
-//            refereedb = (Referee) em.find(Referee.class, idReferee); //Busco referee a la bd a traves de la idReferee
-//
-//            if (checkForExceptions(matchdb, refereedb)) { //Comprovo si realment s'ha trobat el partit i l'arbitre a la BD
-//
-//                matchdb.setReferee(refereedb); //Si s'ha trobat li assigno un aribre.
-//
-//                em.getTransaction().commit(); //Actualitzo els canvis
-//                
-//            } else {
-//                throw new PersistException();
-//            }
-//
-//
-//        } catch (PersistenceException e) {
-//            throw new PersistException();
-//        }
-//    }
-//
-//    private boolean checkForExceptions(Match matchdb, Referee refereedb) {
-//
-//        return matchdb.getIdMatch() != null && refereedb.getNif() != null;
-//    }
     private void addMatch(Match match) {
         em.getTransaction().begin();
         em.persist(match);
