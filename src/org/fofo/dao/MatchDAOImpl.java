@@ -78,7 +78,7 @@ public class MatchDAOImpl implements MatchDAO {
             referee = refereedb.findRefereeByNif(RefereeNIF);
             if (match == null || referee == null) throw new PersistException();
                 match.setNif(RefereeNIF);
-                referee.getMatchs().add(match);
+                //referee.getMatch().add(match);
                 
                 //addMatch(match);
                 //refereedb.addReferee(referee);
