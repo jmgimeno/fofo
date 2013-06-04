@@ -37,7 +37,7 @@ public class MatchDAOImpl implements MatchDAO {
                 match = calendardb.findMatchById(idMatch);
                 referee = refereedb.findRefereeByNif(RefereeNIF);
                 match.setNif(RefereeNIF);
-                referee.getMatchs().add(match);
+                referee.getMatches().add(match);
                 addMatch(match);
                 refereedb.addReferee(referee);
 

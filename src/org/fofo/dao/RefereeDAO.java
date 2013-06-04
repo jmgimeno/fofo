@@ -17,5 +17,7 @@ public interface RefereeDAO {
     
     Referee findRefereeByNif(String nif) throws Exception;
     
+    Referee findRefereeByMatch(String matchId) throws Exception;
+    
     List<Referee> getAllReferees() throws Exception;
 }
