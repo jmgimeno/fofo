@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
 
 /**
@@ -58,7 +59,27 @@ public class RefereeDAOImpl implements RefereeDAO {
 
         return referee;
     }
-
+    
+    @Override
+    public Referee findRefereeByMatch(String matchId) throws Exception{
+        Match m = null;
+        try{
+            em.getTransaction().begin();
+            m = (Match) em.find(Match.class, matchId);
+            em.getTransaction().commit();
+        }catch(Exception e){
+            throw e;
+        }        
+        Referee r = m.getReferee();
+        
+        if(!r.getMatches().contains(m)){
+            throw new NotAssignedMatchToRefereeException("The referee "
+                    +r.toString()+" don't have assigned the match "+m.toString());
+        }
+        
+        return findRefereeByNif(r.getNif());
+    }
+    
     @Override
     public List<Referee> getAllReferees() throws Exception {
         List<Referee> referees = null;

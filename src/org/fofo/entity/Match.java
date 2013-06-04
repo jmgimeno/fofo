@@ -89,6 +89,7 @@ public class Match {
         return nif;
     }
 
+    @Override
     public boolean equals(Object obj) {
 
         if (!(obj instanceof Match)) {
@@ -97,7 +98,9 @@ public class Match {
 
         Match m = (Match) obj;
 
-        return m.home.equals(this.home) && m.visitor.equals(this.visitor); //getName().equals(home.getName()) && 
+        return m.home.equals(this.home) && m.visitor.equals(this.visitor)
+                && m.referee.equals(this.referee);
+        //getName().equals(home.getName()) && 
         //m.visitor.getName().equals (visitor.getName());
 
 

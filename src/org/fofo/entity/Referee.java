@@ -21,14 +21,17 @@ public class Referee {
     private String nif;
     @Column(name = "NAME")
     private String name;
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Match> Matchs = new ArrayList<Match>();
+
+    @OneToMany(mappedBy="referee", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER) 
+    private List<Match> assignedMatches;
     private String email;
 
     public Referee() {
+        this.assignedMatches = new ArrayList<Match>();
     }
 
     public Referee(String nif, String name) {
+        this.assignedMatches = new ArrayList<Match>();
         this.nif = nif;
         this.name = name;
     }
@@ -49,12 +52,21 @@ public class Referee {
         this.name = name;
     }
 
-    public List<Match> getMatchs() {
-        return Matchs;
+    public List<Match> getMatches() {
+        return assignedMatches;
+    }
+    
+    public void setMatches(List<Match> matches){
+        this.assignedMatches = matches;
     }
 
-    public void setMatchs(List<Match> Matchs) {
-        this.Matchs = Matchs;
+    
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
@@ -70,11 +82,5 @@ public class Referee {
 
     }
 
-    public List<Match> getMatches() {
-        return this.Matchs;
-    }
 
-    public String getEmail() {
-        return this.email;
-    }
 }
