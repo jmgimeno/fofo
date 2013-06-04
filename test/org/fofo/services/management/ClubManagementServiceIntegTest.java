@@ -21,7 +21,7 @@ import org.junit.BeforeClass;
 
 /**
  *
- * @author josepma
+ * @author josepma, Jordi Niubo i Oriol Capell
  */
 public class ClubManagementServiceIntegTest {
     
@@ -81,13 +81,12 @@ public class ClubManagementServiceIntegTest {
     
     @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithNoemail() throws Exception{
-        service.addClub(club);
-        
+        service.addClub(club);        
     }
 
+    
     @Test
-    public void testCorrectInscriptionClubWithNoTeams() throws Exception{
-        
+    public void testCorrectInscriptionClubWithNoTeams() throws Exception{        
         club.setEmail("email@email.com");                    
         service.addClub(club);
         
@@ -116,71 +115,65 @@ public class ClubManagementServiceIntegTest {
    
   //  @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithTeamAlreadyInDB() throws Exception{
-        final List<Team> list = new ArrayList<Team>();
-        list.add(team1);
-        club.getTeams().add(team1);
-    
+        Club club2 = new Club("Club 2");    
+        club2.setEmail("email@email.com");                    
+        service.addClub(club2);
+        
+        Team team3 = new Team(team1.getName(), club2, Category.MALE);
+        team3.setEmail("email@email.com");
+        teamDao.addTeam(team3);
+        
+        club.getTeams().add(team1);    
         club.setEmail("email@email.com");                    
         service.addClub(club);
     }     
     
   //  @Test(expected=InscriptionClubException.class)
     public void testInscriptionClubWithTeamsAlreadyInDB() throws Exception{
-        final List<Team> list = new ArrayList<Team>();
-        list.add(team1);
-        list.add(team2);
-        club.getTeams().add(team1);    
-        club.getTeams().add(team2);
-      //  context.checking(new Expectations() {{
-      //      oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
-      //      oneOf (teamDao).getTeams();will(returnValue(list));
-      //  }});  
+        Club club2 = new Club("Club 2");    
+        club2.setEmail("email@email.com");                    
+        service.addClub(club2);
         
+        Team team3 = new Team(team1.getName(), club2, Category.MALE);
+        team3.setEmail("email@email.com");
+        teamDao.addTeam(team3);
+        Team team4 = new Team(team2.getName(), club2, Category.MALE);
+        team4.setEmail("email@email.com");
+        teamDao.addTeam(team4);
+        
+        club.getTeams().add(team1);    
+        club.getTeams().add(team2);        
         club.setEmail("email@email.com");                    
         service.addClub(club);
     }     
     
    // @Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
-        final List<Team> list = new ArrayList<Team>();    
-        final List<Club> listClubs = new ArrayList<Club>();
-        listClubs.add(club);
-        
-        club.getTeams().add(team1);   
-
-        //context.checking(new Expectations() {{
-        //    oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
-         //   oneOf (teamDao).getTeams();will(returnValue(list));            
-          //  oneOf (clubDao).addClub(club);
-         //   oneOf (clubDao).getClubs();will(returnValue(listClubs));
-         //   oneOf (teamDao).addTeam(team1);
-        //}});  
-        
+        club.getTeams().add(team1);         
         club.setEmail("email@email.com");                    
         service.addClub(club);
+        
+        Club cluDB = clubDao.findClubByName(club.getName());
+        Team teamDB = teamDao.findTeamByName(team1.getName());
+        
+        assertEquals("Clubs should be equals", club, cluDB);       
+        assertEquals("Teams should be equals", team1, teamDB);
     }     
     
     //@Test
     public void testCorrectInscriptionClubWithTeams() throws Exception{
-        final List<Team> list = new ArrayList<Team>();
-        final List<Club> listClubs = new ArrayList<Club>();
-        listClubs.add(club);
-        
         club.getTeams().add(team1);    
-        club.getTeams().add(team2);
-        
-        //context.checking(new Expectations() {{
-        //    oneOf (clubDao).findClubByName(club.getName());will(returnValue(null));
-        //    oneOf (teamDao).getTeams();will(returnValue(list));
-        //    oneOf (clubDao).addClub(club);
-        //    oneOf (clubDao).getClubs();will(returnValue(listClubs));
-        //    oneOf (teamDao).addTeam(team1); 
-        //   oneOf (clubDao).getClubs();will(returnValue(listClubs));           
-        //    oneOf (teamDao).addTeam(team2);
-        //}});  
-        
+        club.getTeams().add(team2);        
         club.setEmail("email@email.com");                    
         service.addClub(club);
+        
+        Club cluDB = clubDao.findClubByName(club.getName());
+        Team team1DB = teamDao.findTeamByName(team1.getName());  
+        Team team2DB = teamDao.findTeamByName(team2.getName());
+        
+        assertEquals("Clubs should be equals", club, cluDB);       
+        assertEquals("Teams 1 should be equals", team1, team1DB);
+        assertEquals("Teams 2 should be equals", team1, team2DB);
     }     
 
   /*
