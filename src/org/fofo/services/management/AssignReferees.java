@@ -40,10 +40,11 @@ public class AssignReferees {
     }    
     
     
-    public void assignRefereesToCompetition(Competition comp) throws InvalidRequisitsException, PersistException, Exception{
+    public void assignRefereesToCompetition(Competition comp) throws InvalidRequisitsException,
+                              PersistException, CompetitionWithoutFCalendarException, Exception{
         checkForDAOS();
         FCalendar calendar = calendarDao.findFCalendarByCompetitionName(comp.getName());
-        if(calendar==null) throw new PersistException();
+        if(calendar==null) throw new CompetitionWithoutFCalendarException();
         
         List<WeekMatch> listWeekMatch = calendar.getAllWeekMatches();
         
@@ -61,7 +62,7 @@ public class AssignReferees {
     private void checkIfHaveEnoughReferees(List<WeekMatch> listWeekMatch) throws Exception {
         int maxNumMatchs = 0;
         int numMatch;
-        if(listWeekMatch.isEmpty()) throw new PersistException();
+        if(listWeekMatch.isEmpty()) throw new IncorrectFCalendarException();
         
         for(WeekMatch wm : listWeekMatch){
             numMatch = wm.getNumberOfMatchs();
