@@ -1,9 +1,10 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import org.fofo.entity.Category;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
+import org.fofo.entity.Team;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -14,141 +15,116 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author auc2
+ * @author David Hernández
+ * @author Anton Urrea
  */
 @RunWith(JMock.class)
 public class MatchDAOImplTest {
 
-    Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery();
     private EntityManager em;
-    MatchDAOImpl matchdao;
-    Match match1;
-    Match matchdb;
-    Referee referee1;
+    private MatchDAOImpl matchdao;
+    private RefereeDAO refereedao;
+    private Match match;
+    private Referee referee;
+    private Team team1, team2;
 
     @Before
     public void setUp() throws Exception {
-
         em = context.mock(EntityManager.class);
-              
-        referee1.setName("Pepito");
-        referee1.setNif("123456A");
-        
-        match1.setReferee(referee1);
-       
+        refereedao = context.mock(RefereeDAO.class);
+
+        referee = new Referee("12345678A", "Pepito");
+
+        team1 = new Team("Team1", Category.FEMALE);
+        team2 = new Team("Team2", Category.FEMALE);
+
+        match = new Match(team1, team2);
+
         matchdao = new MatchDAOImpl();
         matchdao.setEm(em);
-        matchdao.setMatchdb(match1);
-        
-       
-
-
-
+        matchdao.setRefereedb(refereedao);
     }
 
+//addRefereeToMatch TEST    
     
-    //@Test(expected = PersistException.class)
-    public void MatchNotHasId() throws Exception {
-        
-      final String idMatch = "1234";
-      
-          context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch); will(returnValue(null));
-                oneOf(em).getTransaction().commit();
-            }
-           
-          });
-          
-        matchdao.findMatchById(idMatch);
-    }
-    
-    //@Test
-    public void findMatchById() throws Exception {
-        
-      final String idMatch = "1234";
-      
-          context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch); will(returnValue(match1));
-                oneOf(em).getTransaction().commit();
-            }
-           
-          });
-          
-        matchdao.findMatchById(idMatch);
-    }
-    
-    
-   // @Test(expected = PersistException.class)
-    public void NotMatch() throws Exception {
-
-        final String idMatch = "1234";
-
+    @Test(expected = PersistException.class)
+    public void addRefereeToMatch_IncorrectMatchId() throws Exception {
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch); will(returnValue(null)); //will(returnValue(match1));
-                oneOf(em).getTransaction().commit();
-                oneOf(em).find(Referee.class, referee1.getNif());
-                will(returnValue(referee1));
-
-            }
-        });
-
-        matchdao.addRefereeToMatch(idMatch, referee1.getNif());
-
-
-    }
-
-    //@Test(expected = PersistException.class)
-    public void NotReferee() throws Exception {
-
-        final String idMatch = "1234";
-
-        context.checking(new Expectations() {
-
-            {
-                oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch);
-                will(returnValue(match1));
-                oneOf(em).find(Referee.class, referee1.getNif());
+                oneOf(em).find(Match.class, match.getIdMatch());
                 will(returnValue(null));
-
+                oneOf(em).getTransaction().commit();
             }
         });
-
-        matchdao.addRefereeToMatch(idMatch, referee1.getNif());
-
-
+        matchdao.addRefereeToMatch(match.getIdMatch(), referee.getNif());
     }
 
-   // @Test
-    public void CorrectAddRefereeToMatch() throws Exception {
-
-        final String idMatch = "1234";
-
+    @Test(expected = PersistException.class)
+    public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
+        referee.setNif(null);
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch);
-                will(returnValue(match1));
-                oneOf(em).find(Referee.class, referee1.getNif());
-                will(returnValue(referee1));
-                oneOf(matchdb).setReferee(referee1);
+                oneOf(em).find(Match.class, match.getIdMatch());
+                will(returnValue(match));
+                oneOf(em).getTransaction().commit();
+                oneOf(refereedao).findRefereeByNif(referee.getNif());
+                will(returnValue(null));
+            }
+        });
+        matchdao.addRefereeToMatch(match.getIdMatch(), referee.getNif());
+    }
+
+    @Test
+    public void addRefereeToMatch_correct() throws Exception {
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, match.getIdMatch());
+                will(returnValue(match));
+                oneOf(em).getTransaction().commit();
+                oneOf(refereedao).findRefereeByNif(referee.getNif());
+                will(returnValue(referee));
+            }
+        });
+        matchdao.addRefereeToMatch(match.getIdMatch(), referee.getNif());
+    }
+
+//findMatchById TEST    
+    
+    @Test(expected = PersistException.class)
+    public void findMatch_IncorrectId() throws Exception {
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, match.getIdMatch());
+                will(returnValue(null));
+                oneOf(em).getTransaction().commit();
+            }
+        });
+
+        matchdao.findMatchById(match.getIdMatch());
+    }
+
+    @Test
+    public void findMatch_CorrectId() throws Exception {
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, match.getIdMatch());
+                will(returnValue(match));
                 oneOf(em).getTransaction().commit();
 
             }
         });
 
-        matchdao.addRefereeToMatch(idMatch, referee1.getNif());
-
-
+        matchdao.findMatchById(match.getIdMatch());
     }
 }

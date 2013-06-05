@@ -2,44 +2,48 @@ package org.fofo.services.management;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
-import org.fofo.dao.ClubDAO;
-import org.fofo.dao.CompetitionDAO;
-import org.fofo.dao.TeamDAO;
+import org.fofo.dao.*;
 import org.fofo.entity.*;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
 
 /**
  *
- * @author jnp2
+ * @author Jordi Niubo i Oriol Capell
  */
-@RunWith(JMock.class)
-public class TeamManagementServiceTest {
+
+public class TeamManagementServiceIntegTest {
     
     ManagementService service;
-    Mockery context = new JUnit4Mockery();
-    TeamDAO teamDao;
-    ClubDAO clubDao;
+    TeamDAOImpl teamDao;
+    ClubDAOImpl clubDao;
     Team team;
     Club club;
+    EntityManager em;
     
-    public TeamManagementServiceTest() {
+    public TeamManagementServiceIntegTest() {
     }
 
     @Before
     public void setUp() throws Exception {
         service = new ManagementService();  
-        teamDao  = context.mock(TeamDAO.class);
-        clubDao  = context.mock(ClubDAO.class);
+        teamDao  = new TeamDAOImpl();
+        clubDao  = new ClubDAOImpl();
+        
+        em = getEntityManager();
+        clubDao.setEM(em);
+        teamDao.setEM(em);
+        
         service.setTeamDao(teamDao);
         service.setClubDao(clubDao);
         team = new Team("Team 1");
@@ -48,63 +52,84 @@ public class TeamManagementServiceTest {
     }
 
 
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoValues() throws Exception{
         service.addTeam(team);
     }
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyEmail() throws Exception{
         team.setEmail("email@email.com");                
         service.addTeam(team);
     }  
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyCategory() throws Exception{
         team.setCategory(Category.MALE);              
         service.addTeam(team);
     }     
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyClub() throws Exception{
         team.setClub(club);            
         service.addTeam(team);
     }
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoEmail() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club);                
         service.addTeam(team);
     } 
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoClub() throws Exception{
         team.setCategory(Category.MALE);  
         team.setEmail("email@email.com");                  
         service.addTeam(team);
     }   
     
-    @Test(expected=InscriptionTeamException.class)
+    //@Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoCategory() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club);                   
         service.addTeam(team);
     }
     
-    @Test
-    public void testCorrectInscriptionTeam() throws Exception{
-        final List<Club> list = new ArrayList<Club>();
-        list.add(club);
-        context.checking(new Expectations() {{
-            oneOf (clubDao).getClubs();will(returnValue(list));
-            oneOf (teamDao).addTeam(team);
-        }});  
-        
+    //@Test(expected=InscriptionTeamException.class)
+    public void testInscriptionTeamWithoutClubInDB() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club); 
-        team.setEmail("email@email.com");                    
+        team.setEmail("email@email.com");  
+        
         service.addTeam(team);
+        
+        Team teamDB = teamDao.findTeamByName(team.getName());
+        assertEquals("Team should be equal", teamDB, team);
+    }   
+    
+    
+    //@Test
+    public void testCorrectInscriptionTeam() throws Exception{
+        clubDao.addClub(club);        
+        team.setCategory(Category.MALE);  
+        team.setClub(club); 
+        team.setEmail("email@email.com");  
+        
+        service.addTeam(team);
+        
+        Team teamDB = teamDao.findTeamByName(team.getName());
+        assertEquals("Team should be equal", teamDB, team);
     }    
     
+    /*
+   * PRIVATE OPS
+   * 
+   * 
+   */
+    
+     private EntityManager getEntityManager() throws Exception{
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
+        return emf.createEntityManager();  
+    }
 }

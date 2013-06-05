@@ -39,6 +39,7 @@ public class Match {
     //Alejandro+Ivan: Hem afegit el atribut referee ja que 
     //Match i Referee han d'estar relacionats, pero aquesta tasca no 
     //l'hem de fer nosaltres. Us falta fer el ORM.
+    @ManyToOne
     private Referee referee;
 
     //private Stadium
@@ -106,6 +107,7 @@ public class Match {
 
     }
 
+    @Override
     public String toString() {
 
         return "<Match:" + home.getName() + "-" + visitor.getName() + ">";

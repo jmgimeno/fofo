@@ -3,6 +3,8 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -146,9 +148,27 @@ public class TeamDAOImplIntegTest {
     }
 
 
+    @Test  
+    public void testGetTeams() throws Exception {
+       
+        Team team = new Team("team2");
+        
+        tdao.addTeam(team); 
+        
+        List<Team> expected = new ArrayList<Team>();
+        expected.add(team);
+        
+        assertEquals("There should be only team2",
+                expected, tdao.getTeams());
+    }
 
-
-    
+    @Test
+    public void testFindTeamByName() throws Exception {
+        Team team = new Team("team2");
+        
+        tdao.addTeam(team); 
+        assertEquals(team, tdao.findTeamByName("team2"));
+    }
     
   
     /*
