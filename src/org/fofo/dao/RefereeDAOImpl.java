@@ -22,10 +22,12 @@ public class RefereeDAOImpl implements RefereeDAO {
     public RefereeDAOImpl() {
     }
 
+    @Override
     public void setEM(EntityManager em) {
         this.em = em;
     }
 
+    @Override
     public EntityManager getEM() {
         return this.em;
     }

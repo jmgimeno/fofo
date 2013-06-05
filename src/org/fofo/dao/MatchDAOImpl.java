@@ -13,11 +13,7 @@ import org.fofo.entity.Referee;
 public class MatchDAOImpl implements MatchDAO {
 
     private EntityManager em;
-    private CalendarDAO calendardb;
-    private Match match;
     private RefereeDAO refereedb;
-    private Referee referee;
-    private Match matchdb;
 
     public MatchDAOImpl() {
     }
@@ -27,40 +23,8 @@ public class MatchDAOImpl implements MatchDAO {
         return this.em;
     }
 
-    public void setCalendardb(CalendarDAO calendardb) {
-        this.calendardb = calendardb;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
-    public void setMatchdb(Match matchdb) {
-        this.matchdb = matchdb;
-    }
-
-    public void setReferee(Referee referee) {
-        this.referee = referee;
-    }
-
     public void setRefereedb(RefereeDAO refereedb) {
         this.refereedb = refereedb;
-    }
-
-    public CalendarDAO getCalendardb() {
-        return calendardb;
-    }
-
-    public Match getMatch() {
-        return match;
-    }
-
-    public Match getMatchdb() {
-        return matchdb;
-    }
-
-    public Referee getReferee() {
-        return referee;
     }
 
     public RefereeDAO getRefereedb() {
@@ -73,20 +37,22 @@ public class MatchDAOImpl implements MatchDAO {
     }
 
     @Override
-    public void addRefereeToMatch(String idMatch, String RefereeNIF) throws PersistException {
-      
+    public void addRefereeToMatch(String idMatch, String refereeNIF) throws PersistException {
+
         try {
-         
-            match =  findMatchById(idMatch);
-            referee = refereedb.findRefereeByNif(RefereeNIF);
-          
-            if (match == null || referee == null) throw new PersistException();
-            
-                match.setReferee(referee);
-                referee.getMatches().add(match);
-                
-                //addMatch(match);
-                //refereedb.addReferee(referee);
+
+            Match match = findMatchById(idMatch);
+            Referee referee = refereedb.findRefereeByNif(refereeNIF);
+
+            if (match == null || referee == null) {
+                throw new PersistException();
+            }
+
+            match.setReferee(referee);
+            referee.getMatches().add(match);
+
+            //addMatch(match);
+            //refereedb.addReferee(referee);
         } catch (Exception ex) {
             throw new PersistException();
         }
@@ -98,7 +64,6 @@ public class MatchDAOImpl implements MatchDAO {
         em.getTransaction().commit();
     }
 
-
     @Override
     public Match findMatchById(String id) throws PersistException {
         Match match = null;
@@ -107,11 +72,17 @@ public class MatchDAOImpl implements MatchDAO {
             em.getTransaction().begin();
             match = (Match) em.find(Match.class, id);
             em.getTransaction().commit();
+         
 
         } catch (PersistenceException e) {
             throw new PersistException();
         }
+        
+        if (match == null) {
+            throw new PersistException();
+        }
+
+
         return match;
     }
-
 }

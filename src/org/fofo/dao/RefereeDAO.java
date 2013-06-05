@@ -5,6 +5,7 @@
 package org.fofo.dao;
 
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.fofo.entity.Referee;
 
 /**
@@ -12,6 +13,10 @@ import org.fofo.entity.Referee;
  * @author mohamed, Anatoli
  */
 public interface RefereeDAO {
+    
+    void setEM(EntityManager em);
+    
+    EntityManager getEM();
     
     void addReferee(Referee ref) throws Exception;
     
