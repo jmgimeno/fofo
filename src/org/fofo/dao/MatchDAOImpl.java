@@ -23,10 +23,12 @@ public class MatchDAOImpl implements MatchDAO {
         return this.em;
     }
 
+    @Override
     public void setRefereedb(RefereeDAO refereedb) {
         this.refereedb = refereedb;
     }
 
+    @Override
     public RefereeDAO getRefereedb() {
         return refereedb;
     }
