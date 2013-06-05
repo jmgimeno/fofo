@@ -68,22 +68,24 @@ public class MatchDAOImpl implements MatchDAO {
     @Override
     public Match findMatchById(String id) throws PersistException {
         Match match = null;
+                    System.out.println("ID: "+id);
         try {
 
             em.getTransaction().begin();
+                                  System.out.println("OOOOOOOOOO"+match.getIdMatch());
             match = (Match) em.find(Match.class, id);
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new PersistException();
         }
         if (match == null) {
+                        System.out.println("GGGGGGGGGGGGGG");
             throw new PersistException();
         }
         return match;
     }
 
-    //PRIVATE FUNCTIONS
-    private void addMatch(Match match) {
+    public void insertMatch(Match match) {
         em.getTransaction().begin();
         em.persist(match);
         em.getTransaction().commit();

@@ -1,7 +1,6 @@
 package org.fofo.dao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import org.fofo.entity.Category;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;

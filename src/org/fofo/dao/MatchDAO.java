@@ -20,4 +20,6 @@ public interface MatchDAO {
     public void addRefereeToMatch(String idMatch, String idReferee) throws PersistException;
 
     public Match findMatchById(String id) throws PersistException;
+    
+    public void insertMatch(Match match);
 }

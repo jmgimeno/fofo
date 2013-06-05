@@ -1,11 +1,14 @@
 package org.fofo.dao;
 
+import org.fofo.entity.FCalendar;
+import org.fofo.entity.WeekMatch;
 import org.fofo.entity.Category;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
 import org.fofo.entity.Team;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -37,7 +40,6 @@ public class MatchDAOImplIntegTest {
 //addRefereeToMatch TEST    
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId() throws Exception {
-
         matchdao.addRefereeToMatch("AAA", referee.getNif());
     }
 
@@ -49,6 +51,7 @@ public class MatchDAOImplIntegTest {
     //@Test
     public void addRefereeToMatch_correct() throws Exception {
         matchdao.addRefereeToMatch(match.getIdMatch(), referee.getNif());
+        assertEquals(referee, match.getReferee());
     }
 
 //findMatchById TEST    
@@ -59,6 +62,6 @@ public class MatchDAOImplIntegTest {
 
     //@Test
     public void findMatch_CorrectId() throws Exception {
-        matchdao.findMatchById(match.getIdMatch());
+        assertEquals(match, matchdao.findMatchById(match.getIdMatch()));
     }
 }
