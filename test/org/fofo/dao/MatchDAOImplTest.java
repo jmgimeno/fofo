@@ -38,66 +38,44 @@ public class MatchDAOImplTest {
         em = context.mock(EntityManager.class);
         transaction = context.mock(EntityTransaction.class);
         refereedao = context.mock(RefereeDAO.class);
-        
-        refereedao.setEM(em);
-        
-              
+
+
         referee1 = new Referee();
         referee1.setName("Pepito");
         referee1.setNif("123456A");
-        
+
         team1 = new Team("Team1", Category.FEMALE);
 
         team2 = new Team("Team2", Category.FEMALE);
 
-        
+
         match1 = new Match(team1, team2);
         match1.setReferee(referee1);
-       
+
         matchdao = new MatchDAOImpl();
-        matchdao.setEm(em);  
+        matchdao.setEm(em);
         matchdao.setRefereedb(refereedao);
-        
+
 
     }
 
-    
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void MatchNotHasId() throws Exception {
-        
-      
-          context.checking(new Expectations() {
+
+
+        context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
                 oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(null));
                 oneOf(em).getTransaction().commit();
             }
-           
-          });
-          
+        });
+
         matchdao.findMatchById(match1.getIdMatch());
     }
-    
-   // @Test
-    public void findMatchById() throws Exception {
-        
-       context.checking(new Expectations() {
 
-            {
-                oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(match1));
-                oneOf(em).getTransaction().commit();
-
-            }
-           
-          });
-          
-        matchdao.findMatchById(match1.getIdMatch());
-    }
-    
-    
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void NotMatch() throws Exception {
 
         context.checking(new Expectations() {
@@ -105,6 +83,7 @@ public class MatchDAOImplTest {
             {
                 oneOf(em).getTransaction().begin();
                 oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(null));
+                oneOf(em).getTransaction().commit();
 
 
             }
@@ -115,16 +94,17 @@ public class MatchDAOImplTest {
 
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void NotReferee() throws Exception {
 
-//        referee1.setNif(null);
-        
+        referee1.setNif(null);
+
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
                 oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(match1));
+                oneOf(em).getTransaction().commit();
                 oneOf(refereedao).findRefereeByNif(referee1.getNif()); will(returnValue(null));
 
 
@@ -136,26 +116,37 @@ public class MatchDAOImplTest {
 
     }
 
-   // @Test
-    public void CorrectAddRefereeToMatch() throws Exception {
-
-        final String idMatch = "1234";
+    @Test
+    public void findMatchById() throws Exception {
 
         context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, idMatch);
-                will(returnValue(match1));
-                oneOf(em).find(Referee.class, referee1.getNif());
-                will(returnValue(referee1));
-                oneOf(matchdb).setReferee(referee1);
+                oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(match1));
                 oneOf(em).getTransaction().commit();
 
             }
         });
 
-        matchdao.addRefereeToMatch(idMatch, referee1.getNif());
+        matchdao.findMatchById(match1.getIdMatch());
+    }
+
+    @Test
+    public void CorrectAddRefereeToMatch() throws Exception {
+
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, match1.getIdMatch()); will(returnValue(match1));
+                oneOf(em).getTransaction().commit();
+                oneOf(refereedao).findRefereeByNif(referee1.getNif()); will(returnValue(referee1));
+            }
+        });
+
+        matchdao.addRefereeToMatch(match1.getIdMatch(), referee1.getNif());
 
 
     }

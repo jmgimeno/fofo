@@ -122,7 +122,7 @@ public class CalendarDAOImplTest {
      *
      * @throws Exception
      */
-   // @Test
+   //@Test
     public void CorrectAddCalenadrwithNotWM() throws Exception {
 
         context.checking(new Expectations() {
