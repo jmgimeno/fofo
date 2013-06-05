@@ -71,8 +71,11 @@ public class RefereeComunicationService {
             if (m.getIdMatch().equals(idMatch)) match2 = m;
         }
         if (match2 == null) throw new InvalidMatchException();
+        //match.setInfo(im);
         //if(match.) //Comprovar que un partit ha finalitzat
-        match.setInfo(im);
+        //****MALAMENT. MATCH HA DE CANVIAR L'ATRIBUT DE TIPUS INFOMATCH PER 
+        //DIVERSOS ATRIBUTS AMB LA INFORMACIO PERTINENT (GOLS LOCAL, GOLS VISITANT...)
+        
 
     }
 

@@ -51,6 +51,13 @@ public class CalendarDAOImpl implements CalendarDAO {
             }
 
             em.persist(cal);
+            
+            FCalendar caldb = em.find(FCalendar.class,cal.getIdFCalendar());
+
+           // System.out.println("*****cal.comp="+cal.getCompetition());
+           // System.out.println("****caldb.comp="+cal.getCompetition());
+            
+            
             associateCalendarToCompetition(cal);
 
             associateCalendarToWeekMatches(cal);
@@ -116,12 +123,8 @@ private void addWeekMatches(WeekMatch wm) throws IncorrectTeamException, Persist
 
         if (home != null && visitor != null){   */
          
-        if (em.find(Team.class  
-
-    , match.getHome().getName())!=null
-                      && em.find(Team.class  
-
-        , match.getVisitor().getName())!=null){      
+        if (em.find(Team.class  , match.getHome().getName())!=null
+                      && em.find(Team.class , match.getVisitor().getName())!=null){      
           
             em.persist (match);
     }

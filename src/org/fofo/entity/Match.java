@@ -27,19 +27,23 @@ public class Match {
     @OneToOne
     @JoinColumn(name = "VISITOR_T_NAME", referencedColumnName = "NAME")
     private Team visitor;
+  
     @Temporal(TemporalType.DATE)
     @Column(name = "MATCH_DATE")
     private Date matchDate;
-    @ManyToOne
-    private String nif;
+
+    //@ManyToOne
+    //private String nif;
     
-    @OneToOne
-    @Column (name="INFO_MATCH")
-    private InfoMatch info;
-    //Alejandro+Ivan: Hem afegit el atribut referee ja que 
-    //Match i Referee han d'estar relacionats, pero aquesta tasca no 
-    //l'hem de fer nosaltres. Us falta fer el ORM.
+    //@OneToOne
+    //@Column (name="INFO_MATCH")
+    //private InfoMatch info;
+    
+    //HEU DE SUBSTITUIR AQUEST INFO PELS ATRIBUTS QUE CONSTITUEIXEN LA INFO DEL MATCH.
+    
+    
     @ManyToOne
+    @JoinColumn(name = "REFEREE", referencedColumnName = "NIF")
     private Referee referee;
 
     //private Stadium
@@ -81,7 +85,7 @@ public class Match {
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
     }
-
+/*
     public void setNif(String nif) {
         this.nif = nif;
     }
@@ -89,7 +93,7 @@ public class Match {
     public String getNif() {
         return nif;
     }
-
+*/
     @Override
     public boolean equals(Object obj) {
 
@@ -117,13 +121,6 @@ public class Match {
         return this.referee;
     }
 
-    public void setInfo(InfoMatch im) {
-        this.info = im;
-    }
-    
-    public InfoMatch getInfo(){
-        return this.info;
-    }
 
     public void setReferee(Referee ref) {
         this.referee = ref;
