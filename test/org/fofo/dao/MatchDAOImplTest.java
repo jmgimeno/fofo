@@ -25,7 +25,7 @@ public class MatchDAOImplTest {
     private EntityManager em;
     private MatchDAOImpl matchdao;
     private RefereeDAO refereedao;
-    private Match match;
+    private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;
 
@@ -44,12 +44,21 @@ public class MatchDAOImplTest {
         matchdao = new MatchDAOImpl();
         matchdao.setEm(em);
         matchdao.setRefereedb(refereedao);
+        
+        
+        matchNew = new Match(team1, team2);
+
+        matchdao = new MatchDAOImpl();
+        matchdao.setEm(em);
+        matchdao.setRefereedb(refereedao);
+        
     }
 
 //addRefereeToMatch TEST    
     
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId() throws Exception {
+        
         context.checking(new Expectations() {
 
             {
@@ -64,7 +73,9 @@ public class MatchDAOImplTest {
 
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
+        
         referee.setNif(null);
+       
         context.checking(new Expectations() {
 
             {
@@ -81,6 +92,7 @@ public class MatchDAOImplTest {
 
     @Test
     public void addRefereeToMatch_correct() throws Exception {
+       
         context.checking(new Expectations() {
 
             {
@@ -97,8 +109,9 @@ public class MatchDAOImplTest {
 
 //findMatchById TEST    
     
-    @Test(expected = PersistException.class)
-    public void findMatch_IncorrectId() throws Exception {
+    @Test(expected =IncorrectMatchException.class)
+    public void findMatch_IncorrectId() throws IncorrectMatchException, PersistException {
+       
         context.checking(new Expectations() {
 
             {
@@ -113,7 +126,8 @@ public class MatchDAOImplTest {
     }
 
     @Test
-    public void findMatch_CorrectId() throws Exception {
+    public void findMatch_CorrectId() throws IncorrectMatchException, PersistException {
+      
         context.checking(new Expectations() {
 
             {
@@ -127,4 +141,45 @@ public class MatchDAOImplTest {
 
         matchdao.findMatchById(match.getIdMatch());
     }
+     
+    
+   //@Test (expected = MatchIsAlredyInBDException.class)
+    public void IncorrectInsertMatch() throws Exception{
+        
+          context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, matchNew.getIdMatch()); will(returnValue(matchNew));
+               // oneOf(em).persist(matchNew);
+               // oneOf(em).getTransaction().commit();
+
+            }
+        });
+
+        matchdao.insertMatch(matchNew);
+        
+        
+    }
+    
+    
+   //@Test
+    public void insertMatch() throws Exception{
+        
+          context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, match.getIdMatch()); will (returnValue(null));
+                oneOf(em).persist(matchNew);
+                oneOf(em).getTransaction().commit();
+
+            }
+        });
+
+        matchdao.insertMatch(matchNew);
+        
+        
+    }
+    
 }

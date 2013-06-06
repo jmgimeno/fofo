@@ -2,8 +2,10 @@ package org.fofo.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import org.fofo.entity.Category;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
+import org.fofo.entity.Team;
 
 /**
  *
@@ -49,6 +51,7 @@ public class MatchDAOImpl implements MatchDAO {
         try {
             Match match = findMatchById(idMatch);
             Referee referee = refereedb.findRefereeByNif(refereeNIF);
+            
             if (match == null || referee == null) {
                 throw new PersistException();
             }
@@ -66,28 +69,44 @@ public class MatchDAOImpl implements MatchDAO {
      * @throws PersistException 
      */
     @Override
-    public Match findMatchById(String id) throws PersistException {
-        Match match = null;
-                    System.out.println("ID: "+id);
-        try {
+    public Match findMatchById(String id) throws PersistException, IncorrectMatchException {
 
-            em.getTransaction().begin();
-                                  System.out.println("OOOOOOOOOO"+match.getIdMatch());
+        Match match = null;
+                    //System.out.println("--------------------->ID: "+id);
+        try {
+          em.getTransaction().begin();
+                                  //System.out.println("OOOOOOOOOO"+match.getIdMatch());
             match = (Match) em.find(Match.class, id);
-            em.getTransaction().commit();
+          em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new PersistException();
         }
         if (match == null) {
-                        System.out.println("GGGGGGGGGGGGGG");
-            throw new PersistException();
+                    //    System.out.println("GGGGGGGGGGGGGG");
+            throw new IncorrectMatchException();
         }
         return match;
     }
 
-    public void insertMatch(Match match) {
-        em.getTransaction().begin();
-        em.persist(match);
-        em.getTransaction().commit();
+    @Override
+    public void insertMatch(Match match) throws PersistException{
+      try {
+            em.getTransaction().begin();
+            checkMatchExist(match);
+            em.persist(match);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            throw new PersistException();
+        }
+    }
+
+
+    
+     private void checkMatchExist(Match match) throws MatchIsAlredyInBDException{
+        
+         if (em.find(Match.class, match.getIdMatch()) != null) {
+            throw new MatchIsAlredyInBDException();
+        }     
     }
 }
