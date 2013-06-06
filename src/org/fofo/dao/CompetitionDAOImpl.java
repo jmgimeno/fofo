@@ -10,13 +10,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import org.fofo.entity.ClassificationTC;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 
 /**
  *
- * @author Ivan
+ * @author Ivan, Jordi Niubo i Oriol Capell-
  */
 public class CompetitionDAOImpl implements CompetitionDAO {
 
@@ -109,5 +110,16 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         }
         em.getTransaction().commit();
         return list;
+    }
+
+    @Override
+    public List<ClassificationTC> findClassificationsTC(String name) throws Exception {
+        em.getTransaction().begin();
+        if (name == null) throw new InvalidCompetitionException();
+        Competition comp = (Competition)em.find(Competition.class, name);  
+        if (comp == null) throw new PersistException();        
+        List<ClassificationTC> list = comp.getClassificationsTC();
+        em.getTransaction().commit();
+        return list; 
     }
 }

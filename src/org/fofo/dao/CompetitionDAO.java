@@ -1,12 +1,13 @@
 package org.fofo.dao;
 
 import java.util.List;
+import org.fofo.entity.ClassificationTC;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 
 /**
  *
- * @author RogerTorra
+ * @author RogerTorra, Jordi Niubo i Oriol Capell
  */
 public interface CompetitionDAO {
 
@@ -21,4 +22,7 @@ public interface CompetitionDAO {
     Competition findCompetitionByName(String name) throws Exception;
 
     List<Competition> findCompetitionByTeam(String name) throws Exception;
+    
+    List<ClassificationTC> findClassificationsTC(String name) throws Exception;
+
 }
