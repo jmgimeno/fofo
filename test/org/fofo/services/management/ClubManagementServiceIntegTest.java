@@ -113,7 +113,7 @@ public class ClubManagementServiceIntegTest {
     * 
     */
    
-  //  @Test(expected=InscriptionClubException.class)
+    @Test(expected=AlreadyExistingClubOrTeamsException.class)
     public void testInscriptionClubWithTeamAlreadyInDB() throws Exception{
         Club club2 = new Club("Club 2");    
         club2.setEmail("email@email.com");                    
@@ -128,7 +128,7 @@ public class ClubManagementServiceIntegTest {
         service.addClub(club);
     }     
     
-  //  @Test(expected=InscriptionClubException.class)
+    @Test(expected=AlreadyExistingClubOrTeamsException.class)
     public void testInscriptionClubWithTeamsAlreadyInDB() throws Exception{
         Club club2 = new Club("Club 2");    
         club2.setEmail("email@email.com");                    
@@ -147,7 +147,7 @@ public class ClubManagementServiceIntegTest {
         service.addClub(club);
     }     
     
-   // @Test
+    //@Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
         club.getTeams().add(team1);         
         club.setEmail("email@email.com");                    

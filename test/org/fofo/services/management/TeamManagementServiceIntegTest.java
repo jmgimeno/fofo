@@ -52,51 +52,51 @@ public class TeamManagementServiceIntegTest {
     }
 
 
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoValues() throws Exception{
         service.addTeam(team);
     }
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyEmail() throws Exception{
         team.setEmail("email@email.com");                
         service.addTeam(team);
     }  
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyCategory() throws Exception{
         team.setCategory(Category.MALE);              
         service.addTeam(team);
     }     
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithOnlyClub() throws Exception{
         team.setClub(club);            
         service.addTeam(team);
     }
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoEmail() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club);                
         service.addTeam(team);
     } 
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoClub() throws Exception{
         team.setCategory(Category.MALE);  
         team.setEmail("email@email.com");                  
         service.addTeam(team);
     }   
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithNoCategory() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club);                   
         service.addTeam(team);
     }
     
-    //@Test(expected=InscriptionTeamException.class)
+    @Test(expected=InscriptionTeamException.class)
     public void testInscriptionTeamWithoutClubInDB() throws Exception{
         team.setCategory(Category.MALE);  
         team.setClub(club); 
@@ -109,7 +109,7 @@ public class TeamManagementServiceIntegTest {
     }   
     
     
-    //@Test
+    @Test
     public void testCorrectInscriptionTeam() throws Exception{
         clubDao.addClub(club);        
         team.setCategory(Category.MALE);  

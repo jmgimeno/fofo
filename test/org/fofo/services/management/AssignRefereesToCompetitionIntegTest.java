@@ -98,44 +98,44 @@ public class AssignRefereesToCompetitionIntegTest {
      
     }
 
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoDAO() throws Exception {
         service.assignRefereesToCompetition(compLeague);
     }
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoRefereeDAO() throws Exception {
         service.setCalendarDao(calendarDao);
         service.assignRefereesToCompetition(compLeague);
     }    
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoCalendarDAO() throws Exception {
         service.setRefereeDao(refereeDao);
         service.assignRefereesToCompetition(compLeague);
     }
     
-    //@Test(expected=InvalidRequisitsException.class)
+    @Test(expected=InvalidRequisitsException.class)
     public void testAssignRefereesToCompetitionWithNoMatchDAO() throws Exception {
         service.setMatchDao(matchDao);
         service.assignRefereesToCompetition(compLeague);
     }
     
-    //@Test(expected= CompetitionWithoutFCalendarException.class)
+    @Test(expected= CompetitionWithoutFCalendarException.class)
     public void testAssignRefereesToCompetitionWithNoFCalendar() throws Exception{    
         service.setMatchDao(matchDao);
         service.setRefereeDao(refereeDao);    
         service.setCalendarDao(calendarDao);
         
         Competition comp = Competition.create(CompetitionType.LEAGUE);
-        comp.setName("Competition League"); 
+        comp.setName("Competition Test"); 
         createCompetition(comp);  
         
         service.assignRefereesToCompetition(comp);
     }    
     
     
-    //@Test(expected= IncorrectFCalendarException.class)
+    @Test(expected= IncorrectFCalendarException.class)
     public void testAssignRefereesToCompetitionWithFCalendarWithNoWeekMatch() throws Exception{  
         service.setMatchDao(matchDao);
         service.setRefereeDao(refereeDao);    
@@ -145,14 +145,14 @@ public class AssignRefereesToCompetitionIntegTest {
         calendarDao.addCalendar(calendar);
         
         Competition comp = Competition.create(CompetitionType.LEAGUE);
-        comp.setName("Competition League"); 
+        comp.setName("Competition Test"); 
         createCompetition(comp);  
         comp.setFcalendar(calendar);
         
         service.assignRefereesToCompetition(comp);
     }     
     
-    //@Test(expected= PersistException.class)
+    @Test(expected= PersistException.class)
     public void testAssignRefereesInWeekMatchWithNoMatch() throws Exception{
         service.setMatchDao(matchDao);
         service.setRefereeDao(refereeDao);    
@@ -164,7 +164,7 @@ public class AssignRefereesToCompetitionIntegTest {
         calendar.getAllWeekMatches().add(weekMatch);
         
         Competition comp = Competition.create(CompetitionType.LEAGUE);
-        comp.setName("Competition League"); 
+        comp.setName("Competition Test"); 
         createCompetition(comp);  
         comp.setFcalendar(calendar);
         
@@ -172,7 +172,7 @@ public class AssignRefereesToCompetitionIntegTest {
     }    
     
     
-    //@Test(expected= InsuficientRefereesException.class)
+    @Test(expected= InsuficientRefereesException.class)
     public void testInsuficientRefereesFor1WeekMatch() throws Exception{
         service.setMatchDao(matchDao);
         service.setRefereeDao(refereeDao);    
@@ -190,6 +190,7 @@ public class AssignRefereesToCompetitionIntegTest {
         createFiveReferees("Referee");
         
         service.assignRefereesToCompetition(compLeague);
+        
         Competition comp = getCompFromDB("Competition League");
         assertTrue(allWeekMatchHaveReferee(comp.getFCalendar()));
     }   
@@ -238,8 +239,8 @@ public class AssignRefereesToCompetitionIntegTest {
 
     private void createFiveReferees(String name) throws Exception {
         Referee referee;
-        for(int i =0; i<5; i++){
-            referee = new Referee("NIF 00000"+i,name +" "+i);
+        for(int i=0; i<5; i++){
+            referee = new Referee(name+" NIF 00000"+i,name +" "+i);
             refereeDao.addReferee(referee);
         }
     }
