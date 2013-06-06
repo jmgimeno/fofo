@@ -31,16 +31,12 @@ public class Match {
     @Temporal(TemporalType.DATE)
     @Column(name = "MATCH_DATE")
     private Date matchDate;
-
-    //@ManyToOne
-    //private String nif;
     
     //@OneToOne
     //@Column (name="INFO_MATCH")
     //private InfoMatch info;
     
     //HEU DE SUBSTITUIR AQUEST INFO PELS ATRIBUTS QUE CONSTITUEIXEN LA INFO DEL MATCH.
-    
     
     @ManyToOne
     @JoinColumn(name = "REFEREE", referencedColumnName = "NIF")
