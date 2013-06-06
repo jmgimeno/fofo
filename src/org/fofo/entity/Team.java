@@ -29,6 +29,9 @@ public class Team implements Serializable {
     
     @ManyToMany(mappedBy="teams")    
     private List<Competition> competitions;
+    
+    @OneToMany (mappedBy="team", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    private List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();
    
 
     public List<Competition> getCompetitions() {
@@ -105,6 +108,14 @@ public class Team implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public List<ClassificationTC> getClassificationsTC(){
+        return classificationsTC;
+    }
+    
+    public void setClassificationsTC(List<ClassificationTC> classTC){
+        this.classificationsTC = classTC;        
     }
 
     public String toString(){

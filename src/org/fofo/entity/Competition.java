@@ -44,6 +44,9 @@ public abstract class Competition {
     private int minTeams;
     private CompetitionType type;
     
+    @OneToMany (mappedBy="competition", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    private List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();   
+    
     /*public Competition(){
         create(this.type);
     }*/
@@ -123,6 +126,14 @@ public abstract class Competition {
     
     public FCalendar getFCalendar(){
         return fcalendar;
+    }
+    
+    public List<ClassificationTC> getClassificationsTC(){
+        return classificationsTC;
+    }
+    
+    public void setClassificationsTC(List<ClassificationTC> classTC){
+        this.classificationsTC = classTC;        
     }
 
 
