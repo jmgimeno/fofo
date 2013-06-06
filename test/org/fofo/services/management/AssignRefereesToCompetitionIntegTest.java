@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * @author Jordi Niubó i Oriol Capell
  */
 public class AssignRefereesToCompetitionIntegTest {
-    AssignReferees  service;
+    CompetitionRunServices  service;
     
     EntityManager em = null;
     
@@ -38,7 +38,7 @@ public class AssignRefereesToCompetitionIntegTest {
 
     @Before
     public void setUp() throws Exception {
-        service = new AssignReferees();  
+        service = new CompetitionRunServices();  
         em = getEntityManagerFact(); 
         
         tdao = new TeamDAOImpl();   

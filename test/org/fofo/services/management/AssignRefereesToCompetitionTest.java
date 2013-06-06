@@ -5,8 +5,8 @@ import java.util.List;
 import org.fofo.dao.*;
 import org.fofo.dao.MatchDAO;
 import org.fofo.entity.*;
-import org.fofo.services.management.AssignReferees;
-import org.fofo.services.management.AssignReferees;
+import org.fofo.services.management.CompetitionRunServices;
+import org.fofo.services.management.CompetitionRunServices;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
 public class AssignRefereesToCompetitionTest {
-    AssignReferees  service;   
+    CompetitionRunServices  service;   
     Mockery context = new JUnit4Mockery();
     CalendarDAO calendarDao;
     RefereeDAO refereeDao;  
@@ -42,7 +42,7 @@ public class AssignRefereesToCompetitionTest {
 
     @Before
     public void setUp() throws Exception {     
-        service = new AssignReferees();        
+        service = new CompetitionRunServices();        
         calendarDao = context.mock(CalendarDAO.class);    
         refereeDao = context.mock(RefereeDAO.class);     
         matchDao = context.mock(MatchDAO.class); 

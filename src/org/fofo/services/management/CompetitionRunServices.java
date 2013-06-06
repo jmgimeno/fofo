@@ -3,43 +3,80 @@ package org.fofo.services.management;
 import java.util.List;
 import org.fofo.dao.*;
 import org.fofo.entity.*;
+import org.fofo.utils.Classification;
+import org.fofo.utils.Classification.InfoClassTeam;
 
 /**
  *
- * @author jnp2
+ * @author Jordi Niubo i Oriol Capell
  */
-public class AssignReferees {
+public class CompetitionRunServices {
     private RefereeDAO refereeDao;
     private CalendarDAO calendarDao;
     private MatchDAO matchDao;
     
     private List<Referee> listReferee;
     
-    public AssignReferees(){
+    /**
+     * 
+     */
+    public CompetitionRunServices(){
     }
     
+    /**
+     * Set calendarDAO
+     * @param calDao
+     */
     public void setCalendarDao(CalendarDAO calDao){
         this.calendarDao = calDao;
     }
+    /**
+     * 
+     * @return calendarDao
+     */
     public CalendarDAO getCalendarDao(){
         return calendarDao;
     }
     
+    /**
+     * Set refereeDAO
+     * @param referee
+     */
     public void setRefereeDao(RefereeDAO referee){
         this.refereeDao = referee;
     }
+    /**
+     * 
+     * @return refereeDao
+     */
     public RefereeDAO getRefereeDao(){
         return refereeDao;
     }
     
+    /**
+     * Set matchDao
+     * @param matchDao
+     */
     public void setMatchDao(MatchDAO matchDao){
         this.matchDao = matchDao;
     }
+    /**
+     * 
+     * @return matchDao
+     */
     public MatchDAO getMatchDao(){
         return matchDao;
     }    
     
     
+    /**
+     * Assign referees for each match in comp
+     * @param comp
+     * @throws InvalidRequisitsException
+     * @throws PersistException
+     * @throws CompetitionWithoutFCalendarException
+     * @throws Exception
+     */
     public void assignRefereesToCompetition(Competition comp) throws InvalidRequisitsException,
                               PersistException, CompetitionWithoutFCalendarException, Exception{
         checkForDAOS();
@@ -52,7 +89,23 @@ public class AssignReferees {
         
         assignReferees(listWeekMatch);                
     }
-
+    
+    /**
+     * Create the Classification of comp and return it
+     * @param comp
+     * @return classification
+     */
+    public Classification getClassificationOfCompetition(Competition comp){
+        Classification classification = new Classification();
+               
+        return classification;
+    }
+    
+    /*
+   * PRIVATE OPS
+   * 
+   * 
+   */
     private void checkForDAOS() throws InvalidRequisitsException{
         if(refereeDao == null ||
            calendarDao == null ||
