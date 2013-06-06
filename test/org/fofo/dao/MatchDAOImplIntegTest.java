@@ -56,13 +56,13 @@ public class MatchDAOImplIntegTest {
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
 
-    @Test(expected = PersistException.class)
+//    @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
 
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
-    @Test
+  //  @Test
     public void addRefereeToMatch_correct() throws Exception {
 
         //Introduir un Match-->insertMatch(Match);  
@@ -71,13 +71,13 @@ public class MatchDAOImplIntegTest {
     }
 
 //findMatchById TEST  
-    @Test(expected = IncorrectMatchException.class)
+   // @Test(expected = IncorrectMatchException.class)
     public void findMatch_IncorrectId() throws Exception {
 
         matchDAO.findMatchById("AAA");
     }
 
-    @Test
+   // @Test
     public void findMatch_CorrectId() throws Exception {
         //Introduir un Match-->insertMatch(Match);
         assertEquals(match, matchDAO.findMatchById(match.getIdMatch()));

@@ -152,6 +152,7 @@ public class TeamDAOImplIntegTest {
     public void testGetTeams() throws Exception {
        
         Team team = new Team("team2");
+        team.setClub(club);
         
         tdao.addTeam(team); 
         
@@ -165,6 +166,7 @@ public class TeamDAOImplIntegTest {
     @Test
     public void testFindTeamByName() throws Exception {
         Team team = new Team("team2");
+        team.setClub(club);
         
         tdao.addTeam(team); 
         assertEquals(team, tdao.findTeamByName("team2"));
