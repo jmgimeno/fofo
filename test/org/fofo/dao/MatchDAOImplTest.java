@@ -133,7 +133,7 @@ public class MatchDAOImplTest {
             {
                 oneOf(em).getTransaction().begin();
                 oneOf(em).find(Match.class, match.getIdMatch());
-                will(returnValue(match));
+                will(returnValue(match));;
                 oneOf(em).getTransaction().commit();
 
             }
@@ -143,32 +143,53 @@ public class MatchDAOImplTest {
     }
      
     
-   @Test (expected = MatchIsAlredyInBDException.class)
-    public void IncorrectInsertMatch() throws Exception{
+    @Test(expected = IncorrectMatchException.class)
+    public void MatchNotHaveLocalTeam() throws Exception{
+        
+        matchNew.setHome(null);
         
           context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, matchNew.getIdMatch()); will(returnValue(matchNew));
+                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(match.getHome()));
+                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(matchNew.getVisitor()));
 
             }
         });
 
-        matchdao.insertMatch(matchNew);
-        
-        
+        matchdao.insertMatch(matchNew);   
     }
     
-    
-   //@Test
-    public void insertMatch() throws Exception{
+    @Test(expected = IncorrectMatchException.class)
+    public void MatchNotHaveVisitTeam() throws Exception{
         
+       matchNew.setVisitor(null);  
+            
           context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, match.getIdMatch()); will(returnValue(null));
+                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(matchNew.getHome()));
+                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(match.getVisitor()));
+
+            }
+        });
+
+        matchdao.insertMatch(matchNew);   
+    }
+    
+    
+    
+    //@Test
+    public void insertMatch() throws Exception{
+
+          context.checking(new Expectations() {
+
+            {
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(matchNew.getHome()));
+                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(matchNew.getVisitor()));
                 oneOf(em).persist(matchNew);
                 oneOf(em).getTransaction().commit();
 
@@ -176,8 +197,6 @@ public class MatchDAOImplTest {
         });
 
         matchdao.insertMatch(matchNew);
-        
-        
     }
     
 }

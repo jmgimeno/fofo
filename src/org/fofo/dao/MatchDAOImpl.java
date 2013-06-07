@@ -51,7 +51,7 @@ public class MatchDAOImpl implements MatchDAO {
         try {
             Match match = findMatchById(idMatch);
             Referee referee = refereedb.findRefereeByNif(refereeNIF);
-            
+
             if (match == null || referee == null) {
                 throw new PersistException();
             }
@@ -72,41 +72,40 @@ public class MatchDAOImpl implements MatchDAO {
     public Match findMatchById(String id) throws PersistException, IncorrectMatchException {
 
         Match match = null;
-                    //System.out.println("--------------------->ID: "+id);
+        //System.out.println("--------------------->ID: "+id);
         try {
-          em.getTransaction().begin();
-                                  //System.out.println("OOOOOOOOOO"+match.getIdMatch());
-          match = (Match) em.find(Match.class, id);
-          em.getTransaction().commit();
+            em.getTransaction().begin();
+            //System.out.println("OOOOOOOOOO"+match.getIdMatch());
+            match = (Match) em.find(Match.class, id);
+            em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new PersistException();
         }
         if (match == null) {
-                    //    System.out.println("GGGGGGGGGGGGGG");
+            //    System.out.println("GGGGGGGGGGGGGG");
             throw new IncorrectMatchException();
         }
         return match;
     }
 
     @Override
-    public void insertMatch(Match match) throws MatchIsAlredyInBDException{
-      try {
+    public void insertMatch(Match match) throws IncorrectMatchException {
+        try {
             em.getTransaction().begin();
-            checkMatchExist(match);
+            checkMatch(match);
             em.persist(match);
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            throw new MatchIsAlredyInBDException();
+            throw new IncorrectMatchException();
         }
     }
 
+    private void checkMatch(Match match) throws IncorrectMatchException {
 
-    
-     private void checkMatchExist(Match match) throws MatchIsAlredyInBDException{
-        
-         if (em.find(Match.class, match.getIdMatch()) != null) {
-            throw new MatchIsAlredyInBDException();
-        }     
+        if ((em.find(Match.class, match.getHome()) == null)
+                || (em.find(Match.class, match.getVisitor()) == null)) {
+            throw new IncorrectMatchException();
+        }
     }
 }

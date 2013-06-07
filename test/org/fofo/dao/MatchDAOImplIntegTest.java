@@ -23,7 +23,7 @@ public class MatchDAOImplIntegTest {
     private EntityManager em;
     private MatchDAOImpl matchDAO;
     private RefereeDAO refereeDAO;
-    private Match match;
+    private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;
     private TeamDAO teamDAO;
@@ -49,6 +49,8 @@ public class MatchDAOImplIntegTest {
         matchDAO.setEm(em);
         matchDAO.setRefereedb(refereeDAO);
         //matchDAO.insertMatch(match);
+        
+        matchNew = new Match(team1, team2);
     }
 
     /*
@@ -69,7 +71,8 @@ public class MatchDAOImplIntegTest {
     //@Test
     public void addRefereeToMatch_correct() throws Exception {
 
-        //Introduir un Match-->insertMatch(Match);  
+        matchDAO.insertMatch(match); 
+        refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch(match.getIdMatch(), referee.getNif());
         assertEquals(referee, match.getReferee());
     }
@@ -86,7 +89,8 @@ public class MatchDAOImplIntegTest {
     //@Test
     public void findMatch_CorrectId() throws Exception {
         //Introduir un Match-->insertMatch(Match);
-        assertEquals(match, matchDAO.findMatchById(match.getIdMatch()));
+        matchDAO.insertMatch(matchNew);
+        assertEquals(matchNew, matchDAO.findMatchById(matchNew.getIdMatch()));
     }
 
     private EntityManager getEntityManager() throws Exception {
