@@ -76,7 +76,7 @@ public class MatchDAOImpl implements MatchDAO {
         try {
           em.getTransaction().begin();
                                   //System.out.println("OOOOOOOOOO"+match.getIdMatch());
-            match = (Match) em.find(Match.class, id);
+          match = (Match) em.find(Match.class, id);
           em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new PersistException();
@@ -89,7 +89,7 @@ public class MatchDAOImpl implements MatchDAO {
     }
 
     @Override
-    public void insertMatch(Match match) throws PersistException{
+    public void insertMatch(Match match) throws MatchIsAlredyInBDException{
       try {
             em.getTransaction().begin();
             checkMatchExist(match);
@@ -97,7 +97,7 @@ public class MatchDAOImpl implements MatchDAO {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            throw new PersistException();
+            throw new MatchIsAlredyInBDException();
         }
     }
 

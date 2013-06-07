@@ -27,7 +27,7 @@ public class MatchDAOImplTest {
     private RefereeDAO refereedao;
     private Match match, matchNew;
     private Referee referee;
-    private Team team1, team2;
+    private Team team1, team2, team3, team4;
 
     @Before
     public void setUp() throws Exception {
@@ -38,15 +38,15 @@ public class MatchDAOImplTest {
 
         team1 = new Team("Team1", Category.FEMALE);
         team2 = new Team("Team2", Category.FEMALE);
-
         match = new Match(team1, team2);
 
         matchdao = new MatchDAOImpl();
         matchdao.setEm(em);
         matchdao.setRefereedb(refereedao);
         
-        
-        matchNew = new Match(team1, team2);
+        team3 = new Team("Team3", Category.FEMALE);
+        team4 = new Team("Team4", Category.FEMALE);
+        matchNew = new Match(team3, team4);
 
         matchdao = new MatchDAOImpl();
         matchdao.setEm(em);
@@ -143,7 +143,7 @@ public class MatchDAOImplTest {
     }
      
     
-   //@Test (expected = MatchIsAlredyInBDException.class)
+   @Test (expected = MatchIsAlredyInBDException.class)
     public void IncorrectInsertMatch() throws Exception{
         
           context.checking(new Expectations() {
@@ -151,8 +151,6 @@ public class MatchDAOImplTest {
             {
                 oneOf(em).getTransaction().begin();
                 oneOf(em).find(Match.class, matchNew.getIdMatch()); will(returnValue(matchNew));
-               // oneOf(em).persist(matchNew);
-               // oneOf(em).getTransaction().commit();
 
             }
         });
@@ -170,7 +168,7 @@ public class MatchDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, match.getIdMatch()); will (returnValue(null));
+                oneOf(em).find(Match.class, match.getIdMatch()); will(returnValue(null));
                 oneOf(em).persist(matchNew);
                 oneOf(em).getTransaction().commit();
 

@@ -21,5 +21,5 @@ public interface MatchDAO {
 
     public Match findMatchById(String id) throws PersistException, IncorrectMatchException;
     
-    public void insertMatch(Match match) throws PersistException;
+    public void insertMatch(Match match) throws MatchIsAlredyInBDException;
 }
