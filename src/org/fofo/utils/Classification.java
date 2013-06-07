@@ -3,7 +3,9 @@ package org.fofo.utils;
 import java.util.ArrayList;
 import java.util.List;
 import org.fofo.entity.ClassificationTC;
+import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
+import org.fofo.entity.WeekMatch;
 
 /**
  *
@@ -39,15 +41,59 @@ public class Classification {
         }
         
         public String toString(){
-            String result = team.toString() + " With "+ points + " points.";
+            String result = team.getName() + " With "+ points + " points.";
             return result;
         }
         
     }
     
-    private List<InfoClassTeam> infoClassTeam = new ArrayList<InfoClassTeam>();
+    private List<InfoClassTeam> infoClassTeam;
+    private Competition competition;
     
-    public Classification(){        
+    public Classification(Competition comp){ 
+        this.infoClassTeam = new ArrayList<InfoClassTeam>();
+        this.competition = comp;
     }
+    
+    public Classification(Competition comp,List<InfoClassTeam> ICT){ 
+        this.infoClassTeam = ICT;
+        this.competition = comp;
+    }    
+    
+    public void setInfoClassTeam(List<InfoClassTeam> ICT){
+        this.infoClassTeam = ICT;        
+    }
+    
+    public List<InfoClassTeam> getInfoClassTeam(){
+        return infoClassTeam;
+    }
+    
+    public Competition getCompetition(){
+        return competition;    
+    }
+    
+    public String getName(){
+        return "Classification of Competition "+competition.getName();
+    }
+    
+    @Override
+    public boolean equals(Object obj){  
+        if (! (obj instanceof Classification) ) return false;
+        
+        Classification classif = (Classification) obj;
+        
+        return  this.competition.equals(classif.competition) &&
+                this.infoClassTeam.size() == classif.infoClassTeam.size() && 
+                this.infoClassTeam.containsAll(classif.infoClassTeam);
+    }
+        
+    public String toString(){
+            String result = getName()+"\n";
+            for(int i=0; i<infoClassTeam.size();i++){ 
+                result = result + "Position " +i+ ":"+ infoClassTeam.get(i).toString()+"\n";                             
+            }
+            return result;
+        }
+    
     
 }

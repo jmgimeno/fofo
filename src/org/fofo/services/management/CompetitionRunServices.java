@@ -96,7 +96,7 @@ public class CompetitionRunServices {
      * @return classification
      */
     public Classification getClassificationOfCompetition(Competition comp){
-        Classification classification = new Classification();
+        Classification classification = new Classification(comp);
                
         return classification;
     }
