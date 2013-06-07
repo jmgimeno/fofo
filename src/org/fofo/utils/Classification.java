@@ -1,6 +1,7 @@
 package org.fofo.utils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.fofo.entity.ClassificationTC;
 import org.fofo.entity.Competition;
@@ -44,6 +45,24 @@ public class Classification {
             String result = team.getName() + " With "+ points + " points.";
             return result;
         }
+        
+        
+        public static final Comparator orderByPoints = new Comparator() {            
+            public int compare(Object o1, Object o2) {
+                if (o1 == o2 || !(o1 instanceof InfoClassTeam ) || 
+                                !(o2 instanceof InfoClassTeam )) {
+                    return 0;
+                } else {
+                    InfoClassTeam r1 = (InfoClassTeam) o1;
+                    InfoClassTeam r2 = (InfoClassTeam ) o2;
+                    int points1 = r1.getPoints();
+                    int points2 = r2.getPoints();
+                    return points1 <= points2 ? ((int) (points1 >= points2 ? 0: 1)): -1;
+                }
+            }
+        };        
+        
+        
         
     }
     
@@ -90,7 +109,7 @@ public class Classification {
     public String toString(){
             String result = getName()+"\n";
             for(int i=0; i<infoClassTeam.size();i++){ 
-                result = result + "Position " +i+ ":"+ infoClassTeam.get(i).toString()+"\n";                             
+                result = result + "Position " +(i+1)+ ":"+ infoClassTeam.get(i).toString()+"\n";                             
             }
             return result;
         }
