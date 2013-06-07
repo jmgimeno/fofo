@@ -47,11 +47,6 @@ public class MatchDAOImplTest {
         team3 = new Team("Team3", Category.FEMALE);
         team4 = new Team("Team4", Category.FEMALE);
         matchNew = new Match(team3, team4);
-
-        matchdao = new MatchDAOImpl();
-        matchdao.setEm(em);
-        matchdao.setRefereedb(refereedao);
-        
     }
 
 //addRefereeToMatch TEST    
@@ -152,9 +147,6 @@ public class MatchDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(match.getHome()));
-                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(matchNew.getVisitor()));
-
             }
         });
 
@@ -170,9 +162,6 @@ public class MatchDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(matchNew.getHome()));
-                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(match.getVisitor()));
-
             }
         });
 

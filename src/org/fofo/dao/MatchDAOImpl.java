@@ -2,10 +2,8 @@ package org.fofo.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import org.fofo.entity.Category;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
-import org.fofo.entity.Team;
 
 /**
  *
@@ -88,6 +86,11 @@ public class MatchDAOImpl implements MatchDAO {
         return match;
     }
 
+    /**
+     * Insert a match in BBDD.
+     * @param match: The match to insert
+     * @throws IncorrectMatchException 
+     */
     @Override
     public void insertMatch(Match match) throws IncorrectMatchException {
         try {
@@ -101,11 +104,10 @@ public class MatchDAOImpl implements MatchDAO {
         }
     }
 
-    private void checkMatch(Match match) throws IncorrectMatchException {
+    private void checkMatch(Match match) throws IncorrectMatchTeamsException {
 
-        if ((em.find(Match.class, match.getHome()) == null)
-                || (em.find(Match.class, match.getVisitor()) == null)) {
-            throw new IncorrectMatchException();
+        if (match.getHome() == null || match.getVisitor() == null) {
+            throw new IncorrectMatchTeamsException();
         }
     }
 }
