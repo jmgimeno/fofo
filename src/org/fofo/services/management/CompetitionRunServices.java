@@ -1,5 +1,8 @@
 package org.fofo.services.management;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.fofo.dao.*;
 import org.fofo.entity.*;
@@ -14,6 +17,7 @@ public class CompetitionRunServices {
     private RefereeDAO refereeDao;
     private CalendarDAO calendarDao;
     private MatchDAO matchDao;
+    private CompetitionDAO competitionDao;
     
     private List<Referee> listReferee;
     
@@ -66,7 +70,22 @@ public class CompetitionRunServices {
      */
     public MatchDAO getMatchDao(){
         return matchDao;
-    }    
+    } 
+    
+    /**
+     * Set competitionDao
+     * @param competitionDao
+     */    
+    public void setCompetitionDao(CompetitionDAO dao){
+        this.competitionDao = dao;
+    }
+    /**
+     * 
+     * @return competitionDao
+     */
+    public CompetitionDAO getCompetitionDao(){
+        return competitionDao;
+    }  
     
     
     /**
@@ -79,7 +98,7 @@ public class CompetitionRunServices {
      */
     public void assignRefereesToCompetition(Competition comp) throws InvalidRequisitsException,
                               PersistException, CompetitionWithoutFCalendarException, Exception{
-        checkForDAOS();
+        checkDAOSForAssignReferee();
         FCalendar calendar = calendarDao.findFCalendarByCompetitionName(comp.getName());
         if(calendar==null) throw new CompetitionWithoutFCalendarException();
         
@@ -95,9 +114,23 @@ public class CompetitionRunServices {
      * @param comp
      * @return classification
      */
-    public Classification getClassificationOfCompetition(Competition comp){
-        Classification classification = new Classification(comp);
-               
+    public Classification getClassificationOfCompetition(Competition comp)
+                                    throws InvalidRequisitsException, Exception{
+        if(competitionDao == null) 
+            throw new InvalidRequisitsException();        
+        Classification classification = new Classification(comp);  
+                
+        List<ClassificationTC> classificationsTC = competitionDao.findClassificationsTC(comp.getName());
+        if(classificationsTC==null)
+            throw new CompetitionWithoutClassificationTCException();
+        
+        if(comp.getNumberOfTeams() != classificationsTC.size()) 
+            throw new CompetitionWithoutCorrectClassificationTCException();
+                
+        List<InfoClassTeam> infoClassTeam = createOrderedListOfInfoClassTeam(classificationsTC);
+        
+        classification.setInfoClassTeam(infoClassTeam);
+             
         return classification;
     }
     
@@ -106,7 +139,7 @@ public class CompetitionRunServices {
    * 
    * 
    */
-    private void checkForDAOS() throws InvalidRequisitsException{
+    private void checkDAOSForAssignReferee() throws InvalidRequisitsException{
         if(refereeDao == null ||
            calendarDao == null ||
            matchDao == null ) throw new InvalidRequisitsException();
@@ -140,6 +173,19 @@ public class CompetitionRunServices {
             matchDao.addRefereeToMatch(listMatch.get(i).getIdMatch(),
                                          listReferee.get(i).getNif());   
         }
+    }
+
+    private List<InfoClassTeam> createOrderedListOfInfoClassTeam(List<ClassificationTC> classificationsTC) {
+        List<InfoClassTeam> result = new ArrayList<InfoClassTeam>();
+        
+        for(ClassificationTC classification : classificationsTC){
+            InfoClassTeam info = new InfoClassTeam(classification.getTeam());
+            info.setPoints(classification.getPoints());
+            result.add(info);
+        }
+        Collections.sort(result, InfoClassTeam.orderByPoints);
+
+        return result;
     }
     
 }
