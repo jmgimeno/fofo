@@ -26,7 +26,6 @@ public class MatchDAOImplIntegTest {
     private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;
-    private TeamDAO teamDAO;
 
     @Before
     public void setUp() throws Exception {
@@ -38,9 +37,6 @@ public class MatchDAOImplIntegTest {
 
         team1 = new Team("Team1", Category.FEMALE);
         team2 = new Team("Team2", Category.FEMALE);
-        //teamDAO = new TeamDAOImpl();
-        //teamDAO.addTeam(team1);
-        //teamDAO.addTeam(team2);
 
         match = new Match(team1, team2);
         matchDAO = new MatchDAOImpl();
@@ -49,7 +45,7 @@ public class MatchDAOImplIntegTest {
     }
 
     /*
-     * add0RefereeToMatch function TEST
+     * addRefereeToMatch function TEST
      */
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_NoMatchsInBBDD() throws Exception {
@@ -57,8 +53,14 @@ public class MatchDAOImplIntegTest {
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId() throws Exception {
+
+        matchDAO.addRefereeToMatch("AAA", referee.getNif());
+    }
+
+    //@Test(expected = PersistException.class)
+    public void addRefereeToMatch_IncorrectMatchId2() throws Exception {
         matchDAO.insertMatch(match);
         refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
@@ -70,8 +72,14 @@ public class MatchDAOImplIntegTest {
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
+
+        matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
+    }
+
+    //@Test(expected = PersistException.class)
+    public void addRefereeToMatch_IncorrectRefereeNif2() throws Exception {
         matchDAO.insertMatch(match);
         refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
