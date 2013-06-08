@@ -48,33 +48,8 @@ public class MatchDAOImplIntegTest {
         matchDAO.setRefereedb(refereeDAO);
     }
 
-    @After
-    public void tearDown() throws Exception {
-        em = refereeDAO.getEM();
-        if (em.isOpen()) {
-            em.close();
-        }
-
-        em = matchDAO.getEm();
-        if (em.isOpen()) {
-            em.close();
-        }
-
-        em = getEntityManager();
-        em.getTransaction().begin();
-
-        Query query1 = em.createQuery("DELETE FROM Referee");
-        Query query2 = em.createQuery("DELETE FROM Match");
-        int deleteRecords = query1.executeUpdate();
-        deleteRecords = query2.executeUpdate();
-
-        em.getTransaction().commit();
-        em.close();
-        System.out.println("All records have been deleted.");
-    }
-
     /*
-     * addRefereeToMatch function TEST
+     * add0RefereeToMatch function TEST
      */
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_NoMatchsInBBDD() throws Exception {
@@ -127,5 +102,30 @@ public class MatchDAOImplIntegTest {
     private EntityManager getEntityManager() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
         return emf.createEntityManager();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        em = refereeDAO.getEM();
+        if (em.isOpen()) {
+            em.close();
+        }
+
+        em = matchDAO.getEm();
+        if (em.isOpen()) {
+            em.close();
+        }
+
+        em = getEntityManager();
+        em.getTransaction().begin();
+
+        Query query1 = em.createQuery("DELETE FROM Referee");
+        Query query2 = em.createQuery("DELETE FROM Match");
+        int deleteRecords = query1.executeUpdate();
+        deleteRecords = query2.executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
+        System.out.println("All records have been deleted.");
     }
 }
