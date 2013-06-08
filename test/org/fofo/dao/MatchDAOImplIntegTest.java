@@ -76,15 +76,29 @@ public class MatchDAOImplIntegTest {
     /*
      * addRefereeToMatch function TEST
      */
+    @Test(expected = PersistException.class)
+    public void addRefereeToMatch_NoMatchsInBBDD() throws Exception {
+        refereeDAO.addReferee(referee);
+        matchDAO.addRefereeToMatch("AAA", referee.getNif());
+    }
+
     //@Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId() throws Exception {
         matchDAO.insertMatch(match);
+        refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
+    }
+
+    //@Test(expected = PersistException.class)
+    public void addRefereeToMatch_NoRefereesInBBDD() throws Exception {
+        matchDAO.insertMatch(match);
+        matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
     //@Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
         matchDAO.insertMatch(match);
+        refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
