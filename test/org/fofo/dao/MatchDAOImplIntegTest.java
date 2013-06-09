@@ -22,7 +22,7 @@ public class MatchDAOImplIntegTest {
 
     private EntityManager em;
     private MatchDAOImpl matchDAO;
-    private RefereeDAO refereeDAO;
+    private RefereeDAOImpl refereeDAO;
     private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;

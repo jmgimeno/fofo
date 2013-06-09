@@ -14,10 +14,6 @@ import org.fofo.entity.Referee;
  */
 public interface RefereeDAO {
     
-    void setEM(EntityManager em);
-    
-    EntityManager getEM();
-    
     void addReferee(Referee ref) throws Exception;
     
     Referee findRefereeByNif(String nif) throws Exception;

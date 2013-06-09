@@ -39,9 +39,8 @@ public class ClubDAOImplIntegTest {
    
         team = new Team("testTeam1"); 
         team.setClub(club);    
-        List<Competition> comps = new ArrayList<Competition>();
-//        comps.add(new CompetitionLeague());
-        team.setCompetitions(comps);
+//        List<Competition> comps = new ArrayList<Competition>();
+//        team.setCompetitions(comps);
         
         List<Team> teams = new ArrayList<Team>();        
         teams.add(team);
@@ -81,7 +80,7 @@ public class ClubDAOImplIntegTest {
         c.setTeams(club.getTeams());
         
         clubDao.addClub(club);
-        clubDao.addClub(club);
+        clubDao.addClub(c);
     }
      
     

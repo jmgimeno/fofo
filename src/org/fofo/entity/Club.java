@@ -55,6 +55,7 @@ public class Club {
         this.teams = teams;
     }
     
+    @Override
     public boolean equals(Object obj){
         
         return (obj instanceof Club) && 
@@ -65,6 +66,7 @@ public class Club {
                 
     }
     
+    @Override
     public String toString(){
      
         return "Club name="+name + "teams="+teams;

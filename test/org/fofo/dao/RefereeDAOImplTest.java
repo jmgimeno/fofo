@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
@@ -54,8 +55,6 @@ public class RefereeDAOImplTest {
         transactionExpectations();
         context.checking(new Expectations() {
             {
-                oneOf(em).find(Referee.class, referee.getNif());
-                will(returnValue(null));
                 oneOf(em).persist(referee);
             }
         });
@@ -70,8 +69,8 @@ public class RefereeDAOImplTest {
         transactionExpectations();
         context.checking(new Expectations() {
             {
-                oneOf(em).find(Referee.class, referee.getNif());
-                will(returnValue(referee));
+                oneOf(em).persist(referee);
+                will(throwException(new PersistenceException()));
             }
         });
 
@@ -95,7 +94,7 @@ public class RefereeDAOImplTest {
     @Test
     public void testFindRefereeByMatch() throws Exception{
         final Referee referee = new Referee("NifReferee1","Referee1");
-        final Match m = new Match(new Team("home"),new Team("visitant"));
+        final Match m = new Match(new Team("home"),new Team("visitor"));
         
         m.setReferee(referee);
         referee.getMatches().add(m);
@@ -113,6 +112,24 @@ public class RefereeDAOImplTest {
         
         assertEquals(referee, rdao.findRefereeByMatch(m.getIdMatch()));
         
+    }
+    
+    @Test (expected = NotAssignedMatchToRefereeException.class)
+    public void testNotAssignedMatchToReferee() throws Exception{
+        final Referee referee = new Referee("NifReferee1","Referee1");
+        final Match m = new Match(new Team("home"),new Team("visitor"));
+        
+        m.setReferee(referee);
+        
+        transactionExpectations();
+        context.checking(new Expectations(){
+            {
+                oneOf(em).find(Match.class, m.getIdMatch());
+                will(returnValue(m));
+            }
+        });
+        
+        assertEquals(referee, rdao.findRefereeByMatch(m.getIdMatch()));
     }
     
     @Test

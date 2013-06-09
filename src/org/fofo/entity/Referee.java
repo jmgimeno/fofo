@@ -21,19 +21,23 @@ public class Referee {
     private String nif;
     @Column(name = "NAME")
     private String name;
+    private String email;
 
     @OneToMany(mappedBy="referee", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER) 
     private List<Match> assignedMatches;
-    private String email;
 
     public Referee() {
         this.assignedMatches = new ArrayList<Match>();
+        this.nif="";
+        this.name="";
+        this.email="";
     }
 
     public Referee(String nif, String name) {
         this.assignedMatches = new ArrayList<Match>();
         this.nif = nif;
         this.name = name;
+        this.email = "";
     }
 
     public String getNif() {
@@ -71,14 +75,15 @@ public class Referee {
 
     @Override
     public String toString() {
-        return "Name: " + this.name + ", Nif: " + this.nif + "";
+        return "Name: " + this.name + ", Nif: " + this.nif + ", Email: "+this.email;
     }
 
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof Referee)
                 && ((Referee) obj).nif.equals(this.nif)
-                && ((Referee) obj).name.equals(this.name);
+                && ((Referee) obj).name.equals(this.name)
+                && ((Referee) obj).email.equals(this.email);
 
     }
 

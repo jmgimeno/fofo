@@ -22,32 +22,30 @@ public class RefereeDAOImpl implements RefereeDAO {
     public RefereeDAOImpl() {
     }
 
-    @Override
     public void setEM(EntityManager em) {
         this.em = em;
     }
 
-    @Override
     public EntityManager getEM() {
         return this.em;
     }
 
     @Override
-    public void addReferee(Referee ref) throws Exception {
+    public void addReferee(Referee ref) throws AlreadyExistingRefereeException {
 
         try {
             em.getTransaction().begin();
-            checkRefereeExist(ref);
             em.persist(ref);
             em.getTransaction().commit();
 
-        } catch (Exception e) {
-            throw e;
+        } catch (PersistenceException e) {
+            throw new AlreadyExistingRefereeException("This referee <"
+                    + ref.getNif() + "> already exist in DB");
         }
     }
 
     @Override
-    public Referee findRefereeByNif(String nif) throws Exception {
+    public Referee findRefereeByNif(String nif) throws IllegalArgumentException {
         Referee referee = null;
         try {
 
@@ -55,7 +53,7 @@ public class RefereeDAOImpl implements RefereeDAO {
             referee = (Referee) em.find(Referee.class, nif);
             em.getTransaction().commit();
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw e;
         }
 
@@ -63,13 +61,13 @@ public class RefereeDAOImpl implements RefereeDAO {
     }
     
     @Override
-    public Referee findRefereeByMatch(String matchId) throws Exception{
+    public Referee findRefereeByMatch(String matchId) throws NotAssignedMatchToRefereeException,IllegalArgumentException{
         Match m = null;
         try{
             em.getTransaction().begin();
             m = (Match) em.find(Match.class, matchId);
             em.getTransaction().commit();
-        }catch(Exception e){
+        }catch(IllegalArgumentException e){
             throw e;
         }        
         Referee r = m.getReferee();
@@ -98,10 +96,4 @@ public class RefereeDAOImpl implements RefereeDAO {
         return referees;
     }
 
-    private void checkRefereeExist(Referee referee) throws AlreadyExistingRefereeException {
-        if (em.find(Referee.class, referee.getNif()) != null) {
-            throw new AlreadyExistingRefereeException("This referee "
-                    + referee.getNif() + " already exist in DB");
-        }
-    }
 }

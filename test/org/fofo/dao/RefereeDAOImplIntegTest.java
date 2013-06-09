@@ -38,6 +38,7 @@ public class RefereeDAOImplIntegTest {
         refDao.setEM(em);
         
         referee = new Referee("refereeNif","refereeName");
+        referee.setEmail("referee@mail.com");
         
     }
 
@@ -77,6 +78,11 @@ public class RefereeDAOImplIntegTest {
     
 //    @Test (expected = NotAssignedMatchToRefereeException.class) 
     public void notAssignedMatchToReferee() throws Exception{
+        Match m = new Match(new Team("home"),new Team("visitor"));                
+        m.setReferee(referee);
+        
+        refDao.addReferee(referee);        
+        assertEquals(m,refDao.findRefereeByMatch(m.getIdMatch()));        
     }
     
 
