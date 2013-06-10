@@ -12,14 +12,13 @@ import org.fofo.entity.Match;
  *
  * @author imt1
  */
-@Entity
-@Table (name="INFO_MATCH")
+
 public class InfoMatch {
     
-    @Id
-    private String id;
     
-    @OneToOne (mappedBy="info")
+    private String id;
+    private String idCompetition;
+   
     private Match match;
     
     private String place;
@@ -53,13 +52,15 @@ public class InfoMatch {
      * @param goalsVisiting
      * @param observations
      */
-    public InfoMatch(String place, Date matchDate, int goalsHome, int goalsVisiting, String observations) {
+    public InfoMatch(String place, Date matchDate, int goalsHome, int goalsVisiting, String observations,
+            String idComp) {
         this.place = place;
         this.matchDate = matchDate;
         this.goalsHome = goalsHome;
         this.goalsVisiting = goalsVisiting;
         this.observations = observations;
         this.id = match.getIdMatch();
+        this.idCompetition = idComp;
     }
 
     /**
@@ -184,6 +185,14 @@ public class InfoMatch {
     @Override
     public boolean equals(Object obj){
         return (obj instanceof InfoMatch)&&((InfoMatch)obj).id.equals(this.id);
+    }
+
+    public String getIdCompetition() {
+        return idCompetition;
+    }
+
+    public void setIdCompetition(String idCompetition) {
+        this.idCompetition = idCompetition;
     }
     
 }

@@ -7,7 +7,6 @@ package org.fofo.entity;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
-import org.fofo.utils.InfoMatch;
 
 /**
  *
@@ -27,16 +26,17 @@ public class Match {
     @OneToOne
     @JoinColumn(name = "VISITOR_T_NAME", referencedColumnName = "NAME")
     private Team visitor;
-  
     @Temporal(TemporalType.DATE)
     @Column(name = "MATCH_DATE")
     private Date matchDate;
-    
-    //@OneToOne
-    //@Column (name="INFO_MATCH")
-    //private InfoMatch info;
-    
-    //HEU DE SUBSTITUIR AQUEST INFO PELS ATRIBUTS QUE CONSTITUEIXEN LA INFO DEL MATCH.
+    @Column(name = "place")
+    private String place;
+    @Column(name = "goalsHome")
+    private int goalsHome;
+    @Column(name = "goalsVisiting")
+    private int goalsVisiting;
+    @Column(name = "observations")
+    private String observations;
     
     @ManyToOne
     @JoinColumn(name = "REFEREE", referencedColumnName = "NIF")
@@ -117,15 +117,12 @@ public class Match {
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
     }
-/*
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
+    /*
+     * public void setNif(String nif) { this.nif = nif; }
+     *
+     * public String getNif() { return nif; }
+     */
 
-    public String getNif() {
-        return nif;
-    }
-*/
     @Override
     public boolean equals(Object obj) {
 
@@ -157,7 +154,6 @@ public class Match {
         return this.referee;
     }
 
-
     /**
      *
      * @param ref
@@ -165,4 +161,40 @@ public class Match {
     public void setReferee(Referee ref) {
         this.referee = ref;
     }
+
+    public int getGoalsHome() {
+        return goalsHome;
+    }
+
+    public void setGoalsHome(int goalsHome) {
+        this.goalsHome = goalsHome;
+    }
+
+    public int getGoalsVisiting() {
+        return goalsVisiting;
+    }
+
+    public void setGoalsVisiting(int goalsVisiting) {
+        this.goalsVisiting = goalsVisiting;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+    
+    
+    
+    
 }
