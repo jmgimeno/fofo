@@ -137,14 +137,6 @@ public class Match {
         //m.visitor.getName().equals (visitor.getName());
     }
 
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.idMatch);
-        hash = 59 * hash + Objects.hashCode(this.home);
-        hash = 59 * hash + Objects.hashCode(this.visitor);
-        hash = 59 * hash + Objects.hashCode(this.referee);
-        return hash;
-    }
 
     @Override
     public String toString() {
