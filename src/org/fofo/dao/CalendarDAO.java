@@ -11,15 +11,43 @@ import org.fofo.entity.Match;
  */
 public interface CalendarDAO {
 
+    /**
+     *
+     * @param cal
+     * @throws IncorrectTeamException
+     * @throws PersistException
+     */
     void addCalendar(FCalendar cal) throws IncorrectTeamException, PersistException;
 
+    /**
+     *
+     * @return
+     */
     TeamDAO getTd();
 
+    /**
+     *
+     * @param td
+     */
     void setTd(TeamDAO td);
 
+    /**
+     *
+     * @return
+     */
     EntityManager getEm();
 
+    /**
+     *
+     * @param em
+     */
     void setEm(EntityManager em);
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistException
+     */
     FCalendar findFCalendarByCompetitionName(String name) throws PersistException;
 }

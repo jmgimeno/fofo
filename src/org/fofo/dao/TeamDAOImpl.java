@@ -19,22 +19,39 @@ public class TeamDAOImpl implements TeamDAO{
 
    EntityManager em;
    
-   public TeamDAOImpl(){
+    /**
+     *
+     */
+    public TeamDAOImpl(){
        
 
        
    }
    
-   public void setEM(EntityManager em){
+    /**
+     *
+     * @param em
+     */
+    public void setEM(EntityManager em){
        this.em = em;
    }
    
-   public EntityManager getEM(){
+    /**
+     *
+     * @return
+     */
+    public EntityManager getEM(){
        return this.em;
    }
 
 
-   @Override
+    /**
+     *
+     * @param team
+     * @throws PersistException
+     * @throws IncorrectTeamException
+     */
+    @Override
     public void addTeam(Team team) throws PersistException, 
                                           IncorrectTeamException{
     
@@ -63,11 +80,19 @@ public class TeamDAOImpl implements TeamDAO{
        }
     }
     
+    /**
+     *
+     * @param name
+     */
     public void removeTeam(String name){
     
     }
     
    
+    /**
+     *
+     * @return
+     */
     public List<Team> getTeams(){
         
         List<Team> teams = new ArrayList<Team>();
@@ -80,7 +105,13 @@ public class TeamDAOImpl implements TeamDAO{
     }
     
     
-   @Override
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistException
+     */
+    @Override
     public Team findTeamByName(String name) throws PersistException{
        Team team = null; 
        try{
@@ -101,12 +132,22 @@ public class TeamDAOImpl implements TeamDAO{
         
     }
     
+    /**
+     *
+     * @param name
+     * @return
+     */
     public List<Team> findTeamByClub(String name){
         
         return null;
     }
 
 //CAL TREURE-LA!!!!!
+    /**
+     *
+     * @param team
+     * @return
+     */
     public boolean findTeam(Team team) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -19,17 +19,33 @@ public class ClubDAOImpl implements ClubDAO {
 
     private EntityManager em;
     
+    /**
+     *
+     */
     public ClubDAOImpl() {
     }
 
+    /**
+     *
+     * @param em
+     */
     public void setEM(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEM() {
         return this.em;
     }
     
+    /**
+     *
+     * @param club
+     * @throws Exception
+     */
     @Override
     public void addClub(Club club) throws Exception {
         
@@ -47,11 +63,20 @@ public class ClubDAOImpl implements ClubDAO {
         }
     }
 
+    /**
+     *
+     * @param name
+     */
     @Override
     public void removeClub(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Club> getClubs() throws Exception{  
         List<Club> clubs = null;
@@ -68,6 +93,12 @@ public class ClubDAOImpl implements ClubDAO {
         return clubs;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistenceException
+     */
     @Override
     public Club findClubByName(String name) throws PersistenceException{
         Club club = null;
@@ -83,6 +114,12 @@ public class ClubDAOImpl implements ClubDAO {
         return club;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistenceException
+     */
     @Override
     public Club findClubByTeam(String name) throws PersistenceException{
         Team team = null;

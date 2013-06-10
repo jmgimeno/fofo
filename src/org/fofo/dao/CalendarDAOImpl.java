@@ -14,21 +14,37 @@ public class CalendarDAOImpl implements CalendarDAO {
     EntityManager em;
     TeamDAO td;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public TeamDAO getTd() {
         return td;
     }
 
+    /**
+     *
+     * @param td
+     */
     @Override
     public void setTd(TeamDAO td) {
         this.td = td;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public EntityManager getEm() {
         return em;
     }
 
+    /**
+     *
+     * @param em
+     */
     @Override
     public void setEm(EntityManager em) {
         this.em = em;
@@ -69,6 +85,12 @@ public class CalendarDAOImpl implements CalendarDAO {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistException
+     */
     @Override
     public FCalendar findFCalendarByCompetitionName(String name) throws PersistException {
         FCalendar cal = null;

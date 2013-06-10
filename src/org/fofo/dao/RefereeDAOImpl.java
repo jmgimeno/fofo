@@ -19,17 +19,33 @@ public class RefereeDAOImpl implements RefereeDAO {
 
     private EntityManager em;
 
+    /**
+     *
+     */
     public RefereeDAOImpl() {
     }
 
+    /**
+     *
+     * @param em
+     */
     public void setEM(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEM() {
         return this.em;
     }
 
+    /**
+     *
+     * @param ref
+     * @throws AlreadyExistingRefereeException
+     */
     @Override
     public void addReferee(Referee ref) throws AlreadyExistingRefereeException {
 
@@ -44,6 +60,12 @@ public class RefereeDAOImpl implements RefereeDAO {
         }
     }
 
+    /**
+     *
+     * @param nif
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public Referee findRefereeByNif(String nif) throws IllegalArgumentException {
         Referee referee = null;
@@ -60,6 +82,13 @@ public class RefereeDAOImpl implements RefereeDAO {
         return referee;
     }
     
+    /**
+     *
+     * @param matchId
+     * @return
+     * @throws NotAssignedMatchToRefereeException
+     * @throws IllegalArgumentException
+     */
     @Override
     public Referee findRefereeByMatch(String matchId) throws NotAssignedMatchToRefereeException,IllegalArgumentException{
         Match m = null;
@@ -80,6 +109,11 @@ public class RefereeDAOImpl implements RefereeDAO {
         return findRefereeByNif(r.getNif());
     }
     
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Referee> getAllReferees() throws Exception {
         List<Referee> referees = null;

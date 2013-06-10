@@ -14,14 +14,41 @@ import org.fofo.entity.Club;
  */
 public interface ClubDAO {
     
+    /**
+     *
+     * @param club
+     * @throws Exception
+     */
     public void addClub(Club club) throws Exception;
     
+    /**
+     *
+     * @param name
+     * @throws PersistException
+     */
     void removeClub(String name) throws PersistException;
     
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public List<Club> getClubs() throws Exception;
     
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistenceException
+     */
     public Club findClubByName(String name) throws PersistenceException;
     
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistenceException
+     */
     public Club findClubByTeam(String name) throws PersistenceException; 
     
 }

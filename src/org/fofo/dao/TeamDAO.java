@@ -19,17 +19,47 @@ import org.fofo.entity.Team;
 
 public interface TeamDAO {
     
+    /**
+     *
+     * @param team
+     * @throws PersistException
+     * @throws IncorrectTeamException
+     */
     void addTeam(Team team) throws PersistException, 
                                     IncorrectTeamException;
     
+    /**
+     *
+     * @param name
+     */
     void removeTeam(String name);
     
+    /**
+     *
+     * @param team
+     * @return
+     */
     boolean findTeam(Team team);
    
+    /**
+     *
+     * @return
+     */
     List<Team> getTeams();
     
     
+    /**
+     *
+     * @param name
+     * @return
+     * @throws PersistException
+     */
     Team findTeamByName(String name) throws PersistException;
     
+    /**
+     *
+     * @param name
+     * @return
+     */
     List<Team> findTeamByClub(String name);
 }

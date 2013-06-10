@@ -23,17 +23,33 @@ public class CompetitionDAOImpl implements CompetitionDAO {
 
     EntityManager em;
 
+    /**
+     *
+     */
     public CompetitionDAOImpl() {
     }
 
+    /**
+     *
+     * @param em
+     */
     public void setEM(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEM() {
         return this.em;
     }
 
+    /**
+     *
+     * @param competition
+     * @throws PersistException
+     */
     @Override
     public void addCompetition(Competition competition) throws PersistException {
         try {
@@ -47,6 +63,11 @@ public class CompetitionDAOImpl implements CompetitionDAO {
 
     }
 
+    /**
+     *
+     * @param name
+     * @throws Exception
+     */
     @Override
     public void removeCompetition(String name) throws Exception{
         em.getTransaction().begin();
@@ -56,7 +77,13 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         em.getTransaction().commit();
     }
 
-   @Override
+    /**
+     *
+     * @param competition
+     * @param team
+     * @throws Exception
+     */
+    @Override
     public void addTeam(Competition competition, Team team) throws Exception {
             em.getTransaction().begin();
 
@@ -78,6 +105,10 @@ public class CompetitionDAOImpl implements CompetitionDAO {
             em.getTransaction().commit();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Competition> getCompetitionms() {
         List<Competition> list = new ArrayList<Competition>();
@@ -88,6 +119,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         return list;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws Exception
+     */
     @Override
     public Competition findCompetitionByName(String name) throws Exception{
         em.getTransaction().begin();
@@ -98,6 +135,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         return comp;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Competition> findCompetitionByTeam(String name) throws Exception{
         List<Competition> list = new ArrayList<Competition>();
@@ -112,6 +155,12 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         return list;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<ClassificationTC> findClassificationsTC(String name) throws Exception {
         em.getTransaction().begin();

@@ -15,24 +15,43 @@ public class MatchDAOImpl implements MatchDAO {
     private EntityManager em;
     private RefereeDAO refereedb;
 
+    /**
+     *
+     */
     public MatchDAOImpl() {
     }
 
+    /**
+     *
+     * @param em
+     */
     @Override
     public void setEm(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public EntityManager getEm() {
         return this.em;
     }
 
+    /**
+     *
+     * @param refereedb
+     */
     @Override
     public void setRefereedb(RefereeDAO refereedb) {
         this.refereedb = refereedb;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public RefereeDAO getRefereedb() {
         return refereedb;
