@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.fofo.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.*;
 
@@ -132,12 +129,21 @@ public class Match {
 
         Match m = (Match) obj;
 
-        return m.home.equals(this.home) && m.visitor.equals(this.visitor)
-                && m.referee.equals(this.referee);
+        return m.idMatch.equals(this.idMatch)
+                && ((m.home == null && this.home == null) || m.home.equals(this.home))
+                && ((m.visitor == null && this.visitor == null) || m.visitor.equals(this.visitor))
+                && ((m.referee == null && this.referee == null) || m.referee.equals(this.referee));
         //getName().equals(home.getName()) && 
         //m.visitor.getName().equals (visitor.getName());
+    }
 
-
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.idMatch);
+        hash = 59 * hash + Objects.hashCode(this.home);
+        hash = 59 * hash + Objects.hashCode(this.visitor);
+        hash = 59 * hash + Objects.hashCode(this.referee);
+        return hash;
     }
 
     @Override

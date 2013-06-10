@@ -119,6 +119,7 @@ public class MatchDAOImpl implements MatchDAO {
             em.getTransaction().commit();
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IncorrectMatchException();
         }
     }
@@ -128,5 +129,11 @@ public class MatchDAOImpl implements MatchDAO {
         if (match.getHome() == null || match.getVisitor() == null) {
             throw new IncorrectMatchTeamsException();
         }
+        
+        if (em.find(Match.class,match.getHome().getName())== null ||
+             em.find(Match.class,match.getVisitor().getName())== null)
+          throw new IncorrectMatchTeamsException();
+                
+        
     }
 }

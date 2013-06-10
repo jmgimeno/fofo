@@ -1,5 +1,6 @@
 package org.fofo.dao;
 
+//import org.fofo.entity.Club;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,25 +20,47 @@ import static org.junit.Assert.*;
  * @author Anton Urrea
  */
 public class MatchDAOImplIntegTest {
-
+    
     private EntityManager em;
     private MatchDAOImpl matchDAO;
     private RefereeDAOImpl refereeDAO;
+//    private TeamDAOImpl teamDAO;
     private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;
-
+//    private Club club;
+//    private ClubDAOImpl clubDAO;
+    
     @Before
     public void setUp() throws Exception {
         em = getEntityManager();
-
+        
         referee = new Referee("12345678A", "Pepito");
         refereeDAO = new RefereeDAOImpl();
         refereeDAO.setEM(em);
-
+        
+        
+//        club = new Club("name");
+//        club.setEmail("email");
+//        clubDAO = new ClubDAOImpl();
+//        clubDAO.setEM(em);
+//        clubDAO.addClub(club);
+        
         team1 = new Team("Team1", Category.FEMALE);
         team2 = new Team("Team2", Category.FEMALE);
-
+//        teamDAO = new TeamDAOImpl();
+//        teamDAO.setEM(em);
+//        
+//        teamDAO.addTeam(team1);
+//        teamDAO.addTeam(team2);
+//        club.getTeams().add(team1);
+//        club.getTeams().add(team2);
+        
+//        em.getTransaction().begin();
+//        em.persist(team1);
+//        em.persist(team2);
+//        em.getTransaction().commit();
+        
         match = new Match(team1, team2);
         matchDAO = new MatchDAOImpl();
         matchDAO.setEm(em);
@@ -52,10 +75,10 @@ public class MatchDAOImplIntegTest {
         refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
-
+    
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId() throws Exception {
-
+        
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
 
@@ -71,10 +94,10 @@ public class MatchDAOImplIntegTest {
         matchDAO.insertMatch(match);
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
-
+    
     @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif() throws Exception {
-
+        
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
@@ -106,32 +129,46 @@ public class MatchDAOImplIntegTest {
         matchDAO.insertMatch(match);
         assertEquals(match, matchDAO.findMatchById(match.getIdMatch()));
     }
-
+    
     private EntityManager getEntityManager() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("fofo");
         return emf.createEntityManager();
     }
-
+    
     @After
     public void tearDown() throws Exception {
         em = refereeDAO.getEM();
         if (em.isOpen()) {
             em.close();
         }
-
+        
         em = matchDAO.getEm();
         if (em.isOpen()) {
             em.close();
         }
-
+        
+//        em = teamDAO.getEM();
+//        if (em.isOpen()) {
+//            em.close();
+//        }
+//        
+//        em = clubDAO.getEM();
+//        if (em.isOpen()) {
+//            em.close();
+//        }
+        
         em = getEntityManager();
         em.getTransaction().begin();
-
+        
         Query query1 = em.createQuery("DELETE FROM Referee");
         Query query2 = em.createQuery("DELETE FROM Match");
+//        Query query3 = em.createQuery("DELETE FROM Team");
+//        Query query4 = em.createQuery("DELETE FROM Club");
         int deleteRecords = query1.executeUpdate();
         deleteRecords = query2.executeUpdate();
-
+//        deleteRecords = query3.executeUpdate();
+//        deleteRecords = query4.executeUpdate();
+        
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");

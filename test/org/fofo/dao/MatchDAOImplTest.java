@@ -170,15 +170,15 @@ public class MatchDAOImplTest {
     
     
     
-    //@Test
+    @Test
     public void insertMatch() throws Exception{
 
           context.checking(new Expectations() {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, matchNew.getHome()); will(returnValue(matchNew.getHome()));
-                oneOf(em).find(Match.class, matchNew.getVisitor()); will(returnValue(matchNew.getVisitor()));
+                oneOf(em).find(Match.class, matchNew.getHome().getName()); will(returnValue(matchNew.getHome()));
+                oneOf(em).find(Match.class, matchNew.getVisitor().getName()); will(returnValue(matchNew.getVisitor()));
                 oneOf(em).persist(matchNew);
                 oneOf(em).getTransaction().commit();
 
