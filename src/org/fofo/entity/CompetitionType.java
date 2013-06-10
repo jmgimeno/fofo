@@ -10,6 +10,13 @@ package org.fofo.entity;
  */
 public enum CompetitionType {
     
-    LEAGUE, CUP
+    /**
+     *
+     */
+    LEAGUE,
+    /**
+     *
+     */
+    CUP
     
 }

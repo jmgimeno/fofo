@@ -43,41 +43,77 @@ public class Match {
     private Referee referee;
 
     //private Stadium
+    /**
+     *
+     */
     public Match() {
         this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
 
     }
 
+    /**
+     *
+     * @param home
+     * @param visitor
+     */
     public Match(Team home, Team visitor) {
         this.home = home;
         this.visitor = visitor;
         this.idMatch = UUID.randomUUID().toString(); //L'ha de generar Match, ningu altre
     }
 
+    /**
+     *
+     * @return
+     */
     public String getIdMatch() {
         return idMatch;
     }
 
+    /**
+     *
+     * @return
+     */
     public Team getHome() {
         return home;
     }
 
+    /**
+     *
+     * @param home
+     */
     public void setHome(Team home) {
         this.home = home;
     }
 
+    /**
+     *
+     * @return
+     */
     public Team getVisitor() {
         return visitor;
     }
 
+    /**
+     *
+     * @param visitor
+     */
     public void setVisitor(Team visitor) {
         this.visitor = visitor;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getMatchDate() {
         return this.matchDate;
     }
 
+    /**
+     *
+     * @param matchDate
+     */
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
     }
@@ -113,11 +149,19 @@ public class Match {
         return "<Match:" + home.getName() + "-" + visitor.getName() + ">";
     }
 
+    /**
+     *
+     * @return
+     */
     public Referee getReferee() {
         return this.referee;
     }
 
 
+    /**
+     *
+     * @param ref
+     */
     public void setReferee(Referee ref) {
         this.referee = ref;
     }

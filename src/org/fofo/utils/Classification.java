@@ -14,23 +14,42 @@ import org.fofo.entity.WeekMatch;
  */
 public class Classification {
 
+    /**
+     *
+     */
     public static class InfoClassTeam {
         private int points;
         private Team team;
 
+        /**
+         *
+         * @param team
+         */
         public InfoClassTeam(Team team) {
             this.team = team;
             this.points = 0;
         }
         
+        /**
+         *
+         * @param p
+         */
         public void setPoints(int p){
             this.points = p;
         }
         
+        /**
+         *
+         * @return
+         */
         public int getPoints(){
             return points;
         }
         
+        /**
+         *
+         * @return
+         */
         public Team getTeam(){
             return team;
         }
@@ -47,6 +66,9 @@ public class Classification {
         }
         
         
+        /**
+         *
+         */
         public static final Comparator orderByPoints = new Comparator() {            
             public int compare(Object o1, Object o2) {
                 if (o1 == o2 || !(o1 instanceof InfoClassTeam ) || 
@@ -69,28 +91,53 @@ public class Classification {
     private List<InfoClassTeam> infoClassTeam;
     private Competition competition;
     
+    /**
+     *
+     * @param comp
+     */
     public Classification(Competition comp){ 
         this.infoClassTeam = new ArrayList<InfoClassTeam>();
         this.competition = comp;
     }
     
+    /**
+     *
+     * @param comp
+     * @param ICT
+     */
     public Classification(Competition comp,List<InfoClassTeam> ICT){ 
         this.infoClassTeam = ICT;
         this.competition = comp;
     }    
     
+    /**
+     *
+     * @param ICT
+     */
     public void setInfoClassTeam(List<InfoClassTeam> ICT){
         this.infoClassTeam = ICT;        
     }
     
+    /**
+     *
+     * @return
+     */
     public List<InfoClassTeam> getInfoClassTeam(){
         return infoClassTeam;
     }
     
+    /**
+     *
+     * @return
+     */
     public Competition getCompetition(){
         return competition;    
     }
     
+    /**
+     *
+     * @return
+     */
     public String getName(){
         return "Classification of Competition "+competition.getName();
     }

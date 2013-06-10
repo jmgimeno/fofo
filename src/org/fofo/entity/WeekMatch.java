@@ -36,41 +36,76 @@ public class WeekMatch {
     private List<Match> Matchs = new ArrayList<Match>();
     
     
+    /**
+     *
+     */
     public WeekMatch(){
         this.weekMatchId = UUID.randomUUID().toString();   
         
     }
     
+    /**
+     *
+     * @return
+     */
     public String getWeekMatchId(){
         return this.weekMatchId;
     }
     
+    /**
+     *
+     * @param m
+     */
     public void addMatch(Match m){
         if(!Matchs.contains(m)){              
                 this.Matchs.add( m);
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public List<Match> getListOfWeekMatches(){
         return Matchs;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getNumberOfMatchs(){
         return Matchs.size();
     }
 
+    /**
+     *
+     * @return
+     */
     public FCalendar getCalendar() {
         return calendar;
     }
 
+    /**
+     *
+     * @param calendar
+     */
     public void setCalendar(FCalendar calendar) {
         this.calendar = calendar;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Match> getMatchs() {
         return Matchs;
     }
 
+    /**
+     *
+     * @param Matchs
+     */
     public void setMatchs(List<Match> Matchs) {
         this.Matchs = Matchs;
     }

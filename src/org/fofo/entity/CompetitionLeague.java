@@ -14,6 +14,10 @@ import javax.persistence.Entity;
 import javax.persistence.DiscriminatorValue;
 
 
+/**
+ *
+ * @author ruffolution
+ */
 @Entity
 @DiscriminatorValue(value="LEAGUE")
 
@@ -23,16 +27,27 @@ public class CompetitionLeague extends Competition{
     private int maxTeams;
     private int minTeams;
     
+    /**
+     *
+     */
     public CompetitionLeague(){
         super();
         this.setType(CompetitionType.LEAGUE);
     }
     
+    /**
+     *
+     * @param type
+     */
     public CompetitionLeague(CompetitionType type){
         super();
         this.setType(type);
     }
 
+    /**
+     *
+     * @param maxTeams
+     */
     @Override
     public void setMaxTeams(int maxTeams) {
         if(validMaxTeams(maxTeams)) this.maxTeams = maxTeams;
@@ -46,16 +61,28 @@ public class CompetitionLeague extends Competition{
         }
     }
 
+    /**
+     *
+     * @param minTeams
+     */
     @Override
     public void setMinTeams(int minTeams) {
         if(validMinTeams(minTeams)) 
             this.minTeams = minTeams;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getMaxTeams(){
         return this.maxTeams;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getMinTeams(){
         return this.minTeams;
     }

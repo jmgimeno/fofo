@@ -23,34 +23,65 @@ public class Club {
     @OneToMany (mappedBy="club", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private List<Team> teams = new ArrayList<Team>();
     
+    /**
+     *
+     */
     public Club(){
         
     }
     
+    /**
+     *
+     * @param name
+     */
     public Club(String name){
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Team> getTeams() {
         return teams;
     }
 
+    /**
+     *
+     * @param teams
+     */
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }

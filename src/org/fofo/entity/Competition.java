@@ -51,6 +51,11 @@ public abstract class Competition {
         create(this.type);
     }*/
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public static Competition create(CompetitionType type){
         if(type.equals(CompetitionType.LEAGUE)){
             return new CompetitionLeague(type);
@@ -58,80 +63,160 @@ public abstract class Competition {
         else return new CompetitionCup(type);
     }
    
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
     
+    /**
+     *
+     * @param team
+     */
     public void addTeam(Team team){
         teams.add(team);
     }
 
+    /**
+     *
+     * @return
+     */
     public Category getCategory() {
         return category;
     }
 
+    /**
+     *
+     * @param category
+     */
     public void setCategory(Category category) {
         this.category = category;
     }
 
 
+    /**
+     *
+     * @param fcalendar
+     */
     public void setFcalendar(FCalendar fcalendar) {
         this.fcalendar = fcalendar;
     }
 
     
+    /**
+     *
+     * @return
+     */
     public Date getInici() {
         return inici;
     }
 
+    /**
+     *
+     * @param inici
+     */
     public void setInici(Date inici) {
         this.inici = inici;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Team> getTeams() {
         return teams;
     }
 
+    /**
+     *
+     * @param teams
+     */
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMaxTeams() {
         return maxTeams;
     }
 
+    /**
+     *
+     * @param maxTeams
+     */
     public abstract void setMaxTeams(int maxTeams);
 
+    /**
+     *
+     * @return
+     */
     public int getMinTeams() {
         return minTeams;
     }
 
+    /**
+     *
+     * @param minTeams
+     */
     public abstract void setMinTeams(int minTeams);
 
+    /**
+     *
+     * @return
+     */
     public CompetitionType getType() {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(CompetitionType type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumberOfTeams() {
         return teams.size();
     }
     
+    /**
+     *
+     * @return
+     */
     public FCalendar getFCalendar(){
         return fcalendar;
     }
     
+    /**
+     *
+     * @return
+     */
     public List<ClassificationTC> getClassificationsTC(){
         return classificationsTC;
     }
     
+    /**
+     *
+     * @param classTC
+     */
     public void setClassificationsTC(List<ClassificationTC> classTC){
         this.classificationsTC = classTC;        
     }
@@ -155,6 +240,11 @@ public abstract class Competition {
                 && equals(((Competition)obj).teams);
     }
     
+    /**
+     *
+     * @param teams
+     * @return
+     */
     public boolean equals(List<Team> teams){
         return (this.teams.size() == teams.size())
                 && (this.teams.containsAll(teams));

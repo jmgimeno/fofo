@@ -26,6 +26,9 @@ public class Referee {
     @OneToMany(mappedBy="referee", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER) 
     private List<Match> assignedMatches;
 
+    /**
+     *
+     */
     public Referee() {
         this.assignedMatches = new ArrayList<Match>();
         this.nif="";
@@ -33,6 +36,11 @@ public class Referee {
         this.email="";
     }
 
+    /**
+     *
+     * @param nif
+     * @param name
+     */
     public Referee(String nif, String name) {
         this.assignedMatches = new ArrayList<Match>();
         this.nif = nif;
@@ -40,35 +48,67 @@ public class Referee {
         this.email = "";
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNif() {
         return nif;
     }
 
+    /**
+     *
+     * @param nif
+     */
     public void setNif(String nif) {
         this.nif = nif;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Match> getMatches() {
         return assignedMatches;
     }
     
+    /**
+     *
+     * @param matches
+     */
     public void setMatches(List<Match> matches){
         this.assignedMatches = matches;
     }
 
     
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email){
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return this.email;
     }

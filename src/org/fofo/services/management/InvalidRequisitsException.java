@@ -10,6 +10,9 @@ package org.fofo.services.management;
  */
 public class InvalidRequisitsException extends Exception {
 
+    /**
+     *
+     */
     public InvalidRequisitsException() {
     }
     

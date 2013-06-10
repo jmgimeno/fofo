@@ -29,34 +29,68 @@ public class RefereeComunicationService {
     RefereeDAO refDAO;
     MatchDAO matchDAO;
     
+    /**
+     *
+     */
     public RefereeComunicationService(){
         this.referees = new ArrayList<Referee>();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Referee> getReferees() {
         return referees;
     }
 
+    /**
+     *
+     * @param referees
+     */
     public void setReferees(List<Referee> referees) {
         this.referees = referees;
     }
 
+    /**
+     *
+     * @return
+     */
     public MatchDAO getMatchDAO() {
         return matchDAO;
     }
 
+    /**
+     *
+     * @param matchDAO
+     */
     public void setMatchDAO(MatchDAO matchDAO) {
         this.matchDAO = matchDAO;
     }
 
+    /**
+     *
+     * @return
+     */
     public RefereeDAO getRefDAO() {
         return refDAO;
     }
 
+    /**
+     *
+     * @param refDAO
+     */
     public void setRefDAO(RefereeDAO refDAO) {
         this.refDAO = refDAO;
     }
 
+    /**
+     *
+     * @param nif
+     * @param idMatch
+     * @param im
+     * @throws Exception
+     */
     public void communicateResultMatch(String nif, String idMatch, 
             InfoMatch im) 
             throws Exception {
@@ -79,6 +113,10 @@ public class RefereeComunicationService {
 
     }
 
+    /**
+     *
+     * @param comp
+     */
     public void communicateRefereesMatchesComp(Competition comp) {
         FCalendar cal = comp.getFCalendar();
         List<WeekMatch> wms = cal.getAllWeekMatches();

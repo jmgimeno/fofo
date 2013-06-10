@@ -9,7 +9,18 @@ package org.fofo.entity;
  * @author josepma
  */
 public enum Category {
-  MALE,FEMALE,VETERAN;
+    /**
+     *
+     */
+    MALE,
+    /**
+     *
+     */
+    FEMALE,
+    /**
+     *
+     */
+    VETERAN;
     
     
 }

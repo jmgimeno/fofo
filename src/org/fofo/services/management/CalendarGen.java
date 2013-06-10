@@ -11,9 +11,20 @@ import org.joda.time.DateTime;
 public abstract class CalendarGen {    
        
 //    public abstract FCalendar calculateCalendar() throws Exception;  
+    /**
+     *
+     * @param comp
+     * @return
+     * @throws Exception
+     */
     public abstract FCalendar calculateCalendar(Competition comp) throws Exception; 
 
             
+    /**
+     *
+     * @param comp
+     * @throws Exception
+     */
     public static void checkRequirements(Competition comp) throws Exception {
             
        if(!isLeagueCompetition(comp) && !isCupCompetition(comp)) 

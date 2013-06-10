@@ -32,34 +32,67 @@ public class ManagementService {
     private Competition competition;
     private TeamDAO teamDao;
 
+    /**
+     *
+     * @return
+     */
     public CompetitionDAO getcDao() {
         return cDao;
     }
 
+    /**
+     *
+     * @param cDao
+     */
     public void setcDao(CompetitionDAO cDao) {
         this.cDao = cDao;
     }
 
+    /**
+     *
+     * @param clubDao
+     */
     public void setClubDao(ClubDAO clubDao) {
         this.clubDao = clubDao;
     }
 
+    /**
+     *
+     * @param teamDao
+     */
     public void setTeamDao(TeamDAO teamDao) {
         this.teamDao = teamDao;
     }
 
+    /**
+     *
+     * @param competition
+     */
     public void setCompetition(Competition competition) {
         this.competition = competition;
     }
 
+    /**
+     *
+     * @return
+     */
     public ClubDAO getClubDao() {
         return clubDao;
     }
 
+    /**
+     *
+     * @return
+     */
     public Competition getCompetition() {
         return competition;
     }
 
+    /**
+     *
+     * @param comp
+     * @throws Exception
+     */
     public void addCompetition(Competition comp) throws Exception {
         List<Club> clubs = new ArrayList<Club>();
         checkForExceptions(comp);
@@ -274,6 +307,12 @@ public class ManagementService {
                 && TeamsSpace(competition);
     }
 
+    /**
+     *
+     * @param team
+     * @throws InscriptionTeamException
+     * @throws Exception
+     */
     public void addTeam(Team team) throws InscriptionTeamException, Exception {
         if(!checkForTeamExceptions(team)) throw new InscriptionTeamException();
         if(!clubExist(team.getClub())) throw new InscriptionTeamException();
@@ -292,6 +331,12 @@ public class ManagementService {
         return clubDao.getClubs().contains(club);
     }
 
+    /**
+     *
+     * @param club
+     * @throws InscriptionClubException
+     * @throws Exception
+     */
     public void addClub(Club club) throws InscriptionClubException, Exception {
         if(!checkForClubExceptions(club)) throw new InscriptionClubException();
         

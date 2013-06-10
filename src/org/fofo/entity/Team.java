@@ -34,22 +34,41 @@ public class Team implements Serializable {
     private List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();
    
 
+    /**
+     *
+     * @return
+     */
     public List<Competition> getCompetitions() {
         return competitions;
     }
 
+    /**
+     *
+     * @param competitions
+     */
     public void setCompetitions(List<Competition> competitions) {
         this.competitions = competitions;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
    
+    /**
+     *
+     */
     public Team() {
 
 	name = "";
@@ -58,6 +77,12 @@ public class Team implements Serializable {
         club = null;
     }
 
+    /**
+     *
+     * @param name
+     * @param club
+     * @param cat
+     */
     public Team (String name, Club club, Category cat){
         
         this.name= name;
@@ -67,6 +92,11 @@ public class Team implements Serializable {
      
     }
     
+    /**
+     *
+     * @param name
+     * @param cat
+     */
     public Team (String name, Category cat){
         
         this.name= name;
@@ -76,6 +106,10 @@ public class Team implements Serializable {
  
     }
     
+    /**
+     *
+     * @param name
+     */
     public Team (String name){
         this.name = name;
         this.club = null;
@@ -83,18 +117,34 @@ public class Team implements Serializable {
     }
     
     
+    /**
+     *
+     * @return
+     */
     public Club getClub() {
         return club;
     }
 
+    /**
+     *
+     * @param club
+     */
     public void setClub(Club club) {
         this.club = club;
     }
 
+    /**
+     *
+     * @return
+     */
     public Category getCategory() {
         return category;
     }
 
+    /**
+     *
+     * @param category
+     */
     public void setCategory(Category category) {
         this.category = category;
     }
@@ -102,18 +152,34 @@ public class Team implements Serializable {
     
 
     
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
     
+    /**
+     *
+     * @return
+     */
     public List<ClassificationTC> getClassificationsTC(){
         return classificationsTC;
     }
     
+    /**
+     *
+     * @param classTC
+     */
     public void setClassificationsTC(List<ClassificationTC> classTC){
         this.classificationsTC = classTC;        
     }

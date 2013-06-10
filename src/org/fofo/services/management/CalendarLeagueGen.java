@@ -20,6 +20,12 @@ public class CalendarLeagueGen extends CalendarGen{
     private LinkedList<Team> visitors;
     
   
+    /**
+     *
+     * @param competition
+     * @return
+     * @throws Exception
+     */
     @Override
     public FCalendar calculateCalendar(Competition competition) throws Exception{     
         numTeams = competition.getNumberOfTeams();
@@ -48,6 +54,11 @@ public class CalendarLeagueGen extends CalendarGen{
         return cal;
     }    
     
+    /**
+     *
+     * @param numRound
+     * @return
+     */
     public List<WeekMatch> getWeekMatchesByRound(int numRound){
         List<WeekMatch> list = null;
         int n = numTeams-1;

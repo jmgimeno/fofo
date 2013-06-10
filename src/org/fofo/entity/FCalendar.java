@@ -35,12 +35,19 @@ public class FCalendar {
     
     
     
+    /**
+     *
+     */
     public FCalendar(){
         this.competition = null;
         this.weekMatches = new ArrayList<WeekMatch>();  
         this.idFCalendar = UUID.randomUUID().toString();
     }
        
+    /**
+     *
+     * @param c
+     */
     public FCalendar(Competition c){
         this.competition = c;
         this.weekMatches = new ArrayList<WeekMatch>();
@@ -49,30 +56,59 @@ public class FCalendar {
     
     }   
     
+    /**
+     *
+     * @param c
+     */
     public void setCompetition(Competition c){
         this.competition = c;
     }
     
+    /**
+     *
+     * @param wm
+     */
     public void setWeekMatches(List<WeekMatch> wm){
         this.weekMatches = wm;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getIdFCalendar(){
         return this.idFCalendar;
     }
     
+    /**
+     *
+     * @return
+     */
     public List<WeekMatch> getAllWeekMatches() {
         return weekMatches;
     }
     
+    /**
+     *
+     * @param index
+     * @return
+     */
     public WeekMatch getWeekMatch(int index){
         return weekMatches.get(index);
     }
     
+    /**
+     *
+     * @return
+     */
     public int getNumOfWeekMatches(){
         return weekMatches.size();
     }
     
+    /**
+     *
+     * @return
+     */
     public Competition getCompetition(){
         return competition;
     }  

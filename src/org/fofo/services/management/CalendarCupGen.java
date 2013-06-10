@@ -16,10 +16,22 @@ import org.fofo.entity.WeekMatch;
 public class CalendarCupGen extends CalendarGen{
     private List<WeekMatch> weekMatches ; 
 
+    /**
+     *
+     */
     public CalendarCupGen() {
         weekMatches = new ArrayList<WeekMatch>();
     }
 
+    /**
+     *
+     * @param competition
+     * @return
+     * @throws InvalidRequisitsException
+     * @throws TeamCanPlayOnlyOneMatchForAWeekException
+     * @throws UnknownCompetitionTypeException
+     * @throws Exception
+     */
     @Override
     public FCalendar calculateCalendar(Competition competition) throws InvalidRequisitsException,
                        TeamCanPlayOnlyOneMatchForAWeekException, UnknownCompetitionTypeException, Exception{ 
