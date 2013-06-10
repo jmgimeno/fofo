@@ -59,8 +59,8 @@ public class TeamDAOImpl implements TeamDAO{
        try{
           em.getTransaction().begin();
 
-          //if (team.getClub() == null || team.getClub().getName() == null) 
-          //                                  throw new IncorrectTeamException();
+          if (team.getClub() == null || team.getClub().getName() == null) 
+                                            throw new IncorrectTeamException();
           
           Club club = (Club) em.find(Club.class, team.getClub().getName());
           if (club == null) throw new IncorrectTeamException();
