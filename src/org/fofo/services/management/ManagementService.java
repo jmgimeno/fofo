@@ -348,7 +348,7 @@ public class ManagementService {
             throw new InscriptionClubException();
         
         clubDao.addClub(club);  
-        addAllTeams(club.getTeams(), club);     
+        if(club.getTeams().size() >0) addAllTeams(club.getTeams(), club);     
     }
 
     private boolean checkForClubExceptions(Club club) {

@@ -294,73 +294,81 @@ System.out.println(classification.toString());
     
     private List<InfoClassTeam> createNewInfoTeam() {  
         List<InfoClassTeam> list = new ArrayList<InfoClassTeam>();
-        infoTeam1 = new InfoClassTeam(team1);
-        infoTeam1.setPoints(10);
-        infoTeam2 = new InfoClassTeam(team2);
-        infoTeam2.setPoints(100);        
-        infoTeam3 = new InfoClassTeam(team3);
-        infoTeam3.setPoints(23);    
-        infoTeam4 = new InfoClassTeam(team4);
-        infoTeam4.setPoints(34);    
-        infoTeam5 = new InfoClassTeam(team5);
-        infoTeam5.setPoints(67);    
-        infoTeam6 = new InfoClassTeam(team6);
-        infoTeam6.setPoints(12);    
-        infoTeam7 = new InfoClassTeam(team7);
-        infoTeam7.setPoints(56);    
-        infoTeam8 = new InfoClassTeam(team8);
-        infoTeam8.setPoints(9);    
-        infoTeam9 = new InfoClassTeam(team9);
-        infoTeam9.setPoints(53);    
-        infoTeam10 = new InfoClassTeam(team10); 
-        infoTeam10.setPoints(44);       
         
-        list.add(infoTeam2);     
-        list.add(infoTeam5);    
-        list.add(infoTeam7);    
+        infoTeam2 = new InfoClassTeam(team2);
+        infoTeam2.setPoints(100); 
+        list.add(infoTeam2);  
+        
+        infoTeam5 = new InfoClassTeam(team5);
+        infoTeam5.setPoints(67);     
+        list.add(infoTeam5); 
+        
+        infoTeam7 = new InfoClassTeam(team7);
+        infoTeam7.setPoints(56);
+        list.add(infoTeam7);   
+         
+        infoTeam9 = new InfoClassTeam(team9);
+        infoTeam9.setPoints(53);   
         list.add(infoTeam9);    
-        list.add(infoTeam10);    
-        list.add(infoTeam4);    
-        list.add(infoTeam3);    
-        list.add(infoTeam6);    
-        list.add(infoTeam1);    
+        
+        infoTeam10 = new InfoClassTeam(team10); 
+        infoTeam10.setPoints(44); 
+        list.add(infoTeam10);
+        
+        infoTeam4 = new InfoClassTeam(team4);
+        infoTeam4.setPoints(34); 
+        list.add(infoTeam4); 
+        
+        infoTeam3 = new InfoClassTeam(team3);
+        infoTeam3.setPoints(23); 
+        list.add(infoTeam3);  
+        
+        infoTeam6 = new InfoClassTeam(team6);
+        infoTeam6.setPoints(12); 
+        list.add(infoTeam6);
+        
+        infoTeam1 = new InfoClassTeam(team1);
+        infoTeam1.setPoints(10);     
+        list.add(infoTeam1);   
+        
+        infoTeam8 = new InfoClassTeam(team8);
+        infoTeam8.setPoints(9);   
         list.add(infoTeam8);
         
         return list;
     }
 
     private List<ClassificationTC> createNewClassificationTC() {  
-        List<ClassificationTC> list = new ArrayList<ClassificationTC>();
-        ClassificationTC1 = new ClassificationTC(comp, team1);
-        ClassificationTC1.setPoints(10);list.add(ClassificationTC1);
-                
+        List<ClassificationTC> list = new ArrayList<ClassificationTC>();                
         ClassificationTC2 = new ClassificationTC(comp, team2);
         ClassificationTC2.setPoints(100);list.add(ClassificationTC2);
         
-        ClassificationTC3 = new ClassificationTC(comp, team3);
-        ClassificationTC3.setPoints(23);list.add(ClassificationTC3);
-        
-        ClassificationTC4 = new ClassificationTC(comp, team4);  
-        ClassificationTC4.setPoints(34);list.add(ClassificationTC4);
-            
         ClassificationTC5 = new ClassificationTC(comp, team5);
         ClassificationTC5.setPoints(67);list.add(ClassificationTC5);
-        
-        ClassificationTC6 = new ClassificationTC(comp, team6);
-        ClassificationTC6.setPoints(12);list.add(ClassificationTC6);
         
         ClassificationTC7 = new ClassificationTC(comp, team7);
         ClassificationTC7.setPoints(56);list.add(ClassificationTC7);
         
-        ClassificationTC8 = new ClassificationTC(comp, team8);
-        ClassificationTC8.setPoints(9);list.add(ClassificationTC8);
-               
         ClassificationTC9 = new ClassificationTC(comp, team9);
         ClassificationTC9.setPoints(53);list.add(ClassificationTC9);
         
         ClassificationTC10 = new ClassificationTC(comp, team10);
         ClassificationTC10.setPoints(44);list.add(ClassificationTC10);
         
+        ClassificationTC4 = new ClassificationTC(comp, team4);  
+        ClassificationTC4.setPoints(34);list.add(ClassificationTC4);
+        
+        ClassificationTC3 = new ClassificationTC(comp, team3);
+        ClassificationTC3.setPoints(23);list.add(ClassificationTC3);  
+        
+        ClassificationTC6 = new ClassificationTC(comp, team6);
+        ClassificationTC6.setPoints(12);list.add(ClassificationTC6);
+        
+        ClassificationTC1 = new ClassificationTC(comp, team1);
+        ClassificationTC1.setPoints(10);list.add(ClassificationTC1);  
+        
+        ClassificationTC8 = new ClassificationTC(comp, team8);
+        ClassificationTC8.setPoints(9);list.add(ClassificationTC8);
         
         return list;
     }
