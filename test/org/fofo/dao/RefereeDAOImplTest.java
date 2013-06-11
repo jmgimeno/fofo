@@ -55,6 +55,8 @@ public class RefereeDAOImplTest {
         transactionExpectations();
         context.checking(new Expectations() {
             {
+                oneOf(em).find(Referee.class, referee.getNif());
+                will(returnValue(null));
                 oneOf(em).persist(referee);
             }
         });
@@ -69,8 +71,8 @@ public class RefereeDAOImplTest {
         transactionExpectations();
         context.checking(new Expectations() {
             {
-                oneOf(em).persist(referee);
-                will(throwException(new PersistenceException()));
+                oneOf(em).find(Referee.class, referee.getNif());
+                will(returnValue(referee));                
             }
         });
 

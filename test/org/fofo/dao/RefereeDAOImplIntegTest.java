@@ -43,7 +43,7 @@ public class RefereeDAOImplIntegTest {
     }
 
 
-//    @Test
+    @Test
     public void testAddReferee() throws Exception {
         
         refDao.addReferee(referee);        
@@ -54,13 +54,13 @@ public class RefereeDAOImplIntegTest {
                       referee,refereeDB);
     }
 
-//    @Test (expected = AlreadyExistingRefereeException.class)
+    @Test (expected = AlreadyExistingRefereeException.class)
     public void alreadyExistRefereeInDB() throws Exception {
         refDao.addReferee(referee);
         refDao.addReferee(referee);
     }    
 
-//    @Test
+    @Test
     public void testFindRefereeByNif() throws Exception {
         refDao.addReferee(referee);
         assertEquals(referee,refDao.findRefereeByNif(referee.getNif()));
@@ -68,12 +68,14 @@ public class RefereeDAOImplIntegTest {
     
 //    @Test
     public void testFindRefereeByMatch() throws Exception{
-        Match m = new Match(new Team("home"),new Team("visitant"));
-        m.setReferee(referee);
+        Match m = new Match(new Team("home"),new Team("visitant"));        
         referee.getMatches().add(m);
+        m.setReferee(referee);
+        
         refDao.addReferee(referee);
         
-        assertEquals(m,refDao.findRefereeByMatch(m.getIdMatch()));
+                
+        assertEquals(referee,refDao.findRefereeByMatch(m.getIdMatch()));
     }
     
 //    @Test (expected = NotAssignedMatchToRefereeException.class) 
@@ -81,12 +83,11 @@ public class RefereeDAOImplIntegTest {
         Match m = new Match(new Team("home"),new Team("visitor"));                
         m.setReferee(referee);
         
-        refDao.addReferee(referee);        
-        assertEquals(m,refDao.findRefereeByMatch(m.getIdMatch()));        
+        refDao.addReferee(referee);                        
     }
     
 
-//    @Test
+    @Test
     public void testGetAllReferees() throws Exception {
         refDao.addReferee(referee);
         

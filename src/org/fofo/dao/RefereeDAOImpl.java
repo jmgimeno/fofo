@@ -47,16 +47,16 @@ public class RefereeDAOImpl implements RefereeDAO {
      * @throws AlreadyExistingRefereeException
      */
     @Override
-    public void addReferee(Referee ref) throws AlreadyExistingRefereeException {
+    public void addReferee(Referee ref) throws AlreadyExistingRefereeException, PersistenceException {
 
         try {
             em.getTransaction().begin();
+            checkExistingReferee(ref);
             em.persist(ref);
             em.getTransaction().commit();
 
         } catch (PersistenceException e) {
-            throw new AlreadyExistingRefereeException("This referee <"
-                    + ref.getNif() + "> already exist in DB");
+            throw e;
         }
     }
 
@@ -128,6 +128,12 @@ public class RefereeDAOImpl implements RefereeDAO {
         }
 
         return referees;
+    }
+    
+    private void checkExistingReferee(Referee ref) throws AlreadyExistingRefereeException{
+        if(em.find(Referee.class, ref.getNif()) != null)
+            throw new AlreadyExistingRefereeException("This referee <"
+                    + ref.getNif() + "> already exist in DB");
     }
 
 }
