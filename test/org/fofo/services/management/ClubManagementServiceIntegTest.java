@@ -147,7 +147,7 @@ public class ClubManagementServiceIntegTest {
         service.addClub(club);
     }     
     
-    //@Test
+    @Test
     public void testCorrectInscriptionClubWithTeam() throws Exception{
         club.getTeams().add(team1);         
         club.setEmail("email@email.com");                    
@@ -160,7 +160,7 @@ public class ClubManagementServiceIntegTest {
         assertEquals("Teams should be equals", team1, teamDB);
     }     
     
-    //@Test
+    @Test
     public void testCorrectInscriptionClubWithTeams() throws Exception{
         club.getTeams().add(team1);    
         club.getTeams().add(team2);        
@@ -173,7 +173,7 @@ public class ClubManagementServiceIntegTest {
         
         assertEquals("Clubs should be equals", club, cluDB);       
         assertEquals("Teams 1 should be equals", team1, team1DB);
-        assertEquals("Teams 2 should be equals", team1, team2DB);
+        assertEquals("Teams 2 should be equals", team2, team2DB);
     }     
 
   /*

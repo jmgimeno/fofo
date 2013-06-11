@@ -348,7 +348,7 @@ public class ManagementService {
             throw new InscriptionClubException();
         
         clubDao.addClub(club);  
-        if(club.getTeams().size() >0) addAllTeams(club.getTeams(), club);     
+        if(club.getTeams().size() >0) addAllTeams(club);     
     }
 
     private boolean checkForClubExceptions(Club club) {
@@ -357,11 +357,15 @@ public class ManagementService {
                 && club.getEmail() != null;        
     }
 
-    private void addAllTeams(List<Team> teams, Club club) throws Exception {
-        for(Team team : teams){
-            team.setClub(club);
+    private void addAllTeams(Club club) throws Exception {
+        List<Team> teams = club.getTeams();
+        int size = teams.size();
+        
+        for(int i=0; i<size;i++){  
+            Team team = teams.get(i);
+            team.setClub(club); 
             addTeam(team);
-        }
+        }        
     }
 
     private boolean anyTeamIsInDB(List<Team> teams) throws PersistException{       
