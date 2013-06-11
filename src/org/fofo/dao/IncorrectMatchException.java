@@ -8,6 +8,6 @@ package org.fofo.dao;
  *
  * @author jnp2
  */
-class IncorrectMatchException extends Exception {
+public class IncorrectMatchException extends Exception {
     
 }
