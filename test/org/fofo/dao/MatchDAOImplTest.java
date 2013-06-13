@@ -177,8 +177,8 @@ public class MatchDAOImplTest {
 
             {
                 oneOf(em).getTransaction().begin();
-                oneOf(em).find(Match.class, matchNew.getHome().getName()); will(returnValue(matchNew.getHome()));
-                oneOf(em).find(Match.class, matchNew.getVisitor().getName()); will(returnValue(matchNew.getVisitor()));
+                oneOf(em).find(Team.class, matchNew.getHome().getName()); will(returnValue(matchNew.getHome()));
+                oneOf(em).find(Team.class, matchNew.getVisitor().getName()); will(returnValue(matchNew.getVisitor()));
                 oneOf(em).persist(matchNew);
                 oneOf(em).getTransaction().commit();
 

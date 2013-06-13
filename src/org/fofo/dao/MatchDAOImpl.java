@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
+import org.fofo.entity.Team;
 
 /**
  *
@@ -130,10 +131,12 @@ public class MatchDAOImpl implements MatchDAO {
             throw new IncorrectMatchTeamsException();
         }
         
-        if (em.find(Match.class,match.getHome().getName())== null ||
-             em.find(Match.class,match.getVisitor().getName())== null)
+        if (em.find(Team.class,match.getHome().getName())== null ||
+             em.find(Team.class,match.getVisitor().getName())== null){
+                //****HAVIEU POSAT Match.class en lloc de Team.class
+          System.out.println("*****TEAMS NOT IN DB");  
           throw new IncorrectMatchTeamsException();
                 
-        
+        }
     }
 }

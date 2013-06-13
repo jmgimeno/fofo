@@ -68,7 +68,7 @@ public class TeamDAOImpl implements TeamDAO{
           em.persist(team);          
           
           club.getTeams().add(team);
-         
+          System.out.println("****ADDTEAM");         
           em.getTransaction().commit();
           
        }

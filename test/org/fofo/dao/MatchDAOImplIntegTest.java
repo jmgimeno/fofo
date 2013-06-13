@@ -1,6 +1,6 @@
 package org.fofo.dao;
 
-//import org.fofo.entity.Club;
+import org.fofo.entity.Club;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,12 +24,12 @@ public class MatchDAOImplIntegTest {
     private EntityManager em;
     private MatchDAOImpl matchDAO;
     private RefereeDAOImpl refereeDAO;
-//    private TeamDAOImpl teamDAO;
+    private TeamDAOImpl teamDAO;
     private Match match, matchNew;
     private Referee referee;
     private Team team1, team2;
-//    private Club club;
-//    private ClubDAOImpl clubDAO;
+    private Club club;
+    private ClubDAOImpl clubDAO;
     
     @Before
     public void setUp() throws Exception {
@@ -40,22 +40,29 @@ public class MatchDAOImplIntegTest {
         refereeDAO.setEM(em);
         
         
-//        club = new Club("name");
-//        club.setEmail("email");
-//        clubDAO = new ClubDAOImpl();
-//        clubDAO.setEM(em);
-//        clubDAO.addClub(club);
+        club = new Club("name");
+        club.setEmail("email");
+        clubDAO = new ClubDAOImpl();
+        clubDAO.setEM(em);
         
+        clubDAO.addClub(club);
         team1 = new Team("Team1", Category.FEMALE);
         team2 = new Team("Team2", Category.FEMALE);
-//        teamDAO = new TeamDAOImpl();
-//        teamDAO.setEM(em);
+        team1.setClub(club);
+        team2.setClub(club);
+        teamDAO = new TeamDAOImpl();
+        teamDAO.setEM(em);
 //        
-//        teamDAO.addTeam(team1);
-//        teamDAO.addTeam(team2);
+        teamDAO.addTeam(team1);
+        teamDAO.addTeam(team2);
+        
+
+         //***AIXO NO CAL, HO FA addTeam(team)         
 //        club.getTeams().add(team1);
 //        club.getTeams().add(team2);
         
+        //***LES INSTRUCCIONS SEGUENTS SON CORRECTES, PERO JA LES HEM FET AMB EL 
+        //***teamDAO.addTEam(team1);
 //        em.getTransaction().begin();
 //        em.persist(team1);
 //        em.persist(team2);
@@ -67,6 +74,11 @@ public class MatchDAOImplIntegTest {
         matchDAO.setRefereedb(refereeDAO);
     }
 
+    @Test
+    public void test1() throws Exception {
+        
+    }
+    
     /*
      * addRefereeToMatch function TEST
      */
@@ -82,14 +94,14 @@ public class MatchDAOImplIntegTest {
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectMatchId2() throws Exception {
         matchDAO.insertMatch(match);
         refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch("AAA", referee.getNif());
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void addRefereeToMatch_NoRefereesInBBDD() throws Exception {
         matchDAO.insertMatch(match);
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
@@ -101,18 +113,18 @@ public class MatchDAOImplIntegTest {
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
-    //@Test(expected = PersistException.class)
+    @Test(expected = PersistException.class)
     public void addRefereeToMatch_IncorrectRefereeNif2() throws Exception {
         matchDAO.insertMatch(match);
         refereeDAO.addReferee(referee);
         matchDAO.addRefereeToMatch(match.getIdMatch(), "11111111A");
     }
 
-    //@Test
+    @Test
     public void addRefereeToMatch_correct() throws Exception {
-        matchDAO.insertMatch(match);
+       matchDAO.insertMatch(match);
         refereeDAO.addReferee(referee);
-        matchDAO.addRefereeToMatch(match.getIdMatch(), referee.getNif());
+         matchDAO.addRefereeToMatch(match.getIdMatch(), referee.getNif());
         assertEquals(referee, match.getReferee());
     }
 
@@ -124,7 +136,7 @@ public class MatchDAOImplIntegTest {
         matchDAO.findMatchById("AAA");
     }
 
-    //@Test
+    @Test
     public void findMatch_CorrectId() throws Exception {
         matchDAO.insertMatch(match);
         assertEquals(match, matchDAO.findMatchById(match.getIdMatch()));
@@ -137,15 +149,17 @@ public class MatchDAOImplIntegTest {
     
     @After
     public void tearDown() throws Exception {
-        em = refereeDAO.getEM();
-        if (em.isOpen()) {
-            em.close();
-        }
         
-        em = matchDAO.getEm();
-        if (em.isOpen()) {
-            em.close();
-        }
+        //***NO SE PER QUÈ FEIEU TOT AIXO??? 
+        //em = refereeDAO.getEM();
+        //if (em.isOpen()) {
+        //    em.close();
+       // }
+        //
+        //em = matchDAO.getEm();
+        //if (em.isOpen()) {
+        //    em.close();
+       // }
         
 //        em = teamDAO.getEM();
 //        if (em.isOpen()) {
@@ -157,20 +171,21 @@ public class MatchDAOImplIntegTest {
 //            em.close();
 //        }
         
-        em = getEntityManager();
+       // em = getEntityManager();  ****em JA LA TENIM, NO CAL OBTENIR-LA NOVAMENT.
         em.getTransaction().begin();
         
         Query query1 = em.createQuery("DELETE FROM Referee");
         Query query2 = em.createQuery("DELETE FROM Match");
-//        Query query3 = em.createQuery("DELETE FROM Team");
-//        Query query4 = em.createQuery("DELETE FROM Club");
+        Query query3 = em.createQuery("DELETE FROM Team");
+        Query query4 = em.createQuery("DELETE FROM Club");
         int deleteRecords = query1.executeUpdate();
         deleteRecords = query2.executeUpdate();
-//        deleteRecords = query3.executeUpdate();
-//        deleteRecords = query4.executeUpdate();
+        deleteRecords = query3.executeUpdate();
+        deleteRecords = query4.executeUpdate();
         
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");
+         
     }
 }
