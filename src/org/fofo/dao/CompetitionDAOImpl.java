@@ -172,6 +172,7 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         
         if (team == null) throw new IncorrectTeamException();
         if (comp == null) throw new InvalidCompetitionException(); 
+        if (!(comp.getTeams().contains(team))) throw new IncorrectTeamException();
         
         ClassificationTC classif = new ClassificationTC (comp,team);
         classif.setPoints(0);

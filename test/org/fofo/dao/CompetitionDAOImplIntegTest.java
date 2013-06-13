@@ -12,10 +12,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import org.fofo.entity.ClassificationTC;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
 import org.fofo.entity.CompetitionLeague;
+import org.fofo.entity.CompetitionType;
 import org.fofo.entity.Team;
+import org.jmock.Expectations;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -32,7 +35,7 @@ public class CompetitionDAOImplIntegTest {
     EntityManager em2 = null;
     CompetitionDAOImpl competitionDAO;
     TeamDAOImpl teamDAO;
-    Team team;
+    Team team, team2,team3,team4;
     Competition competition;
     Club club;
 
@@ -42,28 +45,56 @@ public class CompetitionDAOImplIntegTest {
         competitionDAO = new CompetitionDAOImpl();
         teamDAO = new TeamDAOImpl();
 
-        team = new Team("name");
+        
         competition = new CompetitionLeague();
         competition.setName("League1");
+        
         club = new Club("name");
         club.setEmail("email");
+        
+        // TEAM CREATION
+        team = new Team("name");
         team.setClub(club);
+
+        team2 = new Team("team2");
+        team2.setClub(club);
+
+        team3 = new Team("team3");
+        team3.setClub(club);
+
+        team4 = new Team("team4");
+        team4.setClub(club);
+
+        
+        
         em = getEntityManagerFact();
+    
+        
+        
         
         em.getTransaction().begin();
         em.persist(competition);
         em.getTransaction().commit();
         
-        em2 = getEntityManagerFact();
+    //   em2 = getEntityManagerFact();
         
-        em2.getTransaction().begin();
-        em2.persist(team);
-        em2.persist(club);
-        em2.getTransaction().commit();
+        em.getTransaction().begin();
+        em.persist(team);
+        em.persist(team2);
+        em.persist(team3);
+        em.persist(team4);
+        
+        em.persist(club);
+        em.getTransaction().commit();
+        
+        
         
         competitionDAO.setEM(em);
-        teamDAO.setEM(em2);
+        teamDAO.setEM(em);
 
+
+        
+        
     }
     
     @After
@@ -79,9 +110,13 @@ public class CompetitionDAOImplIntegTest {
         Query query = em.createQuery("DELETE FROM Competition c");
         Query query2 = em.createQuery("DELETE FROM Team st");
         Query query3 = em.createQuery("DELETE FROM Club cl");
+        Query query4 = em.createQuery("DELETE FROM ClassificationTC classif");
+        
         int deleteRecords = query.executeUpdate();
         deleteRecords = query2.executeUpdate();
         deleteRecords = query3.executeUpdate();
+        deleteRecords = query4.executeUpdate();
+        
         em.getTransaction().commit();
         em.close();
     }
@@ -154,5 +189,107 @@ public class CompetitionDAOImplIntegTest {
     public void findInvalidCompetitionInBD() throws Exception{
         Competition comp = competitionDAO.findCompetitionByName("liga");
     }
+    
+       /*
+     * 
+     * TESTS FOR CLASSIFICATIONS
+     * 
+     * 
+     */
+
+    @Test(expected=IncorrectTeamException.class)
+    public void classificationOfANonExistingTeam() throws Exception{
+        
+        final Team team = new Team("team10");
+        
+                
+            
+          competitionDAO.addClassificationTC("team10", "League1");
+          
+          
+                
+    }
+
+    @Test(expected=InvalidCompetitionException.class)
+    public void classificationOfANonExistingComp() throws Exception{
+        
+        final Competition comp = Competition.create(CompetitionType.LEAGUE);
+        comp.setName("comp10");
+        comp.setMinTeams(5);
+        comp.setMaxTeams(10);
+        
+                
+            
+          competitionDAO.addClassificationTC("name", "comp10");  
+                
+    }
+
+    @Test
+    public void classificationInsertion() throws Exception{
+
+        competitionDAO.addTeam(competition, team);
+        competitionDAO.addTeam(competition, team2);
+        competitionDAO.addTeam(competition, team3);
+        competitionDAO.addTeam(competition, team4);
+        
+        
+          competitionDAO.addClassificationTC("team2", "League1");  
+
+          Query clq = em.createQuery("SELECT cl FROM ClassificationTC cl");
+        
+          List<ClassificationTC> lclass = clq.getResultList();
+     
+          assertEquals("There should be one classification",1,lclass.size());    
+          assertEquals("Should be of team team2", team2,lclass.get(0).getTeam());
+          
+    }
+
+    @Test(expected=IncorrectTeamException.class)
+    public void classificationInsertionOfATeamNotInCompetition() throws Exception{
+       competitionDAO.addTeam(competition, team);
+        competitionDAO.addTeam(competition, team2);
+        competitionDAO.addTeam(competition, team3);
+            
+         //Notice that team4 is not assigned to the competition competition.
+        
+
+                
+            
+          competitionDAO.addClassificationTC("team4", "League1");  
+                
+    }
+
+
+    
+    
+    
+    @Test(expected=InvalidCompetitionException.class)
+    public void getClassificationOfANonExistingComp() throws Exception{
+        
+        final Competition comp = Competition.create(CompetitionType.LEAGUE);
+        comp.setName("comp10");
+        comp.setMinTeams(5);
+        comp.setMaxTeams(10);
+        
+                
+            
+          competitionDAO.findClassificationsTC("comp10");  
+                
+    }
+
+
+    
+    
+    //@Test
+    public void getClassificationCorrect() throws Exception{
+    
+        //****ASSIGNED TO JORDI+ORIOL
+        
+        
+
+    }
+    
+ 
+    
     
 }

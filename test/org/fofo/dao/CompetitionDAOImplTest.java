@@ -190,6 +190,44 @@ public class CompetitionDAOImplTest {
                 
     }
 
+    @Test(expected=IncorrectTeamException.class)
+    public void classificationInsertionOfATeamNotInCompetition() throws Exception{
+        
+        final Team team = new Team("team10");
+        final Competition comp = Competition.create(CompetitionType.LEAGUE);
+        comp.setName("comp10");
+        comp.setMinTeams(5);
+        comp.setMaxTeams(10);
+
+        //Notice that team is not assigned to the competition comp.
+        
+        final ClassificationTC classif = new ClassificationTC (comp,team);
+        classif.setPoints(0);
+
+        
+        context.checking(new Expectations() {
+            {
+                atLeast(1).of(em).getTransaction();
+                   will(returnValue(transaction));
+                oneOf(transaction).begin();
+                allowing(transaction).commit();
+                oneOf(em).find(Competition.class,"comp10");
+                        will (returnValue(comp));
+                oneOf(em).find(Team.class,"team10"); 
+                        will (returnValue(team));
+                allowing(em).persist(classif);
+                    //***NOTE THAT TO MAKE THIS WORK, IT IS NECESSARY TO
+                    //***OVERWRITE ClassificationTC.equals()
+            }
+        });
+                
+            
+          competitionDAO.addClassificationTC("team10", "comp10");  
+                
+    }
+
+    
+    
     @Test
     public void classificationInsertion() throws Exception{
         
@@ -198,6 +236,7 @@ public class CompetitionDAOImplTest {
         comp.setName("comp10");
         comp.setMinTeams(5);
         comp.setMaxTeams(10);
+        comp.getTeams().add(team);
         
         final ClassificationTC classif = new ClassificationTC (comp,team);
         classif.setPoints(0);
