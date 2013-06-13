@@ -105,7 +105,11 @@ public class RefereeComunicationService {
         match.setGoalsHome(im.getGoalsHome());
         match.setGoalsVisiting(im.getGoalsVisiting());
         match.setObservations(im.getObservations());
+        //****IT IS NECESSARY TO ADD THE POINTS OF THE WINNER TO THE
+        //****CLASSIFICATION....
+        
     }
+    
     /**
      * funasda
      * @param comp asda

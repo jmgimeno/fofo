@@ -99,4 +99,16 @@ public class ClassificationTC {
     public String getId(){
         return id;
     }
+    
+    public boolean equals(Object obj){
+        
+        if (! (obj instanceof ClassificationTC)) return false;
+        
+        ClassificationTC classif = (ClassificationTC) obj;
+        
+        return classif != null && 
+               classif.competition.getName().equals(this.competition.getName()) &&
+               classif.team.getName().equals(this.team.getName()) &&
+               classif.points == this.points; 
+    }
 }

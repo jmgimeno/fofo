@@ -155,6 +155,51 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         return list;
     }
 
+     /**
+     *
+     * @param teamName
+     * @param compName 
+     * @return
+     * @throws Exception
+     */
+    
+    public void addClassificationTC(String teamName, String compName) throws Exception{
+        
+        em.getTransaction().begin();
+        
+        Team team = em.find(Team.class, teamName);
+        Competition comp = em.find(Competition.class, compName);
+        
+        if (team == null) throw new IncorrectTeamException();
+        if (comp == null) throw new InvalidCompetitionException(); 
+        
+        ClassificationTC classif = new ClassificationTC (comp,team);
+        classif.setPoints(0);
+        em.persist(classif);
+        
+        em.getTransaction().commit();
+    
+    }
+    
+     /**
+     *
+     * @param teamName
+     * @param compName 
+     * @param npoints
+     * @return
+     * @throws Exception
+     */
+    
+    public void addPointsToClassificationTC(String teamName, String compName, int npoints) throws Exception{
+  
+        //***ASSIGNED TO IVAN.
+  
+    
+    }
+    
+    
+    
+    
     /**
      *
      * @param name
@@ -166,7 +211,8 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         em.getTransaction().begin();
         if (name == null) throw new InvalidCompetitionException();
         Competition comp = (Competition)em.find(Competition.class, name);  
-        if (comp == null) throw new PersistException();        
+        if (comp == null) throw new InvalidCompetitionException();
+        
         List<ClassificationTC> list = comp.getClassificationsTC();
         em.getTransaction().commit();
         return list; 

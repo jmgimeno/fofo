@@ -35,6 +35,16 @@ public interface CompetitionDAO {
 
     /**
      *
+     * @param teamName
+     * @param compName
+     * @throws Exception
+     */
+  
+    void addClassificationTC(String teamName, String compName) throws Exception;
+
+    
+    /**
+     *
      * @return
      */
     List<Competition> getCompetitionms();
@@ -63,4 +73,8 @@ public interface CompetitionDAO {
      */
     List<ClassificationTC> findClassificationsTC(String name) throws Exception;
 
+    void addPointsToClassificationTC(String teamName, String compName, int npoints)
+                             throws Exception;
+  
+    
 }
