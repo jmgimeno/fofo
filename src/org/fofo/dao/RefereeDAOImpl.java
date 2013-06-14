@@ -101,9 +101,8 @@ public class RefereeDAOImpl implements RefereeDAO {
         }        
         Referee r = m.getReferee();
         
-        if(!r.getMatches().contains(m)){
-            throw new NotAssignedMatchToRefereeException("The referee "
-                    +r.toString()+" don't have assigned the match "+m.toString());
+        if(r==null || !r.getMatches().contains(m)){
+            throw new NotAssignedMatchToRefereeException();
         }
         
         return findRefereeByNif(r.getNif());

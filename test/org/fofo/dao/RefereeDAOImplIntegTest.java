@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import org.fofo.entity.Club;
 import org.fofo.entity.Match;
 import org.fofo.entity.Referee;
 import org.fofo.entity.Team;
@@ -24,10 +25,15 @@ import org.junit.After;
  */
 public class RefereeDAOImplIntegTest {
     
-    private MatchDAO mDao;
+    private MatchDAOImpl mDao;
+    private TeamDAOImpl teamDao;
+    private ClubDAOImpl clubDao;
+    
     private RefereeDAOImpl refDao;
     private EntityManager em;
     private Referee referee;
+    private Match match;
+    
     
     public RefereeDAOImplIntegTest() {
     }
@@ -38,8 +44,17 @@ public class RefereeDAOImplIntegTest {
         refDao = new RefereeDAOImpl();
         refDao.setEM(em);
         
+        clubDao = new ClubDAOImpl();
+        clubDao.setEM(em);
+        
+        teamDao = new TeamDAOImpl();
+        teamDao.setEM(em);
+        
         mDao= new MatchDAOImpl();
         mDao.setEm(em);
+        mDao.setRefereedb(refDao);
+        
+        setUpClubsTeamsMatches();
         
         referee = new Referee("refereeNif","refereeName");
         referee.setEmail("referee@mail.com");
@@ -72,26 +87,22 @@ public class RefereeDAOImplIntegTest {
     
     @Test
     public void testFindRefereeByMatch() throws Exception{
-        Match m = new Match(new Team("home"),new Team("visitant"));        
-        //referee.getMatches().add(m);
-        //m.setReferee(referee);
-        
-        mDao.insertMatch(m);
+       
         refDao.addReferee(referee);
 
-        mDao.addRefereeToMatch(m.getIdMatch(),referee.getNif());
-        
+        mDao.addRefereeToMatch(match.getIdMatch(),referee.getNif());        
         
                 
-        //assertEquals(referee,refDao.findRefereeByMatch(m.getIdMatch()));
+        assertEquals(referee,refDao.findRefereeByMatch(match.getIdMatch()));
     }
     
-//    @Test (expected = NotAssignedMatchToRefereeException.class) 
+    @Test (expected = NotAssignedMatchToRefereeException.class) 
     public void notAssignedMatchToReferee() throws Exception{
-        Match m = new Match(new Team("home"),new Team("visitor"));                
-        m.setReferee(referee);
+       
         
-        refDao.addReferee(referee);                        
+        refDao.addReferee(referee);               
+                
+        refDao.findRefereeByMatch(match.getIdMatch());
     }
     
 
@@ -116,8 +127,12 @@ public class RefereeDAOImplIntegTest {
         
         Query query=em.createQuery("DELETE FROM Referee");        
         Query query2=em.createQuery("DELETE FROM Match"); 
+        Query query3=em.createQuery("DELETE FROM Team");
+        Query query4=em.createQuery("DELETE FROM Club");
         int deleteRecords=query.executeUpdate();     
         deleteRecords=query2.executeUpdate();     
+        deleteRecords=query3.executeUpdate(); 
+        deleteRecords=query4.executeUpdate(); 
 
         em.getTransaction().commit();
         em.close();
@@ -144,4 +159,16 @@ public class RefereeDAOImplIntegTest {
         return refDB; 
          
    }
+
+    private void setUpClubsTeamsMatches() throws Exception{
+        Club club = new Club("testClub");
+        Team home = new Team("home"); home.setClub(club);
+        Team visitor = new Team("visitor"); visitor.setClub(club);
+        match = new Match(home,visitor);        
+
+        clubDao.addClub(club);
+        teamDao.addTeam(home);
+        teamDao.addTeam(visitor);
+        mDao.insertMatch(match);
+    }
 }

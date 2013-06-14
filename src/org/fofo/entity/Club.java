@@ -21,12 +21,15 @@ public class Club {
     private String email;
      
     @OneToMany (mappedBy="club", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
-    private List<Team> teams = new ArrayList<Team>();
+    private List<Team> teams;
     
     /**
      *
      */
     public Club(){
+        this.teams = new ArrayList<Team>();
+        name = "";
+        email="";
         
     }
     
@@ -35,7 +38,9 @@ public class Club {
      * @param name
      */
     public Club(String name){
+        this.teams = new ArrayList<Team>();
         this.name = name;
+        email = "";
     }
 
     /**
