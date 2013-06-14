@@ -5,6 +5,7 @@
 package org.fofo.dao;
 
 import java.util.List;
+import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 
 
@@ -62,4 +63,19 @@ public interface TeamDAO {
      * @return
      */
     List<Team> findTeamByClub(String name);
+    
+    /**
+     *
+     * @param teamId
+     * @param player
+     */
+    void addPlayerToTeam(String teamId, Player player);
+    
+    /**
+     *
+     * @param teamId
+     * @return
+     */
+    List<Player> getPlayersOfTeam(String teamId);
+    
 }

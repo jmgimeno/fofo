@@ -32,6 +32,9 @@ public class Team implements Serializable {
     
     @OneToMany (mappedBy="team", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();
+    
+    @OneToMany (mappedBy="team")
+    private List<Player> players = new ArrayList<Player>();
    
 
     /**
@@ -182,6 +185,22 @@ public class Team implements Serializable {
      */
     public void setClassificationsTC(List<ClassificationTC> classTC){
         this.classificationsTC = classTC;        
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     *
+     * @param players
+     */
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     public String toString(){

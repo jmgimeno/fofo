@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 import org.fofo.entity.Club;
 import org.fofo.entity.Competition;
+import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 
 /**
@@ -150,6 +151,16 @@ public class TeamDAOImpl implements TeamDAO{
      */
     public boolean findTeam(Team team) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void addPlayerToTeam(String teamId, Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Player> getPlayersOfTeam(String teamId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
