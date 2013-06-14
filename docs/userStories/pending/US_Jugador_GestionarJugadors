@@ -1,0 +1,14 @@
+Jugador
+US: Assignar jugador a un equip d'un club
+
+Coma FOFO vull gestiona els jugadors d'un equip 
+que pertany a un club
+
+
+----------------------------------------------
+TESTS ACCEPTACIÓ
+
+1. Un jugador nomes pot pertanyer a un equip.
+
+2. Un equip té n jugadors.
+

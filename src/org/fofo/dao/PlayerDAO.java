@@ -35,5 +35,12 @@ public interface PlayerDAO {
      * @throws Exception
      */
      List<Player> findPlayerByTeam(String teamName) throws Exception;
+     
+     /**
+     *
+     * @return
+     * @throws Exception
+     */
+    List<Player> gelAllPlayers() throws Exception;
     
 }

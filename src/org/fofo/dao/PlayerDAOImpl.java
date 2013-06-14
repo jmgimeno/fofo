@@ -83,6 +83,11 @@ public class PlayerDAOImpl implements PlayerDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public List<Player> gelAllPlayers() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private void checkExistingPlayer(Player pl) throws AlreadyExistingPlayerException {
         if (em.find(Player.class, pl.getNif()) != null) {
             throw new AlreadyExistingPlayerException("This player <"

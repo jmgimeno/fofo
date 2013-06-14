@@ -11,7 +11,8 @@
     <class>org.fofo.entity.Match</class>
     <class>org.fofo.entity.WeekMatch</class>
     <class>org.fofo.entity.Referee</class>
-    <class>org.fofo.entity.ClassificationTC</class>    
+    <class>org.fofo.entity.ClassificationTC</class>
+    <class>org.fofo.entity.Player</class>
     <properties>
       <property name="toplink.jdbc.url" value="jdbc:derby:myDB;create=true"/>
       <property name="toplink.ddl-generation" value="create-tables"/>
