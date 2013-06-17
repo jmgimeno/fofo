@@ -107,6 +107,16 @@ public class ManagementService {
 
     }
 
+    public void addTeam(String competitionName, String teamName) throws Exception {
+        Team team = teamDao.findTeamByName(teamName);
+        Competition competition = cDao.findCompetitionByName(competitionName);
+        if (team != null && competition != null) {
+            addTeam(competition, team);
+        } else {
+            throw new InscriptionTeamException();
+        }
+    }
+
     /**
      * Add a team in a competition.
      * @param competetion The competition we want to register a team.
@@ -114,14 +124,14 @@ public class ManagementService {
      * @throws InscriptionTeamException 
      */
     public void addTeam(Competition competition, Team team) throws Exception {
-                  //parameter: it was competetion!!!!
+        //parameter: it was competetion!!!!
         Team teamDB = teamDao.findTeamByName(team.getName());
-        
+
         if (checkforExceptions(competition, teamDB)) {
 
-          //  competition.getTeams().add(team);
-                  //It adds the team to the competition parameter, not to the
-                  //competiion in the DB.
+            //  competition.getTeams().add(team);
+            //It adds the team to the competition parameter, not to the
+            //competiion in the DB.
             cDao.addTeam(competition, team);
         } else {
             throw new InscriptionTeamException();
@@ -260,11 +270,11 @@ public class ManagementService {
     private boolean PeriodOpen(Competition competition) {
         //REIMPLEMENTAR. DONA PROBLEMES
         return true;
-      /*  DateTime currentDate = new DateTime(DateTime.now());
+        /*  DateTime currentDate = new DateTime(DateTime.now());
         DateTime finishDate = new DateTime(competition.getInici());
-
+        
         return ((currentDate.getDayOfYear() - finishDate.getDayOfYear()) < 7);
-       */  
+         */
     }
 
     /**
@@ -291,7 +301,6 @@ public class ManagementService {
         return competition.getCategory().equals(team.getCategory());
     }
 
-    
     /**
      * Check all the addTeam exceptions.
      * @param competetion The competition we want to register a team.
@@ -299,8 +308,8 @@ public class ManagementService {
      * @return 
      */
     private boolean checkforExceptions(Competition competition, Team team) {
- 
-        return  checkForTeamExceptions(team)
+
+        return checkForTeamExceptions(team)
                 && diffCategCompetitionAndTeam(competition, team)
                 && CompetitionExist(competition)
                 && PeriodOpen(competition)
@@ -314,20 +323,24 @@ public class ManagementService {
      * @throws Exception
      */
     public void addTeam(Team team) throws InscriptionTeamException, Exception {
-        if(!checkForTeamExceptions(team)) throw new InscriptionTeamException();
-        if(!clubExist(team.getClub())) throw new InscriptionTeamException();
+        if (!checkForTeamExceptions(team)) {
+            throw new InscriptionTeamException();
+        }
+        if (!clubExist(team.getClub())) {
+            throw new InscriptionTeamException();
+        }
         teamDao.addTeam(team);
     }
-    
-    private boolean checkForTeamExceptions(Team team){
-        return  team != null 
+
+    private boolean checkForTeamExceptions(Team team) {
+        return team != null
                 && team.getName() != null
                 && team.getEmail() != null
                 && team.getClub() != null
                 && team.getCategory() != null;
     }
 
-    private boolean clubExist(Club club) throws Exception {        
+    private boolean clubExist(Club club) throws Exception {
         return clubDao.getClubs().contains(club);
     }
 
@@ -338,46 +351,54 @@ public class ManagementService {
      * @throws Exception
      */
     public void addClub(Club club) throws InscriptionClubException, Exception {
-        if(!checkForClubExceptions(club)) throw new InscriptionClubException();
-        
-        Club clubDB = clubDao.findClubByName(club.getName());
-        if(clubDB != null) throw new InscriptionClubException();
-        
-        
-        if(!club.getTeams().isEmpty() && anyTeamIsInDB(club.getTeams()))
+        if (!checkForClubExceptions(club)) {
             throw new InscriptionClubException();
-        
-        clubDao.addClub(club);  
-        if(club.getTeams().size() >0) addAllTeams(club);     
+        }
+
+        Club clubDB = clubDao.findClubByName(club.getName());
+        if (clubDB != null) {
+            throw new InscriptionClubException();
+        }
+
+
+        if (!club.getTeams().isEmpty() && anyTeamIsInDB(club.getTeams())) {
+            throw new InscriptionClubException();
+        }
+
+        clubDao.addClub(club);
+        if (club.getTeams().size() > 0) {
+            addAllTeams(club);
+        }
     }
 
     private boolean checkForClubExceptions(Club club) {
-        return  club != null 
+        return club != null
                 && club.getName() != null
-                && club.getEmail() != null;        
+                && club.getEmail() != null;
     }
 
     private void addAllTeams(Club club) throws Exception {
         List<Team> teams = club.getTeams();
         int size = teams.size();
-        
-        for(int i=0; i<size;i++){  
+
+        for (int i = 0; i < size; i++) {
             Team team = teams.get(i);
-            team.setClub(club); 
+            team.setClub(club);
             addTeam(team);
-        }        
+        }
     }
 
-    private boolean anyTeamIsInDB(List<Team> teams) throws PersistException{       
+    private boolean anyTeamIsInDB(List<Team> teams) throws PersistException {
         boolean anyInDB = false;
         List<Team> teamsDB = teamDao.getTeams();
-                
-        for(Team team : teams){
-            if(teamsDB.contains(team)) anyInDB = true;
+
+        for (Team team : teams) {
+            if (teamsDB.contains(team)) {
+                anyInDB = true;
+            }
         }
-        
-        
+
+
         return anyInDB;
     }
-    
 }
