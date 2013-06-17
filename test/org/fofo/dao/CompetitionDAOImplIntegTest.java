@@ -64,12 +64,8 @@ public class CompetitionDAOImplIntegTest {
 
         team4 = new Team("team4");
         team4.setClub(club);
-
-        
         
         em = getEntityManagerFact();
-    
-        
         
         
         em.getTransaction().begin();
@@ -289,7 +285,20 @@ public class CompetitionDAOImplIntegTest {
 
     }
     
- 
+    @Test
+    public void addPointsToTeam() throws Exception{
+        competitionDAO.addTeam(competition, team);
+        
+        
+        competitionDAO.addClassificationTC(team.getName(), competition.getName());  
+
+        Query clq = em.createQuery("SELECT cl FROM ClassificationTC cl");
+        
+        List<ClassificationTC> lclass = clq.getResultList();
+        team.setClassificationsTC(lclass);
+        competitionDAO.addPointsToClassificationTC(team.getName(), competition.getName(), 3);
+        assertEquals(3, lclass.get(0).getPoints());
+    }
     
     
 }

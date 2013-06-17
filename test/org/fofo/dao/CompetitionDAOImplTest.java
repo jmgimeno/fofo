@@ -329,6 +329,22 @@ public class CompetitionDAOImplTest {
           assertEquals("Should obtain the given list",lclass,lc);
     }
     
-    
+    @Test
+    public void addPointsToTeam() throws Exception{
+        ClassificationTC classif = new ClassificationTC(competition, team);
+        classif.setPoints(0);
+        team.setClassificationsTC(Arrays.asList(classif));
+        context.checking(new Expectations() {
+            {
+                atLeast(1).of(em).getTransaction();will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).find(Competition.class,competition.getName());will (returnValue(competition));
+                oneOf(em).find(Team.class, team.getName());will(returnValue(team));
+                allowing(transaction).commit();
+            }
+        });
+        competitionDAO.addPointsToClassificationTC(team.getName(), competition.getName(), 3);
+        assertEquals(3, classif.getPoints());
+    }
     
 }
