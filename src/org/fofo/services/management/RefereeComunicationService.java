@@ -107,6 +107,14 @@ public class RefereeComunicationService {
         match.setObservations(im.getObservations());
         //****IT IS NECESSARY TO ADD THE POINTS OF THE WINNER TO THE
         //****CLASSIFICATION....
+        if(match.getGoalsHome()>match.getGoalsVisiting()){
+            compDAO.addPointsToClassificationTC(match.getHome().getName(), comp.getName(), 3);
+        }else if(match.getGoalsHome()<match.getGoalsVisiting()){
+            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), comp.getName(), 3);
+        }else{
+            compDAO.addPointsToClassificationTC(match.getHome().getName(), comp.getName(), 1);
+            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), comp.getName(), 1);
+        }
         
     }
     

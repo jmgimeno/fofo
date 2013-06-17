@@ -193,9 +193,20 @@ public class CompetitionDAOImpl implements CompetitionDAO {
     
     public void addPointsToClassificationTC(String teamName, String compName, int npoints) throws Exception{
   
-        //***ASSIGNED TO IVAN.
-  
-    
+        em.getTransaction().begin();
+        Team team = (Team) em.find(Team.class, teamName);
+        Competition comp = (Competition) em.find(Competition.class, compName);
+        if(team == null) throw new IncorrectTeamException();
+        if (comp==null) throw new PersistException();
+        List<ClassificationTC> clas = team.getClassificationsTC();
+        for(ClassificationTC c : clas){
+            if(c.getCompetition().equals(comp))
+            {
+                c.setPoints(c.getPoints()+npoints);
+            }
+        }
+        
+        em.getTransaction().commit();
     }
     
     
