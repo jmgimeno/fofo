@@ -4,10 +4,13 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import org.fofo.entity.Player;
+import org.fofo.entity.Team;
 import org.jmock.Expectations;
 import static org.jmock.Expectations.returnValue;
 import org.jmock.Mockery;
@@ -29,6 +32,7 @@ public class PlayerDAOImplTest {
     private EntityManager em;
     private EntityTransaction transaction;
     private PlayerDAOImpl pdao;
+    private Query query;
 
     public PlayerDAOImplTest() {
     }
@@ -39,6 +43,7 @@ public class PlayerDAOImplTest {
         em = context.mock(EntityManager.class);
         pdao.setEm(em);
         transaction = context.mock(EntityTransaction.class);
+        query = context.mock(Query.class);
     }
 
     @Test
@@ -71,6 +76,60 @@ public class PlayerDAOImplTest {
 
         assertEquals(player, pdao.findPlayerByNif(player.getNif()));
     }
+
+    //@Test
+    public void testFindPlayerByTeam() throws Exception {
+
+        final Player player = new Player("nifPlayer", "namePlayer");
+        List<Player> players = new ArrayList<Player>();
+        final Team team = new Team("EF Cervera");
+        player.setTeam(team);
+        players.add(player);
+        team.setPlayers(players);
+
+        transactionExpectations();
+
+        context.checking(new Expectations() {
+            {
+                oneOf(em).find(Team.class, team.getName());
+                will(returnValue(team));
+
+                oneOf(em).find(Player.class, team.getPlayers());
+                will(returnValue(player));
+
+            }
+        });
+
+        assertEquals(player, pdao.findPlayerByTeam("EF Cervera"));
+
+    }
+    
+    @Test
+    public void testGetAllPlayers() throws Exception {
+
+        final Player player1 = new Player("nifPlayer1", "namePlayer1");
+        final Player player2 = new Player("nifPlayer2", "namePlayer2");
+        final Player player3 = new Player("nifPlayer3", "namePlayer3");
+        final Player player4 = new Player("nifPlayer4", "namePlayer4");
+        final List<Player> players = new ArrayList<Player>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+
+        transactionExpectations();
+        context.checking(new Expectations() {
+            {
+                oneOf(em).createQuery("SELECT p FROM Player p");
+                will(returnValue(query));
+                oneOf(query).getResultList();
+                will(returnValue(players));
+            }
+        });
+
+        assertEquals(players, pdao.getAllPlayers());
+    }
+    
 
     private void transactionExpectations() {
         context.checking(new Expectations() {

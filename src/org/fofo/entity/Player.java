@@ -30,7 +30,7 @@ public class Player {
      */
     public Player() {
         this.nif="";
-        this.name="";
+        this.name="";  
     }
     
     /**
@@ -94,5 +94,12 @@ public class Player {
     @Override
     public String toString() {
         return "Name: " + this.name + ", Nif: " + this.nif;
+    }
+    
+    public boolean equals(Object obj) {
+        
+        return(obj instanceof Player)
+                && ((Player)obj).nif.equals(this.nif)
+                && ((Player)obj).name.equals(this.name);
     }
 }

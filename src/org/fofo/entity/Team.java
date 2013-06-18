@@ -78,6 +78,7 @@ public class Team implements Serializable {
         category = null;
         competitions = new ArrayList<Competition>();
         club = null;
+        players = new ArrayList<Player>();
     }
 
     /**
@@ -92,6 +93,7 @@ public class Team implements Serializable {
         this.club = club;
         this.category = cat;
         competitions = new ArrayList<Competition>();
+        players = new ArrayList<Player>();
      
     }
     
@@ -106,6 +108,7 @@ public class Team implements Serializable {
         this.category = cat;
         this.club = null;
         competitions = new ArrayList<Competition>();
+        players = new ArrayList<Player>();
  
     }
     
@@ -117,6 +120,7 @@ public class Team implements Serializable {
         this.name = name;
         this.club = null;
         this.competitions = new ArrayList<Competition>();
+        players = new ArrayList<Player>();
     }
     
     

@@ -71,7 +71,7 @@ public interface TeamDAO {
      * @param teamId
      * @param player
      */
-    void addPlayerToTeam(String teamId, Player player);
+    void addPlayerToTeam(String teamId, String nif) throws PersistException;
     
     /**
      *
