@@ -304,5 +304,30 @@ public class CompetitionDAOImplIntegTest {
         assertEquals(3, lclass.get(0).getPoints());
     }
     
+    @Test
+    public void findClassificationsTCTest() throws Exception{
+        teamDAO.addTeam(team);
+        competition.getTeams().add(team);
+        competitionDAO.addCompetition(competition);
+        competitionDAO.addClassificationTC(team.getName(),competition.getName());        
+        
+        List<ClassificationTC> list = competitionDAO.findClassificationsTC(competition.getName());
+        ClassificationTC information = new ClassificationTC(competition, team);
+                assertTrue(list.contains(information));
+    }
     
+    @Test(expected=IncorrectTeamException.class)
+    public void findIncorrectClassificationsTCTest() throws Exception{
+        teamDAO.addTeam(team);
+        competitionDAO.addCompetition(competition);
+        competitionDAO.addClassificationTC(team.getName(),competition.getName());        
+        
+        competitionDAO.findClassificationsTC(competition.getName());
+    }
+    
+    @Test(expected=InvalidCompetitionException.class)
+    public void findWrongClassificationsTCTest() throws Exception{
+        
+        competitionDAO.findClassificationsTC("comp1");
+    }
 }
