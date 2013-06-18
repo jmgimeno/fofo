@@ -17,6 +17,7 @@ import org.fofo.entity.Team;
 public class PlayerDAOImpl implements PlayerDAO {
 
     private EntityManager em;
+    private PlayerDAO playerDB;
 
     /**
      *
@@ -47,9 +48,27 @@ public class PlayerDAOImpl implements PlayerDAO {
     public void setEm(EntityManager em) {
         this.em = em;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public PlayerDAO getPlayerDB() {
+        return playerDB;
+    }
+    
+    /**
+     *
+     * @param playerDB
+     */
+    public void setPlayerDB(PlayerDAO playerDB) {
+        this.playerDB = playerDB;
+    }
 
+    
     @Override
-    public void addPlayer(Player pl) throws Exception {
+    public void addPlayer(Player pl) throws PersistenceException, AlreadyExistingPlayerException {
+        
         try {
 
             em.getTransaction().begin();
@@ -80,13 +99,26 @@ public class PlayerDAOImpl implements PlayerDAO {
     }
 
     @Override
-    public List<Player> findPlayerByTeam(String teamName) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Player findPlayerByTeam(String teamName) throws Exception {
+        return null;
     }
 
     @Override
-    public List<Player> gelAllPlayers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Player> getAllPlayers() throws Exception {
+        List<Player> players = null;
+        Query query;
+        try {
+
+            em.getTransaction().begin();
+            query = em.createQuery("SELECT p FROM Player p");
+            players = (List<Player>) query.getResultList();
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return players;
     }
 
     private void checkExistingPlayer(Player pl) throws AlreadyExistingPlayerException {

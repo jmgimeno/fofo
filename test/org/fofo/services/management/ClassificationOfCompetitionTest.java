@@ -8,7 +8,7 @@ import java.util.List;
 import org.fofo.dao.*;
 import org.fofo.entity.*;
 import org.fofo.utils.Classification;
-import org.fofo.utils.Classification.InfoClassTeam;
+import org.fofo.utils.InfoClassTeam;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;

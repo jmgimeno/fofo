@@ -351,4 +351,42 @@ public class CompetitionDAOImplTest {
         assertEquals(3, classif.getPoints());
     }
     
+    @Test
+    public void findClassificationsTCTest() throws Exception{
+        final Competition comp = Competition.create(CompetitionType.CUP);
+        comp.setName("comp1");
+        context.checking(new Expectations() {
+            {
+                oneOf(em).getTransaction();
+                   will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).find(Competition.class, "comp1");
+                   will(returnValue(comp));
+                oneOf(em).getTransaction();
+                   will(returnValue(transaction));
+                oneOf(transaction).commit();
+            }
+        });
+        
+        competitionDAO.findClassificationsTC("comp1");
+    }
+    
+    @Test(expected=InvalidCompetitionException.class)
+    public void findWrongClassificationsTCTest() throws Exception{
+
+        context.checking(new Expectations() {
+            {
+                oneOf(em).getTransaction();
+                   will(returnValue(transaction));
+                oneOf(transaction).begin();
+                oneOf(em).find(Competition.class, "comp1");
+                   will(returnValue(null));
+                oneOf(em).getTransaction();
+                   will(returnValue(transaction));
+                oneOf(transaction).commit();
+            }
+        });
+        
+        competitionDAO.findClassificationsTC("comp1");
+    }
 }

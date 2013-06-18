@@ -18,35 +18,32 @@ import org.fofo.entity.Team;
  *
  * @author josepma
  */
-public class TeamDAOImpl implements TeamDAO{
+public class TeamDAOImpl implements TeamDAO {
 
-   EntityManager em;
-   
+    private EntityManager em;
+    private PlayerDAO playerDB;
+
     /**
      *
      */
-    public TeamDAOImpl(){
-       
+    public TeamDAOImpl() {
+    }
 
-       
-   }
-   
     /**
      *
      * @param em
      */
-    public void setEM(EntityManager em){
-       this.em = em;
-   }
-   
+    public void setEM(EntityManager em) {
+        this.em = em;
+    }
+
     /**
      *
      * @return
      */
-    public EntityManager getEM(){
-       return this.em;
-   }
-
+    public EntityManager getEM() {
+        return this.em;
+    }
 
     /**
      *
@@ -55,59 +52,59 @@ public class TeamDAOImpl implements TeamDAO{
      * @throws IncorrectTeamException
      */
     @Override
-    public void addTeam(Team team) throws PersistException, 
-                                          IncorrectTeamException{
-    
+    public void addTeam(Team team) throws PersistException,
+            IncorrectTeamException {
 
-       try{
-          em.getTransaction().begin();
 
-          if (team.getClub() == null || team.getClub().getName() == null) 
-                                            throw new IncorrectTeamException();
-          
-          Club club = (Club) em.find(Club.class, team.getClub().getName());
-          if (club == null) throw new IncorrectTeamException();
-          
-          em.persist(team);          
-          
-          club.getTeams().add(team);
-          System.out.println("****ADDTEAM");         
-          em.getTransaction().commit();
-          
-       }
-       catch (EntityExistsException e){
-	  throw new PersistException();
-       }
-       finally{
-          if (em.getTransaction().isActive()) em.getTransaction().rollback();
-       }
+        try {
+            em.getTransaction().begin();
+
+            if (team.getClub() == null || team.getClub().getName() == null) {
+                throw new IncorrectTeamException();
+            }
+
+            Club club = (Club) em.find(Club.class, team.getClub().getName());
+            if (club == null) {
+                throw new IncorrectTeamException();
+            }
+
+            em.persist(team);
+
+            club.getTeams().add(team);
+            System.out.println("****ADDTEAM");
+            em.getTransaction().commit();
+
+        } catch (EntityExistsException e) {
+            throw new PersistException();
+        } finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        }
     }
-    
+
     /**
      *
      * @param name
      */
-    public void removeTeam(String name){
-    
+    public void removeTeam(String name) {
     }
-    
-   
+
     /**
      *
      * @return
      */
-    public List<Team> getTeams(){
-        
+    public List<Team> getTeams() {
+
         List<Team> teams = new ArrayList<Team>();
         em.getTransaction().begin();
         Query pp = em.createQuery("SELECT t FROM Team t");
         teams = pp.getResultList();
         em.getTransaction().commit();
-        return teams;      
-        
+        return teams;
+
     }
-    
-    
+
     /**
      *
      * @param name
@@ -115,33 +112,28 @@ public class TeamDAOImpl implements TeamDAO{
      * @throws PersistException
      */
     @Override
-    public Team findTeamByName(String name) throws PersistException{
-       Team team = null; 
-       try{
-          em.getTransaction().begin();
-          
-          team = (Team) em.find (Team.class,name);
-          em.getTransaction().commit();
-          
-       }
-       catch (PersistenceException e){
-           e.printStackTrace();
-	  throw new PersistException();
-       }
-//       finally{
-//          if (em.isOpen()) em.close();
-//       }
-       return team;        
-        
+    public Team findTeamByName(String name) throws PersistException {
+        Team team = null;
+        try {
+            em.getTransaction().begin();
+
+            team = (Team) em.find(Team.class, name);
+            em.getTransaction().commit();
+
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            throw new PersistException();
+        }
+        return team;
     }
-    
+
     /**
      *
      * @param name
      * @return
      */
-    public List<Team> findTeamByClub(String name){
-        
+    public List<Team> findTeamByClub(String name) {
+
         return null;
     }
 
@@ -151,19 +143,33 @@ public class TeamDAOImpl implements TeamDAO{
      * @param team
      * @return
      */
+    @Override
     public boolean findTeam(Team team) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void addPlayerToTeam(String teamId, Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addPlayerToTeam(String teamId, String nif) throws PersistException {
+
+        try {
+            Team team = findTeamByName(teamId);
+            Player player = playerDB.findPlayerByNif(nif);
+
+            if (team == null || player == null) {
+                throw new PersistException();
+            }
+            List<Player> players = new ArrayList<Player>();
+            players.add(player);
+            team.setPlayers(players);
+            team.getPlayers().add(player);
+
+        } catch (Exception e) {
+            throw new PersistException();
+        }
     }
 
     @Override
     public List<Player> getPlayersOfTeam(String teamId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 }

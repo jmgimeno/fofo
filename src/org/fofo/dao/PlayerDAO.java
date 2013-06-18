@@ -12,14 +12,14 @@ import org.fofo.entity.Player;
  * @author mohamed
  */
 public interface PlayerDAO {
-    
+
     /**
      *
      * @param pl
      * @throws Exception
      */
     void addPlayer(Player pl) throws Exception;
-    
+
     /**
      *
      * @param nif
@@ -27,20 +27,18 @@ public interface PlayerDAO {
      * @throws Exception
      */
     Player findPlayerByNif(String nif) throws Exception;
-    
+
     /**
      *
      * @param teamName
      * @return
      * @throws Exception
      */
-     List<Player> findPlayerByTeam(String teamName) throws Exception;
-     
-     /**
+    Player findPlayerByTeam(String teamName) throws Exception;
+
+    /**
      *
-     * @return
-     * @throws Exception
+     * @return @throws Exception
      */
-    List<Player> gelAllPlayers() throws Exception;
-    
+    List<Player> getAllPlayers() throws Exception;
 }
