@@ -1,5 +1,5 @@
 package org.fofo.presentation.view;
-
+import org.fofo.presentation.controller.CompetitionInsertionAction;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -55,14 +55,10 @@ public class FofoFrame extends JFrame {
 
     private void createMenuBar() {
         menubar = new JMenuBar();
+        /*--------------------------------------------------------------*/
         JMenu clubmenu = new JMenu("Clubs");
         clubmenu.add(new JSeparator());
-        JMenu teammenu = new JMenu("Teams");
-        teammenu.add(new JSeparator());
-
-        JMenu competmenu = new JMenu("Competitions");
-        competmenu.add(new JSeparator());
-
+        
         JMenuItem clubItem1 = new JMenuItem("New club");
         clubItem1.addActionListener(new ClubInsertionAction(this, services));
         //We associate the "New club" button of the menu to the 
@@ -75,21 +71,43 @@ public class FofoFrame extends JFrame {
 
         JMenuItem clubItem3 = new JMenuItem("List clubs");
         clubItem3.addActionListener(new ClubListAction(this, services));
-
-        JMenuItem teamItem1 = new JMenuItem("New team");
-
-        JMenuItem addTeam = new JMenuItem("Add team to competition");
-        addTeam.addActionListener(new AddTeamAction(this, services));
-        competmenu.add(addTeam);
-
+        
         clubmenu.add(clubItem1);
         clubmenu.add(clubItem2);
         clubmenu.add(clubItem3);
-        teammenu.add(teamItem1);
-
         menubar.add(clubmenu);
+        /*--------------------------------------------------------------*/
+        JMenu teammenu = new JMenu("Teams");
+        teammenu.add(new JSeparator());
+
+        JMenuItem teamItem1 = new JMenuItem("New team");             
+        
+        teammenu.add(teamItem1);
         menubar.add(teammenu);
-        menubar.add(competmenu);
+        /*--------------------------------------------------------------*/
+        createCompetitionMenu();
+        
+       
         this.setJMenuBar(menubar);
+    }
+
+    private void createCompetitionMenu() {
+        JMenu competmenu = new JMenu("Competitions");
+        competmenu.add(new JSeparator());
+        
+        JMenuItem compItem1 = new JMenuItem("New competition");
+        compItem1.addActionListener(new CompetitionInsertionAction(this, services));
+        
+        JMenuItem addTeam = new JMenuItem("Add team to competition");
+        addTeam.addActionListener(new AddTeamAction(this, services));
+                
+        JMenuItem findComp = new JMenuItem("Find competition");
+        findComp.addActionListener(new CompetitionFindAction(this,services));
+        
+        competmenu.add(compItem1);
+        competmenu.add(addTeam);
+        competmenu.add(findComp);
+        
+        menubar.add(competmenu);
     }
 }

@@ -259,7 +259,7 @@ public class ManagementService {
         if (comp.getMaxTeams() == 0) {
             throw new IncorrectMaxNumberOfTeams();
         }
-        if (comp.getInici().after(date.toDate())) {
+        if (comp.getInici().before(date.toDate())) {
             throw new IncorrectDate();
         }
     }
