@@ -8,7 +8,7 @@ import org.fofo.entity.Category;
 import org.fofo.entity.Competition;
 import org.fofo.entity.CompetitionType;
 import org.fofo.entity.Team;
-import org.fofo.utils.Classification.InfoClassTeam;
+import org.fofo.utils.InfoClassTeam;
 import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
