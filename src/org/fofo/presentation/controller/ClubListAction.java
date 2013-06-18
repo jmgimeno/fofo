@@ -7,8 +7,11 @@ package org.fofo.presentation.controller;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JFrame;
+import org.fofo.entity.Club;
 import org.fofo.presentation.view.ClubListPanel;
+import org.fofo.presentation.view.ExceptionInfo;
 import org.fofo.services.management.ManagementService;
 
 /**
@@ -30,9 +33,25 @@ public class ClubListAction implements ActionListener{
     
     public void actionPerformed(ActionEvent e) {
          parent.getContentPane().removeAll(); //clean frame
-         ClubListPanel panel = new ClubListPanel(parent, services);
-         parent.getContentPane().add(panel,BorderLayout.CENTER);
-         parent.revalidate();
+         
+         
+         try{
+          
+          List<Club> clubList = services.getClubDao().getClubs();
+          ClubListPanel panel = new ClubListPanel(parent, services,clubList);
+          parent.getContentPane().add(panel,BorderLayout.CENTER);  
+
+     
+        }
+        catch(Exception exc){
+           exc.printStackTrace(); 
+          ExceptionInfo exception = new ExceptionInfo("Problems at Club List");
+          parent.getContentPane().add(exception,BorderLayout.CENTER);
+                  
+        }
+        finally{
+            parent.revalidate();                        
+        }
     }
     
 }
