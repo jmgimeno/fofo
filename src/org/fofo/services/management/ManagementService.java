@@ -376,7 +376,7 @@ public class ManagementService {
     private boolean checkForClubExceptions(Club club) {
         return club != null
                 && club.getName() != null
-                && club.getEmail() != null;
+                && club.getEmail() != "";
     }
 
     private void addAllTeams(Club club) throws Exception {
