@@ -180,6 +180,11 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         
         ClassificationTC classif = new ClassificationTC (comp,team);
         classif.setPoints(0);
+
+
+comp.getClassificationsTC().add(classif);
+team.getClassificationsTC().add(classif);
+
         em.persist(classif);
         
         em.getTransaction().commit();

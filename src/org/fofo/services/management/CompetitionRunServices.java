@@ -131,6 +131,9 @@ public class CompetitionRunServices {
         if(classificationsTC==null)
             throw new CompetitionWithoutClassificationTCException();
         
+System.out.println("****  getNumberOfTeams "+comp.getNumberOfTeams() +"\n"
+        +"****   classificationsTC.size() "+classificationsTC.size());      
+
         if(comp.getNumberOfTeams() != classificationsTC.size()) 
             throw new CompetitionWithoutCorrectClassificationTCException();
                 
