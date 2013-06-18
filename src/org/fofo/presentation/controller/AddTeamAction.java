@@ -24,11 +24,10 @@ public class AddTeamAction implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-
         parent.getContentPane().removeAll();
 
         AddTeamForm form = new AddTeamForm(parent, services);
-//        parent.getContentPane().add(form, BorderLayout.CENTER);
+        //parent.getContentPane().add(form, BorderLayout.CENTER);
 
         parent.revalidate();
     }

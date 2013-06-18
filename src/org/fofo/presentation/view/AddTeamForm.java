@@ -1,10 +1,11 @@
 package org.fofo.presentation.view;
 
+import org.fofo.presentation.controller.SubmitAddTeamAction;
+import org.fofo.services.management.ManagementService;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import org.fofo.services.management.ManagementService;
 
 /**
  *
@@ -37,6 +38,16 @@ public class AddTeamForm {
 
         but = new JButton();
         but.setText("Submit");
-       // this.addTeam(teamName, competitionName);
+
+//        this.add(lteam);
+//        this.add(competitionName);
+//        this.add(lcompetition);
+//        this.add(competitionName);
+//        this.add(but);
+
+        SubmitAddTeamAction action = new SubmitAddTeamAction(this);
+        action.setServices(services);
+
+        but.addActionListener(action);
     }
 }
