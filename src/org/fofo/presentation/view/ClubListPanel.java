@@ -20,7 +20,7 @@ import org.fofo.services.management.ManagementService;
 public class ClubListPanel extends JPanel{
 
     public ClubListPanel(JFrame frame, ManagementService services){
-        frame.setTitle("Club List");
+        frame.setTitle("FOFO - Club List");
         frame.setSize(600, 400);
 
         JTable table = createTable();
@@ -36,7 +36,13 @@ public class ClubListPanel extends JPanel{
         String[] columnNames = {"Club Name", "Email","Teams","in Competition"};
         
         
-        JTable table = new JTable(getDataTable(), columnNames);
+        JTable table = new JTable(getDataTable(), columnNames){
+            @Override
+            public boolean isCellEditable(int row, int col)  
+            {  
+                return false;  
+            }  
+        };
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
         TableColumn column = null;
