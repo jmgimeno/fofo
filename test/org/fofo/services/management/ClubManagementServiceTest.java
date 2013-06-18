@@ -1,5 +1,6 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InscriptionClubException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.PersistenceException;

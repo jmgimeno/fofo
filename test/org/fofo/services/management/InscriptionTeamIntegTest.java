@@ -1,5 +1,6 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InscriptionTeamException;
 import org.fofo.dao.CompetitionDAOImpl;
 import org.fofo.dao.TeamDAOImpl;
 import org.fofo.dao.ClubDAOImpl;
@@ -11,7 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import org.fofo.dao.PersistException;
+import org.fofo.dao.exception.PersistException;
 import org.fofo.entity.*;
 import org.joda.time.DateTime;
 import org.junit.After;

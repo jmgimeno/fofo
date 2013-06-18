@@ -79,12 +79,15 @@ public class FofoFrame extends JFrame{
         //However, the overall design would be a bit more complicated (but more reusable).
       
       JMenuItem clubItem2 = new JMenuItem("Retrieve club");
-   
+      
+      JMenuItem clubItem3 = new JMenuItem("List clubs");
+      clubItem3.addActionListener(new ClubListAction(this, services));
   
      JMenuItem teamItem1 = new JMenuItem("New team");
  
      clubmenu.add(clubItem1);
      clubmenu.add(clubItem2);
+     clubmenu.add(clubItem3);
      teammenu.add(teamItem1);
 
      menubar.add(clubmenu);

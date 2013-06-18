@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.AlreadyExistingClubOrTeamsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

@@ -1,5 +1,7 @@
 package org.fofo.dao;
 
+import org.fofo.dao.exception.PersistException;
+import org.fofo.dao.exception.IncorrectMatchException;
 import org.fofo.entity.Club;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

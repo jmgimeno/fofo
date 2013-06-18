@@ -4,6 +4,11 @@
  */
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InvalidMatchException;
+import org.fofo.services.management.exception.MatchOutOfPeriodException;
+import org.fofo.services.management.exception.InvalidRefereeException;
+import org.fofo.dao.exception.PersistException;
+import org.fofo.dao.exception.IncorrectMatchException;
 import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

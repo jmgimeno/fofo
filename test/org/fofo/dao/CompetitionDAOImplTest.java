@@ -4,6 +4,10 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.InvalidCompetitionException;
+import org.fofo.dao.exception.IncorrectTeamException;
+import org.fofo.dao.exception.PersistException;
+import org.fofo.dao.exception.InvalidTeamException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;

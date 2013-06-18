@@ -4,6 +4,8 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.IncorrectTeamException;
+import org.fofo.dao.exception.PersistException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

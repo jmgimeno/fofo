@@ -1,7 +1,7 @@
 package org.fofo.services.management;
 
-import org.fofo.services.management.InvalidRequisitsException;
-import org.fofo.services.management.MinimumDaysException;
+import org.fofo.services.management.exception.InvalidRequisitsException;
+import org.fofo.services.management.exception.MinimumDaysException;
 import org.fofo.services.management.CalendarCupGen;
 import java.util.ArrayList;
 import java.util.List;

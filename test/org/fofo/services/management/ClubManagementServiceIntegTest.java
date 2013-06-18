@@ -1,5 +1,7 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InscriptionClubException;
+import org.fofo.dao.exception.AlreadyExistingClubOrTeamsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

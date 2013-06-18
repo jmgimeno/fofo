@@ -4,6 +4,7 @@
  */
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.NumberOfTeamsException;
 import org.fofo.services.management.*;
 import java.util.ArrayList;
 import java.util.Date;

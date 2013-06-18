@@ -36,8 +36,8 @@ import javax.swing.JFrame;
         parent.getContentPane().removeAll();
          
           ClubInsertionForm form = new ClubInsertionForm(parent,services);
+          
           parent.getContentPane().add(form,BorderLayout.CENTER);
-     
-            parent.revalidate();                        
+          parent.revalidate();                        
         }
      }

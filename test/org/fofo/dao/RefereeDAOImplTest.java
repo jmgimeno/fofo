@@ -4,6 +4,8 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.AlreadyExistingRefereeException;
+import org.fofo.dao.exception.NotAssignedMatchToRefereeException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

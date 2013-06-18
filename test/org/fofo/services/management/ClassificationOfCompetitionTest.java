@@ -1,5 +1,8 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.CompetitionWithoutClassificationTCException;
+import org.fofo.services.management.exception.InvalidRequisitsException;
+import org.fofo.services.management.exception.CompetitionWithoutCorrectClassificationTCException;
 import java.util.ArrayList;
 import java.util.List;
 import org.fofo.dao.*;
