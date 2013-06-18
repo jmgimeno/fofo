@@ -1,5 +1,5 @@
 package org.fofo.presentation.view;
-
+import org.fofo.presentation.controller.CompetitionInsertionAction;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -95,12 +95,16 @@ public class FofoFrame extends JFrame {
         JMenu competmenu = new JMenu("Competitions");
         competmenu.add(new JSeparator());
         
+        JMenuItem compItem1 = new JMenuItem("New competition");
+        compItem1.addActionListener(new CompetitionInsertionAction(this, services));
+        
         JMenuItem addTeam = new JMenuItem("Add team to competition");
         addTeam.addActionListener(new AddTeamAction(this, services));
                 
         JMenuItem findComp = new JMenuItem("Find competition");
         findComp.addActionListener(new CompetitionFindAction(this,services));
         
+        competmenu.add(compItem1);
         competmenu.add(addTeam);
         competmenu.add(findComp);
         
