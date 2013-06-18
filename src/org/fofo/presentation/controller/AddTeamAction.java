@@ -22,13 +22,13 @@ public class AddTeamAction implements ActionListener {
         this.services = services;
     }
 
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent e){
+    
         parent.getContentPane().removeAll();
-
-        AddTeamForm form = new AddTeamForm(parent, services);
-        //parent.getContentPane().add(form, BorderLayout.CENTER);
-
-        parent.revalidate();
+         
+        AddTeamForm form = new AddTeamForm(parent,services);
+        parent.getContentPane().add(form,BorderLayout.CENTER);
+     
+        parent.revalidate();                        
     }
 }

@@ -34,6 +34,6 @@ public class CompetitionInsertionAction implements ActionListener{
         CompetitionInsertionForm form = new CompetitionInsertionForm(parent,services);
         parent.getContentPane().add(form,BorderLayout.CENTER);
      
-        //parent.revalidate();                        
+        parent.revalidate();                        
     }
 }
