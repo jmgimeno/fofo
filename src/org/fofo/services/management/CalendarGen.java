@@ -4,7 +4,6 @@ import org.fofo.services.management.exception.NumberOfTeamsException;
 import org.fofo.services.management.exception.IncorrectCompetitionTypeException;
 import org.fofo.services.management.exception.UnknownCompetitionTypeException;
 import org.fofo.services.management.exception.MinimumDaysException;
-import java.util.Date;
 import java.util.List;
 import org.fofo.entity.*;
 import org.joda.time.DateTime;
@@ -13,6 +12,8 @@ import org.joda.time.DateTime;
  * @author Jordi, Anatoli
  */
 public abstract class CalendarGen {    
+    
+    private static int MINIMUM_DAYS = 7;
        
 //    public abstract FCalendar calculateCalendar() throws Exception;  
     /**
@@ -54,7 +55,7 @@ public abstract class CalendarGen {
     private static boolean minimDaysPassed(Competition comp){    
         DateTime actual = new DateTime();
         DateTime compDate = new DateTime(comp.getInici());
-       return (actual.getDayOfYear() - compDate.getDayOfYear()) >= 7;
+       return (actual.getDayOfYear() - compDate.getDayOfYear()) >= MINIMUM_DAYS;
     }   
     
     private static boolean teamsRequired(Competition comp){

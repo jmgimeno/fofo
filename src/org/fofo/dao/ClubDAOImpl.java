@@ -20,9 +20,6 @@ public class ClubDAOImpl implements ClubDAO {
 
     private EntityManager em;
     
-    /**
-     *
-     */
     public ClubDAOImpl() {
     }
 
@@ -48,7 +45,7 @@ public class ClubDAOImpl implements ClubDAO {
      * @throws Exception
      */
     @Override
-    public void addClub(Club club) throws Exception {
+    public void addClub(Club club) throws AlreadyExistingClubOrTeamsException {
         
         
         try {
@@ -59,9 +56,7 @@ public class ClubDAOImpl implements ClubDAO {
             em.persist(club);
             em.getTransaction().commit();
             
-        } catch (Exception e) {
-            throw e;
-        }
+        } catch (PersistenceException e) {}
     }
 
     /**
@@ -79,7 +74,7 @@ public class ClubDAOImpl implements ClubDAO {
      * @throws Exception
      */
     @Override
-    public List<Club> getClubs() throws Exception{  
+    public List<Club> getClubs() {  
         List<Club> clubs = null;
         Query query;
         try{
@@ -87,9 +82,7 @@ public class ClubDAOImpl implements ClubDAO {
             query = em.createQuery("SELECT c FROM Club c");
             clubs = (List<Club>) query.getResultList();
             em.getTransaction().commit();            
-        }catch(Exception e){
-            throw e;
-        }
+        }catch(PersistenceException e){}
         
         return clubs;
     }
@@ -101,16 +94,12 @@ public class ClubDAOImpl implements ClubDAO {
      * @throws PersistenceException
      */
     @Override
-    public Club findClubByName(String name) throws PersistenceException{
+    public Club findClubByName(String name) {
         Club club = null;
-        try {
-            em.getTransaction().begin();
-            club = (Club) em.find(Club.class, name);
-            em.getTransaction().commit();
-
-        } catch (PersistenceException e) {
-            throw e;
-        }
+       
+        em.getTransaction().begin();
+        club = (Club) em.find(Club.class, name);
+        em.getTransaction().commit();
         
         return club;
     }
@@ -122,17 +111,13 @@ public class ClubDAOImpl implements ClubDAO {
      * @throws PersistenceException
      */
     @Override
-    public Club findClubByTeam(String name) throws PersistenceException{
+    public Club findClubByTeam(String name) {
         Team team = null;
-        try{
-            em.getTransaction().begin();
-            team = (Team) em.find(Team.class, name);
-            em.getTransaction().commit();
-        } catch (PersistenceException e){
-            throw e;
-        }
-                      
         
+        em.getTransaction().begin();
+        team = (Team) em.find(Team.class, name);
+        em.getTransaction().commit();
+               
         return findClubByName(team.getClub().getName());
     }
     
