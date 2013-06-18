@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fofo.services.management;
+package org.fofo.services.management.exception;
 
 /**
  *
  * @author oriol
  */
-class TeamCanPlayOnlyOneMatchForAWeekException extends Exception {
+public class TeamCanPlayOnlyOneMatchForAWeekException extends Exception {
 
     public TeamCanPlayOnlyOneMatchForAWeekException() {
     }

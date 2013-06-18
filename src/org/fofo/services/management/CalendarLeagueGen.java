@@ -1,5 +1,6 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.NumberOfTeamsException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;

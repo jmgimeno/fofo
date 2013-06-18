@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.PersistException;
 import java.util.List;
 import javax.persistence.PersistenceException;
 import org.fofo.entity.Club;

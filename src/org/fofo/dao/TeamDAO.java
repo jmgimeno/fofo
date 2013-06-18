@@ -4,6 +4,8 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.PersistException;
+import org.fofo.dao.exception.IncorrectTeamException;
 import java.util.List;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;

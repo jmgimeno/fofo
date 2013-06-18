@@ -4,6 +4,7 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.AlreadyExistingPlayerException;
 import java.util.List;
 import javax.persistence.*;
 import org.fofo.entity.Player;

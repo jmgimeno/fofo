@@ -1,5 +1,12 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InvalidRequisitsException;
+import org.fofo.services.management.exception.CompetitionWithoutFCalendarException;
+import org.fofo.services.management.exception.CompetitionWithoutCorrectClassificationTCException;
+import org.fofo.services.management.exception.CompetitionWithoutClassificationTCException;
+import org.fofo.services.management.exception.IncorrectFCalendarException;
+import org.fofo.services.management.exception.InsuficientRefereesException;
+import org.fofo.dao.exception.PersistException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;

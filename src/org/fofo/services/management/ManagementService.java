@@ -1,5 +1,7 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InscriptionClubException;
+import org.fofo.services.management.exception.InscriptionTeamException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +20,7 @@ import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 import org.fofo.entity.CompetitionType;
 import org.joda.time.DateTime;
-import org.fofo.dao.PersistException;
+import org.fofo.dao.exception.PersistException;
 import org.fofo.dao.TeamDAO;
 
 /**

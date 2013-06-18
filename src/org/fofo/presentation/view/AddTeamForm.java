@@ -37,6 +37,6 @@ public class AddTeamForm {
 
         but = new JButton();
         but.setText("Submit");
-        this.addTeam(teamName, competitionName);
+       // this.addTeam(teamName, competitionName);
     }
 }

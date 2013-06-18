@@ -4,6 +4,10 @@
  */
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InvalidRefereeException;
+import org.fofo.services.management.exception.InvalidCompetitionException;
+import org.fofo.services.management.exception.MatchOutOfPeriodException;
+import org.fofo.services.management.exception.InvalidMatchException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;

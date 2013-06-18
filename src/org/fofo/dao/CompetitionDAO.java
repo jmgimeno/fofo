@@ -1,5 +1,6 @@
 package org.fofo.dao;
 
+import org.fofo.dao.exception.PersistException;
 import java.util.List;
 import org.fofo.entity.ClassificationTC;
 import org.fofo.entity.Competition;

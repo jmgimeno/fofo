@@ -1,5 +1,8 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InvalidRequisitsException;
+import org.fofo.services.management.exception.TeamCanPlayOnlyOneMatchForAWeekException;
+import org.fofo.services.management.exception.UnknownCompetitionTypeException;
 import java.util.*;
 import org.fofo.entity.Category;
 import org.fofo.entity.Club;

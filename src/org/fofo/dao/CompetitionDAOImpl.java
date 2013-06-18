@@ -4,6 +4,10 @@
  */
 package org.fofo.dao;
 
+import org.fofo.dao.exception.InvalidCompetitionException;
+import org.fofo.dao.exception.InvalidTeamException;
+import org.fofo.dao.exception.PersistException;
+import org.fofo.dao.exception.IncorrectTeamException;
 import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
 import java.util.ArrayList;
 import java.util.List;

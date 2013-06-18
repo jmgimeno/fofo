@@ -1,5 +1,6 @@
 package org.fofo.services.management;
 
+import org.fofo.services.management.exception.InvalidRequisitsException;
 import org.fofo.dao.*;
 import org.fofo.entity.*;
 

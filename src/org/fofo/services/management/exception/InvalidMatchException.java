@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fofo.dao;
+package org.fofo.services.management.exception;
 
 /**
  *
  * @author Ivan
  */
-class InvalidTeamException extends Exception {
+public class InvalidMatchException extends Exception {
 
-    public InvalidTeamException() {
+    public InvalidMatchException() {
     }
     
 }
