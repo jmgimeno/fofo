@@ -209,7 +209,7 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         List<ClassificationTC> clas = team.getClassificationsTC();
         
         for(ClassificationTC classif : clas){
-            if(classif.getTeam().equals(team))
+            if(classif.getTeam().equals(team) && classif.getCompetition().equals(comp))
             {
                 classif.setPoints(classif.getPoints()+npoints);
             }
