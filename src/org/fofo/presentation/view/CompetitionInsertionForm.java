@@ -61,6 +61,18 @@ public class CompetitionInsertionForm extends JPanel{
       button4 = new JRadioButton("Lliga");
       button5 = new JRadioButton("Copa");
       
+       ButtonGroup group = new ButtonGroup();
+       group.add(button1);
+       group.add(button2);
+       group.add(button3);
+      
+        ButtonGroup group2 = new ButtonGroup();
+      
+        group2.add(button4);
+        group2.add(button5);
+     
+      
+      
       if(button4.isSelected()){
           obj = objLliga;
       }else if (button5.isSelected()){

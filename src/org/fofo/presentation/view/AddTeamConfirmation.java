@@ -11,7 +11,7 @@ public class AddTeamConfirmation extends JPanel{
     
     public AddTeamConfirmation(){
      JLabel l=new JLabel();
-      l.setText(" Club successfully inserted");
+      l.setText(" Team add to Competition successfully");
       this.add(l);
       this.setVisible(true);
     }

@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import org.fofo.dao.*;
 import org.fofo.entity.*;
 import org.fofo.utils.Classification;
-import org.fofo.utils.Classification.InfoClassTeam;
+import org.fofo.utils.InfoClassTeam;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -46,13 +46,6 @@ public class ClassificationOfCompetitionIntegTest {
     Club club;
     List<Team> teams;
     
-    ClassificationTC ClassificationTC1, ClassificationTC2, ClassificationTC3, ClassificationTC4,           
-            ClassificationTC5, ClassificationTC6, ClassificationTC7, ClassificationTC8,  
-            ClassificationTC9, ClassificationTC10;    
-    
-    InfoClassTeam infoTeam1, infoTeam2, infoTeam3, infoTeam4,
-            infoTeam5, infoTeam6, infoTeam7, infoTeam8, infoTeam9, infoTeam10;
-    
     public ClassificationOfCompetitionIntegTest() {
     }
 
@@ -78,8 +71,6 @@ public class ClassificationOfCompetitionIntegTest {
         createTeams();
         createCompetition(compLeague);  
         
-        createInfoTeam();
-        createClassificationTC();
     }
     
     @After
@@ -128,201 +119,62 @@ public class ClassificationOfCompetitionIntegTest {
         assertEquals(compLeague,classification.getCompetition());        
     }    
     
-    //@Test
-    public void testInfoTeamOfClassification() throws Exception{  
-        final List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();
-        classificationsTC.add(ClassificationTC1);   
-        classificationsTC.add(ClassificationTC2);  
-        classificationsTC.add(ClassificationTC3);        
-        classificationsTC.add(ClassificationTC4);
-        
-        List<InfoClassTeam> InfoClassTeams = new ArrayList<InfoClassTeam>();
-        InfoClassTeams.add(infoTeam1);   
-        InfoClassTeams.add(infoTeam2);     
-        InfoClassTeams.add(infoTeam3);     
-        InfoClassTeams.add(infoTeam4);
-        
+    @Test
+    public void testInfoTeamOfClassification() throws Exception{   
         service.setCompetitionDao(compdao);
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(compdao).findClassificationsTC(compLeague.getName());
-//                                    will(returnValue(classificationsTC));
-//            }
-//        }); 
         
+        List<InfoClassTeam> InfoClassTeams = new ArrayList<InfoClassTeam>();        
+        for(Team t : compLeague.getTeams()){
+             InfoClassTeam infoTeam = new InfoClassTeam(t);
+             InfoClassTeams.add(infoTeam);
+        }
+      
         Classification classification =  service.getClassificationOfCompetition(compLeague);
 
         assertTrue(classification.getInfoClassTeam().containsAll(InfoClassTeams));
-        
-        
     } 
     
-    //@Test
-    public void testCorrectOrderOfClassification() throws Exception{  
-        final List<ClassificationTC> classificationsTC = new ArrayList<ClassificationTC>();
-        ClassificationTC1.setPoints(30);
-        classificationsTC.add(ClassificationTC1);
-        
-        ClassificationTC2.setPoints(120); 
-        classificationsTC.add(ClassificationTC2); 
- 
-        ClassificationTC3.setPoints(5);      
-        classificationsTC.add(ClassificationTC3);    
-        classificationsTC.add(ClassificationTC4);
+    @Test
+    public void testCorrectOrderOfClassification() throws Exception{      
+        service.setCompetitionDao(compdao);
         
         List<InfoClassTeam> InfoClassTeams = new ArrayList<InfoClassTeam>();
-        infoTeam1.setPoints(30);   
-        infoTeam2.setPoints(120);   
-        infoTeam3.setPoints(5); 
-        
-        InfoClassTeams.add(infoTeam2); 
-        InfoClassTeams.add(infoTeam1);  
-        InfoClassTeams.add(infoTeam3); 
-        InfoClassTeams.add(infoTeam4);
-        
-        service.setCompetitionDao(compdao);
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(compdao).findClassificationsTC(compLeague.getName());
-//                                    will(returnValue(classificationsTC));
-//            }
-//        }); 
+        for(Team t : teams){
+             InfoClassTeam infoTeam = new InfoClassTeam(t);
+             InfoClassTeams.add(infoTeam);
+        }
         
         Classification classification =  service.getClassificationOfCompetition(compLeague);
         
-        List<InfoClassTeam> InfoCTDB = classification.getInfoClassTeam();         
+        List<InfoClassTeam> InfoCTDB = classification.getInfoClassTeam(); 
+               
+        assertTrue(InfoCTDB.equals(InfoClassTeams));        
+    }    
+     
+    
+    @Test
+    public void testCorrectOrderOfClassificationWithUpdate() throws Exception{      
+        service.setCompetitionDao(compdao);
+        
+        updateClassification();
+        List<InfoClassTeam> InfoClassTeams = createInfoTeam();
+ 
+        
+        Classification classification =  service.getClassificationOfCompetition(compLeague);
+        
+        List<InfoClassTeam> InfoCTDB = classification.getInfoClassTeam(); 
+        
+        System.out.println(classification.toString());   
         
         assertTrue(InfoCTDB.equals(InfoClassTeams));        
     }    
-    
-    
-    //@Test
-    public void testCorrectOrderOfClassificationWith10Teams() throws Exception{  
-        //createNewTeams();
-        
-        final List<ClassificationTC> specialClassificationsTC = createNewClassificationTC();
-        List<InfoClassTeam> specialInfoClassTeams = createNewInfoTeam();
-                
-        service.setCompetitionDao(compdao);
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(compdao).findClassificationsTC(compLeague.getName());
-//                                    will(returnValue(specialClassificationsTC));
-//            }
-//        }); 
-        
-        Classification classification =  service.getClassificationOfCompetition(compLeague);
-        
-        List<InfoClassTeam> InfoCTDB = classification.getInfoClassTeam();
-        
-System.out.println(classification.toString());         
-        
-        assertTrue(InfoCTDB.equals(specialInfoClassTeams));        
-    }    
-    
-    
-    
     
     /*
      * 
      * PRIVATE OPERATIONS
      * 
      */
-    
-    private void createInfoTeam() {
-        infoTeam1 = new InfoClassTeam(team1);
-        infoTeam2 = new InfoClassTeam(team2);
-        infoTeam3 = new InfoClassTeam(team3);
-        infoTeam4 = new InfoClassTeam(team4);
-    }
-    
-    private void createClassificationTC() {       
-        ClassificationTC1 = new ClassificationTC(compLeague, team1);
-        ClassificationTC2 = new ClassificationTC(compLeague, team2);
-        ClassificationTC3 = new ClassificationTC(compLeague, team3);
-        ClassificationTC4 = new ClassificationTC(compLeague, team4);
-    }    
-    
-    private List<InfoClassTeam> createNewInfoTeam() {  
-        List<InfoClassTeam> list = new ArrayList<InfoClassTeam>();
-        
-        infoTeam2 = new InfoClassTeam(team2);
-        infoTeam2.setPoints(100); 
-        list.add(infoTeam2);  
-        
-        infoTeam5 = new InfoClassTeam(team5);
-        infoTeam5.setPoints(67);     
-        list.add(infoTeam5); 
-        
-        infoTeam7 = new InfoClassTeam(team7);
-        infoTeam7.setPoints(56);
-        list.add(infoTeam7);   
-         
-        infoTeam9 = new InfoClassTeam(team9);
-        infoTeam9.setPoints(53);   
-        list.add(infoTeam9);    
-        
-        infoTeam10 = new InfoClassTeam(team10); 
-        infoTeam10.setPoints(44); 
-        list.add(infoTeam10);
-        
-        infoTeam4 = new InfoClassTeam(team4);
-        infoTeam4.setPoints(34); 
-        list.add(infoTeam4); 
-        
-        infoTeam3 = new InfoClassTeam(team3);
-        infoTeam3.setPoints(23); 
-        list.add(infoTeam3);  
-        
-        infoTeam6 = new InfoClassTeam(team6);
-        infoTeam6.setPoints(12); 
-        list.add(infoTeam6);
-        
-        infoTeam1 = new InfoClassTeam(team1);
-        infoTeam1.setPoints(10);     
-        list.add(infoTeam1);   
-        
-        infoTeam8 = new InfoClassTeam(team8);
-        infoTeam8.setPoints(9);   
-        list.add(infoTeam8);
-        
-        return list;
-    }
-
-    private List<ClassificationTC> createNewClassificationTC() {  
-        List<ClassificationTC> list = new ArrayList<ClassificationTC>();                
-        ClassificationTC2 = new ClassificationTC(compLeague, team2);
-        ClassificationTC2.setPoints(100);list.add(ClassificationTC2);
-        
-        ClassificationTC5 = new ClassificationTC(compLeague, team5);
-        ClassificationTC5.setPoints(67);list.add(ClassificationTC5);
-        
-        ClassificationTC7 = new ClassificationTC(compLeague, team7);
-        ClassificationTC7.setPoints(56);list.add(ClassificationTC7);
-        
-        ClassificationTC9 = new ClassificationTC(compLeague, team9);
-        ClassificationTC9.setPoints(53);list.add(ClassificationTC9);
-        
-        ClassificationTC10 = new ClassificationTC(compLeague, team10);
-        ClassificationTC10.setPoints(44);list.add(ClassificationTC10);
-        
-        ClassificationTC4 = new ClassificationTC(compLeague, team4);  
-        ClassificationTC4.setPoints(34);list.add(ClassificationTC4);
-        
-        ClassificationTC3 = new ClassificationTC(compLeague, team3);
-        ClassificationTC3.setPoints(23);list.add(ClassificationTC3);  
-        
-        ClassificationTC6 = new ClassificationTC(compLeague, team6);
-        ClassificationTC6.setPoints(12);list.add(ClassificationTC6);
-        
-        ClassificationTC1 = new ClassificationTC(compLeague, team1);
-        ClassificationTC1.setPoints(10);list.add(ClassificationTC1);  
-        
-        ClassificationTC8 = new ClassificationTC(compLeague, team8);
-        ClassificationTC8.setPoints(9);list.add(ClassificationTC8);
-        
-        return list;
-    }
+      
    
     private EntityManager getEntityManagerFact() throws Exception{
 
@@ -348,13 +200,91 @@ System.out.println(classification.toString());
                 
         compdao.addCompetition(comp);
         
-System.out.println("****addCompetition");  
-
-        for(Team t : teams){
+        addClassification(comp);
+    }
+    
+    private void addClassification(Competition comp) throws Exception{
+        for(Team t : comp.getTeams()){
             compdao.addClassificationTC(t.getName(), comp.getName());
         }
     }
+    
+    private void updateClassification() throws Exception{
+        compdao.addPointsToClassificationTC(teams.get(0).getName(), compLeague.getName(), 10);
+        compdao.addPointsToClassificationTC(teams.get(1).getName(), compLeague.getName(), 1);
+        compdao.addPointsToClassificationTC(teams.get(2).getName(), compLeague.getName(), 5);
+        compdao.addPointsToClassificationTC(teams.get(3).getName(), compLeague.getName(), 87);
+        compdao.addPointsToClassificationTC(teams.get(4).getName(), compLeague.getName(), 3);
+        compdao.addPointsToClassificationTC(teams.get(5).getName(), compLeague.getName(), 66);
+        compdao.addPointsToClassificationTC(teams.get(6).getName(), compLeague.getName(), 40);
+        compdao.addPointsToClassificationTC(teams.get(7).getName(), compLeague.getName(), 34);
+        compdao.addPointsToClassificationTC(teams.get(8).getName(), compLeague.getName(), 33);
+        compdao.addPointsToClassificationTC(teams.get(9).getName(), compLeague.getName(), 44);
+        compdao.addPointsToClassificationTC(teams.get(10).getName(), compLeague.getName(), 55);
+        compdao.addPointsToClassificationTC(teams.get(11).getName(), compLeague.getName(), 8);
+        compdao.addPointsToClassificationTC(teams.get(12).getName(), compLeague.getName(), 4);
+        compdao.addPointsToClassificationTC(teams.get(13).getName(), compLeague.getName(), 6);
+        compdao.addPointsToClassificationTC(teams.get(14).getName(), compLeague.getName(), 88);
+        compdao.addPointsToClassificationTC(teams.get(15).getName(), compLeague.getName(), 36);
+    }
 
+    private List<InfoClassTeam> createInfoTeam() {
+        InfoClassTeam infoTeam;
+        
+        List<InfoClassTeam> list = new ArrayList<InfoClassTeam>();
+        
+        infoTeam = new InfoClassTeam(teams.get(14));
+        infoTeam.setPoints(88);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(3));
+        infoTeam.setPoints(87);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(5));
+        infoTeam.setPoints(66);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(10));
+        infoTeam.setPoints(55);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(9));
+        infoTeam.setPoints(44);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(6));
+        infoTeam.setPoints(40);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(15));
+        infoTeam.setPoints(36);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(7));
+        infoTeam.setPoints(34);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(8));
+        infoTeam.setPoints(33);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(0));
+        infoTeam.setPoints(10);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(11));
+        infoTeam.setPoints(8);
+        list.add(infoTeam); 
+        infoTeam = new InfoClassTeam(teams.get(13));
+        infoTeam.setPoints(6);
+        list.add(infoTeam);               
+        infoTeam = new InfoClassTeam(teams.get(2));
+        infoTeam.setPoints(5);
+        list.add(infoTeam);
+        infoTeam = new InfoClassTeam(teams.get(12));
+        infoTeam.setPoints(4);
+        list.add(infoTeam);  
+        infoTeam = new InfoClassTeam(teams.get(4));
+        infoTeam.setPoints(3);
+        list.add(infoTeam);      
+        infoTeam = new InfoClassTeam(teams.get(1));
+        infoTeam.setPoints(1);
+        list.add(infoTeam);
+       
+
+        return list;
+    }
 
     private void createClub() throws Exception {    
         club = new Club();
@@ -370,6 +300,8 @@ System.out.println("****addCompetition");
             teams.add(team);
             tdao.addTeam(team);
         }
-    }    
+    }
+
+
     
 }

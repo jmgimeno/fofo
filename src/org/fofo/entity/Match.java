@@ -121,7 +121,7 @@ public class Match {
 
     @Override
     public boolean equals(Object obj) {
-
+    /* OJO! Complexitat alta = 11 */
         if (!(obj instanceof Match)) {
             return false;
         }

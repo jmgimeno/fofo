@@ -5,7 +5,8 @@
 package org.fofo.dao;
 
 import java.util.List;
-import javax.persistence.EntityManager;
+import org.fofo.dao.exception.AlreadyExistingRefereeException;
+import org.fofo.dao.exception.NotAssignedMatchToRefereeException;
 import org.fofo.entity.Referee;
 
 /**
@@ -17,30 +18,28 @@ public interface RefereeDAO {
     /**
      *
      * @param ref
-     * @throws Exception
+     * @throws AlreadyExistingRefereeException
      */
-    void addReferee(Referee ref) throws Exception;
+    void addReferee(Referee ref) throws AlreadyExistingRefereeException;
     
     /**
      *
      * @param nif
      * @return
-     * @throws Exception
      */
-    Referee findRefereeByNif(String nif) throws Exception;
+    Referee findRefereeByNif(String nif);
     
     /**
      *
      * @param matchId
      * @return
-     * @throws Exception
+     * @throws NotAssignedMatchToRefereeException
      */
-    Referee findRefereeByMatch(String matchId) throws Exception;
+    Referee findRefereeByMatch(String matchId) throws NotAssignedMatchToRefereeException;
     
     /**
      *
      * @return
-     * @throws Exception
      */
-    List<Referee> getAllReferees() throws Exception;
+    List<Referee> getAllReferees();
 }

@@ -180,10 +180,9 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         
         ClassificationTC classif = new ClassificationTC (comp,team);
         classif.setPoints(0);
-
-
-comp.getClassificationsTC().add(classif);
-team.getClassificationsTC().add(classif);
+        
+        comp.getClassificationsTC().add(classif);
+        team.getClassificationsTC().add(classif);
 
         em.persist(classif);
         
@@ -206,12 +205,13 @@ team.getClassificationsTC().add(classif);
         Team team = (Team) em.find(Team.class, teamName);
         Competition comp = (Competition) em.find(Competition.class, compName);
         if(team == null) throw new IncorrectTeamException();
-        if (comp==null) throw new PersistException();
+        if (comp==null) throw new InvalidCompetitionException();
         List<ClassificationTC> clas = team.getClassificationsTC();
-        for(ClassificationTC c : clas){
-            if(c.getCompetition().equals(comp))
+        
+        for(ClassificationTC classif : clas){
+            if(classif.getTeam().equals(team) && classif.getCompetition().equals(comp))
             {
-                c.setPoints(c.getPoints()+npoints);
+                classif.setPoints(classif.getPoints()+npoints);
             }
         }
         
@@ -229,13 +229,20 @@ team.getClassificationsTC().add(classif);
      */
     @Override
     public List<ClassificationTC> findClassificationsTC(String name) throws Exception {
-        em.getTransaction().begin();
-        if (name == null) throw new InvalidCompetitionException();
-        Competition comp = (Competition)em.find(Competition.class, name);  
-        if (comp == null) throw new InvalidCompetitionException();
+        Competition comp = null;
         
-        List<ClassificationTC> list = comp.getClassificationsTC();
+        try{
+        em.getTransaction().begin();        
+        comp = (Competition)em.find(Competition.class, name);   
         em.getTransaction().commit();
-        return list; 
+
+        } catch (PersistenceException e) {
+            throw new PersistException();
+        }       
+        
+        if (comp == null) {
+            throw new InvalidCompetitionException();
+        }       
+        return comp.getClassificationsTC(); 
     }
 }

@@ -7,6 +7,7 @@ package org.fofo.dao;
 import org.fofo.dao.exception.PersistException;
 import java.util.List;
 import javax.persistence.PersistenceException;
+import org.fofo.dao.exception.AlreadyExistingClubOrTeamsException;
 import org.fofo.entity.Club;
 
 /**
@@ -18,38 +19,34 @@ public interface ClubDAO {
     /**
      *
      * @param club
-     * @throws Exception
+     * @throws AlreadyExistingClubOrTeamsException
      */
-    public void addClub(Club club) throws Exception;
+    void addClub(Club club) throws AlreadyExistingClubOrTeamsException;
     
     /**
      *
      * @param name
-     * @throws PersistException
      */
-    void removeClub(String name) throws PersistException;
+    void removeClub(String name);
     
     /**
      *
      * @return
-     * @throws Exception
      */
-    public List<Club> getClubs() throws Exception;
+    List<Club> getClubs();
     
     /**
      *
      * @param name
      * @return
-     * @throws PersistenceException
      */
-    public Club findClubByName(String name) throws PersistenceException;
+    Club findClubByName(String name);
     
     /**
      *
      * @param name
      * @return
-     * @throws PersistenceException
      */
-    public Club findClubByTeam(String name) throws PersistenceException; 
+    public Club findClubByTeam(String name); 
     
 }

@@ -21,9 +21,6 @@ public class RefereeDAOImpl implements RefereeDAO {
 
     private EntityManager em;
 
-    /**
-     *
-     */
     public RefereeDAOImpl() {
     }
 
@@ -49,7 +46,7 @@ public class RefereeDAOImpl implements RefereeDAO {
      * @throws AlreadyExistingRefereeException
      */
     @Override
-    public void addReferee(Referee ref) throws AlreadyExistingRefereeException, PersistenceException {
+    public void addReferee(Referee ref) throws AlreadyExistingRefereeException {
 
         try {
             em.getTransaction().begin();
@@ -57,29 +54,21 @@ public class RefereeDAOImpl implements RefereeDAO {
             em.persist(ref);
             em.getTransaction().commit();
 
-        } catch (PersistenceException e) {
-            throw e;
-        }
+        } catch (PersistenceException e) {}
     }
 
     /**
      *
      * @param nif
      * @return
-     * @throws IllegalArgumentException
      */
     @Override
-    public Referee findRefereeByNif(String nif) throws IllegalArgumentException {
-        Referee referee = null;
-        try {
+    public Referee findRefereeByNif(String nif) {
+        Referee referee = null;        
 
-            em.getTransaction().begin();
-            referee = (Referee) em.find(Referee.class, nif);
-            em.getTransaction().commit();
-
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+        em.getTransaction().begin();
+        referee = (Referee) em.find(Referee.class, nif);
+        em.getTransaction().commit();       
 
         return referee;
     }
@@ -92,15 +81,13 @@ public class RefereeDAOImpl implements RefereeDAO {
      * @throws IllegalArgumentException
      */
     @Override
-    public Referee findRefereeByMatch(String matchId) throws NotAssignedMatchToRefereeException,IllegalArgumentException{
+    public Referee findRefereeByMatch(String matchId) throws NotAssignedMatchToRefereeException{
         Match m = null;
-        try{
-            em.getTransaction().begin();
-            m = (Match) em.find(Match.class, matchId);
-            em.getTransaction().commit();
-        }catch(IllegalArgumentException e){
-            throw e;
-        }        
+        
+        em.getTransaction().begin();
+        m = (Match) em.find(Match.class, matchId);
+        em.getTransaction().commit();
+            
         Referee r = m.getReferee();
         
         if(r==null || !r.getMatches().contains(m)){
@@ -116,7 +103,7 @@ public class RefereeDAOImpl implements RefereeDAO {
      * @throws Exception
      */
     @Override
-    public List<Referee> getAllReferees() throws Exception {
+    public List<Referee> getAllReferees() {
         List<Referee> referees = null;
         Query query;
         try {
@@ -124,9 +111,7 @@ public class RefereeDAOImpl implements RefereeDAO {
             query = em.createQuery("SELECT x FROM Referee x");
             referees = (List<Referee>) query.getResultList();
             em.getTransaction().commit();  
-        } catch (Exception e) {
-            throw e;
-        }
+        } catch (PersistenceException e) {}
 
         return referees;
     }
