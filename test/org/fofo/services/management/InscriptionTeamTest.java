@@ -463,4 +463,34 @@ public class InscriptionTeamTest {
     service.addTeam(comp.getName(), "failteam");
 
     }
+    
+    @Test(expected = InscriptionTeamException.class)
+    public void testIncorrectCompetitionName2() throws Exception {
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(teamDAO).findTeamByName(team1.getName());
+                oneOf(cdao).findCompetitionByName("failcompetition"); will(returnValue(null));
+            }
+        });
+        
+    service.addTeam("failcompetition", team1.getName());
+
+    }
+    
+        @Test(expected = InscriptionTeamException.class)
+    public void testCorrectAddTeamToCompetition() throws Exception {
+
+        context.checking(new Expectations() {
+
+            {
+                oneOf(teamDAO).findTeamByName(team1.getName());
+                oneOf(cdao).findCompetitionByName(comp.getName());
+            }
+        });
+        
+    service.addTeam(comp.getName(), team1.getName());
+
+    }
 }
