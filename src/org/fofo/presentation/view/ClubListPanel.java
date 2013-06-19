@@ -4,6 +4,8 @@
  */
 package org.fofo.presentation.view;
 
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.fofo.entity.Club;
 import org.fofo.services.management.ManagementService;
 
 /**
@@ -19,45 +22,39 @@ import org.fofo.services.management.ManagementService;
  */
 public class ClubListPanel extends JPanel{
 
-    public ClubListPanel(JFrame frame, ManagementService services){
+    public ClubListPanel(JFrame frame, ManagementService services,List<Club> clubList){
         frame.setTitle("FOFO - Club List");
         frame.setSize(600, 400);
-
-        JTable table = createTable();
         
-            
-        this.add(table.getTableHeader());    
-        this.add(table);
-
-    
-    }
-    
-    private JTable createTable(){
+        List<Club> cList = clubList;
+        
+        Object[] data = cList.toArray(new Object[cList.size()]);
+        
         String[] columnNames = {"Club Name", "Email","Teams","in Competition"};
         
-        
-        JTable table = new JTable(getDataTable(), columnNames){
+        DefaultTableModel model = new DefaultTableModel();
+        JTable table = new JTable(){
             @Override
             public boolean isCellEditable(int row, int col)  
             {  
                 return false;  
             }  
         };
-        JScrollPane scrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
-        TableColumn column = null;
-            for (int i = 0; i < 4; i++) {
-                column = table.getColumnModel().getColumn(i);
-                if (i == 1) {
-                    column.setPreferredWidth(250); //third column is bigger
-                } else {
-                    column.setPreferredWidth(100);
-                }
-            }
+        
+        table.setModel(model);
+        model.setColumnIdentifiers(columnNames);
+        
+        for(int i=0;i<data.length;i++){
+           model.addRow(data);
+        }
             
-         return table;
-    
+        this.add(table.getTableHeader());    
+        this.add(table);
+        
     }
+    
+ 
+    
     //This function uses FALSE data, need to call services to retrieve list.
     private Object[][] getDataTable(){
     
