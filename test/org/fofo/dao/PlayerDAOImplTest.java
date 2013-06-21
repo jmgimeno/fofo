@@ -81,41 +81,34 @@ public class PlayerDAOImplTest {
     public void testFindPlayerByTeam() throws Exception {
 
         final Player player = new Player("nifPlayer", "namePlayer");
-        List<Player> players = new ArrayList<Player>();
+        final List<Player> players = new ArrayList<Player>();
         final Team team = new Team("EF Cervera");
         player.setTeam(team);
         players.add(player);
         team.setPlayers(players);
 
         transactionExpectations();
-
         context.checking(new Expectations() {
             {
+
                 oneOf(em).find(Team.class, team.getName());
                 will(returnValue(team));
 
                 oneOf(em).find(Player.class, team.getPlayers());
-                will(returnValue(player));
+                will(returnValue(team));
 
             }
         });
 
-        assertEquals(player, pdao.findPlayerByTeam("EF Cervera"));
-
+        assertEquals(players, pdao.findPlayersByTeam("EF Cervera"));
     }
-    
+
     @Test
     public void testGetAllPlayers() throws Exception {
 
-        final Player player1 = new Player("nifPlayer1", "namePlayer1");
-        final Player player2 = new Player("nifPlayer2", "namePlayer2");
-        final Player player3 = new Player("nifPlayer3", "namePlayer3");
-        final Player player4 = new Player("nifPlayer4", "namePlayer4");
+        final Player player = new Player("nifPlayer", "namePlayer");
         final List<Player> players = new ArrayList<Player>();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
+        players.add(player);
 
         transactionExpectations();
         context.checking(new Expectations() {
@@ -129,7 +122,6 @@ public class PlayerDAOImplTest {
 
         assertEquals(players, pdao.getAllPlayers());
     }
-    
 
     private void transactionExpectations() {
         context.checking(new Expectations() {

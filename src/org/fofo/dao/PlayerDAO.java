@@ -34,7 +34,7 @@ public interface PlayerDAO {
      * @return
      * @throws Exception
      */
-    Player findPlayerByTeam(String teamName) throws Exception;
+    List<Player> findPlayersByTeam(String teamName) throws Exception;
 
     /**
      *

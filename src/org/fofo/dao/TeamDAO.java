@@ -68,16 +68,16 @@ public interface TeamDAO {
     
     /**
      *
-     * @param teamId
+     * @param teamName
      * @param player
      */
-    void addPlayerToTeam(String teamId, String nif) throws PersistException;
+    void addPlayerToTeam(String teamName, String nif) throws PersistException;
     
     /**
      *
-     * @param teamId
+     * @param teamName
      * @return
      */
-    List<Player> getPlayersOfTeam(String teamId);
+    List<Player> getPlayersOfTeam(String teamName) throws PersistException;
     
 }

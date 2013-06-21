@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import org.fofo.dao.exception.AlreadyExistingPlayerException;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 import org.junit.After;
@@ -26,8 +27,7 @@ public class PlayerDAOImplIntegTest {
     private EntityManager em;
     private PlayerDAOImpl pDao;
     private TeamDAOImpl tDao;
-    
-    private Player player1, player2, player3, player4;
+    private Player player;
     private Team team;
 
     public PlayerDAOImplIntegTest() {
@@ -39,71 +39,71 @@ public class PlayerDAOImplIntegTest {
         em = getEntityManager();
         pDao = new PlayerDAOImpl();
         pDao.setEm(em);
-        
+
         tDao = new TeamDAOImpl();
         tDao.setEM(em);
 
-        player1 = new Player("nifPlayer1", "namePlayer1");
-        player2 = new Player("nifPlayer2", "namePlayer2");
-        player3 = new Player("nifPlayer3", "namePlayer3");
-        player4 = new Player("nifPlayer4", "namePlayer4");
+        player = new Player("nifPlayer", "namePlayer");
+        team = new Team("EF Cervera");
     }
 
     @Test
     public void testAddPlayer() throws Exception {
 
-        pDao.addPlayer(player1);
-        Player playerDB = getPlayerFromDB(player1.getNif());
+        pDao.addPlayer(player);
+        Player playerDB = getPlayerFromDB(player.getNif());
         assertEquals("Should have found the inserted referee",
-                player1, playerDB);
+                player, playerDB);
     }
 
     @Test
     public void testFindPlayerByNif() throws Exception {
-        
-        pDao.addPlayer(player2);
-        assertEquals(player2, pDao.findPlayerByNif(player2.getNif()));
+
+        pDao.addPlayer(player);
+        assertEquals(player, pDao.findPlayerByNif(player.getNif()));
     }
 
     //@Test
-    public void testFindPlayerByTeam() throws Exception {
-        
-        pDao.addPlayer(player3);
-        tDao.addPlayerToTeam(team.getName(), player3.getNif());
-        assertEquals(player3, pDao.findPlayerByTeam(team.getName()));
-        
+    public void testFindPlayersByTeam() throws Exception {
+
+        pDao.addPlayer(player);
+        tDao.addPlayerToTeam(team.getName(), player.getNif());
+        assertEquals(player, pDao.findPlayersByTeam(team.getName()));
+
     }
 
     @Test
     public void testGetAllPlayers() throws Exception {
-        
-        pDao.addPlayer(player1);
-        pDao.addPlayer(player2);
-        pDao.addPlayer(player3);
-        pDao.addPlayer(player4);
+
+        pDao.addPlayer(player);
         List<Player> players = new ArrayList<Player>();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
+        players.add(player);
         assertEquals(players, pDao.getAllPlayers());
+    }
+
+    @Test(expected = AlreadyExistingPlayerException.class)
+    public void alreadyExistPlayerInDB() throws Exception {
+        pDao.addPlayer(player);
+        pDao.addPlayer(player);
     }
 
     @After
     public void tearDown() {
-        
+
         em = pDao.getEm();
-        if(em.isOpen()) em.close();
-        
+        if (em.isOpen()) {
+            em.close();
+        }
+
         em = getEntityManager();
         em.getTransaction().begin();
-        
+
         Query query = em.createQuery("DELETE FROM Player");
         Query query2 = em.createQuery("DELETE FROM Team");
-        
+
         int deleteRecords = query.executeUpdate();
         deleteRecords = query2.executeUpdate();
-        
+
         em.getTransaction().commit();
         em.close();
         System.out.println("All records have been deleted.");

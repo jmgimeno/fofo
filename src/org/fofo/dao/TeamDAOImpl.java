@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import org.fofo.entity.Club;
-import org.fofo.entity.Competition;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 
@@ -149,10 +148,10 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    public void addPlayerToTeam(String teamId, String nif) throws PersistException {
+    public void addPlayerToTeam(String teamName, String nif) throws PersistException {
 
         try {
-            Team team = findTeamByName(teamId);
+            Team team = findTeamByName(teamName);
             Player player = playerDB.findPlayerByNif(nif);
 
             if (team == null || player == null) {
@@ -169,7 +168,21 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    public List<Player> getPlayersOfTeam(String teamId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Player> getPlayersOfTeam(String teamName) throws PersistException {
+        
+        Team team = null;
+        List<Player> players = new ArrayList<Player>();
+        
+        try {
+            team = findTeamByName(teamName);
+            players = playerDB.getAllPlayers();
+            
+            if(team == null || players == null){
+                throw new PersistException();
+            }
+        } catch (Exception e) {
+            throw new PersistException();
+       }
+       return players;
     }
 }

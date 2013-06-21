@@ -4,9 +4,12 @@
  */
 package org.fofo.dao;
 
+import java.util.ArrayList;
 import org.fofo.dao.exception.AlreadyExistingPlayerException;
 import java.util.List;
 import javax.persistence.*;
+import org.fofo.dao.exception.InvalidTeamException;
+import org.fofo.dao.exception.NotAssignedPlayersToTeamException;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 
@@ -17,7 +20,6 @@ import org.fofo.entity.Team;
 public class PlayerDAOImpl implements PlayerDAO {
 
     private EntityManager em;
-    private PlayerDAO playerDB;
 
     /**
      *
@@ -48,23 +50,6 @@ public class PlayerDAOImpl implements PlayerDAO {
     public void setEm(EntityManager em) {
         this.em = em;
     }
-    
-    /**
-     *
-     * @return
-     */
-    public PlayerDAO getPlayerDB() {
-        return playerDB;
-    }
-    
-    /**
-     *
-     * @param playerDB
-     */
-    public void setPlayerDB(PlayerDAO playerDB) {
-        this.playerDB = playerDB;
-    }
-
     
     @Override
     public void addPlayer(Player pl) throws PersistenceException, AlreadyExistingPlayerException {
@@ -99,8 +84,20 @@ public class PlayerDAOImpl implements PlayerDAO {
     }
 
     @Override
-    public Player findPlayerByTeam(String teamName) throws Exception {
-        return null;
+    public List<Player> findPlayersByTeam(String teamName) throws NotAssignedPlayersToTeamException {
+        
+        Team team = null;
+        
+        em.getTransaction().begin();
+        team = (Team) em.find(Team.class, teamName);
+        em.getTransaction().commit();
+        
+        List<Player> players = team.getPlayers();
+        if(players == null){
+            throw new NotAssignedPlayersToTeamException();
+        }
+        
+        return players;
     }
 
     @Override
