@@ -15,7 +15,7 @@ import org.fofo.entity.Competition;
  */
 public class CompetitionInfo extends JPanel{
     
-    public CompetitionInfo(Competition comp){
+    public CompetitionInfo(Competition comp){        
         JLabel l1=new JLabel();
         JLabel l2=new JLabel();
         JLabel l3=new JLabel();

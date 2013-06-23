@@ -8,6 +8,8 @@ package org.fofo.presentation.controller;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import org.fofo.entity.Competition;
 
 
@@ -33,19 +35,16 @@ public class FindCompetitionAction implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         String compName = compForm.txtCompName.getText();
         String teamName = compForm.txtTeamName.getText();
-        Competition comp = null;
+        List<Competition> comps = new ArrayList<Competition>();
         try {
-            
-            
+
             if(compName!=null){
-                comp = services.getcDao().findCompetitionByName(compName);
-            }/*else if(teamName != null){
-                comp = services.getcDao().findCompetitionByTeam(teamName);
-            }*/
+                comps.add( services.getcDao().findCompetitionByName(compName) );
+            }else if(teamName != null){
+                comps.addAll( services.getcDao().findCompetitionByTeam(teamName) );
+            }
                         
-    
-            CompetitionInfo foundComp = new CompetitionInfo(comp);
-            compForm.parent.getContentPane().add(foundComp,BorderLayout.CENTER);
+            showCompetitions(comps);        
             
             
         } catch (Exception ex) {
@@ -59,6 +58,14 @@ public class FindCompetitionAction implements ActionListener{
     
     public void setServices(ManagementService serv){
         this.services = serv;
+    }
+
+    private void showCompetitions(List<Competition> comps) {
+        compForm.parent.getContentPane().removeAll();
+        for(Competition comp : comps){
+            CompetitionInfo foundComp = new CompetitionInfo(comp);
+            compForm.parent.getContentPane().add(foundComp,BorderLayout.CENTER);
+        }
     }
 
 }

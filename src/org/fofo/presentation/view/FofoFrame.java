@@ -32,7 +32,7 @@ public class FofoFrame extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout());
-        this.setSize(400, 400);
+        this.setSize(600, 600);
 
         createMenuBar();
         createContents();

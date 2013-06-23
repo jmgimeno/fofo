@@ -22,41 +22,47 @@ public class CompetitionFindForm extends JPanel{
     public JFrame parent;
     public JTextField txtCompName;
     public JTextField txtTeamName;
-    public JButton but;
+    
 
     
     public CompetitionFindForm(JFrame frame, ManagementService services){
         this.parent = frame;
         this.services = services;
         
-        JLabel lname=new JLabel();
-        lname.setText("By Competition name ");
-        txtCompName=new JTextField();
-        txtCompName.setText("  comp. name  ");
-
-        JLabel lteam=new JLabel();
-        lteam.setText("By Team name ");
-        txtTeamName=new JTextField();
-        txtTeamName.setText("  team name  ");
-
-        but=new JButton();
-        but.setText("Find");
-        
-        this.add(lname);
-        this.add(txtCompName);
-        this.add(but);
-        //this.add(lteam);
-        //this.add(txtTeamName);
-        
-        
-        
-        FindCompetitionAction action = new FindCompetitionAction(this);
-        action.setServices(services);
-      
-        but.addActionListener(action);
+        createGUI();
     }
     
     public void setServices(ManagementService services){
         this.services = services;
+    }
+
+    private void createGUI() {
+        JLabel lname=new JLabel();
+        lname.setText("By Competition name ");
+        txtCompName=new JTextField(10);
+
+
+        JLabel lteam=new JLabel();
+        lteam.setText("By Team name ");
+        txtTeamName=new JTextField(10);
+
+        
+        FindCompetitionAction action = new FindCompetitionAction(this);
+        action.setServices(services);        
+        
+        JButton but1 = new JButton();
+        but1.setText("Find");      
+        but1.addActionListener(action);    
+        
+        this.add(lname);
+        this.add(txtCompName);
+        this.add(but1);
+        
+        JButton but2 = new JButton();
+        but2.setText("Find");      
+        but2.addActionListener(action);
+        this.add(lteam);
+        this.add(txtTeamName);
+        this.add(but2);
     }
 }

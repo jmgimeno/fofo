@@ -31,7 +31,7 @@ public class CompetitionFindAction implements ActionListener{
 
         CompetitionFindForm form = new CompetitionFindForm(parent, services);
 
-        parent.getContentPane().add(form, BorderLayout.CENTER);
+        parent.getContentPane().add(form, BorderLayout.LINE_START);
         parent.revalidate();
     }
 
