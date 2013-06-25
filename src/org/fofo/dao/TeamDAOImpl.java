@@ -174,6 +174,7 @@ public class TeamDAOImpl implements TeamDAO {
             if (team == null || player == null) {
                 throw new PersistException();
             }
+            player.setTeam(team);
             team.getPlayers().add(player);
 
         } catch (Exception e) {

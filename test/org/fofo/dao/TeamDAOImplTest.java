@@ -48,6 +48,7 @@ public class TeamDAOImplTest {
     private Team team;
     private Club club;
     private Player player;
+    private PlayerDAO pdao;
     
     public TeamDAOImplTest() {
     }
@@ -56,6 +57,7 @@ public class TeamDAOImplTest {
     public void setup(){
         
         tdao = new TeamDAOImpl();
+        pdao = context.mock(PlayerDAO.class);
       
         em  = context.mock(EntityManager.class);
         tdao.setEM(em);
@@ -76,6 +78,8 @@ public class TeamDAOImplTest {
         player.setName("namePlayer");
         player.setNif("nifPlayer");
         player.setTeam(team);
+        
+        tdao.setPlayerDB(pdao);
     }
     
     /**
@@ -216,7 +220,7 @@ public class TeamDAOImplTest {
         
     }
     
-    //@Test
+    @Test
     public void testAddPlayerToTeam() throws Exception {
 
         context.checking(new Expectations() {
@@ -225,7 +229,7 @@ public class TeamDAOImplTest {
                 oneOf(em).find(Team.class, team.getName());
                 will(returnValue(team));
                 oneOf(em).getTransaction().commit();
-                oneOf(em).find(Player.class, player.getNif());
+                oneOf(pdao).findPlayerByNif(player.getNif());
                 will(returnValue(player));
             }
         });
@@ -233,9 +237,22 @@ public class TeamDAOImplTest {
         tdao.addPlayerToTeam(team.getName(), player.getNif());
     }
     
-    //@Test
+    @Test
     public void testGetPlayersOfTeam() throws Exception {
+        
+        final List<Player> players = new ArrayList<Player>();
+        players.add(player);
+        
+        context.checking(new Expectations() {
+            {   
+                oneOf(pdao).findPlayersByTeam(team.getName());
+                will(returnValue(players));
+            }
+        });
+
+        tdao.getPlayersOfTeam(team.getName());
     }
+
     
     
     /**
