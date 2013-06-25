@@ -32,7 +32,7 @@ public class TeamDAOImplIntegTest {
 
     public TeamDAOImplIntegTest() {
     }
-    
+
     @Before
     public void setup() throws Exception {
 
@@ -49,8 +49,6 @@ public class TeamDAOImplIntegTest {
         em.getTransaction().commit();
 
         tdao.setEM(em);
-
-
     }
 
     @After
@@ -72,8 +70,7 @@ public class TeamDAOImplIntegTest {
     }
 
     /**
-     * Test of addTeam method, of class TeamDAO.
-     * Case: correct insertion
+     * Test of addTeam method, of class TeamDAO. Case: correct insertion
      */
     @Test
     public void testAddTeam() throws Exception {
@@ -86,19 +83,15 @@ public class TeamDAOImplIntegTest {
 
         Team teamDB = getTeamFromDB("team2");
 
-        
         assertEquals("Should have found the inserted team",
                 team, teamDB);
-
-        
     }
 
-
-     /**
-     * Test of addTeam method, of class TeamDAO.
-     * Case: Club of team not inserted into the db
+    /**
+     * Test of addTeam method, of class TeamDAO. Case: Club of team not inserted
+     * into the db
      */
-    @Test(expected=IncorrectTeamException.class)
+    @Test(expected = IncorrectTeamException.class)
     public void testAddTeamIncorrectClub() throws Exception {
 
         final Team team = new Team("team2");
@@ -108,59 +101,43 @@ public class TeamDAOImplIntegTest {
         club2.setName("Barna");
         club2.setEmail("barna@fb.net");
 
-        
-        
         team.setClub(club2);
 
         tdao.addTeam(team);
-
-
-        
     }
 
-    
     /**
-     * Test of addTeam method, of class TeamDAO.
-     * Case: already existing team into the db
-     * 
+     * Test of addTeam method, of class TeamDAO. Case: already existing team
+     * into the db
+     *
      *  ****ATTENTION: THIS TEST DOES NOT WORK. TWO PERSIST OF THE SAME ENTITY
-     *      DO NOT THROW AN EXCEPTION. TOPLINK PROBLEMS??????? 
-     * 
+     * DO NOT THROW AN EXCEPTION. TOPLINK PROBLEMS???????
+     *
      */
-   @Test(expected=PersistException.class)
+    @Test(expected = PersistException.class)
     public void testAddExistingTeam() throws Exception {
 
-      Team team = new Team("team2");
-
-        
- 
-
+        Team team = new Team("team2");
         team.setClub(club);
 
         em.getTransaction().begin();
-
         em.persist(team);
-        
         em.getTransaction().commit();
-  
         em.clear();
-        
         tdao.addTeam(team);
-        
     }
 
-
-    @Test  
+    @Test
     public void testGetTeams() throws Exception {
-       
+
         Team team = new Team("team2");
         team.setClub(club);
-        
-        tdao.addTeam(team); 
-        
+
+        tdao.addTeam(team);
+
         List<Team> expected = new ArrayList<Team>();
         expected.add(team);
-        
+
         assertEquals("There should be only team2",
                 expected, tdao.getTeams());
     }
@@ -169,12 +146,11 @@ public class TeamDAOImplIntegTest {
     public void testFindTeamByName() throws Exception {
         Team team = new Team("team2");
         team.setClub(club);
-        
-        tdao.addTeam(team); 
+
+        tdao.addTeam(team);
         assertEquals(team, tdao.findTeamByName("team2"));
     }
-    
-  
+
     /*
      * 
      * PRIVATE OPERATIONS
@@ -199,7 +175,6 @@ public class TeamDAOImplIntegTest {
          throw e;
          }
          * */
-
     }
 
     private Team getTeamFromDB(String name) throws Exception {
@@ -211,8 +186,5 @@ public class TeamDAOImplIntegTest {
         em.close();
 
         return teamDB;
-
-
-
     }
 }

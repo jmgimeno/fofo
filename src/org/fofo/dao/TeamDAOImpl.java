@@ -46,6 +46,23 @@ public class TeamDAOImpl implements TeamDAO {
 
     /**
      *
+     * @return
+     */
+    public PlayerDAO getPlayerDB() {
+        return playerDB;
+    }
+
+    /**
+     *
+     * @param playerDB
+     */
+    public void setPlayerDB(PlayerDAO playerDB) {
+        this.playerDB = playerDB;
+    }
+    
+
+    /**
+     *
      * @param team
      * @throws PersistException
      * @throws IncorrectTeamException
@@ -157,9 +174,6 @@ public class TeamDAOImpl implements TeamDAO {
             if (team == null || player == null) {
                 throw new PersistException();
             }
-            List<Player> players = new ArrayList<Player>();
-            players.add(player);
-            team.setPlayers(players);
             team.getPlayers().add(player);
 
         } catch (Exception e) {
@@ -170,16 +184,12 @@ public class TeamDAOImpl implements TeamDAO {
     @Override
     public List<Player> getPlayersOfTeam(String teamName) throws PersistException {
         
-        Team team = null;
         List<Player> players = new ArrayList<Player>();
         
         try {
-            team = findTeamByName(teamName);
-            players = playerDB.getAllPlayers();
-            
-            if(team == null || players == null){
-                throw new PersistException();
-            }
+
+            players = playerDB.findPlayersByTeam(teamName);
+
         } catch (Exception e) {
             throw new PersistException();
        }

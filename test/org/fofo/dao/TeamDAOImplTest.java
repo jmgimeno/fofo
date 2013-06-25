@@ -18,9 +18,11 @@ import org.fofo.entity.Category;
 import org.fofo.entity.Competition;
 import org.fofo.entity.Team;
 import org.fofo.entity.Club;
+import org.fofo.entity.Player;
 import org.fofo.services.management.IncorrectCompetitionData;
 import org.fofo.services.management.ManagementService;
 import org.jmock.Expectations;
+import static org.jmock.Expectations.returnValue;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,48 +37,46 @@ import org.junit.runner.RunWith;
 @RunWith(JMock.class)
 public class TeamDAOImplTest {
     
-    Mockery context = new JUnit4Mockery();
+    private Mockery context = new JUnit4Mockery();
 
-    TeamDAOImpl tdao;
+    private TeamDAOImpl tdao;
     
-    EntityManager em;
-    EntityTransaction transaction;
-    Query query;
+    private EntityManager em;
+    private EntityTransaction transaction;
+    private Query query;
     
-    Team team;
-    Club club;
-    
+    private Team team;
+    private Club club;
+    private Player player;
     
     public TeamDAOImplTest() {
     }
 
     @Before
     public void setup(){
-    
-      tdao = new TeamDAOImpl();
+        
+        tdao = new TeamDAOImpl();
       
-      em  = context.mock(EntityManager.class);
-      tdao.setEM(em);
-      transaction = context.mock(EntityTransaction.class);
-      query = context.mock(Query.class);
+        em  = context.mock(EntityManager.class);
+        tdao.setEM(em);
+        transaction = context.mock(EntityTransaction.class);
+        query = context.mock(Query.class);
       
-       club = new Club();
-       club.setName("Lleida FC");
-       club.setEmail("lleida@fc.cat");
+        club = new Club();
+        club.setName("Lleida FC");
+        club.setEmail("lleida@fc.cat");
        
-       
-       team = new Team();
-       team.setCategory(Category.MALE);
-       team.setClub(club);
-       team.setEmail("popo@fc.cat");
-       team.setName("petits Lleida Fc");
-      
+        team = new Team();
+        team.setCategory(Category.MALE);
+        team.setClub(club);
+        team.setEmail("popo@fc.cat");
+        team.setName("petits Lleida Fc");
+        
+        player = new Player();
+        player.setName("namePlayer");
+        player.setNif("nifPlayer");
+        player.setTeam(team);
     }
-    
-           
-        
-        
-    
     
     /**
      * Test of addTeam method, of class TeamDAOImpl.
@@ -115,12 +115,7 @@ public class TeamDAOImplTest {
        }});
 
 
-      tdao.addTeam(team);
-      
-      
-
-        
-        
+      tdao.addTeam(team); 
     }
     
     /**
@@ -166,15 +161,10 @@ public class TeamDAOImplTest {
 
 
       tdao.addTeam(team);
-      
-      
-
-        
-        
+  
     }
     
 
-    
     /**
      * Test of addTeam method, of class TeamDAOImpl.
      * Addition of an already existing team
@@ -224,6 +214,27 @@ public class TeamDAOImplTest {
         
         assertEquals(expected,result);
         
+    }
+    
+    //@Test
+    public void testAddPlayerToTeam() throws Exception {
+
+        context.checking(new Expectations() {
+            {   
+                oneOf(em).getTransaction().begin();
+                oneOf(em).find(Team.class, team.getName());
+                will(returnValue(team));
+                oneOf(em).getTransaction().commit();
+                oneOf(em).find(Player.class, player.getNif());
+                will(returnValue(player));
+            }
+        });
+
+        tdao.addPlayerToTeam(team.getName(), player.getNif());
+    }
+    
+    //@Test
+    public void testGetPlayersOfTeam() throws Exception {
     }
     
     
