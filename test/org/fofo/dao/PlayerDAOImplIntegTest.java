@@ -65,10 +65,12 @@ public class PlayerDAOImplIntegTest {
 
     //@Test
     public void testFindPlayersByTeam() throws Exception {
-
+        
         pDao.addPlayer(player);
+        List<Player> players = new ArrayList<Player>();
+        players.add(player);
         tDao.addPlayerToTeam(team.getName(), player.getNif());
-        assertEquals(player, pDao.findPlayersByTeam(team.getName()));
+        assertEquals(players, pDao.findPlayersByTeam(team.getName()));
 
     }
 

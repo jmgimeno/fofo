@@ -77,7 +77,7 @@ public class PlayerDAOImplTest {
         assertEquals(player, pdao.findPlayerByNif(player.getNif()));
     }
 
-    //@Test
+    @Test
     public void testFindPlayerByTeam() throws Exception {
 
         final Player player = new Player("nifPlayer", "namePlayer");
@@ -86,17 +86,12 @@ public class PlayerDAOImplTest {
         player.setTeam(team);
         players.add(player);
         team.setPlayers(players);
-
+   
         transactionExpectations();
         context.checking(new Expectations() {
             {
-
                 oneOf(em).find(Team.class, team.getName());
                 will(returnValue(team));
-
-                oneOf(em).find(Player.class, team.getPlayers());
-                will(returnValue(team));
-
             }
         });
 

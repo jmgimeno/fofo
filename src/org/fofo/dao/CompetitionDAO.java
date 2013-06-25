@@ -74,6 +74,13 @@ public interface CompetitionDAO {
      */
     List<ClassificationTC> findClassificationsTC(String name) throws Exception;
 
+    /**
+     *
+     * @param teamName
+     * @param compName
+     * @param npoints
+     * @throws Exception
+     */
     void addPointsToClassificationTC(String teamName, String compName, int npoints)
                              throws Exception;
   

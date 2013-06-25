@@ -87,12 +87,13 @@ public class PlayerDAOImpl implements PlayerDAO {
     public List<Player> findPlayersByTeam(String teamName) throws NotAssignedPlayersToTeamException {
         
         Team team = null;
+        List<Player> players = null;
         
         em.getTransaction().begin();
         team = (Team) em.find(Team.class, teamName);
         em.getTransaction().commit();
         
-        List<Player> players = team.getPlayers();
+        players = team.getPlayers();
         if(players == null){
             throw new NotAssignedPlayersToTeamException();
         }
