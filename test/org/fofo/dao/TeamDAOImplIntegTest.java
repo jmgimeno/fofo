@@ -26,9 +26,10 @@ import org.junit.After;
  */
 public class TeamDAOImplIntegTest {
 
-    EntityManager em = null;
-    TeamDAOImpl tdao = null;
-    Club club;
+    private EntityManager em;
+    private TeamDAOImpl tdao;
+    private Club club;
+    private PlayerDAOImpl pdao;
 
     public TeamDAOImplIntegTest() {
     }
@@ -42,31 +43,15 @@ public class TeamDAOImplIntegTest {
         club.setEmail("lleida@lleida.net");
 
         tdao = new TeamDAOImpl();
-
+        pdao = new PlayerDAOImpl();
+        
         em = getEntityManagerFact();
         em.getTransaction().begin();
         em.persist(club);
         em.getTransaction().commit();
-
+        
+        pdao.setEm(em);
         tdao.setEM(em);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        EntityManager em = getEntityManagerFact();
-        em.getTransaction().begin();
-
-        Query query = em.createQuery("DELETE FROM Team st");
-        Query query2 = em.createQuery("DELETE FROM Club cl");
-
-        int deleteRecords = query.executeUpdate();
-        deleteRecords = query2.executeUpdate();
-
-        em.getTransaction().commit();
-        em.close();
-        System.out.println("All records have been deleted.");
-
-
     }
 
     /**
@@ -151,6 +136,42 @@ public class TeamDAOImplIntegTest {
         assertEquals(team, tdao.findTeamByName("team2"));
     }
 
+    @Test
+    public void testAddPlayerToTeam() throws Exception {
+        Team team = new Team("team2");
+        team.setClub(club);
+        
+        Player player = new Player("nifPlayer", "namePlayer");
+        tdao.addTeam(team);
+        pdao.addPlayer(player);
+        tdao.setPlayerDB(pdao);
+        
+        tdao.addPlayerToTeam(team.getName(), player.getNif());
+        assertEquals(team, player.getTeam());
+
+    }
+
+    @Test
+    public void testGetPlayersOfTeam() throws Exception {
+        Team team = new Team("team2");
+        team.setClub(club);
+        
+        List<Player> players = new ArrayList<Player>();
+        Player player = new Player("nifPlayer", "namePlayer");
+        Player player1 = new Player("nifPlayer2", "namePlayer2");
+        players.add(player);
+        players.add(player1);
+        
+        tdao.addTeam(team);
+        pdao.addPlayer(player);
+        pdao.addPlayer(player1);
+        tdao.setPlayerDB(pdao);
+        
+        tdao.addPlayerToTeam(team.getName(), player.getNif());
+        tdao.addPlayerToTeam(team.getName(), player1.getNif());
+        assertEquals(players, pdao.findPlayersByTeam(team.getName()));
+    }
+
     /*
      * 
      * PRIVATE OPERATIONS
@@ -162,19 +183,6 @@ public class TeamDAOImplIntegTest {
                 Persistence.createEntityManagerFactory("fofo");
 
         return emf.createEntityManager();
-        /*
-         try{
-
-         EntityManagerFactory emf = 
-         Persistence.createEntityManagerFactory("fofo");
-         return emf.createEntityManager();  
-
-         }
-         catch(Exception e){
-         System.out.println("ERROR CREATING ENTITY MANAGER FACTORY");
-         throw e;
-         }
-         * */
     }
 
     private Team getTeamFromDB(String name) throws Exception {
@@ -186,5 +194,23 @@ public class TeamDAOImplIntegTest {
         em.close();
 
         return teamDB;
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        EntityManager em = getEntityManagerFact();
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("DELETE FROM Team st");
+        Query query2 = em.createQuery("DELETE FROM Club cl");
+        Query query3 = em.createQuery("DELETE FROM Player");
+        
+        int deleteRecords = query.executeUpdate();
+        deleteRecords = query2.executeUpdate();
+        deleteRecords = query3.executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
+        System.out.println("All records have been deleted.");
     }
 }

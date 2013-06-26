@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.fofo.dao.exception.AlreadyExistingPlayerException;
+import org.fofo.entity.Club;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 import org.junit.After;
@@ -29,6 +30,7 @@ public class PlayerDAOImplIntegTest {
     private TeamDAOImpl tDao;
     private Player player;
     private Team team;
+    private Club club;
 
     public PlayerDAOImplIntegTest() {
     }
@@ -38,13 +40,20 @@ public class PlayerDAOImplIntegTest {
 
         em = getEntityManager();
         pDao = new PlayerDAOImpl();
-        pDao.setEm(em);
-
         tDao = new TeamDAOImpl();
-        tDao.setEM(em);
-
+        
         player = new Player("nifPlayer", "namePlayer");
-        team = new Team("EF Cervera");
+        team = new Team("Cervera");
+        
+        club = new Club();
+        club.setName("EF Cervera");
+        club.setEmail("efCervera@email.com");
+        em.getTransaction().begin();
+        em.persist(club);
+        em.getTransaction().commit();
+        
+        pDao.setEm(em);
+        tDao.setEM(em);
     }
 
     @Test
@@ -63,12 +72,17 @@ public class PlayerDAOImplIntegTest {
         assertEquals(player, pDao.findPlayerByNif(player.getNif()));
     }
 
-    //@Test
+    @Test
     public void testFindPlayersByTeam() throws Exception {
         
-        pDao.addPlayer(player);
+        team.setClub(club);
+        
         List<Player> players = new ArrayList<Player>();
         players.add(player);
+        tDao.addTeam(team);
+        pDao.addPlayer(player);
+        tDao.setPlayerDB(pDao);
+        
         tDao.addPlayerToTeam(team.getName(), player.getNif());
         assertEquals(players, pDao.findPlayersByTeam(team.getName()));
 
@@ -102,9 +116,11 @@ public class PlayerDAOImplIntegTest {
 
         Query query = em.createQuery("DELETE FROM Player");
         Query query2 = em.createQuery("DELETE FROM Team");
+        Query query3 = em.createQuery("DELETE FROM Club");
 
         int deleteRecords = query.executeUpdate();
         deleteRecords = query2.executeUpdate();
+        deleteRecords = query3.executeUpdate();
 
         em.getTransaction().commit();
         em.close();
