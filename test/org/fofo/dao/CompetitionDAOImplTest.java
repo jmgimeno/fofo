@@ -76,32 +76,27 @@ public class CompetitionDAOImplTest {
         competitionDAO.addCompetition(competition);
     }
 
-    @Test
-    public void addTeam_To_Competition() throws Exception {
+      @Test
+    public void addTeamAndClassificationTCToCompetition() throws Exception {
+          
+          final ClassificationTC classif = new ClassificationTC (competition,team);
 
-        // 1º Llamar a find competetition y team
-        //2º Y se llama a compAux.getTeam.add
-        List<Team> list = Arrays.asList(team);
-
-        context.checking(new Expectations() {
+          context.checking(new Expectations() {
             {
                 atLeast(1).of(em).getTransaction();
-                will(returnValue(transaction));
+                    will(returnValue(transaction));                    
                 oneOf(em).find(Team.class, team.getName());
-                will(returnValue(team));
+                    will(returnValue(team));
                 oneOf(em).find(Competition.class, competition.getName());
-                will(returnValue(competition));
+                    will(returnValue(competition));
                 oneOf(transaction).begin();
                 oneOf(transaction).commit();
-
+                oneOf(em).persist(classif);
             }
         });
 
         competitionDAO.addTeam(competition, team);
-        assertEquals(list, competition.getTeams());
-
-
-    }
+    } 
 
     @Test(expected = InvalidTeamException.class)
     public void add_incorrect_team_to_competition() throws Exception {
@@ -131,6 +126,7 @@ public class CompetitionDAOImplTest {
         competitionDAO.addTeam(null, team);
     }
     
+   
     /*
      * 
      * TESTS FOR CLASSIFICATIONS

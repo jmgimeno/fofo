@@ -233,16 +233,51 @@ public class CompetitionDAOImplIntegTest {
         competitionDAO.addTeam(competition, team4);
         
         
-          competitionDAO.addClassificationTC("team2", "League1");  
-
           Query clq = em.createQuery("SELECT cl FROM ClassificationTC cl");
         
           List<ClassificationTC> lclass = clq.getResultList();
      
-          assertEquals("There should be one classification",1,lclass.size());    
-          assertEquals("Should be of team team2", team2,lclass.get(0).getTeam());
+          assertEquals("There should be four classification",4,lclass.size());    
+          //assertEquals("Should be of team team2", team2,lclass.get(0).getTeam());
           
     }
+    
+    @Test
+    public void classificationInsertionWithCorrectClassificationTC() throws Exception{
+        ClassificationTC classTC1 = new ClassificationTC (competition,team);
+        classTC1.setPoints(0);
+        ClassificationTC classTC2 = new ClassificationTC (competition,team2);
+        classTC2.setPoints(0);
+        ClassificationTC classTC3 = new ClassificationTC (competition,team3);
+        classTC3.setPoints(0);
+        ClassificationTC classTC4 = new ClassificationTC (competition,team4);  
+        classTC4.setPoints(0); 
+        
+        List<ClassificationTC> classTC = new ArrayList<ClassificationTC>();
+        classTC.add(classTC1);
+        classTC.add(classTC2);
+        classTC.add(classTC3);
+        classTC.add(classTC4);        
+        
+        competitionDAO.addTeam(competition, team);
+        competitionDAO.addTeam(competition, team2);
+        competitionDAO.addTeam(competition, team3);
+        competitionDAO.addTeam(competition, team4);
+        
+        
+          Query clq = em.createQuery("SELECT cl FROM ClassificationTC cl");
+        
+          List<ClassificationTC> classTCDB = clq.getResultList();
+     
+          assertEquals("There should be same classificationTC",classTC,classTCDB);  
+   
+    }    
+    
+    
+    
+    
+    
+    
 
     @Test(expected=IncorrectTeamException.class)
     public void classificationInsertionOfATeamNotInCompetition() throws Exception{
@@ -279,15 +314,6 @@ public class CompetitionDAOImplIntegTest {
 
 
     
-    
-    //@Test
-    public void getClassificationCorrect() throws Exception{
-    
-        //****ASSIGNED TO JORDI+ORIOL
-        
-        
-
-    }
     
     @Test
     public void addPointsToTeam() throws Exception{

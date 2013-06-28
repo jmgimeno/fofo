@@ -89,24 +89,32 @@ public class CompetitionDAOImpl implements CompetitionDAO {
      */
     @Override
     public void addTeam(Competition competition, Team team) throws Exception {
-            em.getTransaction().begin();
+        em.getTransaction().begin();
+        
+        if (team == null) {
+            throw new InvalidTeamException();
+        }
+        if(competition == null) throw new InvalidCompetitionException();
 
-            if (team == null) {
-                throw new InvalidTeamException();
-            }
-            if(competition == null) throw new InvalidCompetitionException();
-           
-            Competition compAux = (Competition)em.find(Competition.class, competition.getName());
-            Team teamAux = (Team)em.find(Team.class, team.getName());
+        Competition compAux = (Competition)em.find(Competition.class, competition.getName());
+        Team teamAux = (Team)em.find(Team.class, team.getName());
 
+
+        if (compAux == null || teamAux == null) {
+            throw new PersistException();
+        }
+
+        compAux.getTeams().add(teamAux);
+        teamAux.getCompetitions().add(compAux);
             
-            if (compAux == null || teamAux == null) {
-                throw new PersistException();
-            }
+        ClassificationTC classif = new ClassificationTC (compAux,teamAux);
+        
+        compAux.getClassificationsTC().add(classif);
+        teamAux.getClassificationsTC().add(classif);
 
-            compAux.getTeams().add(teamAux);
-            teamAux.getCompetitions().add(compAux);
-            em.getTransaction().commit();
+        em.persist(classif);            
+            
+        em.getTransaction().commit();
     }
 
     /**
@@ -179,7 +187,6 @@ public class CompetitionDAOImpl implements CompetitionDAO {
         if (!(comp.getTeams().contains(team))) throw new IncorrectTeamException();
         
         ClassificationTC classif = new ClassificationTC (comp,team);
-        classif.setPoints(0);
         
         comp.getClassificationsTC().add(classif);
         team.getClassificationsTC().add(classif);
