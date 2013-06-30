@@ -23,7 +23,7 @@ public class AddTeamForm extends JPanel {
 
     public AddTeamForm(JFrame frame, ManagementService services) {
         
-        
+/* Codi no validat */
 //Object[][] competitionsdata = {
 //{"Competition1", FEMALE, 05/08/13, new Integer(4), "123456789", 11, 2, CUP, new Integer(5)};
 //{"Competition2", FEMALE, 05/09/13, new Integer(4), "123456790", 11, 2, CUP, new Integer(5)};
@@ -34,8 +34,8 @@ public class AddTeamForm extends JPanel {
 //{"Competition7", MALE, 15/12/13, new Integer(4), "123456795", 11, 2, CUP, new Integer(5)};
 //{"Competition8", MALE, 05/12/13, new Integer(4), "123456796", 11, 2, CUP, new Integer(5)};
 //};
-        
-        
+//        
+//        
 //        
 //Object[][] teamsdata = {
 //{"Team1", "club1", FEMALE, "team1@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
