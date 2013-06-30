@@ -22,6 +22,32 @@ public class AddTeamForm extends JPanel {
     private ManagementService services;
 
     public AddTeamForm(JFrame frame, ManagementService services) {
+        
+        
+//Object[][] competitionsdata = {
+//{"Competition1", FEMALE, 05/08/13, new Integer(4), "123456789", 11, 2, CUP, new Integer(5)};
+//{"Competition2", FEMALE, 05/09/13, new Integer(4), "123456790", 11, 2, CUP, new Integer(5)};
+//{"Competition3", FEMALE, 15/10/13, new Integer(4), "123456791", 11, 2, CUP, new Integer(5)};
+//{"Competition4", FEMALE, 05/11/13, new Integer(4), "123456792", 11, 2, CUP, new Integer(5)};
+//{"Competition5", MALE, 05/12/13, new Integer(4), "123456793", 11, 2, CUP, new Integer(5)};
+//{"Competition6", MALE, 05/12/13, new Integer(4), "123456794", 11, 2, CUP, new Integer(5)};
+//{"Competition7", MALE, 15/12/13, new Integer(4), "123456795", 11, 2, CUP, new Integer(5)};
+//{"Competition8", MALE, 05/12/13, new Integer(4), "123456796", 11, 2, CUP, new Integer(5)};
+//};
+        
+        
+//        
+//Object[][] teamsdata = {
+//{"Team1", "club1", FEMALE, "team1@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team2", "club1", FEMALE, "team2@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team3", "club2", MALE, "team3@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team4", "club2", MALE, "team4@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team5", "club3", FEMALE, "team5@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team6", "club3", FEMALE, "team6@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team7", "club4", VETERAN, "team7@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//{"Team8", "club4", VETERAN, "team8@mail.com", new Integer(2), new Integer(2), new Integer(2), 10, 2};
+//    };
+    
 
         this.services = services;
         this.parent = frame;
