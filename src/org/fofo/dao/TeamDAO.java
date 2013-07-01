@@ -80,4 +80,10 @@ public interface TeamDAO {
      */
     List<Player> getPlayersOfTeam(String teamName) throws PersistException;
     
+    /**
+     *
+     * @return
+     */
+    int getNumberOfPlayers() throws Exception;
+    
 }

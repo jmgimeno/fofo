@@ -31,8 +31,6 @@ public class Team implements Serializable {
     @OneToMany(mappedBy = "team")
     private List<Player> players = new ArrayList<Player>();
     
-    private int minPlayers;
-    private int maxPlayers;
 
     /**
      *
@@ -198,58 +196,6 @@ public class Team implements Serializable {
      */
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getMinPlayers() {
-        return minPlayers;
-    }
-
-    /**
-     *
-     * @param minPlayers
-     */
-    public void setMinPlayers(int minPlayers) {
-        if (validMinPlayers(minPlayers)) {
-            this.minPlayers = minPlayers;
-        }
-    }
-
-    private boolean validMinPlayers(int numPlayers) {
-        if (numPlayers >= 11) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    /**
-     *
-     * @param maxPlayers
-     */
-    public void setMaxPlayers(int maxPlayers) {
-        if (validMaxPlayers(maxPlayers)) {
-            this.maxPlayers = maxPlayers;
-        }
-    }
-
-    private boolean validMaxPlayers(int numPlayers) {
-        if (numPlayers <= 18) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public String toString() {

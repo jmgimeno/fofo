@@ -74,10 +74,7 @@ public class TeamDAOImplTest {
         team.setEmail("popo@fc.cat");
         team.setName("petits Lleida Fc");
         
-        player = new Player();
-        player.setName("namePlayer");
-        player.setNif("nifPlayer");
-        player.setTeam(team);
+        player = new Player("namePlayer", "nifPlayer");
         
         tdao.setPlayerDB(pdao);
     }
@@ -222,7 +219,7 @@ public class TeamDAOImplTest {
     
     @Test
     public void testAddPlayerToTeam() throws Exception {
-
+        
         context.checking(new Expectations() {
             {   
                 oneOf(em).getTransaction().begin();
@@ -252,9 +249,41 @@ public class TeamDAOImplTest {
 
         tdao.getPlayersOfTeam(team.getName());
     }
+    
+    @Test
+    public void testGetNumberOfPlayers() throws Exception {
+        
+        final List<Player> players = new ArrayList<Player>();
+        Player player1 = new Player("nifPlayer1", "namePlayer1");
+        Player player2 = new Player("nifPlayer2", "namePlayer2");
+        Player player3 = new Player("nifPlayer3", "namePlayer3");
+        Player player4 = new Player("nifPlayer4", "namePlayer4");
+        Player player5 = new Player("nifPlayer5", "namePlayer5");
+        Player player6 = new Player("nifPlayer6", "namePlayer6");
+        Player player7 = new Player("nifPlayer7", "namePlayer7");
+        Player player8 = new Player("nifPlayer8", "namePlayer8");
+        Player player9 = new Player("nifPlayer9", "namePlayer9");
+        Player player10 = new Player("nifPlayer10", "namePlayer10");
+        Player player11 = new Player("nifPlayer11", "namePlayer11");
+        
+        players.add(player1); players.add(player2);
+        players.add(player3); players.add(player4);
+        players.add(player5); players.add(player6);
+        players.add(player7); players.add(player8);
+        players.add(player9); players.add(player10);
+        players.add(player11);
+        
+        context.checking(new Expectations() {
+            {   
+                oneOf(pdao).getAllPlayers();
+                will(returnValue(players));
+            }
+        });
+        
+        tdao.getNumberOfPlayers();
+    }
 
-    
-    
+  
     /**
      * Test of getTeamByName method, of class TeamDAOImpl.
      * Get Team by name

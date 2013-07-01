@@ -30,7 +30,7 @@ public class Player {
      */
     public Player() {
         this.nif="";
-        this.name="";  
+        this.name="";
     }
     
     /**

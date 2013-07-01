@@ -10,11 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
-import javax.persistence.EntityExistsException;
 import javax.persistence.Query;
 import org.fofo.entity.*;
-import org.jmock.Expectations;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -44,12 +41,12 @@ public class TeamDAOImplIntegTest {
 
         tdao = new TeamDAOImpl();
         pdao = new PlayerDAOImpl();
-        
+
         em = getEntityManagerFact();
         em.getTransaction().begin();
         em.persist(club);
         em.getTransaction().commit();
-        
+
         pdao.setEm(em);
         tdao.setEM(em);
     }
@@ -140,12 +137,12 @@ public class TeamDAOImplIntegTest {
     public void testAddPlayerToTeam() throws Exception {
         Team team = new Team("team2");
         team.setClub(club);
-        
+
         Player player = new Player("nifPlayer", "namePlayer");
         tdao.addTeam(team);
         pdao.addPlayer(player);
         tdao.setPlayerDB(pdao);
-        
+
         tdao.addPlayerToTeam(team.getName(), player.getNif());
         assertEquals(team, player.getTeam());
 
@@ -155,21 +152,58 @@ public class TeamDAOImplIntegTest {
     public void testGetPlayersOfTeam() throws Exception {
         Team team = new Team("team2");
         team.setClub(club);
-        
+
         List<Player> players = new ArrayList<Player>();
         Player player = new Player("nifPlayer", "namePlayer");
         Player player1 = new Player("nifPlayer2", "namePlayer2");
         players.add(player);
         players.add(player1);
-        
+
         tdao.addTeam(team);
         pdao.addPlayer(player);
         pdao.addPlayer(player1);
         tdao.setPlayerDB(pdao);
-        
+
         tdao.addPlayerToTeam(team.getName(), player.getNif());
         tdao.addPlayerToTeam(team.getName(), player1.getNif());
         assertEquals(players, pdao.findPlayersByTeam(team.getName()));
+    }
+
+    @Test
+    public void testGetNumberOfPlayers() throws Exception {
+        Team team = new Team("team3");
+        team.setClub(club);
+        
+        List<Player> players = new ArrayList<Player>();
+        Player player1 = new Player("nifPlayer1", "namePlayer1");
+        Player player2 = new Player("nifPlayer2", "namePlayer2");
+        Player player3 = new Player("nifPlayer3", "namePlayer3");
+        Player player4 = new Player("nifPlayer4", "namePlayer4");
+        Player player5 = new Player("nifPlayer5", "namePlayer5");
+        Player player6 = new Player("nifPlayer6", "namePlayer6");
+        Player player7 = new Player("nifPlayer7", "namePlayer7");
+        Player player8 = new Player("nifPlayer8", "namePlayer8");
+        Player player9 = new Player("nifPlayer9", "namePlayer9");
+        Player player10 = new Player("nifPlayer10", "namePlayer10");
+        Player player11 = new Player("nifPlayer11", "namePlayer11");
+        
+        players.add(player1); players.add(player2);
+        players.add(player3); players.add(player4);
+        players.add(player5); players.add(player6);
+        players.add(player7); players.add(player8);
+        players.add(player9); players.add(player10);
+        players.add(player11);
+        
+        tdao.addTeam(team);
+        pdao.addPlayer(player1); pdao.addPlayer(player2);
+        pdao.addPlayer(player3); pdao.addPlayer(player4);
+        pdao.addPlayer(player5); pdao.addPlayer(player6);
+        pdao.addPlayer(player7); pdao.addPlayer(player8);
+        pdao.addPlayer(player9); pdao.addPlayer(player10);
+        pdao.addPlayer(player11); 
+        tdao.setPlayerDB(pdao);
+       
+        assertEquals(players.size(), tdao.getNumberOfPlayers());
     }
 
     /*
@@ -192,7 +226,6 @@ public class TeamDAOImplIntegTest {
         Team teamDB = em.find(Team.class, name);
         em.getTransaction().commit();
         em.close();
-
         return teamDB;
     }
 
@@ -204,7 +237,7 @@ public class TeamDAOImplIntegTest {
         Query query = em.createQuery("DELETE FROM Team st");
         Query query2 = em.createQuery("DELETE FROM Club cl");
         Query query3 = em.createQuery("DELETE FROM Player");
-        
+
         int deleteRecords = query.executeUpdate();
         deleteRecords = query2.executeUpdate();
         deleteRecords = query3.executeUpdate();

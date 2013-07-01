@@ -9,6 +9,7 @@ import org.fofo.dao.exception.IncorrectTeamException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import org.fofo.dao.exception.IncorrectNumberOfPlayersException;
 import org.fofo.entity.Club;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
@@ -21,6 +22,8 @@ public class TeamDAOImpl implements TeamDAO {
 
     private EntityManager em;
     private PlayerDAO playerDB;
+    
+    private List<Player> players = new ArrayList<Player>();
 
     /**
      *
@@ -185,8 +188,6 @@ public class TeamDAOImpl implements TeamDAO {
     @Override
     public List<Player> getPlayersOfTeam(String teamName) throws PersistException {
         
-        List<Player> players = new ArrayList<Player>();
-        
         try {
 
             players = playerDB.findPlayersByTeam(teamName);
@@ -196,4 +197,22 @@ public class TeamDAOImpl implements TeamDAO {
        }
        return players;
     }
+    
+    @Override
+    public int getNumberOfPlayers() throws Exception {
+
+        try{
+            
+            players = playerDB.getAllPlayers();
+            if(players.size() < 11){
+                throw new IncorrectNumberOfPlayersException();
+            }
+            
+        } catch (Exception e) {
+            throw new IncorrectNumberOfPlayersException();
+        }
+        
+        return players.size();
+    }
+
 }
