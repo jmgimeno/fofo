@@ -4,11 +4,9 @@
  */
 package org.fofo.dao;
 
-import java.util.ArrayList;
 import org.fofo.dao.exception.AlreadyExistingPlayerException;
 import java.util.List;
 import javax.persistence.*;
-import org.fofo.dao.exception.InvalidTeamException;
 import org.fofo.dao.exception.NotAssignedPlayersToTeamException;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;

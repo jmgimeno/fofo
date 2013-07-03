@@ -132,7 +132,20 @@ public class TeamDAOImplIntegTest {
         tdao.addTeam(team);
         assertEquals(team, tdao.findTeamByName("team2"));
     }
-
+    
+    @Test
+    public void testGetTeamsByClub() throws Exception {
+        List<Team> teams = new ArrayList<Team>();
+        Team team = new Team("team3");
+        team.setClub(club);
+        teams.add(team);
+        tdao.addTeam(team);
+        
+        assertEquals(teams, tdao.findTeamsByClub(club.getName()));
+        
+    }
+    
+    
     @Test
     public void testAddPlayerToTeam() throws Exception {
         Team team = new Team("team2");

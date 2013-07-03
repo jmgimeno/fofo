@@ -7,6 +7,7 @@ package org.fofo.dao;
 import org.fofo.dao.exception.PersistException;
 import org.fofo.dao.exception.IncorrectTeamException;
 import java.util.List;
+import org.fofo.dao.exception.NotAssignedTeamsToClubException;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
 
@@ -30,19 +31,6 @@ public interface TeamDAO {
      */
     void addTeam(Team team) throws PersistException, 
                                     IncorrectTeamException;
-    
-    /**
-     *
-     * @param name
-     */
-    void removeTeam(String name);
-    
-    /**
-     *
-     * @param team
-     * @return
-     */
-    boolean findTeam(Team team);
    
     /**
      *
@@ -64,7 +52,7 @@ public interface TeamDAO {
      * @param name
      * @return
      */
-    List<Team> findTeamByClub(String name);
+    List<Team> findTeamsByClub(String name) throws NotAssignedTeamsToClubException;
     
     /**
      *

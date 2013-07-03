@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import org.fofo.dao.exception.IncorrectNumberOfPlayersException;
+import org.fofo.dao.exception.NotAssignedTeamsToClubException;
 import org.fofo.entity.Club;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
@@ -104,13 +105,6 @@ public class TeamDAOImpl implements TeamDAO {
 
     /**
      *
-     * @param name
-     */
-    public void removeTeam(String name) {
-    }
-
-    /**
-     *
      * @return
      */
     public List<Team> getTeams() {
@@ -121,7 +115,6 @@ public class TeamDAOImpl implements TeamDAO {
         teams = pp.getResultList();
         em.getTransaction().commit();
         return teams;
-
     }
 
     /**
@@ -151,20 +144,22 @@ public class TeamDAOImpl implements TeamDAO {
      * @param name
      * @return
      */
-    public List<Team> findTeamByClub(String name) {
-
-        return null;
-    }
-
-//CAL TREURE-LA!!!!!
-    /**
-     *
-     * @param team
-     * @return
-     */
     @Override
-    public boolean findTeam(Team team) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Team> findTeamsByClub(String name) throws NotAssignedTeamsToClubException{
+        
+        Club club = null;
+        List<Team> teams = null;
+        
+        em.getTransaction().begin();
+        club = (Club) em.find(Club.class, name);
+        em.getTransaction().commit();
+        
+        teams = club.getTeams();
+        if(teams == null){
+            throw new NotAssignedTeamsToClubException();
+        }
+        
+        return teams;
     }
 
     @Override
@@ -214,5 +209,4 @@ public class TeamDAOImpl implements TeamDAO {
         
         return players.size();
     }
-
 }
