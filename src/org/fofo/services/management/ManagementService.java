@@ -245,8 +245,8 @@ public class ManagementService {
     private void checkForExceptions(Competition comp) throws IncorrectCompetitionData,
             IncorrectTypeData, IncorrectMinNumberOfTeams, IncorrectMaxNumberOfTeams,
             IncorrectDate {
-        DateTime date = new DateTime();
-        date.plusWeeks(2);
+        DateTime date = new DateTime().plusWeeks(2);
+       
         if (!isValidCategory(comp.getCategory())) {
             throw new IncorrectCompetitionData();
         }
@@ -260,7 +260,8 @@ public class ManagementService {
             throw new IncorrectMaxNumberOfTeams();
         }
         if (comp.getInici().before(date.toDate())) {
-            throw new IncorrectDate();
+            
+             throw new IncorrectDate();
         }
     }
 

@@ -112,12 +112,19 @@ public class RefereeComunicationService {
         //****IT IS NECESSARY TO ADD THE POINTS OF THE WINNER TO THE
         //****CLASSIFICATION....
         if(match.getGoalsHome()>match.getGoalsVisiting()){
-            compDAO.addPointsToClassificationTC(match.getHome().getName(), comp.getName(), 3);
+            compDAO.addPointsToClassificationTC(match.getHome().getName(), 
+                    comp.getName(), 3);
         }else if(match.getGoalsHome()<match.getGoalsVisiting()){
-            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), comp.getName(), 3);
+            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), 
+                    comp.getName(), 3);
         }else{
-            compDAO.addPointsToClassificationTC(match.getHome().getName(), comp.getName(), 1);
-            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), comp.getName(), 1);
+            
+            System.out.println("****MATCH.GETHOME="+match.getHome());
+            
+            compDAO.addPointsToClassificationTC(match.getHome().getName(), 
+                    comp.getName(), 1);
+            compDAO.addPointsToClassificationTC(match.getVisitor().getName(), 
+                    comp.getName(), 1);
         }
         
     }

@@ -208,6 +208,7 @@ public class Team implements Serializable {
         }
     }
 
+    
     @Override
     public boolean equals(Object obj) {
 
@@ -215,4 +216,5 @@ public class Team implements Serializable {
                 && ((((Team) obj).club == null && this.club == null)
                 || ((Team) obj).club.equals(this.club));
     }
+     
 }

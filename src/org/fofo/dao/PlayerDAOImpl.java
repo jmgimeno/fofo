@@ -7,6 +7,7 @@ package org.fofo.dao;
 import org.fofo.dao.exception.AlreadyExistingPlayerException;
 import java.util.List;
 import javax.persistence.*;
+import org.fofo.dao.exception.InvalidTeamException;
 import org.fofo.dao.exception.NotAssignedPlayersToTeamException;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
@@ -82,13 +83,16 @@ public class PlayerDAOImpl implements PlayerDAO {
     }
 
     @Override
-    public List<Player> findPlayersByTeam(String teamName) throws NotAssignedPlayersToTeamException {
+    public List<Player> findPlayersByTeam(String teamName) throws InvalidTeamException, NotAssignedPlayersToTeamException {
         
         Team team = null;
         List<Player> players = null;
         
         em.getTransaction().begin();
         team = (Team) em.find(Team.class, teamName);
+        if(team == null){
+            throw new InvalidTeamException();
+        }
         em.getTransaction().commit();
         
         players = team.getPlayers();

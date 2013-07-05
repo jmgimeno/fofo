@@ -142,7 +142,7 @@ public class RefereeComunicationServiceTest {
                 match.getIdMatch(), imAux);
     }    
     
-    @Test
+    //@Test
     public void communicateResultMatch() throws Exception{
         ref.getMatches().add(match);
         info.setMatchDate(new DateTime().toDate());

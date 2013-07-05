@@ -11,6 +11,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import org.fofo.entity.Player;
 import org.fofo.entity.Team;
+import org.fofo.dao.exception.*;
 import org.jmock.Expectations;
 import static org.jmock.Expectations.returnValue;
 import org.jmock.Mockery;
@@ -62,6 +63,24 @@ public class PlayerDAOImplTest {
         pdao.addPlayer(player);
     }
 
+    @Test(expected=AlreadyExistingPlayerException.class)
+    public void testAddPlayerRepeated() throws Exception {
+
+        final Player player = new Player("nifPlayer", "namePlayer");
+        transactionExpectations();
+        context.checking(new Expectations() {
+            {
+                oneOf(em).find(Player.class, player.getNif());
+                    will(returnValue(player));
+               //oneOf(em).persist(player);
+            }
+        });
+
+        pdao.addPlayer(player);
+
+    }
+
+    
     @Test
     public void testFindPlayerByNif() throws Exception {
 
@@ -75,6 +94,22 @@ public class PlayerDAOImplTest {
         });
 
         assertEquals(player, pdao.findPlayerByNif(player.getNif()));
+    }
+    
+     @Test
+    public void testFindNonExistingPlayerByNif() throws Exception {
+
+        final Player player = new Player("nifPlayer", "namePlayer");
+        transactionExpectations();
+        context.checking(new Expectations() {
+            {
+                oneOf(em).find(Player.class, player.getNif());
+                will(returnValue(null));
+                
+            }
+        });
+
+        assertNull(pdao.findPlayerByNif(player.getNif()));
     }
 
     @Test
@@ -98,6 +133,28 @@ public class PlayerDAOImplTest {
         assertEquals(players, pdao.findPlayersByTeam("EF Cervera"));
     }
 
+        @Test(expected = InvalidTeamException.class)
+    public void testFindPlayerByNonExistingTeam() throws Exception {
+
+        final Player player = new Player("nifPlayer", "namePlayer");
+        final List<Player> players = new ArrayList<Player>();
+        final Team team = new Team("EF Cervera");
+        player.setTeam(team);
+        players.add(player);
+        team.setPlayers(players);
+   
+        transactionExpectations();
+        context.checking(new Expectations() {
+            {
+                oneOf(em).find(Team.class, team.getName());
+                will(returnValue(null));
+            }
+        });
+
+        pdao.findPlayersByTeam("EF Cervera");
+    }
+
+    
     @Test
     public void testGetAllPlayers() throws Exception {
 
@@ -119,10 +176,13 @@ public class PlayerDAOImplTest {
     }
 
     private void transactionExpectations() {
+        
+        
+        
         context.checking(new Expectations() {
             {
                 allowing(em).getTransaction();
-                will(returnValue(transaction));
+                                 will(returnValue(transaction));
                 allowing(transaction).begin();
                 allowing(transaction).commit();
             }

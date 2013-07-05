@@ -196,17 +196,11 @@ public class TeamDAOImpl implements TeamDAO {
     @Override
     public int getNumberOfPlayers() throws Exception {
 
-        try{
+        
             
             players = playerDB.getAllPlayers();
-            if(players.size() < 11){
-                throw new IncorrectNumberOfPlayersException();
-            }
             
-        } catch (Exception e) {
-            throw new IncorrectNumberOfPlayersException();
-        }
         
         return players.size();
-    }
+    }    
 }

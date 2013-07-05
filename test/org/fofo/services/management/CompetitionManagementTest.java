@@ -66,9 +66,9 @@ public class CompetitionManagementTest {
       comp.setCategory(Category.MALE);
       comp.setMinTeams(2);
       comp.setMaxTeams(20);
-      date = new DateTime();
-      date.plusWeeks(3);
-      comp.setInici(date.toDate());
+      date = new DateTime();      
+      DateTime dateIni = date.plusWeeks(3);
+      comp.setInici(dateIni.toDate());
         //...
 
       time = new DateTime();

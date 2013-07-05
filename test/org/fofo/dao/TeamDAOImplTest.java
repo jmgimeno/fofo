@@ -259,22 +259,27 @@ public class TeamDAOImplTest {
     @Test
     public void testGetTeamsByClub() throws Exception {
 
+        final Team team2 = new Team("popo");
         final List<Team> teams = new ArrayList<Team>();
         teams.add(team);
+        teams.add(team2);
         club.setTeams(teams);
 
         context.checking(new Expectations() {
             {
                 atLeast(1).of(em).getTransaction();
-                will(returnValue(transaction));
+                        will(returnValue(transaction));
                 oneOf(transaction).begin();
                 oneOf(transaction).commit();
                 oneOf(em).find(Club.class, club.getName());
-                will(returnValue(club));
+                         will(returnValue(club));
             }
         });
 
-        tdao.findTeamsByClub("Lleida FC");
+        
+        assertEquals(teams,tdao.findTeamsByClub("Lleida FC"));
+
+        
     }
 
     @Test
@@ -345,6 +350,6 @@ public class TeamDAOImplTest {
             }
         });
 
-        tdao.getNumberOfPlayers();
+        assertEquals(11,tdao.getNumberOfPlayers());
     }
 }
