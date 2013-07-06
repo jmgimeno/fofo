@@ -93,6 +93,11 @@ public class RefereeComunicationService {
         if (match == null) {
             throw new InvalidMatchException();
         }
+
+        System.out.println("****ref = "+ref+" match.getReferee()="+match.getReferee());
+        
+        if (! ref.equals(match.getReferee())) throw new InvalidMatchException();
+        
         for (Match m : ref.getMatches()) {
             if (m.getIdMatch().equals(idMatch)) {
                 match2 = m;

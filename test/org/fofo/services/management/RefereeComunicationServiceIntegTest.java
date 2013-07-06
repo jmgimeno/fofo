@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
 public class RefereeComunicationServiceIntegTest {
     EntityManager em = null;
     RefereeComunicationService r;
-    Match match,m1;
+    Match match,m1,match2;
     Referee ref;
     InfoMatch info;
     RefereeDAOImpl refDAO;
@@ -41,6 +41,7 @@ public class RefereeComunicationServiceIntegTest {
     Competition comp;
     Team local, visitor;
     CompetitionDAOImpl compDAO;
+    Club club;
     
     public RefereeComunicationServiceIntegTest() {
     }
@@ -51,27 +52,61 @@ public class RefereeComunicationServiceIntegTest {
         refDAO = new RefereeDAOImpl();
         compDAO = new CompetitionDAOImpl();
         r = new RefereeComunicationService();
+        club = new Club("nomCLub");
+        
         match = new Match();
+        match2 = new Match();
         m1 = new Match();
         local = new Team("local");
         visitor = new Team ("visitor");
+        local.setCategory(Category.MALE);
+        local.setClub(club);
+        
+        visitor.setCategory(Category.MALE);
+        visitor.setClub(club);
+        
+        club.getTeams().add(local);
+        club.getTeams().add(visitor);
+        
         m1.setHome(local);
         m1.setVisitor(visitor);
         ref = new Referee("11111", "Allu");
+        
+        ref.getMatches().add(match);
+        
         info = new InfoMatch(match);
         comp = new CompetitionLeague();
         comp.setName("Lliga");
         comp.setInici(new DateTime().toDate());
         info.setIdCompetition(comp.getName());
         
+        
+        match.setHome(local);
+        match.setVisitor(visitor);
+        match.setReferee(ref);
+        
+        match2.setHome(local);
+        match2.setVisitor(visitor);
+        
+        
+        
         em = getEntityManagerFact();
         
         em.getTransaction().begin();
         em.persist(comp);
-        em.persist(ref);
-        em.persist(match);
-        em.getTransaction().commit();
+
         
+        em.persist(ref);
+        
+        em.persist(club);
+        
+        em.persist(local);   //Innecessary, since they have been persisted by em.persist(club)
+        em.persist(visitor); //Idem
+        
+        em.persist(match);
+        em.persist(match2);
+        em.getTransaction().commit();
+       
         r.setMatchDAO(matchDAO);
         r.setRefDAO(refDAO);
         r.setCompDAO(compDAO);
@@ -79,6 +114,7 @@ public class RefereeComunicationServiceIntegTest {
         matchDAO.setEm(em);
         refDAO.setEM(em);
         compDAO.setEM(em);
+        
     }
     
     @After
@@ -89,9 +125,15 @@ public class RefereeComunicationServiceIntegTest {
         Query query = em.createQuery("DELETE FROM Competition c");
         Query query2 = em.createQuery("DELETE FROM Referee r");
         Query query3 = em.createQuery("DELETE FROM Match m");
+        Query query4 = em.createQuery("DELETE FROM Team m");
+        Query query5 = em.createQuery("DELETE FROM Club m");
+        
         int deleteRecords = query.executeUpdate();
         deleteRecords = query2.executeUpdate();
         deleteRecords = query3.executeUpdate();
+        deleteRecords = query4.executeUpdate();
+        deleteRecords = query5.executeUpdate();
+                              
         em.getTransaction().commit();
         em.close();
     }
@@ -101,29 +143,33 @@ public class RefereeComunicationServiceIntegTest {
         return emf.createEntityManager();
     }
 
-    @Test (expected=IncorrectMatchException.class)
+    @Test (expected=IncorrectMatchException.class)   
     public void incorrectMatch() throws Exception{
         String idMatch = "111";
         r.communicateResultMatch(ref.getNif(), idMatch, info);
     }
     
-    @Test (expected=InvalidRefereeException.class)
+    @Test (expected=InvalidRefereeException.class) 
     public void incorrectReferee() throws Exception{
         String nif = "111";
         r.communicateResultMatch(nif, match.getIdMatch(), info);
     }
   
-    @Test(expected=PersistException.class)
+    @Test(expected=PersistException.class)   
     public void incorrectCompetition() throws Exception{
         info.setIdCompetition("111");
         r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
     }
-    @Test(expected = InvalidMatchException.class)
+    
+    @Test(expected = InvalidMatchException.class) 
     public void matchNotAssignedToReferee() throws Exception{
-        r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
+
+        
+        
+        r.communicateResultMatch(ref.getNif(), match2.getIdMatch(), info);
     }
     
-    @Test (expected=MatchOutOfPeriodException.class)
+    @Test (expected=MatchOutOfPeriodException.class)   
     public void notFinishedMatch() throws Exception{
         InfoMatch imAux = new InfoMatch();
         DateTime date2 = new DateTime();
@@ -152,7 +198,7 @@ public class RefereeComunicationServiceIntegTest {
                 match.getIdMatch(), imAux);
     }    
     
-    //@Test
+    @Test  
     public void communicateResultMatch() throws Exception{
         ref.getMatches().add(match);
          
@@ -169,7 +215,7 @@ public class RefereeComunicationServiceIntegTest {
         assertEquals(im.getObservations(), m.getObservations());
     }
     
-    @Test
+    //@Test   
     public void communicateMatchsToRef() throws Exception{
         setUpCompetition();
         r.communicateRefereesMatchesComp(comp);
@@ -188,4 +234,6 @@ public class RefereeComunicationServiceIntegTest {
         comp.setName("Liga");
         comp.setFcalendar(cal);
     }
+    @Test
+    public void test1(){}
 }

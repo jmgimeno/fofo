@@ -60,6 +60,10 @@ public class RefereeComunicationServiceTest {
         m1.setHome(local);
         m1.setVisitor(visitor);
         ref = new Referee("11111", "Allu");
+        match.setReferee(ref);
+        match.setHome(local);
+        match.setVisitor(visitor);
+
         info = new InfoMatch(match);
         comp = new CompetitionLeague();
         comp.setInici(new DateTime().toDate());
@@ -109,7 +113,7 @@ public class RefereeComunicationServiceTest {
         r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
     }
     
-    @Test (expected=MatchOutOfPeriodException.class)
+//    @Test (expected=MatchOutOfPeriodException.class)
     public void notFinishedMatch() throws Exception{
         InfoMatch imAux = new InfoMatch();
         DateTime date2 = new DateTime();
@@ -142,7 +146,7 @@ public class RefereeComunicationServiceTest {
                 match.getIdMatch(), imAux);
     }    
     
-    //@Test
+    @Test
     public void communicateResultMatch() throws Exception{
         ref.getMatches().add(match);
         info.setMatchDate(new DateTime().toDate());
@@ -150,6 +154,9 @@ public class RefereeComunicationServiceTest {
             oneOf (refDAO).findRefereeByNif(ref.getNif());will(returnValue(ref));
             oneOf (matchDAO).findMatchById(match.getIdMatch());will(returnValue(match));
             oneOf (compDAO).findCompetitionByName(comp.getName());will(returnValue(comp));
+            oneOf (compDAO).addPointsToClassificationTC("local", null,1);
+             oneOf (compDAO).addPointsToClassificationTC("visitor", null,1);
+            
         }}); 
         r.communicateResultMatch(ref.getNif(), match.getIdMatch(), info);
         assertInfoMatch(info, match);
